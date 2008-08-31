@@ -1,0 +1,5 @@
+D:\Project\GPortalV1.01版\GomyeCommonClassLib\bin\Debug\GomyeCommonClassLib.dll
+D:\Project\GPortalV1.01版\GomyeCommonClassLib\bin\Debug\GomyeCommonClassLib.pdb
+D:\Project\GPortalV1.01版\GomyeCommonClassLib\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\GPortalV1.01版\GomyeCommonClassLib\obj\Debug\GomyeCommonClassLib.dll
+D:\Project\GPortalV1.01版\GomyeCommonClassLib\obj\Debug\GomyeCommonClassLib.pdb
