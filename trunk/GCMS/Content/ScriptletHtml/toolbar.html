@@ -1,0 +1,39 @@
+<html>
+<head>
+<style type="text/css">
+body {
+	background:	buttonface;
+	border:		0;
+	font:		infotext;
+	overflow:	hidden;
+	margin:		0;
+}
+
+.coolButton {
+	behavior:	url("inc/coolbutton.htc");
+	font:		statusbar;
+	color:		buttontext;
+	cursor:		default;
+}
+
+.coolButton img {
+	margin-right: 2px;
+}
+</style>
+<script type="text/javascript">
+
+window.onerror = function () { return true;}
+
+</script>
+</head>
+<body onselectstart="return false" oncontextmenu="return false;">
+<table onmousedown="return false;"><tr>
+<td class="coolButton" id="newContent" onclick="parent.MENU_FILE_SAVE_onclick();" align="center">
+<img src="/cms/images/save.gif"><br/>&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</td>
+<td class="coolButton" id="newContent" onclick="parent.Template_Define();" align="center">
+<img src="/cms/images/field.gif"><br/>插入字段</td>
+<td class="coolButton" id="refresh" onclick="parent.Template_Script();" align="center">
+<img src="/cms/images/script.gif"><br/>插入脚本</td>
+</tr></table>
+</body>
+</html>
