@@ -1,0 +1,5 @@
+bin\Debug\GomyeCommonClassLib.dll
+bin\Debug\GomyeCommonClassLib.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\GomyeCommonClassLib.dll
+obj\Debug\GomyeCommonClassLib.pdb
