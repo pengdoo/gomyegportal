@@ -66,7 +66,7 @@ public partial class Content_Config_ChannelFieldsAdd : GCMS.PageCommonClassLib.P
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        FieldsName_ID = this.Request.QueryString["FieldsName_ID"].ToString();
+        FieldsName_ID = this.GetQueryString("FieldsName_ID", null);//#缺少错误判断和错误处理#
         _Content_FieldsName.Init(int.Parse(FieldsName_ID));
 
 
@@ -95,7 +95,7 @@ public partial class Content_Config_ChannelFieldsAdd : GCMS.PageCommonClassLib.P
 
             if (strType == "Delete")
             {
-                Fields_ID = this.Request.QueryString["Fields_ID"].ToString();
+                Fields_ID = this.GetQueryString("Fields_ID", null);//#缺少错误判断和错误处理# 
                 _Content_FieldsContent.Init(int.Parse(Fields_ID));
 
                 _ContentTable.TableName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;

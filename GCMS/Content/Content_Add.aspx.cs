@@ -6,10 +6,13 @@
 //
 // 已修改问题:
 // 未修改问题:
-
+//     1 TypeTree_ID的传递方式易丢失
+//     2 SaveContent 方法可以优化
+//     3 发送邮件、下载图片方法应该单独封装
 // 修改记录
 //   2008-8-26 添加注释
 //   2008-8-31  规范【自定义事件】【SQL引用】【字符处理】【页面参数获取】代码
+//              精简封装动态生成控件部分代码
 //----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
@@ -53,7 +56,15 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     }
     #endregion 自定义事件的注册和处理
 
+    #region 当前页面注册的SQL字符串
+    const string SQL_FieldsContentGetList1="SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Property_Order";
+    const string SQL_FieldsContentGetList2= "SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions,Property_Order FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Fields_ID";
+    const string SQL_ContentUserUpdate="update ContentUser_{0} set {1} where Content_ID = {2}" ;
+    const string SQL_ContentUserAdd = "insert into ContentUser_{0} ({1}) values ({2})";
+    const string SQL_ContentUserDelete = "delete from ContentUser_{0} where Content_ID = {1}";
+    const string SQL_MasterGetList = "select isnull(Master_Email,'') Master_Email,Master_Name from Content_Master where Master_ID in (select distinct Master_ID from Content_RolesMaster where Roles_ID in ( select distinct rc.Roles_ID from content_RolesConnect rc,content_RolesPopedom rp  where rc.roles_ID=rp.roles_ID and Popedom_EName = 'Editor' and typetree_ID = {0})) ";
     Hashtable contentHt = new Hashtable();
+    #endregion 当前页面注册的SQL字符串
 
     Type_TypeTree typeTree = new Type_TypeTree();
     string Url;
@@ -80,12 +91,14 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
 
     DataTable _DataTable = new DataTable();
-    protected void Page_Load(object sender, System.EventArgs e)
+
+    #region 控制页面显示状态的函数
+    /// <summary>
+    /// 根据用户角色选择显示Panel
+    /// </summary>
+    /// <param name="Popedom_EName"></param>
+    public void ShowTabButtonPanel(string Popedom_EName)
     {
-       
-        SysLogon syslogon = new SysLogon();
-        syslogon.RolesPopedom(int.Parse(Session["Roles"].ToString()));
-        string Popedom_EName = syslogon.Popedom_EName;
         if (Popedom_EName.IndexOf("Whiter") > 0)
         {
             Panel2.Visible = true;
@@ -96,31 +109,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             Panel2.Visible = false;
             Panel1.Visible = true;
         }
+    }
 
-        TypeTree_ID = int.Parse(this.Request["TypeTree_ID"].ToString());
-
-        Session["TypeTree_ID"] = TypeTree_ID.ToString();
-        this.LabelTypeID.Text = TypeTree_ID.ToString();
-
-        typeTree.Init(TypeTree_ID);
-        string LTypeTree_CName = typeTree.TypeTreeCName;
-        string LTypeTree_EName = typeTree.TypeTreeEName;
-        string LTypeTree_ID = typeTree.TypeTree_ID.ToString();
-        LTypeTree_PictureURL = typeTree.TypeTreePictureURL;
-        string LTypeTree_Images = typeTree.TypeTreeImages;
-        string LTypeTree_Explain = typeTree.TypeTreeExplain;
-        string LTypeTree_Issuance = typeTree.strTypeTreeIssuance(int.Parse(typeTree.TypeTreeIssuance.ToString()));
-        this.TypeTree_URL.Text = typeTree.TypeTreeURL;
-        this.TypeTree_Template.Text = typeTree.TypeTreeTemplate;
-        TypeTree_ListTemplate = typeTree.TypeTreeListTemplate;
-        TypeTreeListURL = typeTree.TypeTreeListURL;
-        List_amount = typeTree.Listamount;
-        TypeTree_TypeFields = typeTree.TypeTree_TypeFields;
-        TypeTree_ContentFields = typeTree.TypeTree_ContentFields;
-
-        string TypeTreePictureURL = typeTree.TypeTreePictureURL;
-
-        if (typeTree.TypeTreeIssuance.ToString() == "5")
+    public void ShowContentPanel() 
+    {
+        if (typeTree.TypeTreeIssuance == 5)
         {
             LabTxt1.Text = "产品价格：";
             LabTxt2.Text = "产品规格：";
@@ -135,6 +128,66 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             PanelContent.Visible = true;
         }
 
+    }
+
+    private void ShowEditData()
+    {
+        if (this.Request["Content_ID"] == null) return;
+
+        int Content_ID = int.Parse(this.Request["Content_ID"]);
+        ContentCls content = new ContentCls();
+        content.Init(Content_ID);
+
+        this.TextBoxTitle.Text = Tools.DBToWeb(content.Name);
+        this.TextBoxLink.Text = content.DerivationLink;
+        this.TextBoxFrom.Text = content.Derivation;
+        this.TextBoxPic.Text = content.PictureName;
+        this.TextBoxPicD.Text = content.PictureNameD;
+        this.TextBoxDate.Text = content.SubmitDate.ToShortDateString();
+        this.Picture_Notes.Text = content.PictureNotes;
+        this.KeyWord.Text = content.KeyWord;
+        this.Original.Text = content.Original;
+        txtXML = Tools.DBToWeb(content.Content_Xml);
+
+        Headnews.Checked = (content.HeadNews != "0");
+        PictureNews.Checked = (content.PictureNews == "1");
+        //时间
+        this.LabelCurPage.Text = "1";
+        if (!string.IsNullOrEmpty(content.Description))
+        {
+            setPageData(Tools.DBToWeb(content.Description));
+        }
+        TypeTree_ID = int.Parse(content.TypeTree_ID.ToString());
+        LabelTypeID.Text = TypeTree_ID.ToString();
+
+    }
+    #endregion 控制页面显示状态的函数
+
+    protected void Page_Load(object sender, System.EventArgs e)
+    {
+        /// 根据用户角色选择显示
+        SysLogon syslogon = new SysLogon();
+        syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
+        string Popedom_EName = syslogon.Popedom_EName;
+        /// 载入功能按钮
+        ShowTabButtonPanel(Popedom_EName);
+        /// 获取、保存TypeTree_ID
+        TypeTree_ID = int.Parse(this.Request["TypeTree_ID"].ToString());
+        Session["TypeTree_ID"] = TypeTree_ID.ToString();
+        this.LabelTypeID.Text = TypeTree_ID.ToString();
+        /// 根据TypeTree_ID获取栏目
+        typeTree.Init(TypeTree_ID);//Change By Galen 2008.9.1 删除了7行过时变量
+        LTypeTree_PictureURL = typeTree.TypeTreePictureURL;
+        /// 载入栏目模板，路径
+        this.TypeTree_URL.Text = typeTree.TypeTreeURL;
+        this.TypeTree_Template.Text = typeTree.TypeTreeTemplate;
+        TypeTree_ListTemplate = typeTree.TypeTreeListTemplate;
+        TypeTreeListURL = typeTree.TypeTreeListURL;
+        List_amount = typeTree.Listamount;
+        TypeTree_TypeFields = typeTree.TypeTree_TypeFields;
+        TypeTree_ContentFields = typeTree.TypeTree_ContentFields;
+        /// 载入内容Panel
+        ShowContentPanel();
 
         if (!this.IsPostBack)
         {
@@ -142,7 +195,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             {
                 /*修改*/
                 this.LabelFlag.Text = "edit";
-                if (typeTree.TypeTree_Type == 0) { showEditData(); }
+                if (typeTree.TypeTree_Type == 0) { ShowEditData(); }
                 Content_ID = int.Parse(Request["Content_ID"].ToString());
                 this.LabelEditContentID.Text = Content_ID.ToString();
                 PageHeader.Value = "修改内容";
@@ -152,11 +205,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             }
             else
             {
-
                 this.LabelCurPage.Text = "1";
                 this.TextBoxDate.Text = DateTime.Now.ToShortDateString();
                 ArrayList contentList = new ArrayList();
-                //					contentList.Add("");
                 Headnews.Checked = true;
                 PageHeader.Value = "添加内容";
 
@@ -173,312 +224,160 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         {
             AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
         }
-        //AddFieldsWriteTxt(TypeTree_TypeFields); // 扩展字段
-        //Headnews.Checked = true;
 
     }
 
-    private void showEditData()
+
+    #region 动态添加控件
+    void CreateTextNumberControl(string controlId, string controlValue, int width, int height)
     {
-        if (this.Request["Content_ID"] == null) return;
+        TextBox nBox = new TextBox();
+        nBox.ID =controlId;
+        nBox.CssClass = "inputtext250";
 
-        int Content_ID = int.Parse(this.Request["Content_ID"]);
-        ContentCls content = new ContentCls();
-        content.Init(Content_ID);
-
-        //------------------------------------------------------
-
-        this.TextBoxTitle.Text = Tools.DBToWeb(content.Name);
-        this.TextBoxLink.Text = content.DerivationLink;
-        this.TextBoxFrom.Text = content.Derivation;
-        this.TextBoxPic.Text = content.PictureName;
-        this.TextBoxPicD.Text = content.PictureNameD;
-        this.TextBoxDate.Text = content.SubmitDate.ToShortDateString();
-        this.Picture_Notes.Text = content.PictureNotes;
-        this.KeyWord.Text = content.KeyWord;
-        this.Original.Text = content.Original;
-        txtXML = Tools.DBToWeb(content.Content_Xml);
-        //this.LabelTypeID.Text		= content.TypeTreeID.ToString();
-
-        if (content.HeadNews == "0")
+        if (flag == "edit" && ispost == 1)
         {
-            Headnews.Checked = false;
-        }
-        else
-        {
-            Headnews.Checked = true;
+            nBox.Text = content.Contents(Content_ID, controlId, TypeTree_ID);
         }
 
-        if (content.PictureNews == "1")
+        TableRow tr = new TableRow();
+        TableCell tc1 = new TableCell();
+        TableCell tc2 = new TableCell();
+        if (width != -1)
         {
-            PictureNews.Checked = true;
+            tc1.Width = width;
         }
-        else
+        if (height != -1)
         {
-            PictureNews.Checked = false;
+            tc1.Height = height;
         }
-
-        //时间
-
-        this.LabelCurPage.Text = "1";
-        if (!string.IsNullOrEmpty(content.Description))
-        {
-            //EditorControl1.Value = Server.HtmlEncode(content.Description.ToString());
-            setPageData(Tools.DBToWeb(content.Description));
-        }
-        //this.EditorControl1.Value =content.Description;
-        //this.LabelTab.Text=" <table STYLE='width:100%;height:20px;' CELLPADDING=0 CELLSPACING=0 >  <tr><td  class='selTab'>第1页</td></tr></table>";
-        TypeTree_ID = int.Parse(content.TypeTree_ID.ToString());
-        LabelTypeID.Text = TypeTree_ID.ToString();
-        //---------------------------
+        tc1.HorizontalAlign = HorizontalAlign.Right;
+        tc1.Text = controlValue+ "：&nbsp;";
+        tc2.Controls.Add(nBox);
+        tr.Cells.Add(tc1);
+        tr.Cells.Add(tc2);
+        Table2.Rows.Add(tr);
 
     }
+    void CreateImgFileControl(string controlId, string controlValue,string buttonshtml,int width,int height)
+    {
 
-    // 动态添加控件
+        TextBox nBox = new TextBox();
+        nBox.ID = controlId;
+        nBox.CssClass = "inputtext250";
 
+        if (flag == "edit" && ispost == 1)
+        {
+            nBox.Text = content.Contents(Content_ID, controlId, TypeTree_ID);
+        }
+
+        
+        TableRow tr = new TableRow();
+        TableCell tc1 = new TableCell();
+        TableCell tc2 = new TableCell();
+        TableCell tc3 = new TableCell();
+        tc1.HorizontalAlign = HorizontalAlign.Right;
+        tc1.Text = controlValue + "：&nbsp;";
+        tc2.Controls.Add(nBox);
+        if (width != -1)
+        {
+            tc2.Width = width;
+        }
+        if (height != -1)
+        {
+            tc2.Height = height;
+        }
+        tc3.Text = buttonshtml;
+        tr.Cells.Add(tc1);
+        tr.Cells.Add(tc2);
+        tr.Cells.Add(tc3);
+        Table2.Rows.Add(tr);
+        
+
+    }
+   
     protected void AddFieldsWriteTxt(int FieldsName_ID)
     {
-        SqlDataReader myReader;
-        string sql = "SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions FROM Content_FieldsContent WHERE FieldsName_ID =" + FieldsName_ID + " order by Property_Order";
-        string ToolsPut = "";
-        myReader = Tools.DoSqlReader(sql);
+        string sql = string.Format(SQL_FieldsContentGetList1,FieldsName_ID);
+        SqlDataReader myReader = Tools.DoSqlReader(sql);
+
+        string ToolsPut = string.Empty;
         flag = this.Request["flag"];
 
         while (myReader.Read())
         {
-
             switch (myReader.GetString(2))
             {
                 case "TEXT":
-
-                    TextBox nTextBoxTEXT = new TextBox();
-                    //nTextBoxTEXT.ID = "PROPERTY"+ myReader.GetInt32(0).ToString();
-                    nTextBoxTEXT.ID = myReader.GetString(1).ToString();
-                    nTextBoxTEXT.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxTEXT.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    TableRow trTEXT = new TableRow();
-                    TableCell tc1TEXT = new TableCell();
-                    TableCell tc2TEXT = new TableCell();
-                    tc1TEXT.Width = 100;
-                    //						tc2TEXT.Width = 260;
-                    tc1TEXT.HorizontalAlign = HorizontalAlign.Right;
-                    tc1TEXT.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2TEXT.Controls.Add(nTextBoxTEXT);
-                    trTEXT.Cells.Add(tc1TEXT);
-                    trTEXT.Cells.Add(tc2TEXT);
-                    Table2.Rows.Add(trTEXT);
-
+                    CreateTextNumberControl(myReader.GetString(1), myReader.GetString(3).ToString(),100,-1);              
                     break;
-
                 case "NUMBER":
-
-                    TextBox nTextBoxNUMBER = new TextBox();
-                    //nTextBoxTEXT.ID = "PROPERTY"+ myReader.GetInt32(0).ToString();
-                    nTextBoxNUMBER.ID = myReader.GetString(1).ToString();
-                    nTextBoxNUMBER.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxNUMBER.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    TableRow trNUMBER = new TableRow();
-                    TableCell tc1NUMBER = new TableCell();
-                    TableCell tc2NUMBER = new TableCell();
-                    tc1NUMBER.Width = 100;
-                    //						tc2NUMBER.Width = 260;
-                    tc1NUMBER.HorizontalAlign = HorizontalAlign.Right;
-                    tc1NUMBER.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2NUMBER.Controls.Add(nTextBoxNUMBER);
-                    trNUMBER.Cells.Add(tc1NUMBER);
-                    trNUMBER.Cells.Add(tc2NUMBER);
-                    Table2.Rows.Add(trNUMBER);
-
+                    CreateTextNumberControl(myReader.GetString(1), myReader.GetString(3).ToString(), 100, -1);    
                     break;
-
                 case "IMAGE":
-
-                    TextBox nTextBoxIMAGE = new TextBox();
-                    nTextBoxIMAGE.ID = myReader.GetString(1).ToString();
-                    nTextBoxIMAGE.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxIMAGE.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-
-                    TableRow trIMAGE = new TableRow();
-                    TableCell tc1IMAGE = new TableCell();
-                    TableCell tc2IMAGE = new TableCell();
-                    TableCell tc3IMAGE = new TableCell();
-                    tc1IMAGE.HorizontalAlign = HorizontalAlign.Right;
-                    tc1IMAGE.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2IMAGE.Controls.Add(nTextBoxIMAGE);
-                    tc3IMAGE.Text = ToolsPut;
-                    trIMAGE.Cells.Add(tc1IMAGE);
-                    trIMAGE.Cells.Add(tc2IMAGE);
-                    trIMAGE.Cells.Add(tc3IMAGE);
-                    Table2.Rows.Add(trIMAGE);
-
+                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1) + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1) + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1) + ");' class='button'> ";
+                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut,-1,-1);
                     break;
-
                 case "FILE":
-
-                    TextBox nTextBoxFILE = new TextBox();
-                    nTextBoxFILE.ID = myReader.GetString(1).ToString();
-                    nTextBoxFILE.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxFILE.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1).ToString() + ");' class='button'> ";
-
-                    TableRow trFILE = new TableRow();
-                    TableCell tc1FILE = new TableCell();
-                    TableCell tc2FILE = new TableCell();
-                    TableCell tc3FILE = new TableCell();
-                    tc1FILE.HorizontalAlign = HorizontalAlign.Right;
-                    tc1FILE.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2FILE.Controls.Add(nTextBoxFILE);
-                    tc3FILE.Text = ToolsPut;
-                    trFILE.Cells.Add(tc1FILE);
-                    trFILE.Cells.Add(tc2FILE);
-                    trFILE.Cells.Add(tc3FILE);
-                    Table2.Rows.Add(trFILE);
-
+                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1) + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1) + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1) + ");' class='button'> ";
+                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, - 1, -1);
                     break;
-
                 case "DATETIME":
-
-                    TextBox nTextBoxDATETIME = new TextBox();
-                    nTextBoxDATETIME.ID = myReader.GetString(1).ToString();
-                    nTextBoxDATETIME.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxDATETIME.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/Icon_calendar.gif' onclick='selectdate(" + myReader.GetString(1).ToString() + ");'> ";
-
-                    TableRow trDATETIME = new TableRow();
-                    TableCell tc1DATETIME = new TableCell();
-                    TableCell tc2DATETIME = new TableCell();
-                    TableCell tc3DATETIME = new TableCell();
-                    tc1DATETIME.HorizontalAlign = HorizontalAlign.Right;
-                    tc1DATETIME.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2DATETIME.Controls.Add(nTextBoxDATETIME);
-                    tc3DATETIME.Text = ToolsPut;
-                    tc2DATETIME.Width = 260;
-
-                    trDATETIME.Cells.Add(tc1DATETIME);
-                    trDATETIME.Cells.Add(tc2DATETIME);
-                    trDATETIME.Cells.Add(tc3DATETIME);
-                    Table2.Rows.Add(trDATETIME);
-
+                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/Icon_calendar.gif' onclick='selectdate(" + myReader.GetString(1) + ");'> ";
+                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, 260, -1);   
                     break;
 
                 case "TREES":
-
-                    TextBox nTextBoxTHREE = new TextBox();
-                    nTextBoxTHREE.ID = myReader.GetString(1).ToString();
-                    nTextBoxTHREE.CssClass = "inputtext250";
-
-                    if (flag == "edit" && ispost == 1)
-                    {
-                        nTextBoxTHREE.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
-                    }
-
-                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/RepeatedRegion.gif' onclick='selectTree(" + myReader.GetString(1).ToString() + "," + myReader.GetString(4).ToString() + ");'> ";
-
-                    TableRow trTHREE = new TableRow();
-                    TableCell tc1THREE = new TableCell();
-                    TableCell tc2THREE = new TableCell();
-                    TableCell tc3THREE = new TableCell();
-                    tc1THREE.HorizontalAlign = HorizontalAlign.Right;
-                    tc1THREE.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2THREE.Controls.Add(nTextBoxTHREE);
-                    tc3THREE.Text = ToolsPut;
-                    tc2THREE.Width = 260;
-
-                    trTHREE.Cells.Add(tc1THREE);
-                    trTHREE.Cells.Add(tc2THREE);
-                    trTHREE.Cells.Add(tc3THREE);
-                    Table2.Rows.Add(trTHREE);
-
+                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/RepeatedRegion.gif' onclick='selectTree(" + myReader.GetString(1) + "," + myReader.GetString(4).ToString() + ");'> ";
+                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, 260, -1);   
                     break;
-
                 case "TEXTAREA":
-
                     TextBox nTextBoxTEXTAREA = new TextBox();
-                    nTextBoxTEXTAREA.ID = myReader.GetString(1).ToString();
+                    nTextBoxTEXTAREA.ID = myReader.GetString(1);
                     nTextBoxTEXTAREA.Width = 250;
                     nTextBoxTEXTAREA.Height = 50;
 
                     if (flag == "edit" && ispost == 1)
                     {
-                        nTextBoxTEXTAREA.Text = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID);
+                        nTextBoxTEXTAREA.Text = content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID);
                     }
-
                     nTextBoxTEXTAREA.TextMode = TextBoxMode.MultiLine;
                     TableRow trTEXTAREA = new TableRow();
                     TableCell tc1TEXTAREA = new TableCell();
                     TableCell tc2TEXTAREA = new TableCell();
                     tc1TEXTAREA.Width = 100;
                     tc1TEXTAREA.HorizontalAlign = HorizontalAlign.Right;
-                    tc1TEXTAREA.Text = myReader.GetString(3).ToString() + "：&nbsp;<br/><input type='button' value='HTML' onclick='editHTML(" + myReader.GetString(1).ToString() + ");'>&nbsp;";
+                    tc1TEXTAREA.Text = myReader.GetString(3).ToString() + "：&nbsp;<br/><input type='button' value='HTML' onclick='editHTML(" + myReader.GetString(1) + ");'>&nbsp;";
                     tc2TEXTAREA.Controls.Add(nTextBoxTEXTAREA);
                     trTEXTAREA.Cells.Add(tc1TEXTAREA);
                     trTEXTAREA.Cells.Add(tc2TEXTAREA);
                     Table2.Rows.Add(trTEXTAREA);
-
                     break;
 
                 case "SELECT":
-
                     DropDownList ListSELECT = new DropDownList();
-                    ListSELECT.ID = myReader.GetString(1).ToString();
-
-
-                    string[] ops;
-                    string opss;
-                    char sSplit = ',';
-                    opss = myReader.GetString(4);
-
-                    int i = 10;
-                    char c = (char)i;			//相当于vb中的chr(10)
-
-                    opss = opss.Replace(c, sSplit);
-                    ops = opss.Split(sSplit);
+                    ListSELECT.ID = myReader.GetString(1);
+                    string opss= myReader.GetString(4);
+                    opss = opss.Replace(Convert.ToChar(10), ',');
+                    string[] ops = opss.Split(',');
 
                     for (int j = 0; j < ops.Length; j++)
                     {
-                        ListSELECT.Items.Add(ops[j].ToString().Trim());
+                        ListSELECT.Items.Add(ops[j].Trim());
                     }
-
 
                     if (flag == "edit" && ispost == 1)
                     {
-                        if (!string.IsNullOrEmpty(content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID).Trim()))
+                        if (!string.IsNullOrEmpty(content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID).Trim()))
                         {
-                            if (myReader.GetString(4).IndexOf(content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Content_ID, myReader.GetString(1).ToString(), TypeTree_ID); };
+                            if (myReader.GetString(4).IndexOf(content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID); };
                         }
 
                     }
-
                     TableRow trSELECT = new TableRow();
                     TableCell tc1SELECT = new TableCell();
                     TableCell tc2SELECT = new TableCell();
@@ -489,25 +388,19 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     trSELECT.Cells.Add(tc1SELECT);
                     trSELECT.Cells.Add(tc2SELECT);
                     Table2.Rows.Add(trSELECT);
-
                     break;
-
                 case "LABEL":
-
                     TableRow trLABEL = new TableRow();
                     TableCell tc1trLABEL = new TableCell();
                     TableCell tc2trLABEL = new TableCell();
                     tc1trLABEL.Width = 100;
-                    //						tc2TEXT.Width = 260;
                     tc1trLABEL.HorizontalAlign = HorizontalAlign.Right;
                     tc1trLABEL.Text = myReader.GetString(3).ToString() + "：&nbsp;";
                     tc2trLABEL.Text = myReader.GetString(4).ToString();
                     trLABEL.Cells.Add(tc1trLABEL);
                     trLABEL.Cells.Add(tc2trLABEL);
                     Table2.Rows.Add(trLABEL);
-
                     break;
-
                 default:
                     ToolsPut = "数据错误！";
                     break;
@@ -515,9 +408,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         }
         myReader.Close();
     }
-
-
-    // 动态添加控件 over
+    #endregion 动态添加控件
 
     private void setPageData(string xmlStr) //拆分xml
     {
@@ -560,11 +451,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         string txtInitXML = "";
         return txtInitXML;
     }
-    protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
-    {
-        SaveContent("1");
-    }
 
+    #region 发布
     private void SaveContent(string Status)
     {
         if (typeTree.TypeTree_Type != 2)
@@ -575,8 +463,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 this.LabNameMust.Text = "文章名称为必添项目！请添写！";
                 return;
             }
-
-
             //--------------------------
 
             string contentList = Request.Form["content1"];
@@ -595,25 +481,14 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             contentList = contentList.Replace("http://" + Request.ServerVariables["HTTP_HOST"].ToString(), "");
 
             //---[发布前准备]----------------------
-
-            if (this.Headnews.Checked == true)
-            { content.HeadNews = "1"; }
-            else
-            { content.HeadNews = "0"; }
-
-            if (this.PictureNews.Checked == true)
-            { content.PictureNews = "1"; }
-            else
-            { content.PictureNews = "0"; }
-
+            content.HeadNews = this.Headnews.Checked ? "1" : "0";
+            content.PictureNews = this.PictureNews.Checked ? "1" : "0";
+           
             if (this.CheckBoxWebtoThisPic.Checked == true)
-            { contentList = WebtoThisPic(contentList); }
+            { contentList = WebtoLocalPic(contentList); }
 
             content.Name = Tools.WebToDB(this.TextBoxTitle.Text);
-            //Response.Write ("<script>alert('"+contentList+"');</script>");
-            //content.Description		=Tools.WebToDB(contentList);
-            content.Description = Tools.WebToDB(contentList.ToString());
-            //content.Description = Tools.WebToDB(Request.Form["content1"].ToString());
+            content.Description = Tools.WebToDB(contentList);
             content.Original = this.Original.Text;
             content.KeyWord = this.KeyWord.Text;
             content.Status = Status;
@@ -623,7 +498,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             content.PictureName = this.TextBoxPic.Text;
             content.PictureNameD = this.TextBoxPicD.Text;
             content.SubmitDate = System.DateTime.Parse(Request["TextBoxDate"].ToString() + " " + DateTime.Now.ToShortTimeString());
-
 
             xmldoc = new XmlDocument();
             xmlnode = xmldoc.CreateNode(XmlNodeType.XmlDeclaration, "", "");
@@ -639,7 +513,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         if (typeTree.TypeTree_ContentFields != 0)
         {
             SqlDataReader reader = null;
-            string sql = "SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions,Property_Order FROM Content_FieldsContent WHERE FieldsName_ID =" + typeTree.TypeTree_ContentFields + " order by Fields_ID";
+            string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
             reader = Tools.DoSqlReader(sql);
 
             while (reader.Read())
@@ -647,53 +521,53 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 switch (reader.GetString(2))
                 {
                     case "TEXT":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
 
                     case "NUMBER":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
 
                     case "IMAGE":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
                     case "FILE":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
                     case "DATETIME":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
                     case "TREES":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
                     case "TEXTAREA":
-                        if (((TextBox)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1).ToString())).Text;
+                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
                         }
                         break;
                     case "SELECT":
-                        if (((DropDownList)Page.FindControl(reader.GetString(1).ToString())) != null)
+                        if (((DropDownList)Page.FindControl(reader.GetString(1))) != null)
                         {
-                            TxtValue = ((DropDownList)Page.FindControl(reader.GetString(1).ToString())).SelectedValue;
+                            TxtValue = ((DropDownList)Page.FindControl(reader.GetString(1))).SelectedValue;
 
                         }
                         break;
@@ -704,9 +578,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                         //ToolsPut = "数据错误！";
                         break;
                 }
-                sql1 = sql1 + "[" + reader.GetString(1).ToString() + "],";
+                sql1 = sql1 + "[" + reader.GetString(1) + "],";
                 sql2 = sql2 + "'" + TxtValue + "',";
-                sql3 = sql3 + reader.GetString(1).ToString() + " = '" + TxtValue + "',";
+                sql3 = sql3 + reader.GetString(1) + " = '" + TxtValue + "',";
 
             }
 
@@ -728,7 +602,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 sql3 = sql3 + "Status ='" + Status + "',Url = '" + Url + "'";
-                sqlcc = "update ContentUser_" + _Content_FieldsName.FieldsBase_Name + " set " + sql3 + " where Content_ID = " + Content_ID;
+                sqlcc =string.Format(SQL_ContentUserUpdate,_Content_FieldsName.FieldsBase_Name ,sql3,Content_ID);
                 Tools.DoSql(sqlcc);
             }
             else
@@ -741,7 +615,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         else
         {
             content.TypeTree_ID = int.Parse(this.LabelTypeID.Text);
-            content.Author = (string)this.Session["Master_UserName"];
+            content.Author = this.GetSession("Master_UserName", null);
             content.Clicks = 1;
             content.OrderNum =content.QueryMaxContentID();
             string TypeTree_URL = this.TypeTree_URL.Text;
@@ -754,8 +628,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 sql1 = sql1 + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
-                sql2 = sql2 + Content_ID + "," + int.Parse(this.LabelTypeID.Text) + ",'" + (string)this.Session["Master_UserName"] + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
-                sqlcc = "insert into ContentUser_" + _Content_FieldsName.FieldsBase_Name + " (" + sql1 + ") values (" + sql2 + ")";
+                sql2 = sql2 + Content_ID + "," + int.Parse(this.LabelTypeID.Text) + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
+                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
                 Tools.DoSql(sqlcc);
             }
             else
@@ -775,15 +649,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 sql1 = sql1 + "Content_ID";
                 sql2 = sql2 + UpdateContent_ID;
 
-                sqlcc = "insert into ContentUser_" + _Content_FieldsName.FieldsBase_Name + " (" + sql1 + ") values (" + sql2 + ")";
-
-                Tools.DoSql("delete from ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Content_ID = " + UpdateContent_ID);
+                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
+                Tools.DoSql(string.Format(SQL_ContentUserDelete, _Content_FieldsName.FieldsBase_Name,UpdateContent_ID));
                 Tools.DoSql(sqlcc);
             }
         }
-
-
-
 
         //扩展字段入库 over
 
@@ -791,7 +661,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         //Log
         Log _Log = new Log();
-        string Log_Action = "";
+        string Log_Action = string.Empty;
         switch (int.Parse(Status))
         {
             case 1:
@@ -850,10 +720,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             email.Body = MailBody;
 
             SqlDataReader readerMail = null;
-            string sqls = "select isnull(Master_Email,'') Master_Email,Master_Name from Content_Master where Master_ID in (" +
-                        "select distinct Master_ID from Content_RolesMaster where Roles_ID in ( " +
-                        "select distinct rc.Roles_ID from content_RolesConnect rc,content_RolesPopedom rp " +
-                        "where rc.roles_ID=rp.roles_ID and Popedom_EName = 'Editor' and typetree_ID = " + int.Parse(this.LabelTypeID.Text) + ")) ";
+            string sqls = string.Format(SQL_MasterGetList, int.Parse(this.LabelTypeID.Text));
 
             readerMail =Tools.DoSqlReader(sqls);
             int iMail = 0;
@@ -864,11 +731,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     iMail = iMail++;
                     if (iMail == 1)
                     {
-                        email.AddRecipient(readerMail.GetString(0).ToString(), readerMail.GetString(1).ToString(), null);
+                        email.AddRecipient(readerMail.GetString(0).ToString(), readerMail.GetString(1), null);
                     }
                     else
                     {
-                        email.AddRecipientCC(readerMail.GetString(0).ToString(), readerMail.GetString(1).ToString(), null);
+                        email.AddRecipientCC(readerMail.GetString(0).ToString(), readerMail.GetString(1), null);
                     }
                 }
 
@@ -904,6 +771,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
     }
 
+    protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
+    {
+        SaveContent("1");
+    }
+
     protected void Toolsbar2_ButtonClick(object sender, System.EventArgs e)
     {
         SaveContent("3");
@@ -928,6 +800,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     {
         SaveContent("4");
     }
+    #endregion 发布
 
     private string UrlString(string FilesUrl)
     {
@@ -938,7 +811,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
     //将网站上的图片粘贴到本地
 
-    private string WebtoThisPic(string Contents)
+    private string WebtoLocalPic(string Contents)
     {
         string NewContents = Contents;
         int p1 = NewContents.IndexOf("<IMG", 0);
