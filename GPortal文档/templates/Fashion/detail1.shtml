@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>GOMYE服饰</title>
+<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="wrap_person01">
+<div id="wrap_person02">
+<div id="wrap_person">
+<div id="body_main">
+
+<!-- 头部开始 -->
+<!--#include virtual="/public/include/head.shtml"-->
+<!-- 头部结束 -->
+</div>
+<div class="clear"></div>
+<div id="main">
+<div id="content_main_01">
+<div id="content_main1" class="content_main_KONG">
+<div class="main_width">
+<div class="main_left">
+<div class="content_widthtop">
+<!--#include virtual="/public/include/banner.shtml"-->
+<div class="weizhi">GOMYE > 身材搭配 > <!--%
+'内容对象:CName
+Response.Output GCMS.Channel("CName")
+%--> > 正文 </div>
+<div class="content_widthtop_detail">
+<div class="content_width654">
+<h1><!--%
+if len(GCMS.Content("Name"))>19 then Response.Output left(GCMS.Content("Name"),18) & "..." else Response.Output GCMS.Content("Name") end if
+%--> </h1>
+<h4><!--%
+'内容对象:时间
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%-->　来源：   <!--%Response.Output GCMS.Content("Derivation")%-->　<font class="wypl">网友评论</font> 0 条 进入论坛</h4>
+<div class="picnotes">
+<div class="picnotesp"><!--%
+if len(GCMS.Content("PictureNotes"))>80 then Response.Output left(GCMS.Content("PictureNotes"),79) & "..." else Response.Output GCMS.Content("PictureNotes") end if
+%--></div>
+</div>
+<div class="clear"></div>
+<div class="content_p"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Content")
+%--></div>
+<div class="clear"></div>
+<div class="page">
+<ul>
+<li>
+<!--%
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'><img src='/public/Images_Public/uppage.jpg' border='0' align='absmiddle' /></A>"
+%-->
+</li>
+<li>
+<!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'><img src=/public/Images_Public/downpage.jpg border=0 align=absmiddle /></A>"
+%-->
+</li>
+</ul>
+</div>
+<div class="clear"></div>
+
+
+
+<div class="blog">
+<ul>
+<li><img src="/public/Images_Public/dyx.jpg" /></li>
+<li><img src="/public/Images_Public/blog.jpg" /></li>
+<li><img src="/public/Images_Public/home.jpg" /></li>
+</ul>
+</div>
+<div class="xian"></div>
+
+
+
+
+<iframe frameborder="0" src="/Comment/?infoID=<!--%Response.Output GCMS.Content("ContentID")%-->&Treeid=73" width="600" height="300" name="I1" style="color: #FFFFFF; border-style: dotted; border-width:0px" marginwidth="1" marginheight="1" scrolling="no"></iframe>
+</div>
+</div>
+</div>
+<div class="main_right right">
+
+<div class="content_widthtop1">
+  <!--#include virtual="/public/include/search.shtml"-->
+  <!--#include virtual="/public/include/rightpic.shtml"-->
+<!--#include virtual="/public/include/right_zxzx.shtml"-->
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="clear"></div>
+</div>
+</div>
+<!-- 底部开始 -->
+<!--#include virtual="/public/include/bottom.shtml"-->
+<!-- 底部结束 -->
+</div>
+</div>
+</div>
+</body>
+</html>
