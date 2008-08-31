@@ -150,7 +150,7 @@ public partial class Content_Config_Order : GCMS.PageCommonClassLib.PageBase
                 while (myReader.Read())
                 {
                     Tools.DoSql(string.Format(SQL_FieldsContentUpdate,OrderNum4,myReader.GetInt32(0)));
-                    Tools.DoSql(string.Format(SQL_FieldsContentUpdate,  myReader.GetInt32(1),Fields_ID))
+                    Tools.DoSql(string.Format(SQL_FieldsContentUpdate, myReader.GetInt32(1), Fields_ID));
                 }
                 myReader.Close();
                 this.Response.Write(JS_CloseWindow);

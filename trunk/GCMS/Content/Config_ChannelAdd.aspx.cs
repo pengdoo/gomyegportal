@@ -68,7 +68,7 @@ public partial class Content_Config_ChannelAdd : GCMS.PageCommonClassLib.PageBas
     Content_FieldsName _Content_FieldsName = new Content_FieldsName();
     protected void Page_Load(object sender, EventArgs e)
     {
-        strType =this.GetQueryString("OrderType",null)//#缺少错误判断和错误处理#
+        strType = this.GetQueryString("OrderType", null);//#缺少错误判断和错误处理#
 
         //修改
         if (!this.IsPostBack)

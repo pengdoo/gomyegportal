@@ -1,4 +1,16 @@
-﻿using System;
+﻿//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-8-26
+//
+// 功能描述: 选择相关文章(未完成)
+//
+// 已修改问题:
+// 未修改问题:
+// 修改记录
+//   2008-8-26 添加注释
+//   2008-8-31  规范【自定义事件】【字符处理】【页面参数获取】代码
+//----------------------------------系统引用-------------------------------------
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -8,10 +20,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using GCMSClassLib.Public_Cls;
 using System.Data.SqlClient;
+//----------------------------------项目引用-----------------------------------
+using GCMSClassLib.Public_Cls;
 using GCMSClassLib.Content;
 using GCMS.PageCommonClassLib;
+//------------------------------------------------------------------------------
 
 public partial class Content_Content_AddMain : GCMS.PageCommonClassLib.PageBase
 {
