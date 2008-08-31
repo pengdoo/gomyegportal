@@ -1,0 +1,5 @@
+bin\Debug\WebControlToolsbar.dll
+bin\Debug\WebControlToolsbar.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\WebControlToolsbar.dll
+obj\Debug\WebControlToolsbar.pdb
