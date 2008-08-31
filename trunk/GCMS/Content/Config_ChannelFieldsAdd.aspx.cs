@@ -2,7 +2,7 @@
 // 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
 // 创建描述: Galen Mu 创建于 2008-8-26
 //
-// 功能描述:编辑扩展字段
+// 功能描述:添加扩展字段
 //
 // 已修改问题:
 // 未修改问题:
@@ -28,6 +28,7 @@ using GCMS.PageCommonClassLib;
 
 public partial class Content_Config_ChannelFieldsAdd : GCMS.PageCommonClassLib.PageBase
 {
+    #region 自定义事件的注册和处理
     //订阅页面的自定义事件
     protected override void OnPreInit(EventArgs e)
     {
@@ -54,6 +55,8 @@ public partial class Content_Config_ChannelFieldsAdd : GCMS.PageCommonClassLib.P
     {
         //#未完成代码#
     }
+    #endregion 自定义事件的注册和处理
+
     private String strType;
     private String Fields_ID;
     Content_FieldsContent _Content_FieldsContent = new Content_FieldsContent();

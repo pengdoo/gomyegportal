@@ -1,5 +1,4 @@
-﻿
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
 // 创建描述: Galen Mu 创建于 2008-8-25
 //
@@ -9,29 +8,33 @@
 // 未修改问题:
 
 // 修改记录
-
-//------------------------------------------------------------------------------
+//   2008-8-26 添加注释
+//   2008-8-31  规范【自定义事件】【SQL引用】【字符处理】【页面参数获取】代码
+//----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
 using System.Web;
+using System.Xml;
+using System.Net;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+//----------------------------------项目引用-----------------------------------
 using GCMSClassLib.Content;
 using GCMSClassLib.Public_Cls;
 using System.Data.SqlClient;
-using System.Xml;
 using GCMSClassLib.SystemCls;
 using jmail;
 using GCMS.PageCommonClassLib;
-using System.Net;
+//------------------------------------------------------------------------------
 
 public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 {
+    #region 自定义事件的注册和处理
     //订阅页面的自定义事件
     protected override void OnPreInit(EventArgs e)
     {
@@ -48,6 +51,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         this.Response.Write("<script language=javascript>parent.parent.parent.window.navigate('../Logon.aspx');</script>");
         return;
     }
+    #endregion 自定义事件的注册和处理
+
     Hashtable contentHt = new Hashtable();
 
     Type_TypeTree typeTree = new Type_TypeTree();
