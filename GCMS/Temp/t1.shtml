@@ -1,0 +1,19 @@
+<html>
+<body>
+
+
+<a href='<!--%Response.Output GCMS.Content("Url")%-->'>
+<!--%
+'标题
+Response.Output GCMS.Content("Name")
+%-->
+</a>
+<!--%
+'时间
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%-->
+
+
+
+<body>
+</html>
