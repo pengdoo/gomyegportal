@@ -383,7 +383,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             //预览
             case "Preview":
                 if (this.Request["Content_ID"] == null) return;
-
+                
                 sql = "select top 1 Url from " + FieldsName + " where Content_ID = " + Request["Content_ID"];
                 string Url = "";
                 myReader = Tools.DoSqlReader(sql);
@@ -391,6 +391,17 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 {
                     Url = myReader["Url"].ToString();
                 }
+                if (String.IsNullOrEmpty(Url))//为兼容AOC旧版数据库增加
+                {
+                    sql = "select top 1 Url from Content_Content where Content_ID = " + Request["Content_ID"];
+                    myReader = Tools.DoSqlReader(sql);
+                    while (myReader.Read())
+                    {
+                        Url = myReader["URL"].ToString();
+                    }
+                }
+               
+
                 myReader.Close();
                 this.Response.Redirect(Url);
                 break;
