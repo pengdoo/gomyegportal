@@ -1,0 +1,173 @@
+<HTML>
+	<HEAD>
+		<TITLE>GomyeEditor在线网页编辑器</TITLE>
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Expires" CONTENT="0">
+		<meta http-equiv="Cache-Control" CONTENT="no-cache">
+		<meta http-equiv="Pragma" CONTENT="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=gb2312">
+		<script language="javascript" type="text/javascript">
+		<!--
+			//功能：在线网页编辑器
+			//名称：Editor.html
+			//设计：怒容.Net 17251920
+		//-->
+		</script>
+		<LINK href="Style/Editor.css" type="text/css" rel="stylesheet">
+		<script type="text/vbscript" language="vbscript">
+<!--
+Function URLEncoding(vstrIn)
+	Dim strReturn, i
+    strReturn = ""
+    For i = 1 To Len(vstrIn)
+        ThisChr = Mid(vStrIn,i,1)
+        If Abs(Asc(ThisChr)) < &HFF Then
+            strReturn = strReturn & ThisChr
+        Else
+            innerCode = Asc(ThisChr)
+            If innerCode < 0 Then
+                innerCode = innerCode + &H10000
+            End If
+            Hight8 = (innerCode  And &HFF00)\ &HFF
+            Low8 = innerCode And &HFF
+            strReturn = strReturn & "%" & Hex(Hight8) &  "%" & Hex(Low8)
+        End If
+    Next
+    URLEncoding = strReturn
+End Function
+-->
+		</script>
+		<SCRIPT language="Javascript">
+
+if(window.top.location == self.location) location.href="../";
+
+// 具有主窗口相同的配置信息
+var config = null;
+try{
+	config = parent.config;
+	if( config == null )
+	{ location.href = "Error.html"; }
+	
+}
+catch(e){
+}
+
+//alert(config.CssPath);
+//定义页面样式表文件
+var CssFile = "" + config.CssPath;
+var CssEditor = "Style/EditorArea.css";
+
+var sLinkFieldName = "content1" ;
+
+
+		</SCRIPT>
+		<SCRIPT language="Javascript" src="JScript/editor_Open.js"></SCRIPT>
+		<SCRIPT language="Javascript" src="JScript/table.js"></SCRIPT>
+		<SCRIPT language="Javascript" src="JScript/menu.js"></SCRIPT>
+		<SCRIPT language="javascript" event="onerror(msg, url, line)" for="window">
+return true ;	 // 隐藏错误
+		</SCRIPT>
+		<META content="MSHTML 6.00.2800.1400" name="GENERATOR">
+	</HEAD>
+	<BODY oncontextmenu="event.returnValue=false;" scroll="no">
+		<TABLE height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0" ID="Table1">
+			<TR>
+				<TD onselectstart="return false" ondrag="return false" id="SeaskyEditor_Toolbar">
+					<span id="toolBarMenu">
+						<script>document.write(GetXML(config.MenuStatus));</script>
+					</span>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="100%">
+					<TABLE height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0" ID="Table2">
+						<TR>
+							<TD height="100%"><INPUT id="ContentEdit" type="hidden" NAME="ContentEdit"> <INPUT id="ModeEdit" type="hidden" NAME="ModeEdit">
+
+								<INPUT id="ContentLoad" type="hidden" NAME="ContentLoad"> <INPUT id="ContentFlag" type="hidden" value="0" NAME="ContentFlag">
+
+<IFRAME class="Composition" id="SeaskyEditor" name="SeaskyEditor" marginWidth="1" marginHeight="1"
+src="about:blank" width="100%" scrolling="yes" height="100%"></IFRAME>
+							</TD>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="25">
+					<TABLE class="StatusBar" height="25" cellSpacing="0" cellPadding="0" width="100%" border="0"
+						onselectstart="return false" ondrag="return false">
+						<TR vAlign="middle">
+							<TD>
+								<TABLE height="20" cellSpacing="0" cellPadding="0" border="0">
+									<TR>
+										<TD width="10"></TD>
+										<TD class="StatusBarBtnOff" id="SeaskyEditor_CODE" onclick="setMode('CODE')"><IMG src="ButtonImage/standard/modecode.gif" align="absMiddle" border="0"></TD>
+										<TD width="5"></TD>
+										<TD class="StatusBarBtnOff" id="SeaskyEditor_EDIT" onclick="setMode('EDIT')"><IMG src="ButtonImage/standard/modeedit.gif" align="absMiddle" border="0"></TD>
+										<TD width="5"></TD>
+										<TD class="StatusBarBtnOff" id="SeaskyEditor_TEXT" onclick="setMode('TEXT')"><IMG src="ButtonImage/standard/modetext.gif" align="absMiddle" border="0"></TD>
+										<TD width="5"></TD>
+										<TD class="StatusBarBtnOff" id="SeaskyEditor_VIEW" onclick="setMode('VIEW')"><IMG src="ButtonImage/standard/modepreview.gif" align="absMiddle" border="0"></TD>
+									</TR>
+								</TABLE>
+							</TD>
+							<TD id="SeaskyEditor_License" style="FONT-SIZE: 9pt" align="middle"></TD>
+							<TD align="right">
+								<TABLE height="20" cellSpacing="0" cellPadding="0" border="0" ID="Table5">
+									<TR>
+										<TD style="CURSOR: pointer" onclick="sizeChange(300)"><IMG id="_sizeplus" height="20" alt="增高编辑区" src="ButtonImage/standard/sizeplus.gif" border="0"></TD>
+										<TD width="5"></TD>
+										<TD style="CURSOR: pointer" onclick="sizeChange(-300)"><IMG id="_sizeminues" height="20" alt="减小编辑区" src="ButtonImage/standard/sizeminus.gif"
+												border="0"></TD>
+										<TD width="40"></TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+		<DIV id="SeaskyEditor_Temp_HTML" style="VISIBILITY: hidden; OVERFLOW: hidden; WIDTH: 1px; POSITION: absolute; HEIGHT: 1px"></DIV>
+	</BODY>
+</HTML>
+<script language="javascript" type="text/javascript">
+//toolBarMenu.innerHTML = (GetXML(config.MenuStatus));
+</script>
+<script language="javascript" type="text/javascript">
+var URLParams = new Object() ;
+
+
+var aParams = document.location.search.substr(1).split('&') ;
+for (i=0 ; i < aParams.length ; i++)
+{
+	var aParam = aParams[i].split('=') ;
+	URLParams[aParam[0]] = aParam[1] ;
+}
+var editstatus = URLParams[aParam[0]];
+
+function getFullStatus()
+{
+	if( document.getElementById("imgstatus") == null ) return;
+
+	if(editstatus == "fullscreen")
+	{
+		imgstatus.src = "ButtonImage/standard/minimize.gif";
+		imgstatus.alt = "返回窗口编辑模式";
+	}
+	else
+	{
+		imgstatus.src = "ButtonImage/standard/maximize.gif";
+		imgstatus.alt = "全屏编辑模式";
+	}
+}
+getFullStatus();
+
+test();
+
+function ConvertURL(url)
+{
+	return URLEncoding(url);
+}
+</script>
