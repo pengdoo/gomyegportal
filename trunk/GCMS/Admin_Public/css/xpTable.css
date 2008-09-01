@@ -1,0 +1,30 @@
+.xpTable
+{
+	behavior: url(../admin_public/htc/xpTable.htc);
+	sortNoneImageUrl: ../admin_public/Images/sort_sortBlank.gif;
+	sortUpImageUrl: ../admin_public/Images/sort_sortUp.gif;
+	sortDownImageUrl: ../admin_public/Images/sort_sortDown.gif;
+	posUpImageUrl: ../admin_public/Images/sort_upArrow.gif;
+	posDownImageUrl: ../admin_public/Images/sort_downArrow.gif;
+	position: relative;
+	margin: 0px;
+	width: 100%;
+ 	font: menu;
+	highlightBackgroundColor: #C1D2EE;
+	highlightBorderColor: #316AC5;
+	color: windowtext;
+	cursor: default;
+}
+.xpTable THEAD TD
+{
+	border-left: 1px solid buttonhighlight;
+	border-top: 1px solid buttonhighlight;
+	border-bottom: 1px solid buttonshadow;
+	border-right: 1px solid buttonshadow;
+	color: menutext;
+	background-color: buttonface;
+	cursor: hand;
+	padding-top: 0px;
+	padding-bottom: 1px;
+	height: 19px;
+}

@@ -1,0 +1,25 @@
+body{background: buttonface;}
+th{background: buttonface;
+	border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;
+	border-bottom: 1px solid buttonshadow;
+ 	border-right: 1px solid buttonshadow;
+	padding: 2px; font: menu;
+	font:9pt;
+	}
+td{background:white;
+	border-top: 1px solid black; 
+	border-left: 1px solid black;
+	border-bottom: 1px solid white;
+	border-right: 1px solid white;
+	font:9pt;
+	}
+td.normal{background:buttonface;border:none;}
+td.Notcur{background: buttonface;
+	border-top: 1px solid buttonshadow;
+	border-left: 1px solid buttonshadow;
+	border-bottom: 1px solid buttonhighlight;
+	border-right: 1px solid buttonhighlight;}
+.daytitle{color: black; background-color: white;width:100%;cursor:default;}
+.daytitleselected{color: white; background-color: darkblue;width:100%;cursor:default;}
+a:visited{color:black;}

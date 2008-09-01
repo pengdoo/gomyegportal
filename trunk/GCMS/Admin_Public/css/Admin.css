@@ -1,0 +1,486 @@
+/* 使用说明:
+	一般情况下，对象的最常用Class名称与Tag名称相同，比如table的常用class为.table,input type='button'的常用
+    class为button。
+*/
+
+BODY
+{
+	FONT-SIZE: 12px;
+	FONT-FAMILY: verdana;
+	BACKGROUND-COLOR: #ffffff;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.Dialogss
+{
+	background-color:background;
+
+}
+
+BODY.Dialog
+{
+	background:#ffffff;
+	padding:3px;
+	margin:2px;
+	/*overflow:visible;*/
+}
+
+.TopTitle
+{
+	background-color:ACTIVECAPTION;
+	padding:4px;
+	margin:2px;
+	color:HIGHLIGHTTEXT;
+	font-weight:bold;
+	filter:progid:DXImageTransform.Microsoft.Alpha( Opacity=100, FinishOpacity=0, Style=1, StartX=0,  FinishX=100, StartY=50, FinishY=50)
+}
+
+SPAN.Scroll
+{
+	SCROLLBAR-FACE-COLOR: gainsboro; 
+	/*SCROLLBAR-SHADOW-COLOR: #999999; */
+	SCROLLBAR-HIGHLIGHT-COLOR: gainsboro; 
+	/*SCROLLBAR-3DLIGHT-COLOR: #999999; */
+	SCROLLBAR-DARKSHADOW-COLOR: gainsboro; 
+	SCROLLBAR-TRACK-COLOR: gainsboro; 
+	SCROLLBAR-ARROW-COLOR: #000000;
+}
+
+
+
+A
+{
+    COLOR: navy;
+    TEXT-DECORATION: none
+    FONT-SIZE:8pt;
+    FONT-FAMILY: verdana;
+}
+A:link
+{
+    COLOR: black;
+    TEXT-DECORATION: none
+    FONT:8pt verdana;
+}
+A:visited
+{
+    COLOR: gavy;
+    TEXT-DECORATION: none
+    FONT:8pt verdana;
+}
+A:hover
+{
+    /*  COLOR: steelblue;
+   /* TEXT-DECORATION: underline */
+	COLOR : black;
+    TEXT-DECORATION: none
+    FONT:8pt verdana;
+}
+A:active
+{
+    /*  COLOR: steelblue;
+   /* TEXT-DECORATION: underline */
+	COLOR : black;
+    TEXT-DECORATION: none
+}
+
+SELECT 
+{
+    FONT: 8pt verdana;
+}
+
+TEXTAREA
+{
+    FONT:8pt verdana;
+    BORDER:1px solid black;
+}
+
+INPUT.button
+{
+    PADDING-RIGHT: 6px;
+    PADDING-LEFT: 6px;
+    PADDING-BOTTOM: 1px;
+    BEHAVIOR: url(../../Public/Public_htc/button.htc);
+    PADDING-TOP: 1px;
+    HEIGHT: 19px;
+    BACKGROUND-COLOR: buttonface;
+    BORDER:1px solid black;
+    FONT:8pt verdana;
+    WIDTH:44pt;
+}
+
+INPUT.inputtext
+{
+	FONT:8pt verdana;
+	HEIGHT:14pt;
+	BORDER-COLOR:black;
+	BORDER-WIDTH:1px;
+	BEHAVIOR:url(../../Public/Public_htc/inputtext.htc);
+	PADDING-TOP:0px;
+	PADDING-RIGHT:0px;
+	PADDING-LEFT:0px;
+	PADDING-BOTTOM:0px;
+}
+
+INPUT.inputtext250
+{
+	FONT:8pt verdana;
+	HEIGHT:14pt;
+	BORDER-COLOR:black;
+	BORDER-WIDTH:1px;
+	BEHAVIOR:url(../../Public/Public_htc/inputtext.htc);
+	PADDING-TOP:0px;
+	PADDING-RIGHT:0px;
+	PADDING-LEFT:0px;
+	PADDING-BOTTOM:0px;
+	WIDTH: 250px;
+}
+
+INPUT.inputtext_ic
+{
+	FONT-SIZE:8pt;
+	WIDTH:100%;
+	HEIGHT:12pt;
+	BACKGROUND-COLOR:transparent;
+	BORDER-WIDTH:0px;
+	PADDING-TOP:0px;
+	PADDING-RIGHT:0px;
+	PADDING-LEFT:0px;
+	PADDING-BOTTOM:0px;
+	MARGIN:0px 0px 0px 0px;
+}
+
+INPUT.inputtext_ur
+{
+    BACKGROUND-COLOR: transparent;
+    BORDER-BOTTOM: 1px solid;
+    BORDER-LEFT: 0px solid;
+    BORDER-RIGHT: 0px solid;
+    BORDER-TOP: 0px solid;
+    FONT: 8pt verdana;
+    
+}
+
+INPUT.inputtext_nr
+{
+	BACKGROUND-COLOR:transparent;
+	BORDER:0px solid black;
+	FONT:8pt verdana;
+}
+
+SPAN.spa_ur
+{
+    BACKGROUND-COLOR: transparent;
+    BORDER-BOTTOM: 1px solid;
+    BORDER-LEFT: 0px solid;
+    BORDER-RIGHT: 0px solid;
+    BORDER-TOP: 0px solid;
+    FONT: 8pt verdana;
+    PADDING-BOTTOM: 2px;
+    PADDING-LEFT: 2px;
+    PADDING-RIGHT: 2px;
+    PADDING-TOP: 2px
+}
+
+
+
+TABLE
+{
+	FONT-SIZE:8pt;
+	FONT-FAMILY:verdana;
+}
+
+TD
+{
+	FONT-SIZE:8pt;
+	FONT-FAMILY:verdana;
+}
+
+TH
+{
+	FONT-SIZE:8pt;
+	FONT-FAMILY:verdana;
+}
+
+TABLE.TableList
+{
+	border-collapse:collapse;
+	border:#cecf9d 1px solid;
+	padding:3px;
+}
+
+TABLE.TableList TH
+{
+    border:#cecf9d 1px solid;
+    padding:3px;
+}
+
+TABLE.TableList TD
+{
+    border:#cecf9d 1px solid;
+    padding:3px;
+}
+
+
+TABLE.list
+{
+	FONT:8pt verdana;
+	CURSOR:default;
+	border-width:0pt;
+	border-collapse:collapse;
+    behavior:url(../../Public/Public_htc/list.htc);
+}
+
+TABLE.list TD
+{
+	BORDER-WIDTH:0pt;
+	FONT:8pt verdana;
+}
+
+TABLE.list TH
+{
+	HEIGHT:12pt;
+	BORDER-RIGHT: #c6beb5 1px solid;
+	BORDER-TOP: #efe7de 1px solid;
+	FONT: 8pt verdana;
+	FONT-WEIGHT:bold;
+	BORDER-LEFT: #efe7de 1px solid;
+	BORDER-BOTTOM: #c6beb5 1px solid;
+	BACKGROUND-COLOR: BUTTONFACE;
+}
+
+TABLE.table
+{
+    FONT: 8pt verdana;
+    BEHAVIOR: url(/gcms/admin_public/htc/table.htc);
+    CURSOR: default;
+    BORDER-COLLAPSE: collapse;
+}
+TABLE.table TD
+{
+    BORDER-RIGHT: #f7efef 1px solid;
+    BORDER-TOP: #f7efef 1px solid;
+    FONT: 8pt verdana;
+    BORDER-LEFT: #f7efef 1px solid;
+    BORDER-BOTTOM: #f7efef 1px solid;
+    PADDING-TOP:2px;
+    PADDING-BOTTOM:2px;
+}
+TABLE.table TH
+{
+    HEIGHT:12pt;
+    BORDER-RIGHT: BUTTONSHADOW 1px solid;
+    BORDER-TOP: BUTTONHIGHLIGHT 1px solid;
+    BORDER-LEFT: BUTTONHIGHLIGHT 1px solid;
+    BORDER-BOTTOM: BUTTONSHADOW 1px solid;
+    FONT: 8pt verdana;
+/*FONT-WEIGHT:bold;*/
+    BACKGROUND-COLOR: BUTTONFACE
+}
+
+TABLE.grid
+{
+	FONT:8pt verdana;
+	CURSOR:default;
+	BORDER-COLLAPSE:collapse;
+	BORDER:1px solid black;
+	MARGIN:0px;
+	PADDING:0px;
+}
+
+TABLE.grid TH
+{
+	BORDER:1px solid black;
+}
+
+TABLE.grid TD
+{
+	BORDER:1px solid black;
+}
+
+TABLE.ungrid
+{
+	BORDER:0px none black;
+	MARGIN:0px;
+	PADDING:0px;
+}
+
+TABLE.ungrid TH
+{
+	MARGIN:0px;
+	PADDING:0px;
+}
+
+TABLE.ungrid TD
+{
+	MARGIN:0px;
+	PADDING:0px;
+}
+
+TABLE.tableUS
+{
+    FONT: 8pt verdana;
+    CURSOR: default;
+    BORDER-COLLAPSE: collapse;
+    
+}
+TABLE.tableUS TD
+{
+    BORDER-RIGHT: #f7efef 1px solid;
+    BORDER-TOP: #f7efef 1px solid;
+    FONT: 8pt verdana;
+    BORDER-LEFT: #f7efef 1px solid;
+    BORDER-BOTTOM: #f7efef 1px solid;
+    PADDING-TOP:2px;
+    PADDING-BOTTOM:2px;
+}
+TABLE.tableUS TH
+{
+    HEIGHT:12pt;
+    BORDER-RIGHT: #c6beb5 1px solid;
+    BORDER-TOP: #efe7de 1px solid;
+    FONT: 8pt verdana;
+    FONT-WEIGHT:bold;
+    BORDER-LEFT: #efe7de 1px solid;
+    BORDER-BOTTOM: #c6beb5 1px solid;
+    BACKGROUND-COLOR: #efe7de
+}
+
+
+TABLE.table_multiColor
+{
+	FONT:8pt verdana;
+	BEHAVIOR:url(../../Public/Public_htc/table_multiColor.htc);
+	BORDER-COLLAPSE:collapse;
+	CURSOR:default;
+}
+
+TABLE.table_multiColor TD
+{
+    BORDER-RIGHT: #f7efef 1px solid;
+    BORDER-TOP: #f7efef 1px solid;
+    FONT: 8pt verdana;
+    BORDER-LEFT: #f7efef 1px solid;
+    BORDER-BOTTOM: #f7efef 1px solid;
+    PADDING-TOP:2px;
+    PADDING-BOTTOM:2px;
+}
+
+
+TABLE.table_multiColor TH
+{
+    HEIGHT:12pt;
+    BORDER-RIGHT: #c6beb5 1px solid;
+    BORDER-TOP: #efe7de 1px solid;
+    FONT: 8pt verdana;
+    BORDER-LEFT: #efe7de 1px solid;
+    BORDER-BOTTOM: #c6beb5 1px solid;
+    BACKGROUND-COLOR: #efe7de
+}
+
+TR.HideRow
+{
+	BACKGROUND-COLOR:#dcdcdc;
+}
+
+TR.SelectedRow
+{
+	BACKGROUND-COLOR: #fff3c6;
+}
+
+TR.UnSelectedRow
+{
+	BACKGROUND-COLOR:#ffffff;
+}
+
+TR.MultiColor1
+{
+	BACKGROUND-COLOR:#ffffff;
+}
+
+TR.MultiColor2
+{
+	BACKGROUND-COLOR:#f7f7ef;
+}
+
+TD.coolButton
+{
+	cursor:default;
+}
+
+/*TABLE.DialogTab1
+{
+	border:solid 1px #c6beb5;
+	background-color:#f7f7ef;
+}*/
+
+.DialogTab
+{
+	background-color:#f7f7ef;
+	background:buttonface;
+	border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;
+	border-bottom: 1px solid buttonshadow;
+	border-right: 1px solid buttonshadow;
+}
+
+LABEL.option
+{
+	color:Navy;
+}
+
+.sortPoint 
+{	
+	FONT-SIZE: 8pt; 
+	COLOR: gray; 
+	FONT-FAMILY: Webdings; 
+	margin-left:10px;
+}
+
+DIV.ErrMsg
+{
+	font-weight:bold;
+	color:darkred;
+	padding:7px;
+	
+}
+
+DIV.tree
+{
+    BEHAVIOR: url(../../Public/Public_htc/tree.htc);
+
+}
+
+
+html,body{margin:0;height:100%}
+
+/*页面层容器*/
+#Container {width:100%; height:100%;}
+
+/*页面头部*/
+#Header {width:100%;margin:0 auto;height:15px;}
+
+/*页面主体*/
+#PageBody {width:100%;height:100%;margin:0 auto;}
+
+#DivLeft
+{	width:80px;
+	margin:0 auto;
+	height:100%;
+	float:left;
+}
+#DivMid
+{	width:200px;
+	margin:0 auto;
+	height:100%;
+	float:left;
+}
+#DivRight
+{	width:100%;
+	margin:0 auto;
+	height:100%;
+	float:left;
+}
+
