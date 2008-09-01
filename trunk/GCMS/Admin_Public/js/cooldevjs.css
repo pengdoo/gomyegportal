@@ -1,0 +1,21 @@
+BODY {
+	FONT-SIZE: 12px; COLOR: black; SCROLLBAR-TRACK-COLOR: #dadada; FONT-FAMILY: Comic Sans MS, Tahoma, Verdana, Arial, Helvetica; SCROLLBAR-BASE-COLOR: #d6d6c0; BACKGROUND-COLOR: #d6d6c0
+}
+TABLE {
+	FONT-SIZE: 12px; COLOR: black; FONT-FAMILY: Comic Sans MS, Tahoma, Verdana, Arial, Helvetica
+}
+TD {
+	FONT-SIZE: 12px; COLOR: black; FONT-FAMILY: Comic Sans MS, Tahoma, Verdana, Arial, Helvetica
+}
+TR {
+	FONT-SIZE: 12px; COLOR: black; FONT-FAMILY: Comic Sans MS, Tahoma, Verdana, Arial, Helvetica
+}
+A {
+	FONT-SIZE: 12px; COLOR: black; FONT-FAMILY: Comic Sans MS, Tahoma, Verdana, Arial, Helvetica
+}
+TD.clsNewsTitle {
+	FONT-WEIGHT: bold; BACKGROUND-COLOR: #d6d6c0
+}
+TD.clsNewsText {
+	BACKGROUND-COLOR: #dadada
+}

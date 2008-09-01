@@ -1,0 +1,817 @@
+<PUBLIC:COMPONENT lightWeight=false>
+<PUBLIC:DEFAULTS contentEditable=false tabStop=true/>
+<PUBLIC:attach	 event="oncontentready" onevent="initElement()" />
+<PUBLIC:attach   event="ondetach" onevent="cleanupElement()" />
+
+<PUBLIC:property name="borderStyle" value=0 />
+<PUBLIC:property name="altRowColor" value="" />
+<PUBLIC:property name="selectedCount" value=0 />
+<PUBLIC:property name="interactive" value=true />
+<PUBLIC:property name="allowSort" value=true />
+<PUBLIC:property name="allowColOrder" value=true />
+<PUBLIC:property name="selectedHeadIndex" value="0" />
+<PUBLIC:property name="currentSort" value="DOWN" />
+<PUBLIC:property name="selectColID" value="0" />
+<PUBLIC:property name="selectedColID" value="0" />
+
+<PUBLIC:method   name="selectRow" />
+<PUBLIC:method   name="getRow" />
+<PUBLIC:method   name="resetList" />
+<PUBLIC:method   name="clearAll" />
+<PUBLIC:method   name="selectAll" />
+<PUBLIC:method   name="hideNonSelectedRows" />
+<PUBLIC:method   name="showNonSelectedRows" />
+
+<PUBLIC:event    name="onrowselect" id="rowselect" />
+<PUBLIC:event    name="onrowdblclick" id="rowdblclick" />
+
+<script language="VBScript">
+option explicit
+
+dim ie6
+
+dim offset_x, offset_y
+
+dim tHead
+dim tHeadRow
+dim tBody
+dim colCount
+
+dim arrHitTest
+dim bDragMode
+dim iDragCounter
+dim objDragItem
+dim objDragToItem1
+dim objDragToItem2
+dim dragHeadIndex
+dim dragHeadHitIndex
+dim lastHeadIndex
+dim posOffSet
+dim currentRow
+dim hiBackgroundColor
+dim hiBorderColor
+
+dim cSelectedRows
+
+dim sortNoneImageUrl
+dim sortUpImageUrl
+dim sortDownImageUrl
+dim posUpImageUrl
+dim posDownImageUrl
+
+set currentRow = nothing
+set objDragItem = nothing
+set objDragToItem1 = nothing
+set objDragToItem2 = nothing
+selectedHeadIndex = -1
+dragHeadHitIndex = -1
+currentSort = ""
+bDragMode = false
+ie6 = (instr(window.navigator.appVersion, "MSIE 6.") <> 0)
+
+class clsSelectedRows
+	dim colRows()
+	dim rowAdded
+	dim lastAddedRow
+
+	private sub Class_Initialize
+		rowAdded = false
+		set lastAddedRow = nothing
+	end sub
+
+	private sub Class_Terminate
+		dim i
+		if not rowAdded then exit sub
+		for i = lbound(colRows) to ubound(colRows)
+			set colRows(i) = nothing
+		next
+		set lastAddedRow = nothing
+	end Sub
+
+	public property Get Count
+		if not rowAdded then
+			Count = 0
+		else
+			Count = ubound(colRows) + 1
+		end if
+	end property
+
+	public property Get SelectedRow(index)
+		if not rowAdded then
+			set SelectedRow = nothing
+			exit property
+		end if
+		set SelectedRow = colRows(index)
+	end property
+
+	public property Get LastRow
+		set LastRow = lastAddedRow
+	end property
+
+	public property Get getRows
+		getRows = colRows
+	end property
+
+	public function QuerySelected(objUnknown)
+		QuerySelected = (getItemIndex(objUnknown) <> -1)
+	end function
+
+	public sub AddSingle(objUnknown)
+		redim colRows(0)
+		set colRows(ubound(colRows)) = objUnknown
+		rowAdded = true
+		set lastAddedRow = objUnknown
+	end sub
+
+	public sub Add(objUnknown)
+		if not rowAdded then
+			redim colRows(0)
+		else
+			redim preserve colRows(ubound(colRows) + 1)
+		end if
+		set colRows(ubound(colRows)) = objUnknown
+		rowAdded = true
+		set lastAddedRow = objUnknown
+	end sub
+
+	public sub Remove(objUnknown)
+		dim i
+		dim idx
+		idx = getItemIndex(objUnknown)
+		if idx <> -1 then
+			for i = idx to ubound(colRows) - 1
+				set colRows(i) = nothing
+				set colRows(i) = colRows(i + 1)
+			next
+			set colRows(ubound(colRows)) = nothing
+			redim preserve colRows(ubound(colRows) - 1)
+		end if
+	end sub
+
+	public sub removeAll
+		if not rowAdded then exit sub
+		dim i
+		for i = lbound(colRows) to ubound(colRows)
+			set colRows(i) = nothing
+		next
+		set lastAddedRow = nothing
+		redim colRows(-1)
+		rowAdded = false
+	end sub
+
+	private function getItemIndex(objUnknown)
+		dim i
+		if not rowAdded then
+			getItemIndex = -1
+		exit function
+		end if
+		for i = lbound(colRows) to ubound(colRows)
+			if objUnknown is colRows(i) then
+				getItemIndex = i
+				exit function
+			end if
+		next
+		getItemIndex = -1
+	end function
+
+end class
+
+sub initElement()
+	with element.currentStyle
+		hiBackgroundColor = .highlightBackgroundColor
+		hiBorderColor = .highlightBorderColor
+		sortNoneImageUrl = .sortNoneImageUrl
+		sortUpImageUrl = .sortUpImageUrl
+		sortDownImageUrl = .sortDownImageUrl
+		posUpImageUrl = .posUpImageUrl
+		posDownImageUrl = .posDownImageUrl
+	end with
+	Dim MytHead
+	Set MytHead = element.createTHead()
+	MytHead.appendChild element.rows(0)
+	set cSelectedRows = new clsSelectedRows
+	Set tHead = element.tHead
+
+	if tHead is nothing then exit sub
+	set tHeadRow = tHead.children(0)
+	if tHeadRow.tagName <> "TR" then exit sub
+	set tBody = element.tBodies(0)
+	if tBody is nothing then exit sub
+	setTableBorder
+	setRowColors true
+	arrHitTest = initColumns
+	initAdditionalElements
+	with element
+		.attachEvent "onmouseover", GetRef("elementOnMouseOver")
+		.attachEvent "onmouseout", GetRef("elementOnMouseOut")
+		.attachEvent "onmousedown", GetRef("elementOnMouseDown")
+		.attachEvent "onmousemove",GetRef("elementOnMouseMove")
+		.attachEvent "onclick", GetRef("elementOnClick")
+		.attachEvent "ondblclick", GetRef("elementOnDblClick")
+		.attachEvent "onselectstart", GetRef("elementOnSelect")
+	end with
+	window.document.attachEvent "onmouseup", GetRef("elementOnMouseUp")
+end sub
+
+sub cleanupElement
+	dim i
+	for i = lbound(arrHitTest) to ubound(arrHitTest)
+		arrHitTest(i).detachEvent "onmousedown", GetRef("elementHeadOnMouseDown")
+		set arrHitTest(i) = nothing
+	next
+	with element
+		.detachEvent "onmouseover", GetRef("elementOnMouseOver")
+		.detachEvent "onmouseout", GetRef("elementOnMouseOut")
+		.attachEvent "onmousedown", GetRef("elementOnMouseDown")
+		.detachEvent "onmousemove",GetRef("elementOnMouseMove")
+		.detachEvent "onclick", GetRef("elementOnClick")
+		.detachEvent "ondblclick", GetRef("elementOnDblClick")
+		.detachEvent "onselectstart", GetRef("elementOnSelect")
+	end with
+	window.document.detachEvent "onmouseup", GetRef("elementOnMouseUp")
+	set currentRow = nothing
+	if not objDragItem is nothing then objDragItem.removeNode true
+	set objDragItem = nothing
+	if not objDragToItem1 is nothing then objDragToItem1.removeNode true
+	set objDragToItem1 = nothing
+	if not objDragToItem2 is nothing then objDragToItem2.removeNode true
+	set objDragToItem2 = nothing
+	set cSelectedRows = nothing
+end sub
+
+sub initOffsets
+    dim el
+    offset_x = 0
+    offset_y = 0
+    set el = element
+	do while (not el is nothing)
+		offset_y = offset_y + el.offsetTop - el.scrollTop
+		offset_x = offset_x + el.offsetLeft - el.scrollLeft
+		set el = el.offsetParent
+	loop
+    set el = nothing
+end sub
+
+sub initAdditionalElements
+	set objDragItem = document.createElement("DIV")
+	with objDragItem.style
+		.font = "menu"
+		.backgroundColor = "buttonshadow"
+		.cursor = "default"
+		.position = "absolute"
+		.filter = "progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=45)"
+		.zIndex = 3001
+		.visibility = "hidden"
+	end with
+	window.document.body.insertAdjacentElement "afterBegin", objDragItem
+	set objDragToItem1 = document.createElement("DIV")
+	with objDragToItem1
+		.style.height = 9
+		.style.width  = 9
+		.innerHTML = "<img src='" & posDownImageUrl & "'>"
+		.style.backgroundColor = "transparent"
+		.style.position = "absolute"
+		.style.zIndex = 3000
+		.style.visibility = "hidden"
+	end with
+	window.document.body.insertAdjacentElement "afterBegin", objDragToItem1
+	set objDragToItem2 = document.createElement("DIV")
+	with objDragToItem2
+		.style.height = 9
+		.style.width  = 9
+		.innerHTML = "<img src='" & posUpImageUrl & "'>"
+		.style.backgroundColor = "transparent"
+		.style.position = "absolute"
+		.style.zIndex = 3000
+		.style.visibility = "hidden"
+	end with
+	window.document.body.insertAdjacentElement "afterBegin", objDragToItem2
+end sub
+
+sub elementHeadOnMouseDown
+	if not element.allowColOrder then exit sub
+	dim el
+	dim selIndex
+	set el = window.event.srcElement
+	do while (el.tagName <> "TD")
+		set el = el.parentElement
+	loop
+	bDragMode = true
+	iDragCounter = 0
+	initOffsets
+	dragHeadIndex = getArrayIndex(el)
+	element.setcapture
+	element.style.cursor = "default"
+	with objDragItem
+		.innerHTML = "<center>" & el.innerHTML & "</center>"
+		.style.color = el.currentStyle.color
+		.style.height = el.offsetHeight - 2
+		.style.width  = el.offsetWidth - 2
+	end with
+	set el = nothing
+end sub
+
+sub elementHeadOnClick
+	if not element.allowSort then exit sub
+	dim el
+	dim selIndex
+	set el = window.event.srcElement
+	do while (el.tagName <> "TD")
+		set el = el.parentElement
+	loop
+	if el.children(0).id <> "srtImg" then exit sub
+	selIndex = getArrayIndex(el)
+	if (selectedHeadIndex <> -1) then
+		arrHitTest(selectedHeadIndex).children(0).src = sortNoneImageUrl
+	end if
+	if cint(selectedHeadIndex) = cint(selIndex) then
+		if (currentSort = "DOWN") then
+			currentSort = "UP"
+			el.children(0).src = sortUpImageUrl
+		else
+			currentSort = "DOWN"
+			el.children(0).src = sortDownImageUrl
+		end if
+	else
+		currentSort = "DOWN"
+		el.children(0).src = sortDownImageUrl
+	end if
+	selectedHeadIndex = selIndex
+	sortTable selectedHeadIndex
+	set el = nothing
+end sub
+
+function elementOnSelect
+	with window.event
+		.cancelBubble = true
+		.returnValue = false
+	end with
+	elementOnSelect = false
+end function
+
+sub elementOnMouseOver
+	if not element.interactive then exit sub
+	dim el
+	if bDragMode then exit sub
+	set el = window.event.srcElement
+	do while (el.tagName <> "TR" and el.tagName <> "TABLE")
+		set el = el.parentElement
+	loop
+	if (el.tagName <> "TR") then exit sub
+	'if (el.rowIndex > 0) and not cSelectedRows.QuerySelected(el) then hiliteRow el else hiliteRow nothing
+	if (el.rowIndex > 0) then hiliteRow el
+	set el = nothing
+end sub
+
+sub elementOnMouseOut
+	if not element.interactive then exit sub
+	hiliteRow nothing
+end sub
+
+sub elementOnMouseMove
+	if not element.allowColOrder then exit sub
+	dim cliX, cliY
+	if iDragCounter < 10 then
+		iDragCounter = iDragCounter + 1
+		exit sub
+	end if
+	if (bDragMode and not objDragItem is nothing) then
+		with window.event
+			cliX = .clientX
+			cliY = .clientY
+			.cancelBubble = false
+			.returnValue = false
+		end with
+		with objDragItem
+			if (.style.visibility = "hidden") then .style.visibility = "visible"
+			.style.posLeft = cliX - (.offsetWidth / 2)
+			.style.posTop  = cliY - (.offsetHeight - 3)
+		end with
+		dragHeadHitIndex = hitTest(cliX, cliY)
+	end if
+end sub
+
+sub elementOnMouseDown
+	if not currentRow is nothing then
+		setRowStyle currentRow, "windowtext", "#98B5E2", "#316AC5"
+	end if
+end sub
+
+sub elementOnMouseUp
+	if not element.allowColOrder then exit sub
+	if not bDragMode then exit sub
+	bDragMode = false
+	objDragItem.style.visibility = "hidden"
+	objDragToItem1.style.visibility = "hidden"
+	objDragToItem2.style.visibility = "hidden"
+	element.releasecapture
+	element.style.cursor = "default"
+	if dragHeadHitIndex <> -1 then moveCols dragHeadIndex, dragHeadHitIndex
+	lastHeadIndex = -1
+	dragHeadHitIndex = -1
+end sub
+
+sub elementOnClick
+	if not element.interactive then exit sub
+	dim el, i, tElement
+	set el = window.event.srcElement
+	do while (el.tagName <> "TR" and el.tagName <> "TABLE")
+		set el = el.parentElement
+	loop
+	if (el.tagName <> "TR") then exit sub
+	if (el.rowIndex = 0) then exit sub
+	if window.event.shiftKey then
+		dim lastRow
+		set lastRow = cSelectedRows.lastAddedRow
+		if not lastRow is nothing then
+			dim sIndex, lIndex
+			sIndex = el.rowIndex
+			lIndex = lastRow.rowIndex
+			if sIndex > lIndex then
+				for i = lIndex + 1 to sIndex
+					setRowStyle tBody.children(i - 1), "highlighttext", "highlight", "highlight"
+					if not cSelectedRows.QuerySelected(tBody.children(i - 1)) then cSelectedRows.Add tBody.children(i - 1)
+				next
+			else
+				for i = lIndex - 1 to sIndex step -1
+					setRowStyle tBody.children(i - 1), "highlighttext", "highlight", "highlight"
+					if not cSelectedRows.QuerySelected(tBody.children(i - 1)) then cSelectedRows.Add tBody.children(i - 1)
+				next
+			end if
+			set lastRow =  nothing
+			set currentRow = nothing
+		else
+			cSelectedRows.AddSingle el
+			setRowStyle el, "highlighttext", "highlight", "highlight"
+			set currentRow = nothing
+		end if
+	elseif window.event.ctrlKey then
+		if cSelectedRows.QuerySelected(el) then
+			cSelectedRows.Remove el
+			setRowStyle el, "windowtext", el.style.backgroundColor, el.style.backgroundColor
+			hiliteRow el
+		else
+			cSelectedRows.Add el
+			setRowStyle el, "highlighttext", "highlight", "highlight"
+			set currentRow = nothing
+		end if
+	else
+		if cSelectedRows.Count > 0 then
+			for i = 0 to cSelectedRows.Count - 1
+				set tElement = cSelectedRows.SelectedRow(i)
+				setRowStyle tElement, "windowtext", tElement.style.backgroundColor, el.style.backgroundColor
+				set tElement = nothing
+			next
+		end if
+		cSelectedRows.AddSingle el
+		setRowStyle el, "highlighttext", "highlight", "highlight"
+		set currentRow = nothing
+	end if
+	selectedColID =el.cells(1).innerText
+	selectedCount = cSelectedRows.Count
+	rowselect.fire
+	set el = nothing
+
+
+end sub
+
+sub elementOnDblClick
+	dim el, i, tElement
+	set el = window.event.srcElement
+	do while (el.tagName <> "TR" and el.tagName <> "TABLE")
+		set el = el.parentElement
+	loop
+	if (el.tagName <> "TR") then exit sub
+	if (el.rowIndex = 0) then exit sub
+	if not element.interactive then exit sub
+	elementOnClick
+	rowdblclick.fire
+end sub
+
+function selectRow(el)
+	dim i
+	dim tElement
+	if cSelectedRows.Count > 0 then
+		for i = 0 to cSelectedRows.Count - 1
+			set tElement = cSelectedRows.SelectedRow(i)
+			setRowStyle tElement, "windowtext", tElement.style.backgroundColor, el.style.backgroundColor
+			set tElement = nothing
+		next
+	end if
+	cSelectedRows.AddSingle el
+	setRowStyle el, "highlighttext", "highlight", "highlight"
+	set currentRow = nothing
+	selectedCount = cSelectedRows.Count
+	rowselect.fire
+end function
+
+function getRow(id)
+	set getRow = cSelectedRows.SelectedRow(id)
+end function
+
+function hideNonSelectedRows
+	dim i
+	for i = 0 to tBody.rows.length - 1
+		if not cSelectedRows.QuerySelected(tBody.children(i)) then
+			tBody.children(i).style.display = "none"
+		end if
+	next
+end function
+
+function showNonSelectedRows
+	dim i
+	for i = 0 to tBody.rows.length - 1
+		if not cSelectedRows.QuerySelected(tBody.children(i)) then
+			tBody.children(i).style.display = ""
+		end if
+	next
+end function
+
+function selectAll
+	dim i
+	resetList
+	for i = 0 to tBody.rows.length - 1
+		cSelectedRows.Add tBody.children(i)
+		setRowStyle tBody.children(i), "highlighttext", "highlight", "highlight"
+	next
+end function
+
+function clearAll
+	resetList
+end function
+
+function resetList
+	setRowColors true
+	cSelectedRows.removeAll
+	selectedCount = 0
+end function
+
+sub setTableBorder
+	with element
+		.border = "1px"
+		.rules = "rows"
+		.borderColor = "window"
+		select case .borderStyle
+			case 0
+				.style.border = ""
+				posOffSet = 4
+			case 1
+				.style.border = "1 solid black"
+				posOffSet = 5
+			case 2
+				.style.borderLeft = "1 buttonshadow solid"
+				.style.borderTop = "1 buttonshadow solid"
+				.style.borderBottom = "1 buttonhighlight solid"
+				.style.borderRight = "1 buttonhighlight solid"
+				posOffSet = 5
+			case 3
+				.style.border = "2 inset window"
+				posOffSet = 6
+		end select
+	end with
+end sub
+
+sub setRowColors(bInit)
+	dim i, c
+	c = -1
+	if altRowColor <> "" then
+		for i = 0 to tBody.rows.length - 1
+			with tBody.children(i)
+				if .style.display <> "none" then
+					c = c + 1
+				end if
+				if ((c\2) * 2) = c then
+					.borderColor = altRowColor
+					.style.backgroundColor = altRowColor
+				else
+					.borderColor = "window"
+					.style.backgroundColor = "window"
+				end if
+				setRowStyle tBody.children(i), "windowtext", .style.backgroundColor, .style.backgroundColor
+				if not bInit then
+					if cSelectedRows.QuerySelected(tBody.children(i)) then
+						setRowStyle tBody.children(i), "highlighttext", "highlight", "highlight"
+					end if
+				end if
+			end with
+		next
+	end if
+end sub
+
+function initColumns
+	dim i
+	dim tArray()
+	dim imgElement
+	colCount = tHeadRow.children.length
+	redim tArray(colCount - 1)
+	for i = 0 to colCount - 1
+		with tHeadRow.children(i)
+			if .children.length = 0 then
+				set imgElement = document.createElement("IMG")
+				with imgElement
+					.src = sortNoneImageUrl
+					.id = "srtImg"
+					.width = 25
+					.height = 11
+				end with
+				if element.allowSort then .insertAdjacentElement "beforeEnd", imgElement
+				set imgElement = nothing
+			else
+				.children(0).style.cursor = "default"
+			end if
+			.attachEvent "onmousedown", GetRef("elementHeadOnMouseDown")
+			.attachEvent "onclick", GetRef("elementHeadOnClick")
+		end with
+		set tArray(i) = tHeadRow.children(i)
+	next
+	initColumns = tArray
+end function
+
+sub hiliteRow(el)
+	if not currentRow is nothing then
+		if cSelectedRows.QuerySelected(currentRow) then
+			setRowStyle currentRow, "highlighttext", "highlight", "highlight"
+		else
+			setRowStyle currentRow, "windowtext", currentRow.style.backgroundColor, currentRow.style.backgroundColor
+		end if
+	end if
+	if not el is nothing then setRowStyle el, "windowtext", hiBackgroundColor, hiBorderColor
+	set currentRow = el
+end sub
+
+sub setRowStyle(objUnknown, fontColor, bgColor, borderColor)
+	with objUnknown
+		.borderColor = borderColor
+		with .runtimeStyle
+			.color = fontColor
+			.backgroundColor = bgColor
+		end with
+	end with
+end sub
+
+sub hiliteHeader(headIndex)
+	dim o1Style, o2Style
+	if (headIndex = lastHeadIndex) then exit sub
+	set o1Style = objDragToItem1.style
+	set o2Style = objDragToItem2.style
+	if (headIndex = -1) then
+		if o1Style.visibility <> "hidden" then o1Style.visibility = "hidden"
+		if o2Style.visibility <> "hidden" then o2Style.visibility = "hidden"
+		if ie6 then
+			if element.style.cursor <> "no-drop" then element.style.cursor = "no-drop"
+		end if
+		lastHeadIndex = -1
+		set o1Style = nothing
+		set o2Style = nothing
+		exit sub
+	end if
+	if element.style.cursor <> "default" then element.style.cursor = "default"
+	if headIndex > ubound(arrHitTest) - 1 then
+		o1Style.posTop = offset_y - o1Style.posHeight
+		o1Style.posLeft = arrHitTest(headIndex - 1).offsetLeft + arrHitTest(headIndex - 1).offsetWidth - posOffSet + offset_x
+	else
+		o1Style.posTop = offset_y - o1Style.posHeight
+		o1Style.posLeft = arrHitTest(headIndex).offsetLeft - posOffSet + offset_x
+	end if
+	o2Style.posTop = arrHitTest(0).offsetHeight + offset_y
+	o2Style.posLeft = o1Style.posLeft
+	if o1Style.visibility <> "visible" then o1Style.visibility = "visible"
+	if o2Style.visibility <> "visible" then o2Style.visibility = "visible"
+	lastHeadIndex = headIndex
+	set o1Style = nothing
+	set o2Style = nothing
+end sub
+
+sub sortTable(iCol)
+	dim i, s
+	dim strRowCurrent, strRowInsert
+	dim bReverse
+	bReverse = (currentSort = "UP")
+	for i = 0 to tBody.rows.length - 1
+     	strRowInsert = lcase(tBody.children(i).children(iCol).innerText)
+        if isdate(strRowInsert) then strRowInsert = cdate(strRowInsert)
+        for s = 0 to i
+			strRowCurrent = lcase(tBody.children(s).children(iCol).innerText)
+			if isdate(strRowCurrent) then strRowCurrent = cdate(strRowCurrent)
+			if (((not bReverse and strRowInsert < strRowCurrent) or _
+					 (bReverse and strRowInsert > strRowCurrent)) and _
+					 (i <> s)) then
+                tBody.insertBefore tBody.children(i), tBody.children(s)
+                exit for
+            end if
+        next
+	next
+	setRowColors false
+end sub
+
+sub moveCols(fCol, tCol)
+	dim i
+	dim elTextSave
+	if fCol = tCol then exit sub
+	if selectedHeadIndex <> -1 then elTextSave = arrHitTest(selectedHeadIndex).innerText
+	moveHeaderCols cint(fCol), cint(tCol)
+	for i = 0 to tBody.rows.length - 1
+		moveBodyCols i, cint(fCol), cint(tCol)
+	next
+	for i = lbound(arrHitTest) to ubound(arrHitTest)
+		set arrHitTest(i) = nothing
+		set arrHitTest(i) = tHeadRow.children(i)
+		if not elTextSave = "" then
+			if elTextSave = arrHitTest(i).innerText then
+				selectedHeadIndex = i
+				elTextSave = ""
+			end if
+		end if
+	next
+end sub
+
+sub moveHeaderCols(fCol, tCol)
+	dim i, nCol, dCol
+	dim saveHTML, saveWidth
+	if fCol > tCol then
+		dCol = -1
+		nCol = fCol - tCol
+	else
+		dCol = 1
+		nCol = tCol - fCol
+	end if
+	saveHTML = tHeadRow.children(fCol).innerHTML
+	saveWidth = tHeadRow.children(fCol).width
+	for i = 0 to nCol - 1
+		tHeadRow.children(fCol).innerHTML = tHeadRow.children(fCol + dCol).innerHTML
+		tHeadRow.children(fCol).width = tHeadRow.children(fCol + dCol).width
+		fCol = fCol + dCol
+	next
+	tHeadRow.children(tCol).innerHTML = saveHTML
+	tHeadRow.children(tCol).width = saveWidth
+end sub
+
+sub moveBodyCols(iRow, fCol, tCol)
+	dim i, nCol, dCol
+	dim saveHTML
+	if fCol > tCol then
+		dCol = -1
+		nCol = fCol - tCol
+	else
+		dCol = 1
+		nCol = tCol - fCol
+	end if
+	saveHTML = tBody.children(iRow).children(fCol).innerHTML
+	for i = 0 to nCol - 1
+		tBody.children(iRow).children(fCol).innerHTML = tBody.children(iRow).children(fCol + dCol).innerHTML
+		fCol = fCol + dCol
+	next
+	tBody.children(iRow).children(tCol).innerHTML = saveHTML
+end sub
+
+function hitTest(x, y)
+	dim i, iHit
+	if y - offset_y > (arrHitTest(0).offsetTop + ((arrHitTest(0).offsetHeight - 3) * 2)) or y - offset_y < arrHitTest(0).offsetTop - 3 then
+		hiliteHeader -1
+		hitTest = -1
+		exit function
+	end if
+	for i = 0 to colCount - 1
+		if x - offset_x > arrHitTest(i).offsetLeft and x - offset_x < arrHitTest(i).offsetLeft + arrHitTest(i).offsetWidth then
+			if x - offset_x <= arrHitTest(i).offsetLeft + (arrHitTest(i).offsetWidth \ 2) then
+				hiliteHeader i
+				if dragHeadIndex > i then
+					iHit = i
+				elseif dragHeadIndex = i then
+					iHit = i
+				elseif dragHeadIndex < i then
+					iHit = i - 1
+				end if
+			elseif x - offset_x => arrHitTest(i).offsetLeft + (arrHitTest(i).offsetWidth \ 2) then
+				hiliteHeader i + 1
+				if dragHeadIndex > i then
+					iHit = i + 1
+				elseif dragHeadIndex = i then
+					iHit = i
+				elseif dragHeadIndex < i then
+					iHit = i
+				end if
+			end if
+			if iHit < lbound(arrHitTest) then iHit = lbound(arrHitTest)
+			if iHit > ubound(arrHitTest) then iHit = ubound(arrHitTest)
+			hitTest = iHit
+			exit function
+		end if
+	next
+	hitTest = -1
+end function
+
+function getArrayIndex(el)
+	dim i
+	for i = lbound(arrHitTest) to ubound(arrHitTest)
+		if (el is arrHitTest(i)) then
+			getArrayIndex = i
+			exit function
+		end if
+	next
+	getArrayIndex = -1
+end function
+
+</script>
+
+</PUBLIC:COMPONENT>

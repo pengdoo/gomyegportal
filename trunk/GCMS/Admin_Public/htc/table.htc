@@ -1,0 +1,11 @@
+<public:component>
+<public:attach event="onclick" handler="CellClick"/>
+<public:attach event="onkeydown" handler="CellKeyDown"/>
+<public:attach event="onselectstart" handler="SelectStart"/>
+<public:method name="getCurrentRow"/>
+<public:method name="setCurrentRow"/>
+<public:event name="onrowfocusChange" id="onrowfocusChange" />
+
+<script language="javascript" src="(/gcms/admin_public/js/table.js"></script>
+
+</public:component>
