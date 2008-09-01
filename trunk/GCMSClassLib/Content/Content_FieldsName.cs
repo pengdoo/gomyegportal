@@ -62,11 +62,12 @@ namespace GCMSClassLib.Content
 		public bool Create()
 		{
 			string sName = "FieldsName_ID";
-			int max_id=Tools.QueryMaxID(sName);
+			int max_id=Tools.QueryMaxID(sName)+1;
 			
 			// int max_id=this.QueryMaxContentID() + 1;
 			string sql="insert into Content_FieldsName(FieldsName_ID,FieldsName_Name,FieldsName_State,FieldsBase_Name) "+
 				"values ("+max_id+",'"+this.FieldsName_Name+"',"+this.FieldsName_State+",'"+this.FieldsBase_Name+"')";
+            Tools.UpdateMaxID(sName);
             return Tools.DoSql(sql);
 		}
 		public bool Delete(int FieldsName_ID)
