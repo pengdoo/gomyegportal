@@ -418,7 +418,7 @@ function DECMD_INDENT_onclick() {
 
 function DECMD_IMAGE_onclick() {
 	var argu = "dialogWidth:35em; dialogHeight:28em;center:yes;status:no;help:no";
-	var newimage=window.showModalDialog("../WindowFrame.asp?loadfile=Tools_UploadPhoto.aspx&sType=Open",null,argu);
+	var newimage=window.showModalDialog("../WindowFrame.aspx?loadfile=Tools_UploadPhoto.aspx&sType=Open",null,argu);
 	var range=tbContentElement.DOM.selection.createRange();
 	if (newimage!=null) {
 	//var image = "<IMG border='0' src=\"" + newimage + "\">";
@@ -430,7 +430,7 @@ function DECMD_IMAGE_onclick() {
 
 function InsertFlash() {
 	var argu = "dialogWidth:24em; dialogHeight:14em;center:yes;status:no;help:no";
-	var flashargu=window.showModalDialog("../WindowFrame.asp?loadfile=Tools_UploadFiles.aspx",null,argu);
+	var flashargu=window.showModalDialog("../WindowFrame.aspx?loadfile=Tools_UploadFiles.aspx",null,argu);
 	var range=tbContentElement.DOM.selection.createRange();
 	if (flashargu!=null && tbContentElement.DOM.selection.type!="Control") {
 	
