@@ -1,0 +1,226 @@
+<html>
+	<head>
+		<title>插入 MediaPlay 媒体文件</title>
+		<meta content="MSHTML 6.00.2800.1170" name="GENERATOR">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=gb2312">
+		<style media="all" type="text/css">
+			body {background-color: buttonface;}
+			td, span, legend {font: icon;}
+			fieldset {border: 1px solid #A1C3ED;}
+			legend {font-weight: bold;}
+			.flatTextBox {border: 1px solid #2E74CF;}
+			.headerText {cursor:default;overflow: hidden;color: #FFFFFF;font-weight: bold;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button, button.disabled {background-color: transparent;border: none;width: 87px;height: 22px;}
+			button {background-image: url(../Image/buttonTemplate.gif);}
+			button.disabled {background-image: url(../Image/buttonTemplateDisabled.gif);}
+			button table tr td, button.disabled table tr td {font-weight: bold;text-align: center;vertical-align: middle;padding-bottom: 2px;}
+			button table tr td {color: #FFFFFF;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button.disabled table tr td {filter: ;}
+		</style>
+		<script language="JavaScript" src="dialog.js"></script>
+		<script language="JavaScript">
+		<!--
+		function checkURL()
+		{
+			window.setTimeout("checkControl((checkImgStr(document.all['url'].value) != ''))", 100);
+		}
+		function checkControl(enable)
+		{
+			document.all['insertButton'].className = enable ? "" : "disabled";document.all['insertButton'].disabled = !enable;
+		}
+		function checkImgStr(str)
+		{
+			var re1 = /^\s{1,}/i;var re2 = /\s{1,}$/i;return str.replace(re1, "").replace(re2, "");
+		}
+		
+		function returnText(name, value, asText)
+		{
+			var text = name + "=\"" + value + "\"";
+			if (asText)
+			{return text;}
+			else
+			{return document.createElement(text);}
+		}
+
+		function insertMedia()
+		{
+			if ((checkImgStr(document.all.rmWidth.value) == "") || (checkImgStr(document.all.rmHeight.value) == ""))
+			{
+				alert("请填写MediaPlay文件的 宽度 和 高度!");
+			}
+			else
+			{
+				var movieSrc = "";
+				if (document.all["url"] != null)
+				{movieSrc = dialogArguments.ConvertURL(document.all["url"].value);}
+				//<EMBED src=http://219.159.68.101/0/1/14025/18935/18936/18938.wma width=200 height=200 type=audio/x-pn-realaudio-plugin autostart="true" controls="IMAGEWINDOW,ControlPanel,StatusBar" console="Clip1"></EMBED>
+				var strings = '<p align="'+document.all.align.value+'"><EMBED type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/mediaplayer/download/default.asp" src="'+movieSrc+'" width="'+document.all.rmWidth.value+'"  width="'+document.all.rmHeight.value+'" controls="IMAGEWINDOW,ControlPanel,StatusBar" console="Clip1" '+returnText("autostart",document.all.autoYes.checked.toString(),true)+' '+returnText("loop",document.all.loopYes.checked.toString(),true)+' '+returnText("EnableContextMenu",document.all.loopYes.checked.toString(),true)+'><br/>'+document.all.remark.value+'</p>';
+				//alert(strings);
+				//return;
+				dialogArguments.insertHTML(strings);
+				self.close();
+			}
+		}
+
+		function openFileDialog()
+		{
+//			var result = OpenModalDialog("Modules=Building^SelectDialog", null, 580, 500)
+//			if ((result) && (result != ""))
+//			{
+//				document.all.url.value = result;
+//				checkURL();
+//			}
+			var argu = "dialogWidth:320px; dialogHeight:130px;center:yes;status:no;help:no";
+			var newimage=window.showModalDialog("../../WindowFrame.aspx?loadfile=Tools_UploadFiles.aspx",null,argu);
+			if (newimage!=null) {
+				document.all.url.value = newimage;
+			}
+		}
+		
+		function OpenModalDialog(url, object, width, height)
+		{
+			var cursor = document.body.style.cursor;
+			document.body.style.cursor = "wait";
+			var result = window.showModalDialog(url, object, "status:no; center:yes; help:no; minimize:no; maximize:no; scroll:no; border:thin; statusbar:no; dialogWidth:" + width + "px; dialogHeight:" + height + "px");
+			document.body.style.cursor = cursor;
+			return result;
+		}
+		
+		function IsDigit()
+		{
+			return ((event.keyCode >= 48) && (event.keyCode <= 57));
+		}
+
+		//-->
+		</script>
+	</head>
+	<body id="mainBody">
+		<form name="mainForm" method="post" action="" id="mainForm">
+			<table id="mainTable" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table width="100%" height="100%" cellpadding="6" cellspacing="0" border="0">
+							<tr>
+								<td valign="top"><table id="propertiesTable1" width="100%" cellpadding="3" cellspacing="0">
+										<tr>
+											<td id="loader" colspan="2" align="left" valign="top" style="display:none"></td>
+										</tr>
+										<tr>
+											<td width="100">文件路径:</td>
+											<td><input type="text" id="url" name="url" onkeydown="checkURL()" onchange="checkURL()" style="width:200px"
+													class="flatTextBox" title="可直接输入网上MediaPlay文件的地址，或由上传程序自动产生MediaPlay文件地址"></td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>文件注释:</td>
+											<td><input type="text" id="remark" name="remark" style="width:200px" title="该注释将自动显示在文件的下方"
+													class="flatTextBox"></td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>宽 度:</td>
+											<td><input type="text" id="rmWidth" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"></td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>高 度:</td>
+											<td><input type="text" id="rmHeight" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"></td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>文件位置:</td>
+											<td><select id="align" style="width:110px">
+													<option value="left">居左</option>
+													<option value="center">居中</option>
+													<option value="right">居右</option>
+												</select></td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>循环播放:</td>
+											<td><input type="radio" id="loopYes" name="loop" value="true"> 是&nbsp;<input type="radio" id="loopNo" name="loop" value="false" checked>
+												否</td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>立即播放:</td>
+											<td><input type="radio" id="autoYes" name="auto" value="true"> 是&nbsp;<input type="radio" id="autoNo" name="auto" value="false" checked>
+												否</td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td>显示菜单:</td>
+											<td><input type="radio" id="menuYes" name="menu" value="true" checked> 是&nbsp;<input type="radio" id="menuNo" name="menu" value="false">
+												否</td>
+										</tr>
+										<tr>
+											<td height="5"></td>
+										</tr>
+										<tr>
+											<td colspan="2"></td>
+										</tr>
+									</table>
+								</td>
+								<td width="90" valign="top">
+									<table id="propertiesTable2" cellpadding="0" cellspacing="0" style="display:block">
+										<tr>
+											<td height="3"></td>
+										</tr>
+										<tr>
+											<td><button id="insertButton" onclick="insertMedia()"><table width="100%" height="100%">
+														<tr>
+															<td id="buttonText">插 入</td>
+														</tr>
+													</table>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td height="4"></td>
+										</tr>
+										<tr>
+											<td><button onclick="openFileDialog()" ID="Button1"><table width="100%" height="100%" ID="Table1">
+														<tr>
+															<td>浏 览</td>
+														</tr>
+													</table>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td height="4"></td>
+										</tr>
+										<tr>
+											<td><button onclick="self.close()"><table width="100%" height="100%">
+														<tr>
+															<td>关 闭</td>
+														</tr>
+													</table>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+			</table>
+		</form>
+	</body>
+</html>

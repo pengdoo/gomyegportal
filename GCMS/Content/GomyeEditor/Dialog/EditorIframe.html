@@ -1,0 +1,256 @@
+<html>
+	<head>
+		<meta content="MSHTML 6.00.2800.1170" name="GENERATOR">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=gb2312">
+		<style media="all" type="text/css">
+			body {background-color: buttonface;}
+			td, span, legend {font: icon;}
+			fieldset {border: 1px solid #A1C3ED;}
+			legend {font-weight: bold;}
+			.flatTextBox {border: 1px solid #2E74CF;}
+			.headerText {cursor:default;overflow: hidden;color: #FFFFFF;font-weight: bold;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button, button.disabled {background-color: transparent;border: none;width: 87px;height: 22px;}
+			button {background-image: url(../Image/buttonTemplate.gif);}
+			button.disabled {background-image: url(../Image/buttonTemplateDisabled.gif);}
+			button table tr td, button.disabled table tr td {font-weight: bold;text-align: center;vertical-align: middle;padding-bottom: 2px;}
+			button table tr td {color: #FFFFFF;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button.disabled table tr td {filter: ;}
+		</style>
+		<Script Language="JavaScript" src="dialog.js"></Script>
+		<Script Language="JavaScript">
+var sAction = "INSERT";
+var sTitle = "插入";
+
+var oControl;
+var oSeletion;
+var sRangeType;
+
+var sUrl = "";
+var sScrolling = "";
+var sFrameBorder = "0";
+var sMarginHeight = "0";
+var sMarginWidth = "0";
+var sWidth = "500";
+var sHeight = "400";
+
+oSelection = dialogArguments.SeaskyEditor.document.selection.createRange();
+sRangeType = dialogArguments.SeaskyEditor.document.selection.type;
+
+if (sRangeType == "Control") {
+	if (oSelection.item(0).tagName == "IFRAME"){
+		sAction = "MODI";
+		sTitle = "修改";
+		oControl = oSelection.item(0);
+		sUrl = oControl.src;
+		sScrolling = oControl.scrolling;
+		sFrameBorder = oControl.frameBorder;
+		sMarginHeight = oControl.marginHeight;
+		sMarginWidth = oControl.marginWidth;
+		sWidth = oControl.width;
+		sHeight = oControl.height;
+	}
+}
+
+
+document.write("<title>网页帧属性（" + sTitle + "）</title>");
+
+// 初始值
+function InitDocument(){
+	SearchSelectValue(d_scrolling, sScrolling.toLowerCase());
+
+	url.value = sUrl;
+	d_frameborder.value = sFrameBorder;
+	d_marginheight.value = sMarginHeight;
+	d_marginwidth.value = sMarginWidth;
+	d_width.value = sWidth;
+	d_height.value = sHeight;
+	checkURL();
+
+}
+
+		</Script>
+		<SCRIPT event="onclick" for="Ok" language="JavaScript">
+	sScrolling = d_scrolling.options[d_scrolling.selectedIndex].value;
+
+	sUrl = url.value;
+	if (!IsURL(sUrl)){
+		BaseAlert(url, "无效的网页地址！");
+		return;
+	}
+
+	d_frameborder.value = ToInt(d_frameborder.value);
+	d_marginheight.value = ToInt(d_marginheight.value);
+	d_marginwidth.value = ToInt(d_marginwidth.value);
+	sFrameBorder = d_frameborder.value;
+	sMarginHeight = d_marginheight.value;
+	sMarginWidth = d_marginwidth.value;
+
+	// 宽度高度有效值性
+	var sWidth = "";
+	if (!MoreThanOne(d_width,'无效的帧宽度！')) return;
+	sWidth = d_width.value;
+	var sHeight = "";
+	if (!MoreThanOne(d_height,'无效的帧高度！')) return;
+	sHeight = d_height.value;
+
+	if (sAction == "MODI") {
+		oControl.src = sUrl;
+		if(sScrolling != "")
+			oControl.scrolling = sScrolling;
+		oControl.frameBorder = sFrameBorder;
+		oControl.marginHeight = sMarginHeight;
+		oControl.marginWidth = sMarginWidth;
+		oControl.width = sWidth;
+		oControl.height = sHeight;
+	}else{
+		dialogArguments.insertHTML("<iframe src='"+sUrl+"' scrolling='"+sScrolling+"' frameborder='"+sFrameBorder+"' marginheight='"+sMarginHeight+"' marginwidth='"+sMarginWidth+"' width='"+sWidth+"' height='"+sHeight+"'></iframe>");
+	}
+
+	window.returnValue = null;
+	window.close();
+		</SCRIPT>
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+
+
+// 判断值是否大于0
+function MoreThanOne(obj, sErr){
+	var b=false;
+	if (obj.value!=""){
+		obj.value=parseFloat(obj.value);
+		if (obj.value!="0"){
+			b=true;
+		}
+	}
+	if (b==false){
+		BaseAlert(obj,sErr);
+		return false;
+	}
+	return true;
+}
+
+		</SCRIPT>
+	</head>
+	<body onload="InitDocument();">
+		<table id="mainTable" width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<table width="100%" height="100%" cellpadding="6" cellspacing="0" border="0" ID="Table2">
+						<tr>
+							<td valign="top"><table id="propertiesTable1" width="100%" cellpadding="3" cellspacing="0">
+									<tr>
+										<td id="loader" colspan="2" align="left" valign="top" style="display:none"></td>
+									</tr>
+									<tr>
+										<td width="100">视窗网址:</td>
+										<td><input type="text" id="url" name="url" onkeydown="checkURL()" onchange="checkURL()" style="width:200px"
+												class="flatTextBox" title="可直接输入网上URL地址，或从系统中选择您目录下的文件地址"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>滚动条:</td>
+										<td><select id="d_scrolling" style="width:72px" NAME="d_scrolling"><option value="">默认</option>
+												<option value="yes">有</option>
+												<option value="no">无</option>
+											</select></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>左右边距:</td>
+										<td><input type="text" id="d_marginwidth" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"
+												NAME="rmWidth" value="0"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>上下边距:</td>
+										<td><input type="text" id="d_marginheight" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"
+												NAME="rmHeight" value="0"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>帧宽度:</td>
+										<td><input type="text" id="d_width" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"
+												NAME="frameWidth" value="0"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>帧高度:</td>
+										<td><input type="text" id="d_height" style="width:110px" class="flatTextBox" ONKEYPRESS="event.returnValue=IsDigit();"
+												NAME="frameHeight" value="0"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td>边框线:</td>
+										<td><input id="d_frameborder" style="width:110px" class="flatTextBox" maxlength="2" ONKEYPRESS="event.returnValue=IsDigit();"
+												NAME="d_frameborder"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td colspan="2"></td>
+									</tr>
+								</table>
+							</td>
+							<td width="90" valign="top">
+								<table id="propertiesTable2" cellpadding="0" cellspacing="0" style="display:block">
+									<tr>
+										<td height="3"></td>
+									</tr>
+									<tr>
+										<td><button id="Ok" onclick="Ok()" class="disabled" disabled><table width="100%" height="100%" ID="Table3">
+													<tr>
+														<td id="buttonText">插 入</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td height="4"></td>
+									</tr>
+									<tr>
+										<td><button onclick="openFileDialog()" ID="Button1"><table width="100%" height="100%" ID="Table4">
+													<tr>
+														<td>浏 览</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td height="4"></td>
+									</tr>
+									<tr>
+										<td><button onclick="self.close()" ID="Button2"><table width="100%" height="100%" ID="Table5">
+													<tr>
+														<td>关 闭</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

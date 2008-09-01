@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+<TITLE>插入表情图标</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<STYLE type=text/css>
+BODY {padding:5px}
+IMG {CURSOR:hand;width:20px;height:20px;}
+</STYLE>
+<script language="JavaScript" src="dialog.js"></script>
+
+<SCRIPT language=JavaScript>
+function emotclick(){
+	if ("IMG"==event.srcElement.tagName.toUpperCase()) {
+		dialogArguments.insertHTML("<IMG SRC=" + event.srcElement.src + ">");
+		window.returnValue = null;
+		window.close();
+	}
+}
+document.onclick=emotclick;
+
+function writeEmote()
+{
+	var outstr = "";
+	
+	outstr = "<TABLE cellSpacing=5 border=0 align=center><TBODY><TR>";
+	for(var i = 0; i < 50; i++)
+	{
+		//outstr += "<TD><IMG src=\"../"+ config.SysImage +"/Image/emot/"+ (i+1) +".gif\" border=0></TD>";
+		outstr += "<TD><IMG src=\"../Image/emot/2/"+ (i+1) +".gif\" border=0></TD>";
+		if((i+1)%10 == 0)outstr += "</TR><TR>";
+	}
+	outstr += "</TR></TBODY></TABLE>";
+
+	return outstr;
+}
+</script>
+</HEAD>
+
+<BODY bgcolor="buttonface">
+
+  <script>document.write(writeEmote());</script>
+  
+</BODY></HTML>

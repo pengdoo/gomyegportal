@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<buttonConfig>
+	<!--
+	菜单名称： 最简模式
+	主要用途： 用于简单文本的编辑
+	 -->
+	<buttons id="1" configName="最简模式">
+		<button><![CDATA[<script>
+		function test(){
+			if( document.getElementById("SeaskyEditor_CODE") != null ) document.getElementById("SeaskyEditor_CODE").style.display = "none";
+			if( document.getElementById("SeaskyEditor_EDIT") != null ) document.getElementById("SeaskyEditor_EDIT").style.display = "none";
+			if( document.getElementById("SeaskyEditor_TEXT") != null ) document.getElementById("SeaskyEditor_TEXT").style.display = "none";
+			if( document.getElementById("SeaskyEditor_VIEW") != null ) document.getElementById("SeaskyEditor_VIEW").style.display = "none";
+		}
+		</script>]]></button>
+		<button><![CDATA[<TABLE class="Toolbar" cellSpacing="0" cellPadding="0" width="100%" border="0"><TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="复制" onclick="format('copy')"><IMG class="Ico" src="ButtonImage/standard/copy.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="剪切" onclick="format('cut')"><IMG class="Ico" src="ButtonImage/standard/cut.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="粘贴" onclick="format('paste')"><IMG class="Ico" src="ButtonImage/standard/paste.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除" onclick="format('delete')"><IMG class="Ico" src="ButtonImage/standard/delete.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="查找替换" onclick="findReplace()"><IMG class="Ico" src="ButtonImage/standard/findreplace.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV></TD></TR></TABLE>]]></button>
+	</buttons>
+	<!--
+	菜单名称： 简单文字编辑模式
+	主要用途： 主要用于对文字进行编辑
+	 -->
+	<buttons id="2" configName="简单文字编辑模式">
+		<button><![CDATA[<script>
+		function test(){
+			if( document.getElementById("SeaskyEditor_CODE") != null ) document.getElementById("SeaskyEditor_CODE").style.display = "none";
+			if( document.getElementById("SeaskyEditor_EDIT") != null ) document.getElementById("SeaskyEditor_EDIT").style.display = "none";
+			if( document.getElementById("SeaskyEditor_TEXT") != null ) document.getElementById("SeaskyEditor_TEXT").style.display = "none";
+			if( document.getElementById("SeaskyEditor_VIEW") != null ) document.getElementById("SeaskyEditor_VIEW").style.display = "none";
+		}
+		</script>]]></button>
+		<button><![CDATA[<TABLE class="Toolbar" cellSpacing="0" cellPadding="0" width="100%" border="0"><TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontname',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字体</OPTION>
+										<OPTION value="宋体">宋体</OPTION>
+										<OPTION value="黑体">黑体</OPTION>
+										<OPTION value="楷体_GB2312">楷体</OPTION>
+										<OPTION value="仿宋_GB2312">仿宋</OPTION>
+										<OPTION value="隶书">隶书</OPTION>
+										<OPTION value="幼圆">幼圆</OPTION>
+										<OPTION value="Arial">Arial</OPTION>
+										<OPTION value="Arial Black">Arial Black</OPTION>
+										<OPTION value="Arial Narrow">Arial Narrow</OPTION>
+										<OPTION value="Brush Script&#9;MT">Brush Script MT</OPTION>
+										<OPTION value="Century Gothic">Century Gothic</OPTION>
+										<OPTION value="Comic Sans MS">Comic Sans MS</OPTION>
+										<OPTION value="Courier">Courier</OPTION>
+										<OPTION value="Courier New">Courier New</OPTION>
+										<OPTION value="MS Sans Serif">MS Sans Serif</OPTION>
+										<OPTION value="Script">Script</OPTION>
+										<OPTION value="System">System</OPTION>
+										<OPTION value="Times New Roman">Times New Roman</OPTION>
+										<OPTION value="Verdana">Verdana</OPTION>
+										<OPTION value="Wide Latin">Wide Latin</OPTION>
+										<OPTION value="Wingdings">Wingdings</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontsize',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字号</OPTION>
+										<OPTION value="7">一号</OPTION>
+										<OPTION value="6">二号</OPTION>
+										<OPTION value="5">三号</OPTION>
+										<OPTION value="4">四号</OPTION>
+										<OPTION value="3">五号</OPTION>
+										<OPTION value="2">六号</OPTION>
+										<OPTION value="1">七号</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="复制" onclick="format('copy')"><IMG class="Ico" src="ButtonImage/standard/copy.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="剪切" onclick="format('cut')"><IMG class="Ico" src="ButtonImage/standard/cut.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="粘贴" onclick="format('paste')"><IMG class="Ico" src="ButtonImage/standard/paste.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除" onclick="format('delete')"><IMG class="Ico" src="ButtonImage/standard/delete.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="查找替换" onclick="findReplace()"><IMG class="Ico" src="ButtonImage/standard/findreplace.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="撤消" onclick="format('undo')"><IMG class="Ico" src="ButtonImage/standard/undo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="恢复" onclick="format('redo')"><IMG class="Ico" src="ButtonImage/standard/redo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="粗体" onclick="format('bold')"><IMG class="Ico" src="ButtonImage/standard/bold.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="斜体" onclick="format('italic')"><IMG class="Ico" src="ButtonImage/standard/italic.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下划线" onclick="format('underline')"><IMG class="Ico" src="ButtonImage/standard/underline.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="中划线" onclick="format('StrikeThrough')"><IMG class="Ico" src="ButtonImage/standard/strikethrough.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体颜色" onclick="ShowDialog('dialog/selcolor.htm?action=forecolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/forecolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体背景颜色" onclick="ShowDialog('dialog/selcolor.htm?action=backcolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/backcolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="左对齐" onclick="format('justifyleft')"><IMG class="Ico" src="ButtonImage/standard/JustifyLeft.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="居中对齐" onclick="format('justifycenter')"><IMG class="Ico" src="ButtonImage/standard/JustifyCenter.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="右对齐" onclick="format('justifyright')"><IMG class="Ico" src="ButtonImage/standard/JustifyRight.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="两端对齐" onclick="format('JustifyFull')"><IMG class="Ico" src="ButtonImage/standard/JustifyFull.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV></TD></TR></TABLE>]]></button>
+	</buttons>
+	<!--
+	菜单名称： 标准编辑器模式
+	主要用途： 主要用于对文章的进行编辑
+	-->
+	<buttons id="3" configName="标准编辑器模式">
+		<button><![CDATA[<script>
+		function test(){
+		}
+		</script>]]></button>
+		<button><![CDATA[<TABLE class="Toolbar" cellSpacing="0" cellPadding="0" width="100%" border="0"><TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('FormatBlock',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>段落样式</OPTION>
+										<OPTION value="<P>">普通</OPTION>
+										<OPTION value="<H1>">标题一</OPTION>
+										<OPTION value="<H2>">标题二</OPTION>
+										<OPTION value="<H3>">标题三</OPTION>
+										<OPTION value="<H4>">标题四</OPTION>
+										<OPTION value="<H5>">标题五</OPTION>
+										<OPTION value="<H6>">标题六</OPTION>
+										<OPTION value="<p>">段落</OPTION>
+										<OPTION value="<dd>">定义</OPTION>
+										<OPTION value="<dt>">术语定义</OPTION>
+										<OPTION value="<dir>">目录列表</OPTION>
+										<OPTION value="<menu>">菜单列表</OPTION>
+										<OPTION value="<PRE>">已编排格式</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontname',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字体</OPTION>
+										<OPTION value="宋体">宋体</OPTION>
+										<OPTION value="黑体">黑体</OPTION>
+										<OPTION value="楷体_GB2312">楷体</OPTION>
+										<OPTION value="仿宋_GB2312">仿宋</OPTION>
+										<OPTION value="隶书">隶书</OPTION>
+										<OPTION value="幼圆">幼圆</OPTION>
+										<OPTION value="Arial">Arial</OPTION>
+										<OPTION value="Arial Black">Arial Black</OPTION>
+										<OPTION value="Arial Narrow">Arial Narrow</OPTION>
+										<OPTION value="Brush Script&#9;MT">Brush Script MT</OPTION>
+										<OPTION value="Century Gothic">Century Gothic</OPTION>
+										<OPTION value="Comic Sans MS">Comic Sans MS</OPTION>
+										<OPTION value="Courier">Courier</OPTION>
+										<OPTION value="Courier New">Courier New</OPTION>
+										<OPTION value="MS Sans Serif">MS Sans Serif</OPTION>
+										<OPTION value="Script">Script</OPTION>
+										<OPTION value="System">System</OPTION>
+										<OPTION value="Times New Roman">Times New Roman</OPTION>
+										<OPTION value="Verdana">Verdana</OPTION>
+										<OPTION value="Wide Latin">Wide Latin</OPTION>
+										<OPTION value="Wingdings">Wingdings</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontsize',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字号</OPTION>
+										<OPTION value="7">一号</OPTION>
+										<OPTION value="6">二号</OPTION>
+										<OPTION value="5">三号</OPTION>
+										<OPTION value="4">四号</OPTION>
+										<OPTION value="3">五号</OPTION>
+										<OPTION value="2">六号</OPTION>
+										<OPTION value="1">七号</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="粗体" onclick="format('bold')"><IMG class="Ico" src="ButtonImage/standard/bold.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="斜体" onclick="format('italic')"><IMG class="Ico" src="ButtonImage/standard/italic.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下划线" onclick="format('underline')"><IMG class="Ico" src="ButtonImage/standard/underline.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="中划线" onclick="format('StrikeThrough')"><IMG class="Ico" src="ButtonImage/standard/strikethrough.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="上标" onclick="format('superscript')"><IMG class="Ico" src="ButtonImage/standard/superscript.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下标" onclick="format('subscript')"><IMG class="Ico" src="ButtonImage/standard/subscript.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="左对齐" onclick="format('justifyleft')"><IMG class="Ico" src="ButtonImage/standard/JustifyLeft.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="居中对齐" onclick="format('justifycenter')"><IMG class="Ico" src="ButtonImage/standard/JustifyCenter.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="右对齐" onclick="format('justifyright')"><IMG class="Ico" src="ButtonImage/standard/JustifyRight.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="两端对齐" onclick="format('JustifyFull')"><IMG class="Ico" src="ButtonImage/standard/JustifyFull.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV>
+							</TD>
+						</TR>
+						<TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="剪切" onclick="format('cut')"><IMG class="Ico" src="ButtonImage/standard/cut.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="复制" onclick="format('copy')"><IMG class="Ico" src="ButtonImage/standard/copy.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="常规粘贴" onclick="format('paste')"><IMG class="Ico" src="ButtonImage/standard/paste.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="纯文本粘贴" onclick="PasteText()"><IMG class="Ico" src="ButtonImage/standard/pastetext.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="从Word中粘贴" onclick="PasteWord()"><IMG class="Ico" src="ButtonImage/standard/pasteword.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="查找替换" onclick="findReplace()"><IMG class="Ico" src="ButtonImage/standard/findreplace.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除" onclick="format('delete')"><IMG class="Ico" src="ButtonImage/standard/delete.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除文字格式" onclick="format('RemoveFormat')"><IMG class="Ico" src="ButtonImage/standard/RemoveFormat.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="撤消" onclick="format('undo')"><IMG class="Ico" src="ButtonImage/standard/undo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="恢复" onclick="format('redo')"><IMG class="Ico" src="ButtonImage/standard/redo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="全部选中" onclick="format('SelectAll')"><IMG class="Ico" src="ButtonImage/standard/selectAll.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="取消选择" onclick="format('Unselect')"><IMG class="Ico" src="ButtonImage/standard/unselect.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="编号" onclick="format('insertorderedlist')"><IMG class="Ico" src="ButtonImage/standard/insertorderedlist.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="项目符号" onclick="format('insertunorderedlist')"><IMG class="Ico" src="ButtonImage/standard/insertunorderedlist.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="增加缩进量" onclick="format('indent')"><IMG class="Ico" src="ButtonImage/standard/indent.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="减少缩进量" onclick="format('outdent')"><IMG class="Ico" src="ButtonImage/standard/outdent.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体颜色" onclick="ShowDialog('dialog/selcolor.htm?action=forecolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/forecolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体背景颜色" onclick="ShowDialog('dialog/selcolor.htm?action=backcolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/backcolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="绝对或相对位置" onclick="absolutePosition()"><IMG class="Ico" src="ButtonImage/standard/abspos.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="图形热点链接" onclick="mapEdit()"><IMG class="Ico" src="ButtonImage/standard/map.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV>
+							</TD>
+						</TR>
+						<TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改图片" onclick="ShowDialog('../WindowFrame.aspx?loadfile=Tools_UploadPhoto.aspx&sType=Self', 520, 415, true)"><IMG class="Ico" src="ButtonImage/standard/img.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入Flash动画" onclick="ShowDialog('Dialog/EditorFlash.html', 450, 420, true)"><IMG class="Ico" src="ButtonImage/standard/flash.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入MediaPlay格式的音/视频文件" onclick="ShowDialog('Dialog/EditorMedia.html', 450, 350, true)"><IMG class="Ico" src="ButtonImage/standard/mplayer.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入RealPlay格式的音/视频文件" onclick="ShowDialog('Dialog/EditorRM.html', 450, 320, true)"><IMG class="Ico" src="ButtonImage/standard/rm.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入其他文件" onclick="ShowDialog('Dialog/EditorFile.html', 380, 150, true)"><IMG class="Ico" src="ButtonImage/standard/file.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="表格菜单" onclick="showToolMenu('table')"><IMG class="Ico" src="ButtonImage/standard/tablemenu.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="表单组件菜单" onclick="showToolMenu('form')"><IMG class="Ico" src="ButtonImage/standard/FormMenu.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="显示或隐藏指导方针" onclick="showBorders()"><IMG class="Ico" src="ButtonImage/standard/ShowBorders.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改栏目框" onclick="ShowDialog('dialog/fieldset.htm', 350, 170, true)"><IMG class="Ico" src="ButtonImage/standard/fieldset.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改网页帧" onclick="ShowDialog('dialog/EditorIframe.html', 400, 260, true)"><IMG class="Ico" src="ButtonImage/standard/iframe.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入水平尺" onclick="format('InsertHorizontalRule')"><IMG class="Ico" src="ButtonImage/standard/InsertHorizontalRule.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改字幕" onclick="ShowDialog('dialog/marquee.htm', 395, 150, true)"><IMG class="Ico" src="ButtonImage/standard/Marquee.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改超级链接" onclick="createLink()"><IMG class="Ico" src="ButtonImage/standard/CreateLink.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="取消超级链接或标签" onclick="format('UnLink')"><IMG class="Ico" src="ButtonImage/standard/Unlink.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入特殊字符" onclick="ShowDialog('dialog/symbol.htm', 350, 220, true)"><IMG class="Ico" src="ButtonImage/standard/symbol.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入表情图标" onclick="ShowDialog('dialog/emot.htm', 300, 180, true)"><IMG class="Ico" src="ButtonImage/standard/emot.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入Excel表格" onclick="insert('excel')"><IMG class="Ico" src="ButtonImage/standard/excel.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="引用样式" onclick="insert('quote')"><IMG class="Ico" src="ButtonImage/standard/quote.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入代码片段" onclick="insert('code')"><IMG class="Ico" src="ButtonImage/standard/code.gif"></DIV>]]></button>
+	
+		<button><![CDATA[<DIV class="Btn" title="自动排版" onclick="AutoFormat()"><IMG class="Ico" src="ButtonImage/standard/editmenu.gif"></DIV>]]></button>
+
+		<button><![CDATA[</DIV></TD></TR></TABLE>]]></button>
+	</buttons>
+	<!--
+	菜单名称： 高级HTML编辑器模式
+	主要用途： 主要用于对HTML文件的进行在线可视化编辑
+	 -->
+	<buttons id="4" configName="高级HTML编辑器模式">
+		<button><![CDATA[<script>
+		function test(){
+			if( document.getElementById("SeaskyEditor_TEXT") != null ) document.getElementById("SeaskyEditor_TEXT").style.display = "none";
+		}
+		</script>]]></button>
+		<button><![CDATA[<TABLE class="Toolbar" cellSpacing="0" cellPadding="0" width="100%" border="0"><TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('FormatBlock',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>段落样式</OPTION>
+										<OPTION value="<P>">普通</OPTION>
+										<OPTION value="<H1>">标题一</OPTION>
+										<OPTION value="<H2>">标题二</OPTION>
+										<OPTION value="<H3>">标题三</OPTION>
+										<OPTION value="<H4>">标题四</OPTION>
+										<OPTION value="<H5>">标题五</OPTION>
+										<OPTION value="<H6>">标题六</OPTION>
+										<OPTION value="<p>">段落</OPTION>
+										<OPTION value="<dd>">定义</OPTION>
+										<OPTION value="<dt>">术语定义</OPTION>
+										<OPTION value="<dir>">目录列表</OPTION>
+										<OPTION value="<menu>">菜单列表</OPTION>
+										<OPTION value="<PRE>">已编排格式</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontname',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字体</OPTION>
+										<OPTION value="宋体">宋体</OPTION>
+										<OPTION value="黑体">黑体</OPTION>
+										<OPTION value="楷体_GB2312">楷体</OPTION>
+										<OPTION value="仿宋_GB2312">仿宋</OPTION>
+										<OPTION value="隶书">隶书</OPTION>
+										<OPTION value="幼圆">幼圆</OPTION>
+										<OPTION value="Arial">Arial</OPTION>
+										<OPTION value="Arial Black">Arial Black</OPTION>
+										<OPTION value="Arial Narrow">Arial Narrow</OPTION>
+										<OPTION value="Brush Script&#9;MT">Brush Script MT</OPTION>
+										<OPTION value="Century Gothic">Century Gothic</OPTION>
+										<OPTION value="Comic Sans MS">Comic Sans MS</OPTION>
+										<OPTION value="Courier">Courier</OPTION>
+										<OPTION value="Courier New">Courier New</OPTION>
+										<OPTION value="MS Sans Serif">MS Sans Serif</OPTION>
+										<OPTION value="Script">Script</OPTION>
+										<OPTION value="System">System</OPTION>
+										<OPTION value="Times New Roman">Times New Roman</OPTION>
+										<OPTION value="Verdana">Verdana</OPTION>
+										<OPTION value="Wide Latin">Wide Latin</OPTION>
+										<OPTION value="Wingdings">Wingdings</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="format('fontsize',this[this.selectedIndex].value);this.selectedIndex=0">
+										<OPTION selected>字号</OPTION>
+										<OPTION value="7">一号</OPTION>
+										<OPTION value="6">二号</OPTION>
+										<OPTION value="5">三号</OPTION>
+										<OPTION value="4">四号</OPTION>
+										<OPTION value="3">五号</OPTION>
+										<OPTION value="2">六号</OPTION>
+										<OPTION value="1">七号</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<SELECT class="TBGen" onchange="doZoom(this[this.selectedIndex].value)">
+										<OPTION value="10">10%</OPTION>
+										<OPTION value="25">25%</OPTION>
+										<OPTION value="50">50%</OPTION>
+										<OPTION value="75">75%</OPTION>
+										<OPTION value="100" selected>100%</OPTION>
+										<OPTION value="150">150%</OPTION>
+										<OPTION value="200">200%</OPTION>
+										<OPTION value="500">500%</OPTION>
+									</SELECT>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="粗体" onclick="format('bold')"><IMG class="Ico" src="ButtonImage/standard/bold.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="斜体" onclick="format('italic')"><IMG class="Ico" src="ButtonImage/standard/italic.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下划线" onclick="format('underline')"><IMG class="Ico" src="ButtonImage/standard/underline.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="中划线" onclick="format('StrikeThrough')"><IMG class="Ico" src="ButtonImage/standard/strikethrough.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="上标" onclick="format('superscript')"><IMG class="Ico" src="ButtonImage/standard/superscript.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下标" onclick="format('subscript')"><IMG class="Ico" src="ButtonImage/standard/subscript.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="左对齐" onclick="format('justifyleft')"><IMG class="Ico" src="ButtonImage/standard/JustifyLeft.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="居中对齐" onclick="format('justifycenter')"><IMG class="Ico" src="ButtonImage/standard/JustifyCenter.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="右对齐" onclick="format('justifyright')"><IMG class="Ico" src="ButtonImage/standard/JustifyRight.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="两端对齐" onclick="format('JustifyFull')"><IMG class="Ico" src="ButtonImage/standard/JustifyFull.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV>
+							</TD>
+						</TR>
+						<TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="剪切" onclick="format('cut')"><IMG class="Ico" src="ButtonImage/standard/cut.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="复制" onclick="format('copy')"><IMG class="Ico" src="ButtonImage/standard/copy.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="常规粘贴" onclick="format('paste')"><IMG class="Ico" src="ButtonImage/standard/paste.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="纯文本粘贴" onclick="PasteText()"><IMG class="Ico" src="ButtonImage/standard/pastetext.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="从Word中粘贴" onclick="PasteWord()"><IMG class="Ico" src="ButtonImage/standard/pasteword.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="查找替换" onclick="findReplace()"><IMG class="Ico" src="ButtonImage/standard/findreplace.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除" onclick="format('delete')"><IMG class="Ico" src="ButtonImage/standard/delete.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="删除文字格式" onclick="format('RemoveFormat')"><IMG class="Ico" src="ButtonImage/standard/RemoveFormat.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="撤消" onclick="format('undo')"><IMG class="Ico" src="ButtonImage/standard/undo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="恢复" onclick="format('redo')"><IMG class="Ico" src="ButtonImage/standard/redo.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="全部选中" onclick="format('SelectAll')"><IMG class="Ico" src="ButtonImage/standard/selectAll.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="取消选择" onclick="format('Unselect')"><IMG class="Ico" src="ButtonImage/standard/unselect.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="编号" onclick="format('insertorderedlist')"><IMG class="Ico" src="ButtonImage/standard/insertorderedlist.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="项目符号" onclick="format('insertunorderedlist')"><IMG class="Ico" src="ButtonImage/standard/insertunorderedlist.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="增加缩进量" onclick="format('indent')"><IMG class="Ico" src="ButtonImage/standard/indent.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="减少缩进量" onclick="format('outdent')"><IMG class="Ico" src="ButtonImage/standard/outdent.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体颜色" onclick="ShowDialog('dialog/selcolor.htm?action=forecolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/forecolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="对象背景颜色" onclick="ShowDialog('dialog/selcolor.htm?action=bgcolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/bgcolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="字体背景颜色" onclick="ShowDialog('dialog/selcolor.htm?action=backcolor', 280, 250, true)"><IMG class="Ico" src="ButtonImage/standard/backcolor.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="背景图片" onclick="ShowDialog('dialog/backimage.htm', 350, 210, true)"><IMG class="Ico" src="ButtonImage/standard/bgpic.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="绝对或相对位置" onclick="absolutePosition()"><IMG class="Ico" src="ButtonImage/standard/abspos.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="上移一层" onclick="zIndex('forward')"><IMG class="Ico" src="ButtonImage/standard/forward.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="下移一层" onclick="zIndex('backward')"><IMG class="Ico" src="ButtonImage/standard/backward.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV>
+							</TD>
+						</TR>
+						<TR>
+				<TD>
+					<DIV class="yToolbar">]]></button>
+		<button><![CDATA[<DIV class="TBHandle"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改图片" onclick="onclick="ShowDialog('../WindowFrame.aspx?loadfile=Tools_UploadPhoto.aspx&sType=Self', 520, 415, true)"><IMG class="Ico" src="ButtonImage/standard/img.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入Flash动画" onclick="ShowDialog('Dialog/EditorFlash.html', 450, 420, true)"><IMG class="Ico" src="ButtonImage/standard/flash.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入MediaPlay格式的音/视频文件" onclick="ShowDialog('Dialog/EditorMedia.html', 450, 350, true)"><IMG class="Ico" src="ButtonImage/standard/mplayer.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入RealPlay格式的音/视频文件" onclick="ShowDialog('Dialog/EditorRM.html', 450, 320, true)"><IMG class="Ico" src="ButtonImage/standard/rm.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入其他文件" onclick="ShowDialog('dialog/EditorFile.html', 380, 150, true)"><IMG class="Ico" src="ButtonImage/standard/file.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="表格菜单" onclick="showToolMenu('table')"><IMG class="Ico" src="ButtonImage/standard/tablemenu.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="表单组件菜单" onclick="showToolMenu('form')"><IMG class="Ico" src="ButtonImage/standard/FormMenu.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="显示或隐藏指导方针" onclick="showBorders()"><IMG class="Ico" src="ButtonImage/standard/ShowBorders.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改栏目框" onclick="ShowDialog('dialog/fieldset.htm', 350, 170, true)"><IMG class="Ico" src="ButtonImage/standard/fieldset.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改网页帧" onclick="ShowDialog('dialog/EditorIframe.html', 400, 260, true)"><IMG class="Ico" src="ButtonImage/standard/iframe.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入水平尺" onclick="format('InsertHorizontalRule')"><IMG class="Ico" src="ButtonImage/standard/InsertHorizontalRule.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改字幕" onclick="ShowDialog('dialog/marquee.htm', 395, 150, true)"><IMG class="Ico" src="ButtonImage/standard/Marquee.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入或修改超级链接" onclick="createLink()"><IMG class="Ico" src="ButtonImage/standard/CreateLink.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="图形热点链接" onclick="mapEdit()"><IMG class="Ico" src="ButtonImage/standard/map.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="取消超级链接或标签" onclick="format('UnLink')"><IMG class="Ico" src="ButtonImage/standard/Unlink.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入特殊字符" onclick="ShowDialog('dialog/symbol.htm', 350, 220, true)"><IMG class="Ico" src="ButtonImage/standard/symbol.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入表情图标" onclick="ShowDialog('dialog/emot.htm', 300, 180, true)"><IMG class="Ico" src="ButtonImage/standard/emot.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入Excel表格" onclick="insert('excel')"><IMG class="Ico" src="ButtonImage/standard/excel.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="引用样式" onclick="insert('quote')"><IMG class="Ico" src="ButtonImage/standard/quote.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入代码片段" onclick="insert('code')"><IMG class="Ico" src="ButtonImage/standard/code.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="插入Dwbs系统插件" onclick="ShowDialog('Dialog/EditorPlus.html', 450, 400, true);"><IMG class="Ico" src="ButtonImage/standard/dwbsplus.gif"></DIV>]]></button>
+		<button><![CDATA[<DIV class="TBSep"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" onclick="Maximize()"><IMG class="Ico" id="imgstatus"></DIV>]]></button>
+		<button><![CDATA[<DIV class="Btn" title="查看使用帮助" onclick="ShowDialog('dialog/help.htm','400','300')"><IMG class="Ico" src="ButtonImage/standard/help.gif"></DIV>]]></button>
+		<button><![CDATA[</DIV></TD></TR></TABLE>]]></button>
+	</buttons>
+</buttonConfig>
