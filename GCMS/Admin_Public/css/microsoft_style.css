@@ -1,0 +1,29 @@
+.DSMenuBox div{
+	width:1px;
+	display:block;
+	background-color:#efefef;
+	border:1px solid #999999;
+	padding:3 5 3 5;
+	position:absolute;
+	left:-10000;top:-10000;
+	FILTER:progid:DXImageTransform.Microsoft.Shadow(Color=#999999,offX=10,offY=10,direction=120,Strength=5);
+}
+.DSMenuBox a{
+	width:1px;
+	height:24px;
+	border:1px solid #efefef;
+	padding:4 10 0 10;
+	color:#333333;
+	font:10px verdana;
+	text-decoration:none;
+	display:block;
+}
+.DSMenuBox a:hover{
+	color:#000000;
+	background-color:#d2d2d0;
+	border:1px solid #a4a4a4;
+}
+.DSMenuBox img{
+	border:0;
+	margin:-8 0 0 30;
+}

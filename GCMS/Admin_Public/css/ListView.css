@@ -1,0 +1,164 @@
+body {
+	border-Right: 1px solid buttonhighlight;
+	border-Bottom: 1px solid buttonhighlight;
+	border-Left: 1px solid buttonshadow;
+	border-Top: 1px solid buttonshadow;
+	font:icon;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+.titlebar{
+	background: buttonface;
+	border-Left: 1px solid buttonhighlight;
+	border-Top: 1px solid buttonhighlight;
+	border-Right: 1px solid buttonshadow;
+	border-Bottom: 1px solid buttonshadow;
+	font:icon;
+	margin: 0;
+	width: 100%;
+}
+td{font:icon;}
+input{font:icon;}
+select{font:icon;}
+.listView {
+	font-size: 9pt;
+	overflow: visible;
+	width: 100%;
+	border: 0;
+}
+.listView .item {
+	width: 100%;
+}
+.listView .id {
+	overflow: hidden;
+	width: 65px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .author {
+	overflow: hidden;
+	width: 85px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .title {
+	overflow: hidden;
+	width: 300px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .submitdate {
+	overflow: hidden;
+	width: 135px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .status {
+	overflow: hidden;
+	width: 75px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .putintopx {
+	overflow: hidden;
+	width: 35px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .isimagenews {
+	overflow: hidden;
+	width: 35px;
+	height: 18px;
+	padding-left: 5px;
+	position: relative;
+}
+.listView .item .item {
+	display: none;
+}
+.listView a {
+	color: windowtext;
+	text-decoration: none;
+	font-weight: bold;
+	cursor: hand;
+}
+.listView a:visited {
+	color: windowtext;
+	text-decoration: none;
+	font-weight: normal;
+}
+.listView a:active {
+	background: highlight;
+	color: highlighttext;
+}
+.headerTable {
+	background: buttonface;
+	font: icon;
+	width: 100%;
+	color: buttontext;
+	table-layout: fixed;
+	background: threeddarkshadow;
+	border-left: 1px solid threedshadow;
+	border-right: 1px solid threedlightshadow;
+	border-top: 1px solid threedshadow;
+	cursor:default;
+}
+.headerTable TD {
+	background: buttonface;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-top: 1px solid threedhighlight;
+	border-left: 1px solid threedhighlight;
+	border-right: 1px solid threedshadow;
+	border-bottom: 1px solid threedshadow;
+}
+.headerTable .sid{
+	width: 40px;
+}
+
+.headerTable .id{
+	width: 60px;
+}
+.headerTable .author{
+	width: 85px;
+}
+.headerTable .title{
+	width: 260px;
+}
+.headerTable .submitdate{
+	width: 120px;
+}
+.headerTable .status{
+	width: 80px;
+}
+.headerTable .putintopx{
+	width: 80px;
+}
+.headerTable .isimagenews{
+	width: 80px;
+}
+#scrollDiv {
+	border-Top: 1px solid threedlightshadow;
+	border-left: 1px solid threedlightshadow;
+	border-right: 1px solid threedshadow;
+	border-bottom: 1px solid threedshadow;
+	overflow: auto;
+	width: 100%;
+	height: 93%;
+	cursor: default;
+}
+.menuItem {padding-left:10;cursor:default;font-size:9pt;background-Color:menu;color:black}
+.menuItemDisable {padding-left:10;cursor:default;font-size:9pt;background-Color:menu;color:gray}
+.highlightItem {padding-left:10;cursor:default;font-size:9pt;background-Color:highlight;color:white}
+.menu {position:absolute;visibility:hidden;background: buttonface;border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;	border-bottom: 2px solid buttonshadow;
+	border-right: 2px solid buttonshadow; padding: 2px; font: menu;cursor:default;font-size:9pt;width:100pt;}
+.menushow {position:absolute;visibility:visible;background: buttonface;border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;	border-bottom: 2px solid buttonshadow;cursor:hand;
+	border-right: 2px solid buttonshadow; padding: 2px; font: menu;cursor:default;font-size:9pt;width:100pt;}
