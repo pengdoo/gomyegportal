@@ -1,0 +1,29 @@
+<title>插入三维图层</title><style>
+body{font-size:9pt}
+</style>
+<body bgcolor=eeeeee topmargin=5>
+图层背景: <input id=a onclick='p=showModalDialog("editweb_color.htm",window,"center:yes;dialogHeight:320px;dialogWidth:300px;help:no;status:no");if(p!=null){this.value=p.split("*")[0]}else{this.value=""}' readonly><br/>
+边框颜色: <input id=a1 onclick='p=showModalDialog("editweb_color.htm",window,"center:yes;dialogHeight:320px;dialogWidth:300px;help:no;status:no");if(p!=null){this.value=p.split("*")[0]}else{this.value=""}' readonly><br/>
+左边距(一维): <input id=b maxlength=3><br/>
+上边距(二维): <input id=c maxlength=3><br/>
+立体高(三维): <input id=d maxlength=2><br/>
+有滚动条:<input type=checkbox id=e><br/>
+绝对定位:<input type=radio checked name=radio1> 相对定位:<input type=radio name=radio1><br/>
+<input type=button value='完成插入' onclick="ok()">
+<script>
+function ok(){
+if(isNaN(b.value)){alert('左边距必须为数字,范围在-99-999之间')}else{
+if(isNaN(c.value)){alert('上边距必须为数字,范围在-99-999之间')}else{
+if(isNaN(d.value)){alert('立体高必须为数字,范围在-9-99之间')}else{
+str1="<div style='width:100;height:100;position:"
+if(radio1[0].checked){str1=str1+"absolute;"}else{str1=str1+"relative;"}
+if(a.value!='')str1=str1+"background-color:"+a.value+";"
+if(a1.value!='')str1=str1+"border:solid "+a1.value+" 1;"
+if(e.checked)str1=str1+"overflow:scroll;"
+if(b.value!='')str1=str1+"left:"+b.value+";"
+if(c.value!='')str1=str1+"top:"+c.value+";"
+if(d.value!='')str1=str1+"z-index:"+d.value+";"
+str1=str1+"'></div>"
+returnValue=str1;window.close()
+}}}}
+</script>

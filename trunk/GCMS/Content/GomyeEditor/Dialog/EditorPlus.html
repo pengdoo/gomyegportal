@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<title>插入Dwbs插件</title>
+		<meta content="MSHTML 6.00.2800.1170" name="GENERATOR">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=gb2312">
+		<style media="all" type="text/css">
+			body {background-color: buttonface;}
+			td, span, legend {font: icon;}
+			fieldset {border: 1px solid #A1C3ED;}
+			legend {font-weight: bold;}
+			.flatTextBox {border: 1px solid #2E74CF;}
+			.headerText {cursor:default;overflow: hidden;color: #FFFFFF;font-weight: bold;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button, button.disabled {background-color: transparent;border: none;width: 87px;height: 22px;}
+			button {background-image: url(../Image/buttonTemplate.gif);}
+			button.disabled {background-image: url(../Image/buttonTemplateDisabled.gif);}
+			button table tr td, button.disabled table tr td {font-weight: bold;text-align: center;vertical-align: middle;padding-bottom: 2px;}
+			button table tr td {color: #FFFFFF;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button.disabled table tr td {filter: ;}
+		</style>
+		<script language="javascript" type="text/javascript">
+		<!--
+		function getscript(name,method,url)
+		{
+			var str = "<IMG alt='Dwbs插件:"+name+",方式为"+method+"' src='Image/Script.gif' Plus_href='"+url+"'>";
+			return str;
+		}
+		//-->
+		</script>
+		<script language="JavaScript">
+		<!--
+		function checkURL()
+		{
+			window.setTimeout("checkControl((checkImgStr(document.all['url'].value) != ''))", 100);
+		}
+		function checkControl(enable)
+		{
+			document.all['insertButton'].className = enable ? "" : "disabled";document.all['insertButton'].disabled = !enable;
+		}
+		function checkImgStr(str)
+		{
+			var re1 = /^\s{1,}/i;var re2 = /\s{1,}$/i;return str.replace(re1, "").replace(re2, "");
+		}
+		
+		function insertPlus()
+		{
+			if ((checkImgStr(document.all.url.value) == ""))
+			{
+				alert("请选择一个插件功能!");
+			}
+			else
+			{
+				var movieSrc = "";
+				if (document.all["url"] != null)
+				{movieSrc = document.all["url"].value;}
+				var strings = movieSrc;
+				//alert(strings);
+				//return;
+				dialogArguments.insertHTML(strings);
+				self.close();
+			}
+		}
+		
+		//-->
+		</script>
+	</head>
+	<body id="mainBody">
+		<form name="mainForm" method="post" action="" id="mainForm">
+			<table id="mainTable" width="100%" cellpadding="0" cellspacing="0" height="100%">
+				<tr>
+					<td valign="top" height="60">
+						<table width="100%" cellpadding="6" cellspacing="0" border="0" ID="Table3">
+							<tr>
+								<td valign="top"><table id="propertiesTable1" width="100%" cellpadding="3" cellspacing="0">
+										<tr>
+											<td id="loader" colspan="2" align="left" valign="top" style="display:none"></td>
+										</tr>
+										<tr>
+											<td width="100">生成插件代码:</td>
+											<td><input type="text" id="url" name="url" onkeydown="checkURL()" onchange="checkURL()" style="width:200px"
+													class="flatTextBox" readonly></td>
+										</tr>
+										<tr>
+											<td height="5" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;提示: 从下面的插件列表中选择进入.</td>
+										</tr>
+									</table>
+								</td>
+								<td width="90" valign="top">
+									<table id="propertiesTable2" cellpadding="0" cellspacing="0" style="display:block">
+										<tr>
+											<td height="3"></td>
+										</tr>
+										<tr>
+											<td><button id="insertButton" onclick="insertPlus()" class="disabled" disabled><table width="100%" height="100%" ID="Table4">
+														<tr>
+															<td id="buttonText">插 入</td>
+														</tr>
+													</table>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td height="4"></td>
+										</tr>
+										<tr>
+											<td><button onclick="self.close()" ID="Button3"><table width="100%" height="100%" ID="Table6">
+														<tr>
+															<td>关 闭</td>
+														</tr>
+													</table>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<iframe frameborder="0" name="plus" src=".?Modules=PLUS^SelOwnPLUS" width="100%" height="100%" scrolling="auto"></iframe>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

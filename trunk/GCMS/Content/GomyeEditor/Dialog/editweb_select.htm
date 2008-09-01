@@ -1,0 +1,65 @@
+<title>插入下拉菜单</title><style>
+body{font-size:9pt}
+td{font-size:9pt}
+</style>
+<body bgcolor=eeeeee topmargin=5>
+<Table border=1 cellspacing=0 bordercolorlight=black bordercolordark=white width=300><Tr><Td width=100% valign=top>
+菜单预览:<br/><center>
+<select id=my size=10 style='width:150'>
+<option>默认文本1
+<option>默认文本2
+<option>默认文本3
+</select><br/>
+该列值:<font id=thisvalue></font>
+</td><Td align=center>
+<input type=button value=添加新列 onclick=bon1()><br/>
+<input type=button value=删除此列 onclick=bon2()><br/>
+<input type=button value=修改文本 onclick=bon3()><br/>
+<input type=button value=修改值 onclick=bon4()><br/>
+</td></tr></table>
+允许多重选择: <input type=checkbox onclick="my.multiple=this.checked"><br/>
+列表形式: <input type=radio name=radio1 checked onclick="my.size=10"><br/>
+下拉形式: <input type=radio name=radio1 onclick="my.size=1"><br/>
+不允许用户操作: <input type=checkbox onclick="my.disabled=this.checked"><br/>
+<input type=button value='完成插入' onclick="ok()"><input type=file id=files style='display:none'>
+
+<script>
+function my.onclick(){
+if(my.selectedIndex!=-1){
+str1=my.options[my.selectedIndex].value
+if(str1.length>15)str1=str1.substr(0,15)+"..."
+thisvalue.innerText=str1
+}
+}
+function bon1(){     //添加新列
+var newoption=document.createElement('OPTION')
+newoption.text="新添加列"
+my.options.add(newoption)
+my.options[my.options.length-1].selected=true
+}
+function bon2(){     //删除此列
+str1=my.selectedIndex
+if(str1==-1){alert('请选中需要被删除的菜单列')}else{my.remove(str1)
+if(my.options.length!=0)try{my.options[str1].selected=true}catch(e){}}
+}
+function bon3(){     //修改文本
+str1=my.selectedIndex
+if(str1==-1){alert('请选中需要被修改文本的菜单列')}else{
+mystr=prompt('请输入该菜单列修改以后的文本',my.options[str1].text)
+if(mystr){
+my.options[str1].text=mystr}
+}}
+function bon4(){     //修改值
+str1=my.selectedIndex
+if(str1==-1){alert('请选中需要被修改值的菜单列')}else{
+mystr=prompt('请输入该菜单列修改以后的value值(编程用)',my.options[str1].value)
+if(mystr){
+my.options[str1].value=mystr
+str1=my.options[my.selectedIndex].value
+if(str1.length>15)str1=str1.substr(0,15)+"..."
+thisvalue.innerText=str1
+}}}
+function ok(){
+returnValue=my.outerHTML;window.close()
+}
+</script>

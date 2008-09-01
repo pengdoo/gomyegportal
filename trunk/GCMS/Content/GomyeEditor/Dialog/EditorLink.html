@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<title>插入链接</title>
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Expires" CONTENT="0">
+		<meta http-equiv="Cache-Control" CONTENT="no-cache">
+		<meta http-equiv="Pragma" CONTENT="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=gb2312">
+		<style media="all" type="text/css">
+			body {background-color: buttonface;}
+			td, span, legend {font: icon;}
+			fieldset {border: 1px solid #A1C3ED;}
+			legend {font-weight: bold;}
+			.flatTextBox {border: 1px solid #2E74CF;height: 19px;}
+			.headerText {overflow: hidden;color: #FFFFFF;font-weight: bold;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+			button {background-color: transparent;background-image: url(../Images/buttonTemplate.gif);border: none;width: 87px;height: 22px;}
+			button table tr td {font-weight: bold;text-align: center;vertical-align: middle;padding-bottom: 2px;color: #FFFFFF;filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color='#000000', Positive='true');}
+		</style>
+		<script language="JavaScript" type="text/javascript">var step = 1;</script>
+		<script language="JavaScript" type="text/javascript">
+		<!--
+			function cWzSYj729300(element) {if ((element == null) && (window.event.srcElement.tagName != "TR")) {element = cWzSYj729301(window.event.srcElement, "TD");if (element.cellIndex == 0) {element = element.nextSibling;} else if (element.cellIndex % 2 == 0) {element = element.previousSibling;}}if (element != null) {var background = element.background;if ((element.getAttribute("inactive") != true) &&(background.match(/(Off\.gif)$/i))) {var elements = element.parentNode.childNodes;for (var i=0; i<elements.length; i++) {if ((i == 0) || (i % 2 == 0)) {var image = elements.item(i).childNodes.item(0);image.src = image.src.replace(/((Off)?On(Off)?\.gif)$/i, "$2Off$3.gif");} else {elements.item(i).background = elements.item(i).background.replace(/(On\.gif)$/i, "Off.gif");}}var image = element.previousSibling.childNodes.item(0);image.src = image.src.replace(/(Off\.gif)$/i, "On.gif");image = element.nextSibling.childNodes.item(0);image.src = image.src.replace(/(Off(Off)?\.gif)$/i, "On$2.gif");element.background = background.substring(0, background.length - 7) + "On.gif";if (cWzSYj729300.arguments.length == 0) {eval(element.getAttribute("action"));}}}}
+			function cWzSYj729301(element, name) {while (element != null) {try {if ((element.tagName != null) &&(element.tagName.toUpperCase() == name)) {return element;}element = element.parentNode;} catch (e) {break;}}return null;}
+			function cWzSYj729302(str) {var re1 = /^\s{1,}/i;var re2 = /\s{1,}$/i;return str.replace(re1, "").replace(re2, "");}
+			function cWzSYj729303(id) {try {document.all[id].style.display = "none";} catch (e) {}}
+			function cWzSYj729304(id) {try {document.all[id].style.display = "block";} catch (e) {}}
+			function cWzSYj729305(id) {for (var i=1; ; i++) {if (document.all[id + i] == null) { break; }else { cWzSYj729303(id + i); }}}
+			function cWzSYj729306(id) {for (var i=1; ; i++) {if (document.all[id + i] == null) { break; }else { cWzSYj729304(id + i); }}}
+			function cWzSYj729307() {if (dialogArguments != null) {if (dialogArguments.name != "") {document.all.linkName.value = dialogArguments.name;} else if (dialogArguments.email != "") {document.all.address.value = dialogArguments.email;document.all.subject.value = dialogArguments.subject;} else {var selected = false;document.all.url.value = dialogArguments.href;document.all.titleText.value = dialogArguments.title;var options = document.all.linkType.options;for (var i=1; i<options.length; i++) {var re = new RegExp("^(" + options[i].value + ")", "gi");if (re.test(dialogArguments.href)) {document.all.linkType.selectedIndex = i;selected = true;break;}}if (!selected) {document.all.linkType.selectedIndex = 0;}}document.all.linkTarget.value = dialogArguments.target;}}
+			function cWzSYj729308(control) {var value = document.all.url.value;var index;index = value.indexOf(":");if (index >= 0) {value = value.substring(index + 1);}index = value.indexOf("//");if (index >= 0) {value = value.substring(index + 2);}document.all.url.value = control.value + value;}
+			function cWzSYj729309(provide) {if (provide) {self.dialogHeight = "233px";cWzSYj729306("linkUrlRow");} else {self.dialogHeight = "135px";cWzSYj729305("linkUrlRow");document.all.linkType.selectedIndex = 4;document.all.url.value = "http://";document.all.linkTarget.value = "";}}
+			function cWzSYj729310(control) {document.all.linkTarget.value = control.value;control.selectedIndex = 0;}
+			function cWzSYj729311(number) {document.all["table" + step].style.display = "none";document.all["table" + number].style.display = "block";if (number > 1) {self.dialogHeight = "140px";} else {self.dialogHeight = "204px";}step = number;}
+			function cWzSYj729312() {var linkObject = {href: "",name: "",title: null,target: null,className: null,style: null};if (step == 1) {linkObject.href = document.all.url.value;if (document.all.linkTarget.value != "") {linkObject.target = document.all.linkTarget.value;}if (document.all.titleText.value != "") {linkObject.title = document.all.titleText.value;}} else if (step == 2) {linkObject.name = document.all.linkName.value;linkObject.href = null;} else {linkObject.href = "mailto:" + document.all.address.value;if (document.all.subject.value != "") {linkObject.href += "?subject=" + document.all.subject.value;}}self.returnValue = linkObject;self.close();}
+
+		function openFileDialog()
+		{
+			var result = OpenModalDialog("Modules=Building^SelectDialog", null, 580, 500)
+			if ((result) && (result != ""))
+			{
+				document.all.url.value = result;
+			}
+		}
+		
+		function OpenModalDialog(url, object, width, height)
+		{
+			var cursor = document.body.style.cursor;
+			document.body.style.cursor = "wait";
+			var result = window.showModalDialog(url, object, "status:no; center:yes; help:no; minimize:no; maximize:no; scroll:no; border:thin; statusbar:no; dialogWidth:" + width + "px; dialogHeight:" + height + "px");
+			document.body.style.cursor = cursor;
+			return result;
+		}
+		//-->
+		</script>
+	</head>
+	<body onload="cWzSYj729307()">
+		<table id="mainTable" width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+				<td height="39" valign="bottom" background="../Images/backgroundPattern.gif">
+					<table width="314" height="22" cellpadding="0" cellspacing="0">
+						<tr onclick="cWzSYj729300()">
+							<td width="5"><img src="../Images/tabLeftFirstOn.gif"></td>
+							<td width="80" align="center" action="cWzSYj729311(1)" background="../Images/tabStripeOn.gif"><span style="width:80px" class="headerText" style="cursor:default;">插入链接</span></td>
+							<td width="23"><img src="../Images/tabMiddleOnOff.gif"></td>
+							<td width="100" align="center" action="cWzSYj729311(2)" background="../Images/tabStripeOff.gif"><span style="width:80px" class="headerText" style="cursor:default;">插入Anchor</span></td>
+							<td width="23"><img src="../Images/tabMiddleOffOff.gif"></td>
+							<td width="80" align="center" action="cWzSYj729311(3)" background="../Images/tabStripeOff.gif"><span style="width:80px" class="headerText" style="cursor:default;">插入Email</span></td>
+							<td width="23" id="step1Tab"><img src="../Images/tabRightLastOff.gif"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" height="100%" cellpadding="6" cellspacing="0" ID="Table2">
+						<tr>
+							<td valign="top">
+								<table id="table1" width="100%" cellpadding="3" cellspacing="0" style="display:block">
+									<tr>
+										<td width="70"><label for="url" accesskey="u">地址:</label></td>
+										<td><input type="text" id="url" value="http://" style="width:180px" class="flatTextBox"
+												NAME="url"></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td width="70"><label for="linkType" accesskey="y">类型:</label></td>
+										<td><select id="linkType" style="width:70px" onchange="cWzSYj729308(this)" NAME="linkType"><option value="">(other)</option>
+												<option value="file://">file:</option>
+												<option value="ftp://">ftp:</option>
+												<option value="gopher://">gopher:</option>
+												<option value="http://" selected>http:</option>
+												<option value="https://">https:</option>
+												<option value="news:">news:</option>
+												<option value="telnet:">telnet:</option>
+												<option value="wais:">wais:</option>
+											</select></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td width="70"><label for="linkTarget" accesskey="t">目标:</label></td>
+										<td><input type="text" id="linkTarget" value="" style="width:90px" class="flatTextBox" NAME="linkTarget">&nbsp;<select style="width:87px;height:20px;font:menu" onchange="cWzSYj729310(this)" ID="Select1"
+												NAME="Select1"><option value="">Target</option>
+												<option value="_blank">_blank</option>
+												<option value="_parent">_parent</option>
+												<option value="_self">_self</option>
+												<option value="_top">_top</option>
+											</select></td>
+									</tr>
+									<tr>
+										<td height="5"></td>
+									</tr>
+									<tr>
+										<td width="70"><label for="titleText" accesskey="o">提示:</label></td>
+										<td><input type="text" id="titleText" style="width:180px" class="flatTextBox" NAME="titleText"></td>
+									</tr>
+								</table>
+								<table id="table2" width="100%" cellpadding="3" cellspacing="0" style="display:none">
+									<tr>
+										<td width="70"><label for="linkName" accesskey="n">名称:</label></td>
+										<td><input type="text" id="linkName" value="" style="width:180px" class="flatTextBox" NAME="linkName"></td>
+									</tr>
+								</table>
+								<table id="table3" width="100%" cellpadding="3" cellspacing="0" style="display:none">
+									<tr>
+										<td width="70"><label for="address" accesskey="a">邮件地址:</label></td>
+										<td><input type="text" id="address" value="" style="width:180px" class="flatTextBox" NAME="address"></td>
+									</tr>
+									<tr>
+										<td width="70"><label for="subject" accesskey="s">邮件主题:</label></td>
+										<td><input type="text" id="subject" value="" style="width:180px" class="flatTextBox" NAME="subject"></td>
+									</tr>
+								</table>
+							</td>
+							<td width="90" valign="top"><table cellpadding="0" cellspacing="0" style="display:block">
+									<tr>
+										<td height="4"></td>
+									</tr>
+									<tr>
+										<td><button id="submitButton" onclick="cWzSYj729312()"><table width="100%" height="100%">
+													<tr>
+														<td>插 入</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td height="4"></td>
+									</tr>
+									<tr>
+										<td><button onclick="openFileDialog()" ID="Button1"><table width="100%" height="100%">
+													<tr>
+														<td>浏 览</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td height="4"></td>
+									</tr>
+									<tr>
+										<td><button onclick="self.close()" ID="Button2"><table width="100%" height="100%" ID="Table4">
+													<tr>
+														<td>关 闭</td>
+													</tr>
+												</table>
+											</button>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
