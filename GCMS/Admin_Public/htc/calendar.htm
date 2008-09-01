@@ -1,0 +1,394 @@
+<html>
+
+<head>
+<title>Calendar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+<link rel="stylesheet" type="text/css" href="../Css/calendar.css">
+<link rel="stylesheet" type="text/css" href="../Css/Admin.css">
+
+</head>
+
+<body id="Me">
+<script language="javascript" for="window" event="onload">
+    InitCalendar(mDate.getYear(), mDate.getMonth(), mDate.getDate());
+</script>
+<script language="JavaScript">
+public_description = new public_description_ctor;
+var InScriptlet = (typeof(window.external.version) == "string")
+
+function public_description_ctor() {
+    this.put_Value = put_Value;
+    this.get_Value = get_Value;
+
+    this.event_OnChange = "";   // fires when the value of the calendar changes
+    this.event_NewMonth = "";   // fires when the month changes, always preceded by an OnChange event
+    this.event_NewYear = "";    // fires when the year changes, always preceded by an OnChange event
+                               
+}
+
+mDate = new Date();
+mSelectBackgroundColor = "Gray";
+mStandardBackgroundColor = "White";
+mStandardForeColor = "Black";
+mHeaderColor = "Black";
+mNonCurMonthForeColor = "Silver";
+mHighlightColor = "red";
+mPreviousElement = Me;
+mFirstOfMonthCol = 0;   // X-coord of first of month
+mLastOfMonthCol = 0;    // X-coord of last of month
+mLastOfMonthRow = 0;    // Y-coord of last of month
+
+function InitCalendar(iYear, iMonth, iDay) {
+    
+    CurMonth.innerText = getStringMonth(iMonth);
+    CurMonth.style.color = mHeaderColor;
+    CurYear.innerText = getStringYear(iYear);
+    CurYear.style.color = mHeaderColor;
+
+    mDate.setDate(1);
+    mDate.setMonth(iMonth);
+    if(iYear > 100) {
+	    mDate.setYear(iYear);
+	    iNewSelection = iYear - 1930;
+    } else {
+	    mDate.setYear(1930 + iYear);
+	    iNewSelection = iYear;
+    }
+    
+    document.all("selYear").selectedIndex = iNewSelection;
+    document.all("selMonth").selectedIndex = iMonth;
+
+    iFirstOfMonthCol = mDate.getDay();
+
+    mDate.setDate(iDay);
+    iTmp = iDay + iFirstOfMonthCol - 1;
+
+    iDayRow = Math.floor((iDay + iFirstOfMonthCol - 1) / 7);
+    
+    if (iFirstOfMonthCol == 0) {
+    	// when the first of the month is Sunday, start in the second row
+        iFirstRow = 1;
+	    iDayRow += 1;
+    } else {
+	    iFirstRow = 0;
+    }
+    
+    // de-select the previous element
+    mPreviousElement.style.backgroundColor = mStandardBackgroundColor;
+
+    // once the column of the first of the month is known, the whole calendar can be populated
+    iDaysInMonth = getDaysInMonth(iMonth, iYear);
+
+    for(iCurRow = iFirstRow, iCurCol = iFirstOfMonthCol, iDayIndex = 1; iDayIndex <= iDaysInMonth; iDayIndex += 1, iCurCol += 1) {
+	    if(iCurCol > 6) {
+	        iCurCol = 0;
+            iCurRow += 1;
+        }
+        
+	    document.all("Cell" + iCurCol + iCurRow).innerText = iDayIndex;
+	    document.all("Cell" + iCurCol + iCurRow).style.color = mStandardForeColor;
+    }
+    
+    // store the locations of the first and last days of the month in the grid
+    mFirstOfMonthCol = iFirstOfMonthCol;
+    mLastOfMonthCol = (iCurCol + 6) % 7;
+    if(iCurCol == 0)
+    	mLastOfMonthRow = iCurRow - 1;
+    else
+        mLastOfMonthRow = iCurRow;
+ 
+    // populate the empty sections of the grid with the next and previous months' days
+    for(iDayIndex = 1; iCurRow <= 4 || iCurCol <= 6; iCurCol += 1, iDayIndex += 1) {
+	    if(iCurCol > 6) {
+	        iCurCol = 0;
+	        iCurRow += 1;
+	    }
+    
+        document.all("Cell" + iCurCol + iCurRow).innerText = iDayIndex;
+	    document.all("Cell" + iCurCol + iCurRow).style.color = mNonCurMonthForeColor;
+    }
+
+    iPrevMonth = (mDate.getMonth() + 11) % 12;
+    iPrevMonthLastDay = getDaysInMonth(iPrevMonth, mDate.getYear());    
+    
+    for(iDayIndex = iPrevMonthLastDay, iCurRow = 0, iCurCol = (mFirstOfMonthCol + 6) % 7; iCurCol >= 0; iCurCol -= 1, iDayIndex -=1) {
+	    document.all("Cell" + iCurCol + iCurRow).innerText = iDayIndex;
+	    document.all("Cell" + iCurCol + iCurRow).style.color = mNonCurMonthForeColor;
+    }
+    	
+    iDayCol = mDate.getDay();
+
+    // highlight the date in the calendar
+    document.all("Cell" + iDayCol + iDayRow).style.backgroundColor = mSelectBackgroundColor;
+    mPreviousElement = document.all("Cell" + iDayCol + iDayRow);
+   
+}
+
+function put_Value(stDate) {
+    // parse the string for the month, day, and year, and call InitCalendar
+    
+	mDate.setTime(Date.parse(stDate));
+    InitCalendar(mDate.getYear(), mDate.getMonth(), mDate.getDate());
+
+}
+
+function get_Value() {
+    iMonth = mDate.getMonth() + 1;
+    iYear = mDate.getYear();
+       
+    return iYear + "-" + iMonth + "-" + mDate.getDate();
+}
+
+function monthChange() {
+    mDate.setMonth(document.all("selMonth").selectedIndex);
+    InitCalendar(mDate.getYear(), mDate.getMonth(), mDate.getDate());
+    
+    if (InScriptlet) { 
+      window.external.raiseEvent("OnChange", window.event); 
+      window.external.raiseEvent("NewMonth", window.event);
+    }
+}
+
+function selYearChange() {
+    // to set the year, add 1900 + 70 because the 0th element of the <select> tag has value 70
+    mDate.setYear(1900 + document.all("selYear").selectedIndex);
+    InitCalendar(mDate.getYear(), mDate.getMonth(), mDate.getDate());
+    if (InScriptlet) {
+      window.external.raiseEvent("OnChange", window.event);
+      window.external.raiseEvent("NewYear", window.event);
+    }
+    
+}
+
+function getDaysInMonth(iMonth, iYear) {
+    if(iMonth == 1) {
+	    if(iYear%4 == 0 && !(iYear%100 == 0) || iYear%400 == 0)
+	        return 29;
+        else
+	        return 28;
+        }
+    else if(iMonth == 3 || iMonth == 5 || iMonth == 8 || iMonth == 10)
+	    return 30;
+    else 
+	    return 31;
+
+}
+
+function getStringYear(iYear) {
+    if(iYear > 100)
+		return(iYear);
+    else
+		return (1930 + iYear);
+}
+
+
+function getStringMonth(iMonth) {
+  var monthArray = new Array("一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月");
+  return monthArray[iMonth];
+}
+
+function CalendarClick() {
+    current = window.event.srcElement;
+    if (IsValidCurMonthElement(current)) {
+        clickedDay = current.innerText;
+	    if(clickedDay != mDate.getDate()) {
+            mPreviousElement.style.backgroundColor = mStandardBackgroundColor;
+    	    current.style.color = mStandardForeColor;
+    	    current.style.backgroundColor = mSelectBackgroundColor;
+    	    mPreviousElement = current;
+            mDate.setDate(clickedDay); 
+            if (InScriptlet) { window.external.raiseEvent("OnChange", window.event); }
+	    }
+    } 
+    if (InScriptlet) { window.external.bubbleEvent(); }
+}
+
+function IsValidCurMonthElement(el) {
+    retVal = false;
+    if(el.id.substring(0, 4) == "Cell") {
+	    iCol = el.id.substring(4, 5);
+	    iRow = el.id.substring(5, 6);
+    	    
+	    if(iRow == 0) {
+	        if(0 < mFirstOfMonthCol && mFirstOfMonthCol <= iCol)
+		        retVal = true;
+            } else if (iRow < mLastOfMonthRow || (iRow == mLastOfMonthRow && iCol <= mLastOfMonthCol))
+		        retVal = true;
+    }
+    return retVal;
+}
+
+
+</script>
+<!-- JCan add "onmousedown=external.bubbleEvent() onmouseup=external.bubbleEvent()" if interested. -->
+
+<table width="250" onclick="CalendarClick()" border="0" class="DialogTab" cellpadding="4" cellspacing="0">
+  <tr>
+    <th align="center" colspan="3" width="43%"><span id="CurMonth">month and</span> <span
+    id="CurYear">year</span>年</th>
+    <th align="center" colspan="2" width="29%"><select id="selMonth" name="selMonth"
+    onchange="monthChange()" size="1">
+      <option value="0">一月</option>
+      <option value="1">二月</option>
+      <option value="2">三月</option>
+      <option value="3">四月</option>
+      <option value="4">五月</option>
+      <option value="5">六月</option>
+      <option value="6">七月</option>
+      <option value="7">八月</option>
+      <option value="8">九月</option>
+      <option value="9">十月</option>
+      <option value="10">十一月</option>
+      <option value="11">十二月</option>
+    </select></th>
+    <th align="center" colspan="2" width="28%"><select id="selYear" name="selYear"
+    onchange="selYearChange()" size="1">
+      <option value="30">1930</option>
+      <option value="31">1931</option>
+      <option value="32">1932</option>
+      <option value="33">1933</option>
+      <option value="34">1934</option>
+      <option value="35">1935</option>
+      <option value="36">1936</option>
+      <option value="37">1937</option>
+      <option value="38">1938</option>
+      <option value="39">1939</option>
+      <option value="40">1940</option>
+      <option value="41">1941</option>
+      <option value="42">1942</option>
+      <option value="43">1943</option>
+      <option value="44">1944</option>
+      <option value="45">1945</option>
+      <option value="46">1946</option>
+      <option value="47">1947</option>
+      <option value="48">1948</option>
+      <option value="49">1949</option>
+      <option value="50">1950</option>
+      <option value="51">1951</option>
+      <option value="52">1952</option>
+      <option value="53">1953</option>
+      <option value="54">1954</option>
+      <option value="55">1955</option>
+      <option value="56">1956</option>
+      <option value="57">1957</option>
+      <option value="58">1958</option>
+      <option value="59">1959</option>
+	  <option value="60">1960</option>
+      <option value="61">1961</option>
+      <option value="62">1962</option>
+      <option value="63">1963</option>
+      <option value="64">1964</option>
+      <option value="65">1965</option>
+      <option value="66">1966</option>
+      <option value="67">1967</option>
+      <option value="68">1968</option>
+      <option value="69">1969</option>
+	  <option value="70">1970</option>
+      <option value="71">1971</option>
+      <option value="72">1972</option>
+      <option value="73">1973</option>
+      <option value="74">1974</option>
+      <option value="75">1975</option>
+      <option value="76">1976</option>
+      <option value="77">1977</option>
+      <option value="78">1978</option>
+      <option value="79">1979</option>
+      <option value="80">1980</option>
+      <option value="81">1981</option>
+      <option value="82">1982</option>
+      <option value="83">1983</option>
+      <option value="84">1984</option>
+      <option value="85">1985</option>
+      <option value="86">1986</option>
+      <option value="87">1987</option>
+      <option value="88">1988</option>
+      <option value="89">1989</option>
+      <option value="90">1990</option>
+      <option value="91">1991</option>
+      <option value="92">1992</option>
+      <option value="93">1993</option>
+      <option value="94">1994</option>
+      <option value="95">1995</option>
+      <option value="96">1996</option>
+      <option value="97">1997</option>
+      <option value="98">1998</option>
+      <option value="99">1999</option>    
+      <option value="100">2000</option>
+      <option value="101">2001</option>
+      <option value="102">2002</option>
+      <option value="103">2003</option>
+      <option value="104">2004</option>
+      <option value="105">2005</option>
+      <option value="106">2006</option>
+      <option value="107">2007</option>
+      <option value="108">2008</option>
+      <option value="109">2009</option>
+      <option value="110">2010</option>
+    </select> </th>
+  </tr>
+  <tr id="DayHeaders">
+    <th align="center" width="14%">日</th>
+    <th align="center" width="14%">一</th>
+    <th align="center" width="14%">二</th>
+    <th align="center" width="14%">三</th>
+    <th align="center" width="14%">四</th>
+    <th align="center" width="14%">五</th>
+    <th align="center" width="14%">六</th>
+  </tr>
+  <tr>
+    <td id="Cell00" align="center" id="r1c1" width="14%">&nbsp;</td>
+    <td id="Cell10" align="center" id="r1c2" width="14%">&nbsp;</td>
+    <td id="Cell20" align="center" id="r1c3" width="14%">&nbsp;</td>
+    <td id="Cell30" align="center" id="r1c4" width="14%">&nbsp;</td>
+    <td id="Cell40" align="center" id="r1c5" width="14%">&nbsp;</td>
+    <td id="Cell50" align="center" id="r1c6" width="14%">&nbsp;</td>
+    <td id="Cell60" align="center" id="r1c7" width="14%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="Cell01" align="center" width="14%">&nbsp;</td>
+    <td id="Cell11" align="center" width="14%">&nbsp;</td>
+    <td id="Cell21" align="center" width="14%">&nbsp;</td>
+    <td id="Cell31" align="center" width="14%">&nbsp;</td>
+    <td id="Cell41" align="center" width="14%">&nbsp;</td>
+    <td id="Cell51" align="center" width="14%">&nbsp;</td>
+    <td id="Cell61" align="center" width="14%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="Cell02" align="center" width="14%">&nbsp;</td>
+    <td id="Cell12" align="center" width="14%">&nbsp;</td>
+    <td id="Cell22" align="center" width="14%">&nbsp;</td>
+    <td id="Cell32" align="center" width="14%">&nbsp;</td>
+    <td id="Cell42" align="center" width="14%">&nbsp;</td>
+    <td id="Cell52" align="center" width="14%">&nbsp;</td>
+    <td id="Cell62" align="center" width="14%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="Cell03" align="center" width="14%">&nbsp;</td>
+    <td id="Cell13" align="center" width="14%">&nbsp;</td>
+    <td id="Cell23" align="center" width="14%">&nbsp;</td>
+    <td id="Cell33" align="center" width="14%">&nbsp;</td>
+    <td id="Cell43" align="center" width="14%">&nbsp;</td>
+    <td id="Cell53" align="center" width="14%">&nbsp;</td>
+    <td id="Cell63" align="center" width="14%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="Cell04" align="center" width="14%">&nbsp;</td>
+    <td id="Cell14" align="center" width="14%">&nbsp;</td>
+    <td id="Cell24" align="center" width="14%">&nbsp;</td>
+    <td id="Cell34" align="center" width="14%">&nbsp;</td>
+    <td id="Cell44" align="center" width="14%">&nbsp;</td>
+    <td id="Cell54" align="center" width="14%">&nbsp;</td>
+    <td id="Cell64" align="center" width="14%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="Cell05" align="center" width="14%">&nbsp;</td>
+    <td id="Cell15" align="center" width="14%">&nbsp;</td>
+    <td id="Cell25" align="center" width="14%">&nbsp;</td>
+    <td id="Cell35" align="center" width="14%">&nbsp;</td>
+    <td id="Cell45" align="center" width="14%">&nbsp;</td>
+    <td id="Cell55" align="center" width="14%">&nbsp;</td>
+    <td id="Cell65" align="center" width="14%">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
