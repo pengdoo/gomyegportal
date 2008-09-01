@@ -156,6 +156,7 @@ public partial class Content_Config_ChannelAdd : GCMS.PageCommonClassLib.PageBas
             _Content_FieldsName.Create();
             _ContentTable.TableName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
             Tools.DoSql(_ContentTable.cCreateTable());
+            //Tools.UpdateMaxID("FieldsName_ID");
         }
         Response.Redirect("Config_ChannelView.aspx");
 

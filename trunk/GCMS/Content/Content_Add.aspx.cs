@@ -628,9 +628,12 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 sql1 = sql1 + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
+                Content_ID++;
                 sql2 = sql2 + Content_ID + "," + int.Parse(this.LabelTypeID.Text) + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
                 sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
+                
                 Tools.DoSql(sqlcc);
+                Tools.UpdateMaxID("Content_ID");
             }
             else
             {
