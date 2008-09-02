@@ -41,7 +41,7 @@ namespace GCMSContentCreate
         public string ListLastID;
         public int PageID = 0;
 
-
+        public string UserWhere;
         //-----------------------------------------------------------
         //ÄÚÈÝ®¹
         //-----------------------------------------------------------
@@ -464,7 +464,7 @@ namespace GCMSContentCreate
             }
 
             //sql = "SELECT Top " & ListTop & " Content_ID,Name,Url,OrderNum FROM Content_Content WHERE TypeTree_ID =" & ChannelID.ToString() & strListLastID & " and status = 4 or Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " & ChannelID.ToString() & ") order by AtTop desc ,OrderNum desc"
-            sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 order by " + Order;
+            sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 "+UserWhere+" order by " + Order;
             myReader = Tools.DoSqlReader(sql);
             while (myReader.Read())
             {
@@ -610,7 +610,7 @@ namespace GCMSContentCreate
 
             // sql = "SELECT Top " & intTop.ToString() & " Content_ID,Name ,Url ,TypeTree_ID FROM Content_Content WHERE TypeTree_ID in (" & GetChannelID & ") and Head_news = '1' and Status = 4 order by " & Orderby
             // sql = "SELECT Top " & intTop.ToString() & " Content_Content.Content_ID,Name ,Url ,Content_Content.TypeTree_ID FROM Content_Content,Content_Commend WHERE (Content_Content.TypeTree_ID in (" & GetChannelID & ") or Content_Commend.TypeTree_ID in (" & GetChannelID & ")) and Content_Content.Content_ID = Content_Commend.Content_ID and Head_news = '1' and Status = 4 order by " & Orderby
-            sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 order by " + Orderby;
+            sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
             myReader = Tools.DoSqlReader(sql);
 
             while (myReader.Read())
@@ -785,6 +785,13 @@ namespace GCMSContentCreate
             //return null;
         }
 
+        private string GetUserWhere()
+        {
+            if (String.IsNullOrEmpty(this.UserWhere))
+                return "";
+            else
+                return " and " + this.UserWhere;
+        }
         [Guid("C23A58D7-3DC4-4524-A5D9-EFD741136830")]
         [ComVisible(true)]
         [ClassInterface(ClassInterfaceType.AutoDispatch)]
@@ -850,5 +857,5 @@ namespace GCMSContentCreate
         }
     }
 
-
+    
 }

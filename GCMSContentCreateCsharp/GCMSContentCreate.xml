@@ -4,5 +4,12 @@
         <name>GCMSContentCreate</name>
     </assembly>
     <members>
+        <member name="M:GCMSContentCreate.TemplateSystem.PreDealUserWhere(System.String)">
+            <summary>
+            处理用户筛选设置
+            </summary>
+            <param name="Template_String"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
