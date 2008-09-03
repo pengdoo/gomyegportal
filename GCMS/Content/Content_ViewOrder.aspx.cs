@@ -178,7 +178,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     {
                         //Change By Galen Mu  2008.8.25
                         //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("Update Content_Content set Status = '-1' where Content_ID = " + ops[j].ToString());
+                        Tools.DoSql("Update "+FieldsName+" set Status = '-1' where Content_ID = " + ops[j].ToString());
                         PushSystem(TypeTree_ID, int.Parse(ops[j].ToString()));
                     }
                 }

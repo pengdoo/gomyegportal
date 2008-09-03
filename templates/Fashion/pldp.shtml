@@ -1,0 +1,107 @@
+<div class="contents W260" style ="height:400px">
+	<div class="top">
+	<img src="/Public/Images_Public/default_04.gif" width="8" height="8" class="top_left">
+	<img src="/Public/Images_Public/default_03.gif" width="8" height="8" class="top_right">
+	</div>
+	<div>
+	<div class="content_left"></div>
+	<div class="contents">
+	
+		<div id="cloth_plfp" class="top6">
+		<ul>
+		<li class="cloth_more_left"></li>
+		<li class="cloth_t">品类搭配</li>
+		<li class="cloth_more_t cloth_more_t1">&nbsp;&nbsp;</li>
+		</ul>
+		</div>
+		<div id="cloth_plfp_border">
+
+		<div id="cloth_plfp_title">
+		<ul>
+		   <li><a href="/content/fashion/Sweater_list.shtml">毛衣 </a></li>
+			<li><a href="/content/fashion/jacket_list.shtml">外套 </a></li>
+			<li><a href="/content/fashion/boots_list.shtml">针织衫靴子</a></li>
+			<li><a href="/content/fashion/Dress_list.shtml">连衣裙裤子</a></li>
+			<li><a href="/content/fashion/shirt_list.shtml">T恤</a></li>
+			<li><a href="/content/fashion/Cowboy_list.shtml">牛仔</a></li>
+			<li><a href="/content/fashion/shoes_list.shtml">围巾鞋子</a></li>
+			<li><a href="/content/fashion/Jewelry_list.shtml">饰品</a></li>
+			<li><a href="/content/fashion/Socks_list.shtml">袜子</a></li>
+			<li><a href="/content/fashion/bags_list.shtml">内衣包包</a></li>
+			<li><a href="/content/fashion/Hat_list.shtml">帽子</a></li>
+		</ul>
+		</div>
+		<div class="clear"></div>
+		<div id="cloth_plfp_pic">
+		<!--%
+		'头条新闻
+		Gcms.GetChannel = 84
+		For Each Item In GCMS.Top(5)
+		GCMS.ContentID = Item.ContentID
+		%-->
+		<ul>
+		<li><a href="<!--% Response.Output GCMS.Content("Url") %-->"><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="120" height="160" alt="" /></a></li>
+		<li><span><a href="<!--% Response.Output GCMS.Content("Url") %-->"><!--%
+		if len(GCMS.Content("Name"))>9 then Response.Output left(GCMS.Content("Name"),8) & "..." else Response.Output GCMS.Content("Name") end if
+		%--></a></span></li>
+		</ul>
+		<!--%
+		next
+		Gcms.GetChannelOver
+		%--> 
+
+		</div>
+		<div class="clear"></div>
+		<div id="cloth_fsdp_list">
+		<div class="cloth_fsdp_list2">
+		<div style="margin:10px auto 10px 20px;">
+		<table width="210" border="0" cellspacing="0" cellpadding="0">
+		  <tr>
+
+		  <!--%
+		ix=0
+		i=0
+		Gcms.GetChannel = 84
+		For Each Item In GCMS.Top(9)
+		GCMS.ContentID = Item.ContentID
+		ix=ix+1
+		i=i+1
+		%-->    <td class="cloth_fsdp_list_bg">  
+		<table width="120" border="0" cellpadding="0" cellspacing="0">
+
+		  <tr>
+
+			<td width="16" align="center"><img src="/public/Images_Public/cloth_fsdp_list_icon.gif" width="3" height="3" vspace="4" /></td>
+			<td width="204" height="21"><a href='<!--%Response.Output GCMS.Content("Url")%-->' class="white"><!--%
+		if len(GCMS.Content("Name"))>20 then Response.Output left(GCMS.Content("Name"),19) & "..." else Response.Output GCMS.Content("Name") end if
+		%--></a></td>
+
+		  </tr>
+
+		</table></td>  <!--%
+		if i=3 then
+		Response.Output "</tr><tr>"
+		i=0
+		end if
+		%-->
+		<!--%
+		next
+		Gcms.GetChannelOver
+		%-->
+
+		  </tr>
+		</table>
+		</div>
+
+
+	</div>
+	<div class="content_right"></div>
+	
+
+	<div class="bottom" style ="width:260px">
+	<img src="/Public/Images_Public/default_01.gif" width="8" height="8" class="top_left">
+	<img src="/Public/Images_Public/default_02.gif" width="8" height="8" class="top_right">
+	</div>
+	</div>
+
+</div>

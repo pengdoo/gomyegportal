@@ -55,7 +55,17 @@ namespace GCMSContentCreate
 			GCMS._ChannelID = TypeTree_ID;
 			//string Item;
             GCMS.UserWhere = PreDealUserWhere( Template_String);//Change By Galen 2008.9.1
-            Template_String = PreDeal(Template_String);
+            string bgStr = "<!--%SelectSetBegin";
+            string edStr = "SelectSetend%-->";
+            //找第一个开始标记
+            int pbg = Strings.InStr(1, Template_String, bgStr, 0);
+            int ped = Strings.InStr(1, Template_String, edStr, 0);
+            if (pbg != 0)
+            {
+                Template_String = Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg+edStr.Length), "");
+
+            }
+                Template_String = PreDeal(Template_String);
             //Template_String = Template_String.Replace("\r\n", "");
 			Template_String = "function Main(d)" +"\r\n"+ Template_String;
             Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
@@ -114,22 +124,25 @@ namespace GCMSContentCreate
             //找第一个开始标记
             pbg = Strings.InStr(1, Template_String, bgStr, 0);
             ped = Strings.InStr(1, Template_String, edStr, 0);
+            //Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg), "");
             if (ped == 0) //如果找不到反括号了
             {
-                Information.Err().Raise(555, "", "Can not find SelectSetend%-->", null, null);
+                //Information.Err().Raise(555, "", "Can not find SelectSetend%-->", null, null);
                 return "";
             }
             //删除模板中定义段
-            Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg),"");
+            
             //获取到用户设置的字符串
             try
             {
                 string orgSetString = Template_String.Substring(pbg - 1, ped - pbg).Replace(bgStr, "").Replace(edStr, "");
+                orgSetString = orgSetString.Replace("\r\n", "");
                 string[]sets=orgSetString.Split(',');
                 string sql=string.Empty;
                 foreach (string set in sets)
                 {
-                    string setStr = set.TrimStart('[').TrimEnd(']');
+                    string setStr = set.Replace("[","");
+                    setStr = setStr.Replace("]","");
                     string[] paramStrs = setStr.Split(':');
                     string colsName = string.Format("[{0}]", paramStrs[0].Trim());
 
@@ -153,16 +166,16 @@ namespace GCMSContentCreate
                             break;
                     }
 
-                    string selectValue = paramStrs[1].Trim().Substring(1);
+                    string selectValue = paramStrs[1].Trim();
                     //防注入
-                    string forbidenStrs = "|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare| ";
+                    string forbidenStrs = "and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare| ";
                     foreach (string fs in forbidenStrs.Split('|'))
                     {
                         selectValue = selectValue.Replace(fs, "");
                     }
                     foreach(string sv in selectValue.Split('$'))
                     {
-                        sql += string.Format("{0} {1} {2} or  ", colsName, opStr, selectValue);
+                        sql += string.Format("{0} {1} {2} or  ", colsName, opStr, sv);
                     }
                     sql+="'1'='2'";//恒否的表达式，拼接 or串 
                     returnValue+=string.Format("({0}) and ",sql);
@@ -170,7 +183,7 @@ namespace GCMSContentCreate
             }
             catch(Exception exps)
             {   
-                Information.Err().Raise(555, "", "Select Setting Format Error:"+exps.Message+"!", null, null);
+                //Information.Err().Raise(555, "", "Select Setting Format Error:"+exps.Message+"!", null, null);
                 return "";
             }
             returnValue+="'1'='1'";//恒真的表达式，拼接 and 串 
@@ -193,7 +206,16 @@ namespace GCMSContentCreate
 			GCMS._ChannelID = TypeTree_ID;
 			//string Item;
             GCMS.UserWhere = PreDealUserWhere( Template_String);//Change By Galen 2008.9.1
-			Template_String = PreDeal(Template_String);
+            string bgStr = "<!--%SelectSetBegin";
+            string edStr = "SelectSetend%-->";
+            //找第一个开始标记
+            int pbg = Strings.InStr(1, Template_String, bgStr, 0);
+            int ped = Strings.InStr(1, Template_String, edStr, 0);
+            if (pbg != 0)
+            {
+                Template_String = Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg+edStr.Length), "");
+            }
+             Template_String = PreDeal(Template_String);
 			
 			Template_String = "function Main(d)" + "\r\n" + Template_String;
 			Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
