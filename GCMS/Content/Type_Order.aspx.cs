@@ -134,7 +134,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                     }
 
                 }
-
+                PushSystemAll(TypeTree_ID);//附带发布
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -193,6 +193,10 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                 MakepreCopyChannel(TypeTree_ID, TypeTree_ParentID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
+            case "PushOnlyLinks":
+                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
+                PushSystemAll(TypeTree_ID);//附带发布
+                break;
         }
     }
 
@@ -225,6 +229,12 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
         //_CreateFiles.CreateChannelFiles(_ContentCls.TypeTree_ID,Content_ID,UrlString(_Type_TypeTree.TypeTreeListTemplate),UrlString(_Type_TypeTree.TypeTreeListURL),_Type_TypeTree.Listamount,_Type_TypeTree.TypeTreeListURL);
         _CreateFiles.CreateChannelFiles(_ContentCls.TypeTree_ID);
         _CreateFiles.CreateLinkPushFiles(_ContentCls.TypeTree_ID);
+
+    }
+    private void PushSystemAll(int TypeTree_ID)
+    {
+        _CreateFiles.CreateChannelFiles(TypeTree_ID);
+        _CreateFiles.CreateLinkPushFiles(TypeTree_ID);
 
     }
 

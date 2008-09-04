@@ -54,18 +54,8 @@ namespace GCMSContentCreate
 			GCMS.ChannelID = TypeTree_ID;
 			GCMS._ChannelID = TypeTree_ID;
 			//string Item;
-            GCMS.UserWhere = PreDealUserWhere( Template_String);//Change By Galen 2008.9.1
-            string bgStr = "<!--%SelectSetBegin";
-            string edStr = "SelectSetend%-->";
-            //找第一个开始标记
-            int pbg = Strings.InStr(1, Template_String, bgStr, 0);
-            int ped = Strings.InStr(1, Template_String, edStr, 0);
-            if (pbg != 0)
-            {
-                Template_String = Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg+edStr.Length), "");
-
-            }
-                Template_String = PreDeal(Template_String);
+            
+            Template_String = PreDeal(Template_String);
             //Template_String = Template_String.Replace("\r\n", "");
 			Template_String = "function Main(d)" +"\r\n"+ Template_String;
             Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
@@ -205,16 +195,7 @@ namespace GCMSContentCreate
 			GCMS.ChannelID = TypeTree_ID;
 			GCMS._ChannelID = TypeTree_ID;
 			//string Item;
-            GCMS.UserWhere = PreDealUserWhere( Template_String);//Change By Galen 2008.9.1
-            string bgStr = "<!--%SelectSetBegin";
-            string edStr = "SelectSetend%-->";
-            //找第一个开始标记
-            int pbg = Strings.InStr(1, Template_String, bgStr, 0);
-            int ped = Strings.InStr(1, Template_String, edStr, 0);
-            if (pbg != 0)
-            {
-                Template_String = Template_String.Replace(Template_String.Substring(pbg - 1, ped - pbg+edStr.Length), "");
-            }
+          
              Template_String = PreDeal(Template_String);
 			
 			Template_String = "function Main(d)" + "\r\n" + Template_String;

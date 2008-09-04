@@ -67,7 +67,13 @@
 			function AllPush()
 			{					
 				var argu = "dialogWidth:28em; dialogHeight:10em;center:yes;status:no;help:no";
-				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=AllPush&TypeTree_ID="+Form1.txtTypeTree_ID.value,"设置目录属性",argu);
+				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=AllPush&TypeTree_ID="+Form1.txtTypeTree_ID.value,"全部生成",argu);
+			}
+			
+			function PushLinks()
+			{					
+				var argu = "dialogWidth:28em; dialogHeight:10em;center:yes;status:no;help:no";
+				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=PushOnlyLinks&TypeTree_ID="+Form1.txtTypeTree_ID.value,"生成附带发布列表",argu);
 			}
 						
 
@@ -357,12 +363,12 @@ function selectContent(curcontent){
 					</td>
 				</tr>
 			</table>
-			<asp:Panel id="Panel1" runat="server" Visible="False">
+			<asp:Panel id="Panel1" runat="server" Visible="False"  >
 				<br/>
-				<TABLE class="DialogTab" cellSpacing="0" cellPadding="0" width="98%" align="center" border="0">
+				<TABLE class="DialogTab" cellSpacing="0" cellPadding="0" width="98%" align="center" Height="150" border="0">
 					<tr>
 						<TD>
-							<TABLE class="TopTitle" cellSpacing="0" cellPadding="0" width="100%" border="0">
+							<TABLE class="TopTitle" cellSpacing="0" cellPadding="0" width="100%"  border="0">
 								<tr>
 									<TD width="1"><IMG src="../Admin_Public/Images/Icon_File_New.gif"></TD>
 									<TD><FONT color="#ffffff">附带发布</FONT></TD>
@@ -379,10 +385,11 @@ function selectContent(curcontent){
 									<TD></TD>
 								</tr>
 							</TABLE>
-							<DIV class="DivListView" id="scrollDiv" align="center">
+							<DIV class="DivListView" id="scrollDiv" align="center" >
+
 								<DIV class="listView" id="listView" align="center">
 									<asp:datagrid id="xpTable" runat="server" AutoGenerateColumns="false" OnItemDataBound="ItemDataBound"
-										GridLines="None" HeaderStyle-CssClass="headerTable" CssClass="item" BackColor="White">
+										GridLines="None" HeaderStyle-CssClass="headerTable" CssClass="item" BackColor="White"  >
 										<Columns>
 											<asp:TemplateColumn HeaderText="ID">
 												<HeaderStyle CssClass="id"></HeaderStyle>
@@ -403,6 +410,7 @@ function selectContent(curcontent){
 				class="menu">
 				<div class="menuItem" id="newUser" doFunction="FormAddParenthesis();">新建附带发布(<u>N</u>)...</div>
 				<div class="menuItem" id="setPass" doFunction="doRoles();">设置附带发布</div>
+				<div class="menuItem" id="set" doFunction="PushLinks();">单独生成附带发布</div>
 				<hr>
 				<div class="menuItem" id="delUser" doFunction="doDelFile();">删除附带发布</div>
 				<div class="menuItem" id="reFresh" doFunction="RefreshWindow();">刷新</div>
