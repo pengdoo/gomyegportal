@@ -15,6 +15,7 @@
 //       2   2008-8-25 修改UpdateMaxID,QueryMaxID为存储过程调用+
 //           将UpdateSQL改名为DoSql
 //       3   2008-8-29 删除静态消息提示Msg()方法，改用GCMS.PageCommonClassLib.Gsystem.GetSysteStateMsg()
+//       4   2008-9-5 添加FileIn,FileOut函数，并修改其编码识别流程。添加默认编码
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -22,6 +23,8 @@ using System.Data.SqlClient;
 using GCMSClassLib.Content;
 using Gomye.CommonClassLib.Data;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace GCMSClassLib.Public_Cls
 {
@@ -172,24 +175,90 @@ namespace GCMSClassLib.Public_Cls
         public static string UploadName(string filename, string TypeTreePictureURL)
         {
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-            string TmpFile = "";
+            string TmpFile = string.Empty;
 
-            if (filename == "")			//如果没输入上传文件，则返回
+            if (string.IsNullOrEmpty(filename))			//如果没输入上传文件，则返回
             {
-                return "";
+                return string.Empty;
             }
             else
             {
                 string fileExtension = filename.Substring(filename.LastIndexOf("."));
-                int Names = _Type_TypeTree.MakeID("Upload_ID");
-                _Type_TypeTree.UpdateID(Names + 1);
-                TmpFile = TypeTreePictureURL + Names + fileExtension; //改名
+                int maxid = QueryMaxID("Upload_ID");
+                UpdateMaxID("Upload_ID");
+                TmpFile = TypeTreePictureURL + maxid + fileExtension; //改名
             }
             return TmpFile;
         }
 
         #endregion 文件上传相关函数
 
+        #region 页面生成相关函数
+        // 文件读取
+        public static string FilesIn(string TemplatesUrl, string TypeTree_Language)
+        {
+            StringBuilder htmltext = new StringBuilder();
+            try
+            {
+                Encoding encoding=System.Text.Encoding.Default;
+
+                if (!string.IsNullOrEmpty(TypeTree_Language)) 
+                    encoding = System.Text.Encoding.GetEncoding(TypeTree_Language);
+               
+                using (StreamReader sr = new StreamReader(Tools.FilesUrl(TemplatesUrl), encoding))
+                {
+                    String line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        htmltext.AppendLine(line);
+                    }
+                    sr.Close();
+                }
+                return htmltext.ToString();
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        // 文件写入
+        public static bool FilesOut(string FilesUrl, string ContentText, string TypeTree_Language)
+        {
+            try
+            {
+                Encoding encoding = System.Text.Encoding.Default;
+
+                if (!string.IsNullOrEmpty(TypeTree_Language)) encoding = System.Text.Encoding.GetEncoding(TypeTree_Language);
+                File.WriteAllText(Tools.FilesUrl(FilesUrl), ContentText, encoding);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        //列表文件生成
+        public static bool ListFilesOut(string FilesUrl, string ContentText)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(Tools.FilesUrl(FilesUrl), false, System.Text.Encoding.GetEncoding("GB2312")))
+                {
+                    sw.WriteLine(ContentText);
+                    sw.Flush();
+                    sw.Close();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        #endregion 页面生成相关函数
         //DataTable 数据集 20080627
         private static DataTable m_ContentList;
         public static DataTable ContentList

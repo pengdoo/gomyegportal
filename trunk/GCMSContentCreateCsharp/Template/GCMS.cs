@@ -100,10 +100,9 @@ namespace GCMSContentCreate
                         returnValue += string.Format("({0}) and ", sql);
                     }
                 }
-                catch (Exception exps)
+                catch 
                 {
-                    //Information.Err().Raise(555, "", "Select Setting Format Error:"+exps.Message+"!", null, null);
-                    _userwhere= "";
+                    _userwhere=string.Empty;
                 }
                  returnValue+="'1'='1'";//恒真的表达式，拼接 and 串 
                 returnValue = string.Format(" {0} ", returnValue);

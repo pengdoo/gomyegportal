@@ -1,4 +1,15 @@
-﻿using System;
+﻿//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-8-26
+//
+// 功能描述: 添加文件相关操作
+//
+// 已修改问题:
+// 未修改问题:
+// 修改记录
+//    1 2008-9-4 修改了两个Push的方法，改变引用到CreateFiles.PushList
+//------------------------------------------------------------------------------
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -102,7 +113,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set AtTop = '1' where Content_ID = " + Content_ID);
-                PushSystem(TypeTree_ID, Content_ID);
+                CreateFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -113,7 +124,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set AtTop = NULL where Content_ID = " + Content_ID);
-                PushSystem(TypeTree_ID, Content_ID);
+                CreateFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -160,7 +171,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set OrderNum = " + OrderNum2 + " where Content_ID = " + Content_ID);
-                PushSystem(TypeTree_ID, Content_ID);
+                CreateFiles.PushList(TypeTree_ID);
 
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
@@ -179,9 +190,10 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                         //Change By Galen Mu  2008.8.25
                         //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                         Tools.DoSql("Update "+FieldsName+" set Status = '-1' where Content_ID = " + ops[j].ToString());
-                        PushSystem(TypeTree_ID, int.Parse(ops[j].ToString()));
+                        
                     }
                 }
+                CreateFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -205,7 +217,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     }
                 }
                 if (Content_sID != 0)
-                { PushSystem(TypeTree_ID, Content_sID); };
+                { CreateFiles.PushList(TypeTree_ID); };
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -223,7 +235,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Content set OrderNum = " + OrderNum3 + " where Content_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    PushSystem(TypeTree_ID, myReader.GetInt32(0));
+                    CreateFiles.PushList(TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -243,7 +255,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Content set OrderNum = " + OrderNum4 + " where Content_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    PushSystem(TypeTree_ID, myReader.GetInt32(0));
+                    CreateFiles.PushList(TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -320,7 +332,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                                 Tools.DoSql("insert into Content_Commend (Content_ID,TypeTree_ID) values (" + ops1[j] + "," + cids[i] + ")");
 
                             }
-                            PushChannel(int.Parse(cids[i]));
+                            CreateFiles.PushList(int.Parse(cids[i]));
                         }
                     }
                 }
@@ -497,9 +509,10 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                         //Change By Galen Mu  2008.8.25
                         //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                         Tools.DoSql("Delete Content_Commend where Content_ID = " + ops[j].ToString() + " and Typetree_ID = " + TypeTree_ID);
-                        PushSystem(TypeTree_ID, int.Parse(ops[j].ToString()));
+                       
                     }
                 }
+                CreateFiles.PushList(TypeTree_ID);//Change By Galen Mu  2008.9.4 移出循环
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -507,12 +520,17 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             case "ApprovalRel":
                 //Content_List = Request.QueryString["Content_List"].ToString();
                 TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-                PushChannel(TypeTree_ID);
+                CreateFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
         }
     }
+    private void PushContent(int TypeTree_ID, int Content_ID)
+    {
+        CreateFiles _CreateFiles = new CreateFiles();
+        _CreateFiles.CreateContentFiles(TypeTree_ID, Content_ID);
 
+    }
     private bool MemberUsersInRoles(string Content_ID, string TypeTree_ID)
     {
         SqlDataReader reader = null;
@@ -531,60 +549,6 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             return false;
         }
     }
-
-
-    private void PushContent(int TypeTree_ID, int Content_ID)
-    {
-        //			ContentCls _ContentCls = new ContentCls();
-        CreateFiles _CreateFiles = new CreateFiles();
-        //			Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        //			_ContentCls.Init(Content_ID);
-        //			_Type_TypeTree.Init(_ContentCls.TypeTree_ID);
-        //
-        //			if (_ContentCls.Url == "" || _ContentCls.Url.Equals(null))
-        //			{
-        //				string Url = _Type_TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString());
-        //				_ContentCls.DoSelect("update Content_Content set Url = '"+Url+"' where Content_ID = "+Content_ID);
-        //				_ContentCls.Url = Url;
-        //			}
-        //			int TypeTree_IDs = _ContentCls.TypeTree_ID ;
-        _CreateFiles.CreateContentFiles(TypeTree_ID, Content_ID);
-
-    }
-
-    private void PushSystem(int TypeTree_ID, int Content_ID)
-    {
-
-        //			ContentCls _ContentCls = new ContentCls();
-        CreateFiles _CreateFiles = new CreateFiles();
-        //			Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        //
-        //			_ContentCls.Init(Content_ID);
-        //			_Type_TypeTree.Init(_ContentCls.TypeTree_ID);
-
-        _CreateFiles.CreateChannelFiles(TypeTree_ID);
-        _CreateFiles.CreateLinkPushFiles(TypeTree_ID);
-
-    }
-
-    private void PushChannel(int TypeTree_ID)
-    {
-
-        CreateFiles _CreateFiles = new CreateFiles();
-        Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        _Type_TypeTree.Init(TypeTree_ID);
-
-
-        _CreateFiles.CreateChannelFiles(TypeTree_ID);
-        _CreateFiles.CreateLinkPushFiles(TypeTree_ID);
-
-    }
-
-    private string UrlString(string FilesUrl)
-    {
-        FilesUrl = FilesUrl.Replace("/", "//");
-        FilesUrl = Server.MapPath(FilesUrl);
-        return FilesUrl;
-    }
+   
 
 }

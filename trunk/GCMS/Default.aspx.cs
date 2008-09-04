@@ -30,7 +30,6 @@ public partial class _Default :GCMS.PageCommonClassLib.PageBase
             case EnumTypes.CopyAuthState.Illegal://验证序列号失败
                 GSystem.SystemState = EnumTypes.SystemStates.Nolicensed;
                  Response.Redirect("Logon.aspx");
-                 return;
                 break;
             case EnumTypes.CopyAuthState.Normal://验证序列号成功
                 GSystem.SystemState = EnumTypes.SystemStates.Normal;

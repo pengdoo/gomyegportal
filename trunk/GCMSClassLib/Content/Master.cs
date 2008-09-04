@@ -257,16 +257,9 @@ namespace GCMSClassLib.Content
 			SqlDataReader reader = null;
 			string sql=" select  *  from Content_Master where Master_UserName='" + sMasterUserName + "'";
 			reader= Tools.DoSqlReader(sql);
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 
 		

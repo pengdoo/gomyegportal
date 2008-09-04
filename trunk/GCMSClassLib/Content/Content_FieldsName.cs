@@ -106,16 +106,9 @@ namespace GCMSClassLib.Content
 			SqlDataReader reader = null;
 			string sql=" select FieldsName_ID,FieldsName_Name,FieldsName_State from Content_FieldsName  where FieldsName_ID=" + FieldsName_ID;
 			reader= Tools.DoSqlReader(sql);
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 
 		public System.Collections.ArrayList SelectAll()

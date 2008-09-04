@@ -14,16 +14,22 @@
 //       3   扩展字段TypeAddFields类，应该单独文件列出    
 //       处理办法：新建 TypeAddFields.cs
 //------------------------------------------------------------------------------
+//       4   权限相关的封装应该独立 
+//       处理办法：将RoleConnect等操作RoleConnect表的方法移到RoleConnect.cs中
+//------------------------------------------------------------------------------
+//       4    MakeID函数应该公用，单独封装
+//       处理办法：Tools.QueryMaxId
+//------------------------------------------------------------------------------
 // 未修改问题:
 //       1   Channels函数和TypeTree_Xml的意义？  
 //       3   SelectAllSonTree等函数不能级联递归获取子节点
 //       4   IDSonTypeTree有性能问题，由数据库完成递归过程会较快
-//       5   权限相关的封装应该独立
-//       6   MakeID函数应该公用，单独封装
+//       5    IsExistDoc 方法未完成
 // 修改记录
 //       1   2008-7-9 添加注释
 //       2   2008-7-11 删除CreateTypeTreeXml，UpSchema函数，删除TypeAddFields类
 //       3   2008-8-27 修改数据访问层方法写法
+//       4   2008-9-4 将RoleConnect,Create等操作RoleConnect表的方法移到RoleConnect.cs中。
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -225,7 +231,7 @@ namespace GCMSClassLib.Content
         /// <returns>成功返回true，不成功返回false</returns>
 		public bool Create()
 		{
-			int max_id = QueryMaxTypeTreeID();
+			int max_id =Tools.QueryMaxID("TypeTree_ID");
 			string sql = "insert into Content_Type_TypeTree " +
 				"(TypeTree_ID,TypeTree_ParentID,TypeTree_CName,TypeTree_EName,TypeTree_Explain,"+
 				"TypeTree_OrderNum,TypeTree_Issuance,TypeTree_URL,TypeTree_Template,TypeTree_PictureURL,"+
@@ -248,22 +254,14 @@ namespace GCMSClassLib.Content
 				"'" + this.TypeTree_Language + "'," +
 				this.TypeTree_Type +"," + this.TypeTree_TypeFields +"," + this.TypeTree_ContentFields + ",'"+ this.MailMsg + "'" +
 				")";
-			int reval = Tools.DoSqlRowsAffected(sql);
+			 bool res = Tools.DoSql(sql);
 
 			//同时更新Content_ID表中的TypeTree_ID的值
 			this.TypeTree_ID = max_id;
 
-			Type_TypeTree typeTree = new Type_TypeTree();
-			typeTree.UpdateTypeTreeID(max_id+1);
+            Tools.UpdateMaxID("TypeTree_ID");
 		    // #此处含有可优化的内容, 重构时注意#
-			if(reval==1)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            return res;
 		}
 		
         /// <summary>
@@ -275,8 +273,6 @@ namespace GCMSClassLib.Content
 		{
 			Type_TypeTree typeTree = new Type_TypeTree();
 			typeTree.Init(TypeTree_ID);			
-
-			SqlDataReader reader = null;
 			int TypeTree_OrderNum = 0;
 			int TypeTree_ParentID = 0;
 			
@@ -286,7 +282,7 @@ namespace GCMSClassLib.Content
 			
 			//得到相关的TypeTree_ID值
 			string strSql = "select TypeTree_ID from Content_Type_TypeTree where TypeTree_OrderNum >" + TypeTree_OrderNum + " AND TypeTree_ParentID=" + TypeTree_ParentID;
-			reader = Tools.DoSqlReader(strSql);
+			SqlDataReader reader  = Tools.DoSqlReader(strSql);
 			while(reader.Read())
 			{	
 				//更新相关的TypeTree_OrderNum值
@@ -327,33 +323,6 @@ namespace GCMSClassLib.Content
             return Tools.DoSql(sql);
 		}
 
-        /// <summary>
-        /// 得到Content_Type_TypeTree表中最大TypeTree_ID
-        /// </summary>
-        /// <returns>返回最大TypeTree_ID值、</returns>
-        public int QueryMaxTypeTreeID()
-        {
-            int Max_Id = 0;
-            SqlDataReader reader = null;
-
-            string sql = "select ID_Number from Content_ID where ID_Name = 'TypeTree_ID'";
-
-            reader = Tools.DoSqlReader(sql);
-
-            if (reader.Read())
-            //if (reader.Equals(null))
-            {
-                Max_Id = Int32.Parse(reader["ID_Number"].ToString());
-            }
-            else
-            {
-                //this.Response.Write ("初始化数据错误！");
-            }
-
-            reader.Close();
-            return Max_Id;
-        }
-
 	    /// <summary>
         /// 根据传入的TypeTree_ID初始化类TypeTree
 	    /// </summary>
@@ -361,14 +330,13 @@ namespace GCMSClassLib.Content
         /// <returns>成功返回true，不成功返回false	</returns>
 		public bool Init(int TypeTree_ID)
 		{
-			SqlDataReader reader = null;
 			string sql = "select TypeTree_ID,TypeTree_ParentID,TypeTree_CName,TypeTree_EName,TypeTree_Explain," +
 				"TypeTree_OrderNum,TypeTree_Issuance,TypeTree_URL,TypeTree_Template,TypeTree_PictureURL,"+
 				"TypeTree_ListTemplate,TypeTree_ListURL,List_amount,TypeTree_Images,isnull(TypeTree_Type,'0') TypeTree_Type,isnull(TypeTree_Language,'GB2312') TypeTree_Language,isnull(TypeTree_Xml,'') TypeTree_Xml, " +
 				"isnull(TypeTree_TypeFields,'0') TypeTree_TypeFields,isnull(TypeTree_ContentFields,'0') TypeTree_ContentFields,MailMsg ,TypeTree_Show ,TypeTree_XMLContent "+
 				"from Content_Type_TypeTree "+
 				"where TypeTree_ID = " + TypeTree_ID;
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader = Tools.DoSqlReader(sql);
 			if(reader.Read())
 			{
 				this.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
@@ -403,14 +371,31 @@ namespace GCMSClassLib.Content
 			}
 
 		}
-
+        private Type_TypeTree InitTypeTreeFromReader(SqlDataReader reader)
+        {
+            Type_TypeTree _typetree = new Type_TypeTree();
+            _typetree.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
+            _typetree.TypeTreeParentID = int.Parse(reader["TypeTree_ParentID"].ToString());
+            _typetree.TypeTreeCName = reader["TypeTree_CName"].ToString();
+            _typetree.TypeTreeEName = reader["TypeTree_EName"].ToString();
+            _typetree.TypeTreeExplain = reader["TypeTree_Explain"].ToString();
+            _typetree.TypeTreeOrderNum = int.Parse(reader["TypeTree_OrderNum"].ToString());
+            _typetree.TypeTreeIssuance = int.Parse(reader["TypeTree_Issuance"].ToString());
+            _typetree.TypeTreeURL = reader["TypeTree_URL"].ToString();
+            _typetree.TypeTreeTemplate = reader["TypeTree_Template"].ToString();
+            _typetree.TypeTreePictureURL = reader["TypeTree_PictureURL"].ToString();
+            _typetree.TypeTreeListTemplate = reader["TypeTree_ListTemplate"].ToString();
+            _typetree.TypeTreeListURL = reader["TypeTree_ListURL"].ToString();
+            _typetree.Listamount = int.Parse(reader["List_amount"].ToString());
+            _typetree.TypeTreeImages = reader["TypeTree_Images"].ToString();
+            return _typetree;
+        }
         /// <summary>
         /// 得到所有的Type_TypeTree对象数组
         /// </summary>
         /// <returns>返回Type_TypeTree对象数组	</returns>
 		public System.Collections.ArrayList SelectAll()		
 		{
-			SqlDataReader reader = null;
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 
 			string sql = "select TypeTree_ID,TypeTree_ParentID,TypeTree_CName,TypeTree_EName,TypeTree_Explain," +
@@ -418,26 +403,10 @@ namespace GCMSClassLib.Content
 				"TypeTree_ListTemplate,TypeTree_ListURL,List_amount,TypeTree_Images " +
 				"from Content_Type_TypeTree ";
 
-			reader = Tools.DoSqlReader(sql);
+            SqlDataReader reader = Tools.DoSqlReader(sql);
 			while(reader.Read())
 			{
-				Type_TypeTree _typetree = new Type_TypeTree();
-				_typetree.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
-				_typetree.TypeTreeParentID = int.Parse(reader["TypeTree_ParentID"].ToString());
-				_typetree.TypeTreeCName = reader["TypeTree_CName"].ToString();
-				_typetree.TypeTreeEName = reader["TypeTree_EName"].ToString();
-				_typetree.TypeTreeExplain = reader["TypeTree_Explain"].ToString();
-				_typetree.TypeTreeOrderNum = int.Parse(reader["TypeTree_OrderNum"].ToString());
-				_typetree.TypeTreeIssuance = int.Parse(reader["TypeTree_Issuance"].ToString());
-				_typetree.TypeTreeURL = reader["TypeTree_URL"].ToString();
-				_typetree.TypeTreeTemplate = reader["TypeTree_Template"].ToString();
-				_typetree.TypeTreePictureURL = reader["TypeTree_PictureURL"].ToString();
-				_typetree.TypeTreeListTemplate = reader["TypeTree_ListTemplate"].ToString();
-				_typetree.TypeTreeListURL = reader["TypeTree_ListURL"].ToString();
-				_typetree.Listamount = int.Parse(reader["List_amount"].ToString());
-				_typetree.TypeTreeImages = reader["TypeTree_Images"].ToString();
-
-				list.Add(_typetree);
+				list.Add(InitTypeTreeFromReader(reader));
 			}
 
 			reader.Close();
@@ -452,7 +421,6 @@ namespace GCMSClassLib.Content
         /// <returns>返回根目录Type_TypeTree对象数组</returns>
 		public System.Collections.ArrayList SelectAllParentTree()		
 		{
-			SqlDataReader reader = null;
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 
 			string sql = "select TypeTree_ID,TypeTree_ParentID,TypeTree_CName,TypeTree_EName,TypeTree_Explain," +
@@ -461,26 +429,10 @@ namespace GCMSClassLib.Content
 				"from Content_Type_TypeTree " +
                 "where TypeTree_ParentID = 0";//#此处有特殊含义数字,重构时注意#
 
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader  = Tools.DoSqlReader(sql);
 			while(reader.Read())
 			{
-				Type_TypeTree _typetree = new Type_TypeTree();
-				_typetree.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
-				_typetree.TypeTreeParentID = int.Parse(reader["TypeTree_ParentID"].ToString());
-				_typetree.TypeTreeCName = reader["TypeTree_CName"].ToString();
-				_typetree.TypeTreeEName = reader["TypeTree_EName"].ToString();
-				_typetree.TypeTreeExplain = reader["TypeTree_Explain"].ToString();
-				_typetree.TypeTreeOrderNum = int.Parse(reader["TypeTree_OrderNum"].ToString());
-				_typetree.TypeTreeIssuance = int.Parse(reader["TypeTree_Issuance"].ToString());
-				_typetree.TypeTreeURL = reader["TypeTree_URL"].ToString();
-				_typetree.TypeTreeTemplate = reader["TypeTree_Template"].ToString();
-				_typetree.TypeTreePictureURL = reader["TypeTree_PictureURL"].ToString();
-				_typetree.TypeTreeListTemplate = reader["TypeTree_ListTemplate"].ToString();
-				_typetree.TypeTreeListURL = reader["TypeTree_ListURL"].ToString();
-				_typetree.Listamount = int.Parse(reader["List_amount"].ToString());
-				_typetree.TypeTreeImages = reader["TypeTree_Images"].ToString();
-
-				list.Add(_typetree);
+                list.Add(InitTypeTreeFromReader(reader));
 			}
 
 			reader.Close();
@@ -494,7 +446,6 @@ namespace GCMSClassLib.Content
         /// <returns>子目录的Type_TypeTree对象数组	</returns>
 		public System.Collections.ArrayList SelectAllSonTree(int typeTreeParentID)		
 		{
-			SqlDataReader reader = null;
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 
 			string sql = "select TypeTree_ID,TypeTree_ParentID,TypeTree_CName,TypeTree_EName,TypeTree_Explain," +
@@ -503,43 +454,14 @@ namespace GCMSClassLib.Content
 				"from Content_Type_TypeTree " +
 				"where TypeTree_ParentID = " + typeTreeParentID ;
 
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader  = Tools.DoSqlReader(sql);
 			while(reader.Read())
 			{
-				Type_TypeTree _typetree = new Type_TypeTree();
-				_typetree.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
-				_typetree.TypeTreeParentID = int.Parse(reader["TypeTree_ParentID"].ToString());
-				_typetree.TypeTreeCName = reader["TypeTree_CName"].ToString();
-				_typetree.TypeTreeEName = reader["TypeTree_EName"].ToString();
-				_typetree.TypeTreeExplain = reader["TypeTree_Explain"].ToString();
-				_typetree.TypeTreeOrderNum = int.Parse(reader["TypeTree_OrderNum"].ToString());
-				_typetree.TypeTreeIssuance = int.Parse(reader["TypeTree_Issuance"].ToString());
-				_typetree.TypeTreeURL = reader["TypeTree_URL"].ToString();
-				_typetree.TypeTreeTemplate = reader["TypeTree_Template"].ToString();
-				_typetree.TypeTreePictureURL = reader["TypeTree_PictureURL"].ToString();
-				_typetree.TypeTreeListTemplate = reader["TypeTree_ListTemplate"].ToString();
-				_typetree.TypeTreeListURL = reader["TypeTree_ListURL"].ToString();
-				_typetree.Listamount = int.Parse(reader["List_amount"].ToString());
-				_typetree.TypeTreeImages = reader["TypeTree_Images"].ToString();
-
-				list.Add(_typetree);
+                list.Add(InitTypeTreeFromReader(reader));
 			}
 
 			reader.Close();
 			return list;
-		}
-
-        
-
-        /// <summary>
-        /// 更新Content_ID表中的TypeTree_ID的值
-        /// </summary>
-        /// <param name="TypeTree_ID">TypeTree_ID的值</param>
-        /// <returns>更新成功，返回true，否则，返回false</returns>
-		public bool UpdateTypeTreeID(int TypeTree_ID)
-		{
-			string sql = "update Content_ID set ID_Number = " + TypeTree_ID + " where (ID_Name = 'TypeTree_ID')";
-            return Tools.DoSql(sql);
 		}
 
         /// <summary>
@@ -628,20 +550,11 @@ namespace GCMSClassLib.Content
         /// <returns>存在子目录，返回true，否则，返回false</returns>
 		public bool IsExistSonType(int TypeTree_ID)
 		{
-			SqlDataReader reader = null;
-			string sql = "select TypeTree_ID from Content_Type_TypeTree where TypeTree_ParentID = " + TypeTree_ID;	
-			reader = Tools.DoSqlReader(sql);
-
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+			string sql = "select TypeTree_ID from Content_Type_TypeTree where TypeTree_ParentID = " + TypeTree_ID;
+            SqlDataReader reader = reader = Tools.DoSqlReader(sql);
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 
         /// <summary>
@@ -651,21 +564,12 @@ namespace GCMSClassLib.Content
         /// <returns>存在文章，返回true，否则，返回false</returns>
 		public bool IsExistDoc(int TypeTree_ID)
 		{
-			SqlDataReader reader = null;
-			string sql = " ";
-			
-			reader = Tools.DoSqlReader(sql);
+            string sql = " ";//#未完成代码#
+            SqlDataReader reader  = Tools.DoSqlReader(sql);
 
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+			bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 
 
@@ -806,15 +710,6 @@ namespace GCMSClassLib.Content
 			}
 
 			reader.Close();
-			
-//			if(!txtIDSonTypeTree.Equals(""))
-//			{
-//				txtIDSonTypeTree = txtIDSonTypeTree;
-//			}
-//			else
-//			{
-//				txtIDSonTypeTree = TypeTree_ID.ToString();
-//			}
 			return txtIDSonTypeTree + TypeTree_ID.ToString();
 		}
 
@@ -877,10 +772,9 @@ namespace GCMSClassLib.Content
 			while(reader.Read())
 			{
 				this.CountContent	= reader["CountContent"].ToString();
-//
+
 				if (! reader["SumContent"].Equals(null))
-					//				{this.SumContent		= "0";}
-					//				else
+
 				{this.SumContent	= reader["SumContent"].ToString();}
 		}
 			reader.Close();
@@ -898,14 +792,13 @@ namespace GCMSClassLib.Content
         /// <returns>当前目录的子目录ID</returns>
 		public int UserCount(string UserName , string startDate ,string endDate)
 		{
-			SqlDataReader reader = null;
 			string sqls ="";
             if (startDate != "0" && endDate != "0")//#此处有特殊含义数字,重构时注意#
 			{
 				sqls = " and (PublishDate between '"+startDate+"'and '"+endDate+"')";
 			}
 			string sql = "select Count(Clicks) as CountContent from Content_Content where Status in (1,2,3,4,5) and Author = '"+UserName+"'"+sqls;
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader = Tools.DoSqlReader(sql);
 			while(reader.Read())
 			{
 				this.CountContent	= reader["CountContent"].ToString();
@@ -918,80 +811,17 @@ namespace GCMSClassLib.Content
         #region 权限相关函数
         // --------判断权限----------------------------------------------------------------------------------------------------------------------------
 
-			//功能：判断权限
-			//输入：TypeTree_ID
-			//输出：存在文章，返回true，否则，返回false
-		public bool IsRolesConnect(int TypeTree_ID,int Roles_ID)
-		{
-				SqlDataReader reader = null;
-				string sql = "select * from Content_RolesConnect where TypeTree_ID = "+TypeTree_ID+" and Roles_ID = "+Roles_ID;
-				reader = Tools.DoSqlReader(sql);
-
-				if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-				else
-			{
-				reader.Close();
-				return false;
-			}
-		}
-
-
-		// 功能：新增数据
-		// 输入：
-		// 输出：成功返回true，不成功返回false
-		public bool CreateRolesConnect(int TypeTree_ID,int Roles_ID)
-		{
-			string sql = "insert into Content_RolesConnect " +
-				"(TypeTree_ID,Roles_ID)"+
-				"values('" + TypeTree_ID + "'," +
-					"'" + Roles_ID + "'" +
-				")";
-            return Tools.DoSql(sql);
-		}
-
-		public int MakeID(string IDName)
-		{
-			SqlDataReader reader = null;
-			int ID_Number = 0;
-			string sql = "select ID_Number from Content_ID where ID_Name = '"+ IDName +"'";
-			reader = Tools.DoSqlReader(sql);
-			if(reader.Read())
-			{
-				ID_Number =  int.Parse(reader["ID_Number"].ToString());
-			}
-			reader.Close();
-			return ID_Number;
-		}
-
-		public bool UpdateID(int ID)
-		{
-			string sql = "update Content_ID set ID_Number = " + ID + " where (ID_Name = 'Upload_ID')";
-            return Tools.DoSql(sql);
-		}
-
 		// 功能：是否具备子节点
 		// 输入：
 		// 输出：成功返回true，不成功返回false
 		public bool HaveSon(int TypeTree_ID)
 		{
-			SqlDataReader reader = null;
 			string sql = "select * from Content_Type_TypeTree where TypeTree_ParentID = "+ TypeTree_ID;
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader  = Tools.DoSqlReader(sql);
             //#此处含有可优化的内容, 重构时注意#
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 
 		// 功能：某权限下是否具备子节点
@@ -999,21 +829,13 @@ namespace GCMSClassLib.Content
 		// 输出：成功返回true，不成功返回false
 		public bool SbHaveSon(int TypeTree_ID,int SessionID)
 		{
-			SqlDataReader reader = null;
 			string sql = "SELECT Content_Type_TypeTree.* FROM Content_Type_TypeTree , Content_RolesConnect WHERE Content_RolesConnect.Roles_ID = "+ SessionID +" and Content_RolesConnect.TypeTree_ID=Content_Type_TypeTree.TypeTree_ID and Content_Type_TypeTree.TypeTree_ParentID= "+TypeTree_ID+" ORDER BY Content_Type_TypeTree.TypeTree_OrderNum";
 
-			reader = Tools.DoSqlReader(sql);
+			SqlDataReader reader = Tools.DoSqlReader(sql);
             //#此处含有可优化的内容, 重构时注意#
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
         #endregion 权限相关函数
     }
