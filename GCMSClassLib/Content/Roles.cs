@@ -125,17 +125,9 @@ namespace GCMSClassLib.Content
 			SqlDataReader reader = null;
 			string sql="select  *  from Content_Roles where Roles_ID=" + rolesID;
 			reader= Tools.DoSqlReader(sql);
-			 
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
 		public System.Collections.ArrayList SelectAll()
 		{

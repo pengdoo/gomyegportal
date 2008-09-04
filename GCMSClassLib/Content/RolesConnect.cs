@@ -10,6 +10,7 @@
 // 修改记录
 //       1   2008-7-10 添加注释
 //       2   2008-8-26 改变数据访问层引用方法的写法
+//       3   
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -26,11 +27,9 @@ namespace ContentClassLib
 	/// </summary>
 	public class RolesConnect
 	{
+        const string SQL_RolesConnectCreate = "insert into Content_RolesConnect(Roles_ID,TypeTree_ID) values({0},{1})";
 		public RolesConnect()
 		{
-			//
-			// TODO: 在此处添加构造函数逻辑
-			//
 		}
 
 		private int m_RolesID;
@@ -52,24 +51,20 @@ namespace ContentClassLib
 		// 输出：成功返回true，不成功返回false
 		public bool Create( )
 		{
-			string sql = "insert into Content_RolesConnect(Roles_ID,TypeTree_ID) values(" + 
-						 this.RolesID + "," + 
-						 this.TypeTree_ID + 
-						 ")";
+			string sql =string.Format(SQL_RolesConnectCreate,  this.RolesID ,this.TypeTree_ID);
             return Tools.DoSql(sql);
 		}
+
+        // 功能：新增数据
+        // 输入：
+        // 输出：成功返回true，不成功返回false
+        public static bool Create(int TypeTree_ID, int Roles_ID)
+        {
+            string sql = string.Format(SQL_RolesConnectCreate, Roles_ID, TypeTree_ID);
+            return Tools.DoSql(sql);
+        }
 		
-		// 功能：新增数据
-		// 输入：rolesID, TypeTree_ID
-		// 输出：成功返回true，不成功返回false
-		public bool Create(int rolesID,int TypeTree_ID)
-		{
-			string sql = "insert into Content_RolesConnect(Roles_ID,TypeTree_ID) values(" + 
-						 rolesID + "," + 
-						 TypeTree_ID +
-						 ")";
-            return Tools.DoSql(sql);		
-		}
+		
 		
 		// 功能：新增数据
 		// 输入：rolesID, TypeTree_ID数组
@@ -79,7 +74,7 @@ namespace ContentClassLib
 			RolesConnect rolesConnect = new RolesConnect();
 			foreach (int i in TypeTree_ID)
 			{
-				rolesConnect.Create(rolesID,i);				
+				Create(rolesID,i);				
 			}			
 			return true;
 		}
@@ -112,7 +107,7 @@ namespace ContentClassLib
 			rolesConnect.Delete(rolesID);
 			foreach (int i in TypeTree_ID)
 			{
-				rolesConnect.Create(rolesID,i);
+				Create(rolesID,i);
 			}			
 			return true;
 		}		
@@ -147,18 +142,25 @@ namespace ContentClassLib
 			SqlDataReader reader = null;
 			string sql=" select  * from  Content_RolesConnect where Roles_ID = " + rolesID + " and TypeTree_ID = " + TypeTree_ID;
 			reader= Tools.DoSqlReader(sql);
-			if(reader.Read())
-			{
-				reader.Close();
-				return true;
-			}
-			else
-			{
-				reader.Close();
-				return false;
-			}
+            bool res = reader.Read();
+            reader.Close();
+            return res;
 		}
-		
+
+        //功能：判断权限
+        //输入：TypeTree_ID
+        //输出：存在文章，返回true，否则，返回false
+        public static bool IsRolesConnect(int TypeTree_ID, int Roles_ID)
+        {
+            SqlDataReader reader = null;
+            string sql = "select * from Content_RolesConnect where TypeTree_ID = " + TypeTree_ID + " and Roles_ID = " + Roles_ID;
+            reader = Tools.DoSqlReader(sql);
+            
+            bool res=reader.Read();
+            reader.Close();
+            return res;  
+        }
+
 		// 功能：根据传入的rolesID得到权限与目录对应的RolesConnect对象数组
 		// 输入：rolesID 
 		// 输出：返回RolesConnect对象数组

@@ -13,6 +13,7 @@ using GCMSClassLib.Content;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
 using GCMS.PageCommonClassLib;
+using ContentClassLib;
 
 public partial class Content_Type_RoleAdd : GCMS.PageCommonClassLib.PageBase
 {
@@ -90,9 +91,9 @@ public partial class Content_Type_RoleAdd : GCMS.PageCommonClassLib.PageBase
             {
                 if (!String.IsNullOrEmpty(ops[j]))
                 {
-                    if (typeTree.IsRolesConnect(int.Parse(ops[j].ToString()), readerSql.GetInt32(0)) == false)
+                    if (RolesConnect.IsRolesConnect(int.Parse(ops[j]), readerSql.GetInt32(0)) == false)
                     {
-                        typeTree.CreateRolesConnect(int.Parse(ops[j].ToString()), readerSql.GetInt32(0));
+                        RolesConnect.Create(int.Parse(ops[j]), readerSql.GetInt32(0));
                     }
                 }
             }

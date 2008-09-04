@@ -9,6 +9,7 @@
 // 修改记录
 //       1   2008-7-9 添加注释
 //       2   2008-8-26 改变数据访问层引用方法的写法
+//       3   2008-9-4 修改Type_TypeTree 中MarkID 的引用为Tools.QueryMaxID，Type_TypeTree.UpdateID为
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -61,9 +62,9 @@ namespace GCMSClassLib.Content
 			_Type_TypeTree.Init (TypeTree_ID);
 
 				string fileExtension = this.Url.Substring(this.Url.LastIndexOf("."));
-				int Names = _Type_TypeTree.MakeID("Upload_ID");
-				_Type_TypeTree.UpdateID(Names + 1);
-				string TmpFile = _Type_TypeTree.TypeTreePictureURL + Names + fileExtension; //改名
+				int maxid =Tools.QueryMaxID("Upload_ID");
+                Tools.UpdateMaxID("Upload_ID");
+				string TmpFile = _Type_TypeTree.TypeTreePictureURL + maxid + fileExtension; //改名
 				fileExtension = fileExtension.Substring (1);
 
 
@@ -71,7 +72,7 @@ namespace GCMSClassLib.Content
             string sql="insert into Content_Upload  (" +
                         " File_ID,User_ID,Url,Type,AddDate) " +
 				        " values "+
-						" ("  + Names + "," + this.User_ID + ",'" + TmpFile + "','" + fileExtension + "',getdate())";
+                        " (" + maxid + "," + this.User_ID + ",'" + TmpFile + "','" + fileExtension + "',getdate())";
 
             int reval = Tools.DoSqlRowsAffected(sql);
 

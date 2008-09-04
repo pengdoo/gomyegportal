@@ -1,3 +1,14 @@
+//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-8-31
+//
+// 功能描述:输出生成文件的操作类
+//
+// 已修改问题:
+// 未修改问题:
+// 修改记录
+//     1 2008-9-4 将 FileIn，FileOut，ListFilesOut函数移到Tools.cs中。更新了其引用
+//------------------------------------------------------------------------------
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -19,43 +30,43 @@ namespace GCMS.PageCommonClassLib
 	/// <summary>
 	/// CreateFiles 的摘要说明。
 	/// </summary>
-
 	public class CreateFiles
 	{
 		GCMSContentCreate.TemplateSystem ContentCreate = new GCMSContentCreate.TemplateSystem();
 		StringBuilder htmltext = new StringBuilder();
-		string ContentText = "";
+		string ContentText = string.Empty;
 
 		public bool CreateContentFiles(int TypeTree_ID,int Content_ID)
 		{
-
 			// 最终页面 start
-
 			Type_TypeTree _TypeTree = new Type_TypeTree();
 			_TypeTree.Init(TypeTree_ID);
+
 			ContentCls _Content = new ContentCls();
 			_Content.Init(Content_ID);
-			string TypeTree_Template =  _TypeTree.TypeTreeTemplate;
-			string FieldsName = "Content_Content";
-			string Url = "";
 
-						if(_TypeTree.TypeTree_Type == 2)
-						{
-							Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-							if (_TypeTree.TypeTree_ContentFields != 0)
-							{
-								_Content_FieldsName.Init(_TypeTree.TypeTree_ContentFields);
-								FieldsName = "ContentUser_"+_Content_FieldsName.FieldsBase_Name;
-							}
-							
-							Url = _Content.Contents(Content_ID,"Url",TypeTree_ID);
-							if (Url == "" || Url == null)
-							{
-								Url = _TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString()); //获得URL
-								Tools.DoSql ("update "+FieldsName+" set Url = '"+Url+"' where Content_ID = "+Content_ID);
-							}
-							goto Found;
-						}
+			string TypeTree_Template =  _TypeTree.TypeTreeTemplate;//获取模板
+
+			string FieldsName = "Content_Content";
+			string Url = string.Empty;
+
+			if(_TypeTree.TypeTree_Type == 2)
+			{
+				Content_FieldsName _Content_FieldsName = new Content_FieldsName();
+				if (_TypeTree.TypeTree_ContentFields != 0)
+				{
+					_Content_FieldsName.Init(_TypeTree.TypeTree_ContentFields);
+					FieldsName = "ContentUser_"+_Content_FieldsName.FieldsBase_Name;
+				}
+				
+				Url = _Content.Contents(Content_ID,"Url",TypeTree_ID);
+				if (string.IsNullOrEmpty(Url))
+				{
+					Url = _TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString()); //获得URL
+					Tools.DoSql ("update "+FieldsName+" set Url = '"+Url+"' where Content_ID = "+Content_ID);
+				}
+				goto Found;
+			}
 
 			Url = _Content.Url;
 			if (Url == "" && Url == null)
@@ -68,7 +79,7 @@ namespace GCMS.PageCommonClassLib
 			int CountPages =1;
 			if (!string.IsNullOrEmpty(TypeTree_Template ))
 			{
-				if (FilesIn(TypeTree_Template,_TypeTree.TypeTree_Language).ToString() == "")
+                if (Tools.FilesIn(TypeTree_Template, _TypeTree.TypeTree_Language).ToString() == "")
 				{
 					return false;
 				}
@@ -112,7 +123,7 @@ namespace GCMS.PageCommonClassLib
 						if (CountPages == txtCountPages)
 						{ContentCreate.GCMS.PgDn = "";}
 					}
-					ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(TypeTree_Template,_TypeTree.TypeTree_Language).ToString());
+					ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,Tools.FilesIn(TypeTree_Template,_TypeTree.TypeTree_Language).ToString());
 
 					if(CountPages == 1)
 					{
@@ -125,7 +136,7 @@ namespace GCMS.PageCommonClassLib
 
 					if(!String.IsNullOrEmpty(_Url ))
 					{
-						FilesOut(_Url,ContentText,_TypeTree.TypeTree_Language);
+						Tools.FilesOut(_Url,ContentText,_TypeTree.TypeTree_Language);
 
 					}
 					CountPages = CountPages + 1;
@@ -147,8 +158,8 @@ namespace GCMS.PageCommonClassLib
 		{
 
 			// 最终页面 start
-			ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(TypeTree_Template,"GB2312").ToString());
-			FilesOut(Url,ContentText,"GB2312");
+            ContentText = ContentCreate.Execute(TypeTree_ID, Content_ID, Tools.FilesIn(TypeTree_Template, "GB2312").ToString());
+            Tools.FilesOut(Url, ContentText, "GB2312");
 			return true;
 
 		}
@@ -178,7 +189,7 @@ namespace GCMS.PageCommonClassLib
 
 				int CountID = content.CountID(TypeTree_ID);
 
-				if (FilesIn(TypeTree_ListTemplate,_TypeTree.TypeTree_Language).ToString() == "" || TypeTreeListURL == "")
+                if (Tools.FilesIn(TypeTree_ListTemplate, _TypeTree.TypeTree_Language).ToString() == "" || TypeTreeListURL == "")
 				{
 					//Response.Write("<Script>alert('列表读取文件错误')</Script>");
 					return false;
@@ -284,8 +295,8 @@ namespace GCMS.PageCommonClassLib
 
 						//ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(TypeTree_ListTemplate).ToString());
 						ContentCreate.GCMS.PgThis = k + 1;
-						ContentText = ContentCreate.ExecuteList (TypeTree_ID,FilesIn(TypeTree_ListTemplate,_TypeTree.TypeTree_Language).ToString());
-						FilesOut(_TypeTreeListURL,ContentText,_TypeTree.TypeTree_Language);
+                        ContentText = ContentCreate.ExecuteList(TypeTree_ID, Tools.FilesIn(TypeTree_ListTemplate, _TypeTree.TypeTree_Language).ToString());
+                        Tools.FilesOut(_TypeTreeListURL, ContentText, _TypeTree.TypeTree_Language);
 
 						k = k + 1;
 					}
@@ -302,13 +313,13 @@ namespace GCMS.PageCommonClassLib
 					ContentCreate.GCMS.PgCount = "1";
 					ContentCreate.GCMS.PgThis = 1;
 					//ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(TypeTree_ListTemplate).ToString());
-					ContentText = ContentCreate.ExecuteList (TypeTree_ID,FilesIn(TypeTree_ListTemplate,_TypeTree.TypeTree_Language).ToString());
+                    ContentText = ContentCreate.ExecuteList(TypeTree_ID, Tools.FilesIn(TypeTree_ListTemplate, _TypeTree.TypeTree_Language).ToString());
 
 
 
 					if(!String.IsNullOrEmpty(TypeTreeListURL ))
 					{
-						FilesOut(TypeTreeListURL,ContentText,_TypeTree.TypeTree_Language);
+                        Tools.FilesOut(TypeTreeListURL, ContentText, _TypeTree.TypeTree_Language);
 					}
 					htmltext=null; //清空缓存
 					ContentText = "";
@@ -332,18 +343,18 @@ namespace GCMS.PageCommonClassLib
 
 			while (myReader.Read()) 
 			{
-				if (FilesIn(myReader.GetString(0).ToString(),_TypeTree.TypeTree_Language).ToString() == "")
+                if (Tools.FilesIn(myReader.GetString(0), _TypeTree.TypeTree_Language).ToString() == "")
 				{
 					//Response.Write("<Script>alert('附带发布读取文件错误')</Script>");
 					return false;
 				}
 
 				//ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(LinkPushTemplate,_TypeTree.TypeTree_Language).ToString());
-				ContentText = ContentCreate.ExecuteList (TypeTree_ID,FilesIn(myReader.GetString(0).ToString(),_TypeTree.TypeTree_Language).ToString());
+                ContentText = ContentCreate.ExecuteList(TypeTree_ID, Tools.FilesIn(myReader.GetString(0), _TypeTree.TypeTree_Language).ToString());
 
 				if(!String.IsNullOrEmpty(myReader.GetString(1).ToString()))
 				{
-					FilesOut( myReader.GetString(1).ToString(),ContentText,_TypeTree.TypeTree_Language);
+                    Tools.FilesOut(myReader.GetString(1).ToString(), ContentText, _TypeTree.TypeTree_Language);
 				}
 				
 				htmltext=null; //清空缓存
@@ -355,87 +366,22 @@ namespace GCMS.PageCommonClassLib
 		}
 			// 附带发布 over
 
+        public static void PushList(int TypeTree_ID)
+        {
+            CreateFiles _CreateFiles = new CreateFiles();
+            _CreateFiles.CreateChannelFiles(TypeTree_ID);
+            _CreateFiles.CreateLinkPushFiles(TypeTree_ID);
+        }
+        public static void PushSingle(int Content_ID)
+        {
+            ContentCls _ContentCls = new ContentCls();
+            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+            _ContentCls.Init(Content_ID);
+            _Type_TypeTree.Init(_ContentCls.TypeTree_ID);
+            CreateFiles.PushList(_ContentCls.TypeTree_ID);
 
+        }
 
-		// 文件读取
-		public string FilesIn(string TemplatesUrl,string TypeTree_Language)
-		{
-			StringBuilder htmltext=new StringBuilder();
-			try 
-			{
-
-//				TemplatesUrl = TemplatesUrl.Replace("/","//");
-//				TemplatesUrl = HttpRequest.MapPath(TemplatesUrl);
-				//using (StreamReader sr = new StreamReader(TemplatesUrl,System.Text.Encoding.GetEncoding("BIG5"))) //.Encoding.Default))
-				using (StreamReader sr = new StreamReader(Tools.FilesUrl(TemplatesUrl),System.Text.Encoding.GetEncoding(TypeTree_Language)))
-				{
-					String line;
-					while ((line = sr.ReadLine()) != null) 
-					{
-						htmltext.AppendLine(line);
-					}
-					sr.Close();
-					
-				}
-				return htmltext.ToString();
-			}
-			catch 
-			{
-				return "";
-			} 
-		}
-
-		// 文件写入
-		public bool FilesOut(string FilesUrl ,string ContentText,string TypeTree_Language)
-		{
-//			FilesUrl = FilesUrl.Replace("/","//");
-//			FilesUrl = HttpRequest.MapPath(FilesUrl);
-
-			try
-			{
-
-
-                File.WriteAllText(Tools.FilesUrl(FilesUrl),ContentText, System.Text.Encoding.GetEncoding(TypeTree_Language));
-                
-				//using(StreamWriter sw = new StreamWriter(FilesUrl,false,System.Text.Encoding.GetEncoding("BIG5"))) //Encoding.GetEncoding("GB2312")))
-                //using (StreamWriter sw = new StreamWriter(Tools.FilesUrl(FilesUrl), false, System.Text.Encoding.GetEncoding(TypeTree_Language)))
-                //{
-                //    sw.WriteLine(ContentText);
-                //    sw.Flush();
-                //    sw.Close();
-                //}
-				return true;
-			}
-			catch(Exception exp)
-			{ 
-				return false;
-			}
-			
-		}
-		//列表文件生成
-		public bool ListFilesOut(string FilesUrl ,string ContentText)
-		{
-//			FilesUrl = FilesUrl.Replace("/","//");
-//			FilesUrl = HttpRequest.MapPath(FilesUrl);
-
-			try
-			{
-
-				using(StreamWriter sw=new StreamWriter(Tools.FilesUrl(FilesUrl),false,System.Text.Encoding.GetEncoding("GB2312")))
-
-				{
-					sw.WriteLine(ContentText);
-					sw.Flush();
-					sw.Close();
-				}
-				return true;
-			}
-			catch
-			{ 
-				return false;
-			}
-			
-		}
 	}
 
 }
