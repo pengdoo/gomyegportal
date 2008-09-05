@@ -73,7 +73,13 @@
 			function PushLinks()
 			{					
 				var argu = "dialogWidth:28em; dialogHeight:10em;center:yes;status:no;help:no";
-				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=PushOnlyLinks&TypeTree_ID="+Form1.txtTypeTree_ID.value,"生成附带发布列表",argu);
+				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=PushLinks&TypeTree_ID="+Form1.txtTypeTree_ID.value,"生成附带发布列表",argu);
+			}
+			function PushSingleLink()
+			{
+			var argu = "dialogWidth:28em; dialogHeight:10em;center:yes;status:no;help:no";
+				window.showModalDialog("ProgressWinodowFrame.aspx?loadfile=Type_Order.aspx&OrderType=PushOneLinks&Link_ID="+curContent+"&TypeTree_ID="+Form1.txtTypeTree_ID.value,"生成附带发布列表",argu);
+			
 			}
 						
 
@@ -365,7 +371,7 @@ function selectContent(curcontent){
 			</table>
 			<asp:Panel id="Panel1" runat="server" Visible="False"  >
 				<br/>
-				<TABLE class="DialogTab" cellSpacing="0" cellPadding="0" width="98%" align="center" Height="150" border="0">
+				<TABLE class="DialogTab" cellSpacing="0" cellPadding="0" width="98%" align="center" Height="200" border="0">
 					<tr>
 						<TD>
 							<TABLE class="TopTitle" cellSpacing="0" cellPadding="0" width="100%"  border="0">
@@ -386,6 +392,16 @@ function selectContent(curcontent){
 								</tr>
 							</TABLE>
 							<DIV class="DivListView" id="scrollDiv" align="center" >
+
+<SCRIPT language="javascript">
+	window.onresize=fixSize;
+	fixSize();
+
+	function fixSize(){
+		scrollDiv.style.height=100;
+	}
+</SCRIPT>
+
 
 								<DIV class="listView" id="listView" align="center">
 									<asp:datagrid id="xpTable" runat="server" AutoGenerateColumns="false" OnItemDataBound="ItemDataBound"
@@ -410,7 +426,8 @@ function selectContent(curcontent){
 				class="menu">
 				<div class="menuItem" id="newUser" doFunction="FormAddParenthesis();">新建附带发布(<u>N</u>)...</div>
 				<div class="menuItem" id="setPass" doFunction="doRoles();">设置附带发布</div>
-				<div class="menuItem" id="set" doFunction="PushLinks();">单独生成附带发布</div>
+				<div class="menuItem" id="set" doFunction="PushSingleLink();">生成本附带发布</div>
+				<div class="menuItem" id="Div1" doFunction="PushLinks();">生成全部附带发布</div>
 				<hr>
 				<div class="menuItem" id="delUser" doFunction="doDelFile();">删除附带发布</div>
 				<div class="menuItem" id="reFresh" doFunction="RefreshWindow();">刷新</div>

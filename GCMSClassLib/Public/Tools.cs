@@ -194,70 +194,7 @@ namespace GCMSClassLib.Public_Cls
         #endregion 文件上传相关函数
 
         #region 页面生成相关函数
-        // 文件读取
-        public static string FilesIn(string TemplatesUrl, string TypeTree_Language)
-        {
-            StringBuilder htmltext = new StringBuilder();
-            try
-            {
-                Encoding encoding=System.Text.Encoding.Default;
-
-                if (!string.IsNullOrEmpty(TypeTree_Language)) 
-                    encoding = System.Text.Encoding.GetEncoding(TypeTree_Language);
-               
-                using (StreamReader sr = new StreamReader(Tools.FilesUrl(TemplatesUrl), encoding))
-                {
-                    String line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        htmltext.AppendLine(line);
-                    }
-                    sr.Close();
-                }
-                return htmltext.ToString();
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-        // 文件写入
-        public static bool FilesOut(string FilesUrl, string ContentText, string TypeTree_Language)
-        {
-            try
-            {
-                Encoding encoding = System.Text.Encoding.Default;
-
-                if (!string.IsNullOrEmpty(TypeTree_Language)) encoding = System.Text.Encoding.GetEncoding(TypeTree_Language);
-                File.WriteAllText(Tools.FilesUrl(FilesUrl), ContentText, encoding);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-
-        }
-        //列表文件生成
-        public static bool ListFilesOut(string FilesUrl, string ContentText)
-        {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(Tools.FilesUrl(FilesUrl), false, System.Text.Encoding.GetEncoding("GB2312")))
-                {
-                    sw.WriteLine(ContentText);
-                    sw.Flush();
-                    sw.Close();
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-
-        }
+        
         #endregion 页面生成相关函数
         //DataTable 数据集 20080627
         private static DataTable m_ContentList;
