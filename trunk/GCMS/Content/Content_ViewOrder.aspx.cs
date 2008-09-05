@@ -49,7 +49,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
     char sSplit;
     SqlDataReader myReader;
     SqlDataReader reader = null;
-   
+    CreateFiles createFiles = new CreateFiles();
     int TypeTree_IDs;
     string FieldsName = "Content_Content";
     Type_TypeTree _Type_TypeTree = new Type_TypeTree();
@@ -113,7 +113,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set AtTop = '1' where Content_ID = " + Content_ID);
-                CreateFiles.PushList(TypeTree_ID);
+                createFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -124,7 +124,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set AtTop = NULL where Content_ID = " + Content_ID);
-                CreateFiles.PushList(TypeTree_ID);
+                createFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -171,7 +171,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 //Change By Galen Mu  2008.8.25
                 //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Content set OrderNum = " + OrderNum2 + " where Content_ID = " + Content_ID);
-                CreateFiles.PushList(TypeTree_ID);
+                createFiles.PushList(TypeTree_ID);
 
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
@@ -193,7 +193,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                         
                     }
                 }
-                CreateFiles.PushList(TypeTree_ID);
+                createFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -217,7 +217,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     }
                 }
                 if (Content_sID != 0)
-                { CreateFiles.PushList(TypeTree_ID); };
+                { createFiles.PushList(TypeTree_ID); };
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -235,7 +235,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Content set OrderNum = " + OrderNum3 + " where Content_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    CreateFiles.PushList(TypeTree_ID);
+                    createFiles.PushList(TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -255,7 +255,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Content set OrderNum = " + OrderNum4 + " where Content_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    CreateFiles.PushList(TypeTree_ID);
+                    createFiles.PushList(TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -332,7 +332,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                                 Tools.DoSql("insert into Content_Commend (Content_ID,TypeTree_ID) values (" + ops1[j] + "," + cids[i] + ")");
 
                             }
-                            CreateFiles.PushList(int.Parse(cids[i]));
+                            createFiles.PushList(int.Parse(cids[i]));
                         }
                     }
                 }
@@ -512,7 +512,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                        
                     }
                 }
-                CreateFiles.PushList(TypeTree_ID);//Change By Galen Mu  2008.9.4 移出循环
+                createFiles.PushList(TypeTree_ID);//Change By Galen Mu  2008.9.4 移出循环
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -520,7 +520,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             case "ApprovalRel":
                 //Content_List = Request.QueryString["Content_List"].ToString();
                 TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-                CreateFiles.PushList(TypeTree_ID);
+                createFiles.PushList(TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
         }

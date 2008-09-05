@@ -9,7 +9,7 @@
 // 修改记录
 //   2008-8-26 添加注释
 //   2008-9-5  规范【自定义事件】【字符处理】【页面参数获取】代码
-//             移除FilesIn Filesout函数，更新PushSystem，PushSystemAll函数
+//             移除_CreateFiles.FilesIn Filesout函数，更新PushSystem，PushSystemAll函数
 //----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
@@ -53,6 +53,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
     GCMSContentCreate.TemplateSystem ContentCreate = new GCMSContentCreate.TemplateSystem();
     StringBuilder htmltext = new StringBuilder();
     SqlDataReader myReader;
+    CreateFiles _CreateFiles = new CreateFiles();
     Type_TypeTree _Type_TypeTree = new Type_TypeTree();
     string sql;
     protected void Page_Load(object sender, EventArgs e)
@@ -78,18 +79,18 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                 if (!String.IsNullOrEmpty(TypeTree_ListTemplate))
                 {
 
-                    if (String.IsNullOrEmpty(Tools.FilesIn(TypeTree_ListTemplate, _Type_TypeTree.TypeTree_Language).ToString() ))
+                    if (String.IsNullOrEmpty(_CreateFiles.FilesIn(TypeTree_ListTemplate, _Type_TypeTree.TypeTree_Language).ToString() ))
                     {
                         Response.Write("<Script>alert('读取文件错误')</Script>");
                         return;
                     }
 
-                    ContentText = ContentCreate.Execute(TypeTree_ID, Content_ID, Tools.FilesIn(TypeTree_ListTemplate, _Type_TypeTree.TypeTree_Language).ToString());//Change By Galen ,2008-9-4,原先 Tools.FilesIn引用的是语言是 System.Text.Encoding.Default
+                    ContentText = ContentCreate.Execute(TypeTree_ID, Content_ID, _CreateFiles.FilesIn(TypeTree_ListTemplate, _Type_TypeTree.TypeTree_Language).ToString());//Change By Galen ,2008-9-4,原先 _CreateFiles.FilesIn引用的是语言是 System.Text.Encoding.Default
 
 
                     if (!String.IsNullOrEmpty(TypeTreeListURL ))
                     {
-                        Tools.FilesOut(TypeTreeListURL, ContentText,_Type_TypeTree.TypeTree_Language);
+                       _CreateFiles.FilesOut(TypeTreeListURL, ContentText,_Type_TypeTree.TypeTree_Language);
                     }
 
                     htmltext = null; //清空缓存
@@ -114,7 +115,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
 
                         string FieldsName = "Content_Content";
 
-                        CreateFiles _CreateFiles = new CreateFiles();
+                      
 
                         _Type_TypeTree.Init(int.Parse(ops[j]));
 
@@ -141,11 +142,11 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                             Response.Write("<script>this.parent.progress.style.width ='" + (n * 100 / Countmax) + "%' ;this.parent.progress.innerHTML='" + (n * 100 / Countmax) + "%';this.parent.pstr.innerHTML=' 当前栏目ID： " + dr["Content_ID"].ToString() + " <br/>当前文件： " + dr["Url"].ToString() + "';</script>");
                             Response.Flush();
                         }
-                        if (Content_ID != 0) CreateFiles.PushSingle(Content_ID);//似乎多余？#此处代码需要调试验证#
+                        if (Content_ID != 0) _CreateFiles.PushSingle(Content_ID);//似乎多余？#此处代码需要调试验证#
                     }
 
                 }
-                CreateFiles.PushList(TypeTree_ID);//附带发布
+                _CreateFiles.PushList(TypeTree_ID);//附带发布
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
@@ -161,7 +162,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + _Type_TypeTree.TypeTreeOrderNum + " where TypeTree_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + myReader.GetInt32(1).ToString() + " where TypeTree_ID = " + TypeTree_ID);
-                    CreateFiles.PushSingle(myReader.GetInt32(0));
+                    _CreateFiles.PushSingle(myReader.GetInt32(0));
                 }
                 myReader.Close();
 
@@ -180,7 +181,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                     //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + _Type_TypeTree.TypeTreeOrderNum + " where TypeTree_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + myReader.GetInt32(1).ToString() + " where TypeTree_ID = " + TypeTree_ID);
-                    CreateFiles.PushSingle(myReader.GetInt32(0));
+                    _CreateFiles.PushSingle(myReader.GetInt32(0));
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -200,8 +201,15 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                 MakepreCopyChannel(TypeTree_ID, TypeTree_ParentID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
-            case "PushOnlyLinks":
-                CreateFiles.PushList(TypeTree_ID);//附带发布
+            case "PushLinks":
+                _CreateFiles.PushList(TypeTree_ID);//附带发布整体
+                this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
+                break;
+            case "PushOneLinks":
+                int Link_ID = int.Parse(this.Request.QueryString["Link_ID"].ToString());
+               
+                _CreateFiles.CreateLinkPushSingleFile(Link_ID,TypeTree_ID);//附带发布一条
+                this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
         }
     }

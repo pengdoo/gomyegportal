@@ -104,8 +104,8 @@ namespace GCMSContentCreate
 			{
 				return returnValue;
 			}
-			GCMS.ChannelID = TypeTree_ID;
-			GCMS._ChannelID = TypeTree_ID;
+            //GCMS.ChannelID = TypeTree_ID;
+            //GCMS._ChannelID = TypeTree_ID;
 			//string Item;
           
              Template_String = PreDeal(Template_String);
@@ -114,36 +114,36 @@ namespace GCMSContentCreate
 			Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
 			Template_String = Template_String + "\r\n" + "end function";
 
-
             ScriptControlClass objScript = new ScriptControlClass();
-            
-			objScript.Language = "VBSCRIPT";
-			objScript.Timeout = -1;
-			objScript.AllowUI = false;
-			objScript.AddObject("Response", this.Response, false); //输出内容
+           
+
+            objScript.Language = "VBSCRIPT";
+            objScript.Timeout = -1;
+            objScript.AllowUI = false;
+            objScript.AddObject("Response", this.Response, false); //输出内容
             objScript.AddObject("GCMS", this.GCMS, false); //输出内容
-			
-			objScript.AddCode(Template_String);
-			
-			//int sParams;
-            object[] parameters = new object[] {""};
-			string mainFunctionName = "Main";
-			
-			
-			try
-			{
+
+            objScript.AddCode(Template_String);
+
+            //int sParams;
+            object[] parameters = new object[] { "" };
+            string mainFunctionName = "Main";
+
+
+            try
+            {
                 //object[] tep = new object[] { RuntimeHelpers.GetObjectValue(parameters) };
                 //returnValue = StringType.FromObject(objScript.Run(StringType.FromObject(mainFunctionName), ref tep));
-				returnValue = objScript.Run(mainFunctionName, ref parameters).ToString();
-			}
-			catch (Exception ex)
-			{
-				returnValue = ex.Message;
-			}
-			
-			objScript = null;
-			Response.Clear();
-			
+                returnValue = objScript.Run(mainFunctionName, ref parameters).ToString();
+            }
+            catch (Exception ex)
+            {
+                returnValue = ex.Message;
+            }
+
+            objScript = null;
+            Response.Clear();
+            
 			return returnValue;
 		}
 		
