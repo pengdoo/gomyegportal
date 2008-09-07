@@ -1,3 +1,16 @@
+//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-7-9
+//
+// 功能描述: 扩展字段访问
+//
+// 已修改问题:
+// 未修改问题:
+// 修改记录
+//       1   2008-7-9 添加注释
+//       2   2008-8-26 VB语法转换为C#
+//       3   2008-9-4 添加UserWhere对象，修改Top(int),Chanels()方法
+//------------------------------------------------------------------------------
 using System.Diagnostics;
 using System.Data;
 using System.Collections;
@@ -19,10 +32,92 @@ namespace GCMSContentCreate
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
     public class GCMS
     {
+         string[] baseColNames ={  "Name", "DerivationLink", 
+            "PictureDName", "SubmitDate", "PublishDate", "PublishDate", "PictureNotes",
+            "Content","Author","Url","KeyWord","Original","ReCount","Clicks",
+              "ContentType"};
+        
+        private int m_contentid;
+        public int ContentID
+        {
+            get { return m_contentid; }
+            set
+            {
+                m_contentid = value;
+                if (CurrentList != null && CurrentList.ContainsKey(m_contentid))
+                {
+                   
+                    CurrentItem = CurrentList[m_contentid];
+                    Console.WriteLine("CurrentItem:从List中读取" + m_contentid);
+                }
+                else
+                {
+                    Console.WriteLine("CurrentItem:从数据库中读取" + m_contentid);
+                    ContentCls ContentCls = new ContentCls();
+
+                    Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+                    _Type_TypeTree.Init(ChannelID);
+                    ContentCls.Init(m_contentid);
+
+                    CurrentItem = new Hashtable();
+
+                    if (_Type_TypeTree.TypeTree_Type == 2)
+                    {
+                        Content_FieldsName Content_FieldsName = new Content_FieldsName();
+                        Content_FieldsName.Init(_Type_TypeTree.TypeTree_TypeFields);
+                        SqlDataReader reader = Tools.DoSqlReader("Select * from Content_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + m_contentid);
+                        string[] cols = _Type_TypeTree.TypeTree_Show.Split(',');
+                        if (reader.Read())
+                        {
+                            foreach (string colname in cols)
+                            {
+                                CurrentItem.Add(colname, reader[colname].ToString());
+                            }
+                        }
+                        CurrentItem.Add("ContentID", reader["Content_ID"].ToString());
+                        CurrentItem.Add("ChannelID", reader["TypeTree_ID"].ToString());
+                        CurrentItem.Add("ContentPID", reader["Content_PID"].ToString());
+                        reader.Close();
+                    }
+                    else
+                    {
+                        CurrentItem.Add("ContentID", ContentCls.ContentId);
+                        CurrentItem.Add("SubmitDate", ContentCls.SubmitDate);
+                        CurrentItem.Add("PublishDate", ContentCls.PublishDate);
+                        CurrentItem.Add("SubmitDate", ContentCls.SubmitDate);
+                        CurrentItem.Add("ChannelID", ContentCls.TypeTree_ID == 0 ? ChannelID : ContentCls.TypeTree_ID);
+                        CurrentItem.Add("Author", ContentCls.Author);
+                        CurrentItem.Add("ContentPID", ContentCls.Content_PID);
+                        CurrentItem.Add("Url", ContentCls.Url);
+                        CurrentItem.Add("KeyWord", ContentCls.KeyWord);
+                        CurrentItem.Add("Original", ContentCls.Original);
+                        CurrentItem.Add("ReCount", ContentCls.ReCount);
+                        CurrentItem.Add("Clicks", ContentCls.Clicks);
+                        CurrentItem.Add("ContentType", ContentCls.ContentType);
+                    }
+                    CurrentItem.Add("Name", ContentCls.Name);
+                    CurrentItem.Add("DerivationLink", ContentCls.DerivationLink);
+                    CurrentItem.Add("Derivation", ContentCls.Derivation);
+                    CurrentItem.Add("PictureName", ContentCls.PictureName);//*名称不同
+                    CurrentItem.Add("PictureDName", ContentCls.PictureNameD);//*名称不同
+                    CurrentItem.Add("PictureNotes", ContentCls.PictureNotes);
+                    CurrentItem.Add("Content", xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString());
+                    //-------- 电子商务支持 ---------------------------------------------------------
+                    CurrentItem.Add("Spec", ContentCls.DerivationLink);
+                    CurrentItem.Add("Price", ContentCls.Derivation);
+                    CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
+                    CurrentItem.Add("ESpec", ContentCls.DerivationLink);
+                    CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
+                    CurrentItem.Add("ESpec", ContentCls.Original);
+
+                }
+            }
+        }
 
 
-        public int ContentID;
+        private Hashtable CurrentItem;
         public int ChannelID;
+        private Dictionary<int,Hashtable> CurrentList;
         public int _ContentID;
         public int _ChannelID;
         public int ReID;
@@ -42,6 +137,9 @@ namespace GCMSContentCreate
         public int PageID = 0;
         private string _userwhere;
         private string _userwherecolname;
+        /// <summary>
+        /// 定义用户的自定义筛选
+        /// </summary>
         public string UserWhere
         {
             get
@@ -110,167 +208,30 @@ namespace GCMSContentCreate
                 _userwhere= returnValue;
             }
         }
+
+        /// <summary>
+        /// 初始化脚本预置对象(内容页模板使用)
+        /// </summary>
+        /// <param name="Content_ID"></param>
+        /// <param name="TypeTree_ID"></param>
+        public GCMS(int Content_ID, int TypeTree_ID)
+        {
+            Console.WriteLine("以内容页模式初始化GCMS对象");
+            ContentID = Content_ID;
+            _ContentID = Content_ID;
+            ChannelID = TypeTree_ID;
+            _ChannelID = TypeTree_ID;
+        }
+        public GCMS()
+        {
+            Console.WriteLine("以默认模式初始化GCMS对象");
+        }
         //-----------------------------------------------------------
         //内容
         //-----------------------------------------------------------
         public object Content(string Item)
         {
-            object returnValue;
-            ContentCls ContentCls = new ContentCls();
-            ContentCls.Init(ContentID);
-
-            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-            _Type_TypeTree.Init(ChannelID);
-
-            if (ContentCls.TypeTree_ID == 0)
-            {
-                ContentCls.TypeTree_ID = ChannelID;
-            }
-
-
-
-            switch (Item)
-            {
-                case "ContentID":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "Content_ID", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.ContentId;
-                    }
-                    break;
-                case "Name":
-                    returnValue = ContentCls.Name;
-                    break;
-                case "DerivationLink":
-                    returnValue = ContentCls.DerivationLink;
-                    break;
-                case "Derivation":
-                    returnValue = ContentCls.Derivation;
-                    break;
-                case "PictureName":
-                    returnValue = ContentCls.PictureName;
-                    break;
-                case "PictureDName":
-                    returnValue = ContentCls.PictureNameD;
-                    break;
-                case "SubmitDate":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "SubmitDate", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.SubmitDate;
-                    }
-                    break;
-                case "PublishDate":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "PublishDate", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.PublishDate;
-                    }
-                    break;
-                case "PictureNotes":
-                    returnValue = ContentCls.PictureNotes;
-                    break;
-                case "ChannelID":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "TypeTree_ID", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.TypeTree_ID;
-                    }
-                    break;
-                case "Content":
-                    returnValue = xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString();
-                    break;
-
-                case "Author":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "Author", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.Author;
-                    }
-                    break;
-                case "ContentPID":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "Content_PID", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.Content_PID;
-                    }
-                    break;
-
-                case "Url":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "Url", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.Url;
-                    }
-                    break;
-
-
-                case "KeyWord":
-                    returnValue = ContentCls.KeyWord;
-                    break;
-                case "Original":
-                    returnValue = ContentCls.Original;
-                    break;
-                case "ReCount":
-                    returnValue = ContentCls.ReCount;
-                    break;
-                case "Clicks":
-                    if (_Type_TypeTree.TypeTree_Type == 2)
-                    {
-                        returnValue = ContentCls.Contents(ContentID, "Clicks", ContentCls.TypeTree_ID);
-                    }
-                    else
-                    {
-                        returnValue = ContentCls.Clicks;
-                    }
-                    break;
-                case "ContentType":
-                    returnValue = ContentCls.ContentType;
-                    break;
-
-                //-------- 电子商务支持 ---------------------------------------------------------
-                case "Spec": //规格
-                    returnValue = ContentCls.DerivationLink;
-                    break;
-                case "Price": //价格
-                    returnValue = ContentCls.Derivation;
-                    break;
-                case "MarketPrice": //市场价格
-                    returnValue = ContentCls.KeyWord;
-                    break;
-                case "ESpec": //特殊规格
-                    returnValue = ContentCls.Original;
-                    break;
-
-
-                default:
-
-
-                    returnValue = ContentCls.Contents(ContentID, Item, ContentCls.TypeTree_ID);
-                    break;
-            }
-
+            object returnValue = CurrentItem.ContainsKey(Item) ? CurrentItem[Item] : string.Empty;
             return returnValue;
         }
 
@@ -328,12 +289,7 @@ namespace GCMSContentCreate
             string returnValue;
             XmlDataDocument xmlDoc = new XmlDataDocument();
             xmlDoc.LoadXml(xmlStr);
-
-            //Dim elemList As XmlNodeList = xmlDoc.GetElementsByTagName("//page" & PageID)
-            //Dim elemList As XmlNodeList = xmlDoc.documentElement.SelectNodes("//page" & PageID)
             returnValue = xmlDoc.DocumentElement.ChildNodes.Item(PageID).InnerText.ToString();
-
-            // xmlSplit = elemList.Item(0).InnerText.ToString()
             return returnValue;
         }
 
@@ -644,13 +600,13 @@ namespace GCMSContentCreate
 
         public Collection Top(int intTop)
         {
+            Console.WriteLine("开始执行Top函数,参数为"+intTop);
             Collection returnValue;
 
-            string GetChannelID;
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
             _Type_TypeTree.Init(int.Parse(GetChannel));//ChannelID
 
-            GetChannelID = _Type_TypeTree.IDSonTypeTree(int.Parse(GetChannel));
+            string GetChannelID = _Type_TypeTree.IDSonTypeTree(int.Parse(GetChannel));
             SqlDataReader myReader;
             string sql;
             Childs Contents = new Childs();
@@ -672,29 +628,39 @@ namespace GCMSContentCreate
                 isNews = " ";
             }
 
-            //If TypeTree.TypeTreeIssuance = 7 Then
-            //    Orderby = " AtTop desc , SumbitDate desc"
-            //End If
-
-            // sql = "SELECT Top " & intTop.ToString() & " Content_ID,Name ,Url ,TypeTree_ID FROM Content_Content WHERE TypeTree_ID in (" & GetChannelID & ") and Head_news = '1' and Status = 4 order by " & Orderby
-            // sql = "SELECT Top " & intTop.ToString() & " Content_Content.Content_ID,Name ,Url ,Content_Content.TypeTree_ID FROM Content_Content,Content_Commend WHERE (Content_Content.TypeTree_ID in (" & GetChannelID & ") or Content_Commend.TypeTree_ID in (" & GetChannelID & ")) and Content_Content.Content_ID = Content_Commend.Content_ID and Head_news = '1' and Status = 4 order by " & Orderby
-            sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID,"+_userwherecolname+" FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
+            //sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID,"+_userwherecolname+" FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
+            sql = "SELECT Top " + intTop.ToString() + "  * FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 " + UserWhere + " order by " + Orderby;
             myReader = Tools.DoSqlReader(sql);
 
             while (myReader.Read())
             {
-
                 Child chair = new Child();
-                chair.ContentID = myReader.GetInt32(0);
-                chair.Url = myReader.GetString(1);
-                Contents.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-                ChannelID = myReader.GetInt32(2);
+                chair.ContentID =int.Parse( myReader["Content_ID"].ToString());
+                chair.Url = myReader["Url"].ToString();
+                
+
+                string[] cols = _Type_TypeTree.TypeTree_Show.Split(',');
+                Hashtable currentitem = new Hashtable();
+                foreach (string colname in cols)
+                {
+                    Console.WriteLine("CurrentList:添加"+colname);
+                    currentitem.Add(colname, myReader[colname].ToString());
+                }
+                currentitem.Add("ContentID", myReader["Content_ID"].ToString());
+                currentitem.Add("ChannelID", myReader["TypeTree_ID"].ToString());
+                currentitem.Add("ContentPID", myReader["Content_PID"].ToString());
+
+                CurrentList.Add(chair.ContentID,currentitem);
+                Contents.Contents.Add(chair, myReader["Content_ID"].ToString(), null, null);
+                ChannelID =int.Parse(myReader["TypeTree_ID"].ToString());
+               
             }
             myReader.Close();
 
             returnValue = Contents.Contents;
 
             return returnValue;
+            Console.WriteLine("Top函数执行完毕" );
         }
 
         public Collection Pic(int intTop)
@@ -854,6 +820,10 @@ namespace GCMSContentCreate
             //return null;
         }
 
+        void LoadContentItem(int contentId)
+        {
+ 
+        }
        
         [Guid("C23A58D7-3DC4-4524-A5D9-EFD741136830")]
         [ComVisible(true)]
@@ -875,7 +845,6 @@ namespace GCMSContentCreate
 
             public int ReID;
             private int Remark_ID;
-
 
             public void zh()
             {
