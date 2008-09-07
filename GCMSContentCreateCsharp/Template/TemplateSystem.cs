@@ -26,121 +26,98 @@ namespace GCMSContentCreate
 		
 		
 		public TemplateResponse Response = new TemplateResponse();
-		public GCMS GCMS = new GCMS();
+		public GCMS GCMS=new GCMS() ;
 		private bool inTemplate;
 		
-        //-------------------------------------------------
-        //执行脚本，核心算法
-        //本函数将执行参数scriptUri所指定的模板脚本，并将输出作为返回
-        //在模板系统第一次执行脚本时将执行这个函数，同时，在脚本内部也可以使用
-        //这个函数来加载子模板
-        //如果脚本出错，则错误信息被输出到输出中。
-		//-------------------------------------------------
-		
+		/// <summary>
+        //  运行内容页模板,返回结果
+        //  执行脚本，核心算法
+        //  本函数将执行参数scriptUri所指定的模板脚本，并将输出作为返回
+        //  在模板系统第一次执行脚本时将执行这个函数，同时，在脚本内部也可以使用
+        //  这个函数来加载子模板
+        //  如果脚本出错，则错误信息被输出到输出中。
+		/// </summary>
+		/// <param name="TypeTree_ID"></param>
+		/// <param name="Content_ID"></param>
+		/// <param name="Template_String"></param>
+		/// <returns></returns>
 		public string Execute(int TypeTree_ID, int Content_ID, string Template_String)
 		{
-			string returnValue;
-			//Public Function Execute(ByVal Content_ID As Int32, ByVal Template_String As String) As String
-			//On Error Resume Next
-			
-			returnValue = "";
-            //判断是否空文件
+			string returnValue= "";
+            //------------------------判断是否空文件------------------------
 			if (Template_String.Trim() == "")
 			{
 				return returnValue;
 			}
-			GCMS.ContentID = Content_ID;
-			GCMS._ContentID = Content_ID;
-			GCMS.ChannelID = TypeTree_ID;
-			GCMS._ChannelID = TypeTree_ID;
-			//string Item;
-            
+            //------------------------执行内容页模板时，首先初始化当前内容编号和节点编号------------------------
+            GCMS = new GCMS(Content_ID, TypeTree_ID);
+            //------------------------需处理模板，生成执行脚本------------------------
             Template_String = PreDeal(Template_String);
-            //Template_String = Template_String.Replace("\r\n", "");
 			Template_String = "function Main(d)" +"\r\n"+ Template_String;
             Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
             Template_String = Template_String + "\r\n" + "end function";
-
-
+            //------------------------执行脚本------------------------
             ScriptControlClass objScript = new ScriptControlClass();
             objScript.Language = "VBSCRIPT";
             objScript.Timeout = -1;
-
 			objScript.AllowUI = false;
 			objScript.AddObject("Response", this.Response, false); //输出内容
-            objScript.AddObject("GCMS", this.GCMS, false); //输出内容
-			
+            objScript.AddObject("GCMS", this.GCMS, false); //输出内容		
 			objScript.AddCode(Template_String);
-			
-			//int sParams;
             object[] parameters = new object[] {"" };
 			string mainFunctionName = "Main";
-			
 			try
 			{
-                //object[] tep = new object[] { RuntimeHelpers.GetObjectValue(parameters) };
-                //returnValue = StringType.FromObject(objScript.Run(StringType.FromObject(mainFunctionName), ref tep));
                 returnValue = objScript.Run(mainFunctionName, ref parameters).ToString();
 			}
 			catch (Exception ex)
 			{
 				returnValue = ex.Message;
 			}
-			
-			//Execute = Template_String
+            //------------------------清除内存，防止内存泄露------------------------
 			objScript = null;
-			Response.Clear();
-			
+			Response.Clear();		
 			return returnValue;
 		}
 		
+        /// <summary>
+        /// 运行列表页模板,返回结果
+        /// </summary>
+        /// <param name="TypeTree_ID"></param>
+        /// <param name="Template_String"></param>
+        /// <returns></returns>
 		public string ExecuteList(int TypeTree_ID, string Template_String)
 		{
-			string returnValue;
-			
-			returnValue = "";
-			//判断是否空文件
+			string returnValue = "";
+            //------------------------判断是否空文件------------------------
 			if (Template_String.Trim() == "")
 			{
 				return returnValue;
 			}
-            //GCMS.ChannelID = TypeTree_ID;
-            //GCMS._ChannelID = TypeTree_ID;
-			//string Item;
-          
-             Template_String = PreDeal(Template_String);
-			
+            //------------------------需处理模板，生成执行脚本-----------------------
+            Template_String = PreDeal(Template_String);
 			Template_String = "function Main(d)" + "\r\n" + Template_String;
 			Template_String = Template_String + "\r\n" + "Main = Response.OutputBuffer";
 			Template_String = Template_String + "\r\n" + "end function";
-
+            //------------------------执行脚本-----------------------
             ScriptControlClass objScript = new ScriptControlClass();
-           
-
             objScript.Language = "VBSCRIPT";
             objScript.Timeout = -1;
             objScript.AllowUI = false;
             objScript.AddObject("Response", this.Response, false); //输出内容
             objScript.AddObject("GCMS", this.GCMS, false); //输出内容
-
             objScript.AddCode(Template_String);
-
-            //int sParams;
             object[] parameters = new object[] { "" };
             string mainFunctionName = "Main";
-
-
             try
             {
-                //object[] tep = new object[] { RuntimeHelpers.GetObjectValue(parameters) };
-                //returnValue = StringType.FromObject(objScript.Run(StringType.FromObject(mainFunctionName), ref tep));
                 returnValue = objScript.Run(mainFunctionName, ref parameters).ToString();
             }
             catch (Exception ex)
             {
                 returnValue = ex.Message;
             }
-
+            //------------------------清除内存，防止内存泄露------------------------
             objScript = null;
             Response.Clear();
             

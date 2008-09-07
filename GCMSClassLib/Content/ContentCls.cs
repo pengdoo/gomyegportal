@@ -798,26 +798,26 @@ namespace GCMSClassLib.Content
 		}
 
 
-//字段读取 20080627 测试最优化方式读取数据
-		public static DataTable ContentsAll (int Content_ID ,int TypeTree_ID)
+        //字段读取 20080627 测试最优化方式读取数据
+		public  DataTable ContentsAll (int Content_ID ,int TypeTree_ID)
 		{	
 			Type_TypeTree _Type_TypeTree = new Type_TypeTree();
 			Content_FieldsName _Content_FieldsName = new Content_FieldsName ();
 			_Type_TypeTree.Init(TypeTree_ID);
 			string sql = "";
 			_Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-
+            string baseTableName = _Content_FieldsName.FieldsBase_Name;
 			if (_Type_TypeTree.TypeTree_Type == 2)
 			{
-				sql="select * from ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" where Status = 4 and content_Id = "+Content_ID;	
+                baseTableName = _Content_FieldsName.FieldsBase_Name;
 			}
 			else
 			{
-
-				sql = "select  * from ContentUser_letter join Content_Content on ContentUser_letter.Content_ID = Content_Content.Content_ID where Content_Content.Status = 4 and Content_Content.Content_ID =  "+Content_ID;
+                baseTableName = "Content_Content";
+				//sql = "select  * from ContentUser_letter join Content_Content on ContentUser_letter.Content_ID = Content_Content.Content_ID where Content_Content.Status = 4 and Content_Content.Content_ID =  "+Content_ID;
 			}
-			
 
+            sql = "select * from ContentUser_" + baseTableName + " where Status = 4 and content_Id = " + Content_ID;	
 			DataTable dt=Tools.DoSqlTable(sql);
 			Tools.ContentList = dt ;
 			return dt;
