@@ -178,10 +178,16 @@ namespace GCMSContentCreate
         //-----------------------------------------------------------
         public object Content(string Item)
         {
-            if (Item == "Url")//兼容历史模板的大小写辨识问题
+            string[] custnames = new string[] { "Url", "PictureName", "PictureDName", "PictureNews", "PictureNotes", "User_ID", "Content_Xml" };
+            string[] dbnames = new string[] { "URL", "Picture_Name", "Picture_DName", "Picture_news", "Picture_Notes", "User_id", "content_xml" };
+            for (int i = 0; i < custnames.Length; i++)
             {
-                if (CurrentItem.ContainsKey("URL")) return CurrentItem["URL"];
+                if (Item == custnames[i])//兼容历史模板的引用名和数据库实际字段名称不一致问题
+                {
+                    if (CurrentItem.ContainsKey(dbnames[i])) return CurrentItem[dbnames[i]];
+                }
             }
+           
             Debug.WriteLine("Conetnt函数调用,参数:" , Item);
             bool hasValue = CurrentItem.ContainsKey(Item);
             object returnValue = hasValue ? CurrentItem[Item] : string.Empty;
@@ -203,7 +209,7 @@ namespace GCMSContentCreate
                     chair.ContentID =int.Parse( dr["Content_ID"].ToString());
                     currentitem.Add("ContentID", dr["Content_ID"].ToString());
                 }
-                if (listdt.Columns.Contains("Url"))
+                if (listdt.Columns.Contains("Url") )
                 {
                     chair.Url = dr["Url"].ToString();
                 }
@@ -813,10 +819,7 @@ namespace GCMSContentCreate
             //return null;
         }
 
-        void LoadContentItem(int contentId)
-        {
- 
-        }
+       
        
         [Guid("C23A58D7-3DC4-4524-A5D9-EFD741136830")]
         [ComVisible(true)]
