@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.news_p1 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #333333;
+	text-indent: 2em;
+}
+-->
+</style>
+
+<link href="../../public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#F5F5F5"><!--#include virtual="/public/include/news_left.shtml" --></td>
+    <td width="7" valign="top"><img src="/images/right_2.jpg" width="7" height="366" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/news_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="50%" class="pp"><a href="/news/channel/p_news_list.shtml"><img src="/images/cpxw.jpg" width="65" height="19" border="0" /></a></td>
+                                        <td width="45%" align="right" class="pp"><a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/news/channel/p_news_list.shtml"><font class="pp">产品新闻</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="721" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<!--%
+Gcms.GetChannel = 12
+For Each Item In GCMS.Pic(1)
+GCMS.ContentID = Item.ContentID
+%-->
+										    <tr>
+                                              <td width="176" height="94" align="right"><table width="150" border="0" cellpadding="0" cellspacing="1">
+                                                <tr>
+                                                  <td><a href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="150" height="84" border="0" alt="" /></a></td>
+                                                </tr>
+                                              </table></td>
+                                              <td height="94" valign="top"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                              <tr>
+                                                <td height="26"><strong><!--%
+if len(GCMS.Content("Name"))>35 then Response.Output left(GCMS.Content("Name"),34) & "..." else Response.Output GCMS.Content("Name") end if
+%--></strong> </td>
+                                              </tr>
+                                              <tr>
+                                                <td class="news_p1"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+if len(GCMS.Content("PictureNotes"))>160 then Response.Output left(GCMS.Content("PictureNotes"),159) & "..." else Response.Output GCMS.Content("PictureNotes") end if
+%--></a></td>
+                                              </tr>
+                                           </table></td>
+                                            </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+
+										    <tr>
+                                              <td height="30" colspan="2" align="center"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+<!--%
+Gcms.GetChannel = 12
+For Each Item In GCMS.Top(5)
+GCMS.ContentID = Item.ContentID
+%-->
+										 <tr>
+                                            <td width="2%" height="28" align="center" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--></a></td>
+  <td width="17%" valign="middle"><!--%
+'内容对象:PublishDate
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%--></td>
+										 </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+                                        </table></td>
+                                            </tr>
+
+                                          </table></td>
+                                </tr>
+								<tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="50%" class="pp"><a href="/news/channel/news_list.shtml"><img src="/images/qyxw.jpg" width="66" height="17" border="0" /></a></td>
+                                        <td width="45%" align="right" class="pp"><a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/news/channel/news_list.shtml"><font class="pp">企业新闻</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+								<tr>
+                                  <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<tr>
+                                        <td bgcolor="#FFFFFF"><table width="721" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<!--%
+Gcms.GetChannel = 13
+For Each Item In GCMS.Pic(1)
+GCMS.ContentID = Item.ContentID
+%-->
+										    <tr>
+                                              <td width="176" height="94" align="right"><table width="150" border="0" cellpadding="0" cellspacing="1">
+                                                <tr>
+                                                  <td><a href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="150" height="84" border="0" alt="" /></a></td>
+                                                </tr>
+                                              </table></td>
+                                              <td height="94" valign="top"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                              <tr>
+                                                <td height="26"><strong><!--%
+if len(GCMS.Content("Name"))>35 then Response.Output left(GCMS.Content("Name"),34) & "..." else Response.Output GCMS.Content("Name") end if
+%--></strong> </td>
+                                              </tr>
+                                              <tr>
+                                                <td class="news_p1"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+if len(GCMS.Content("PictureNotes"))>160 then Response.Output left(GCMS.Content("PictureNotes"),159) & "..." else Response.Output GCMS.Content("PictureNotes") end if
+%--></a></td>
+                                              </tr>
+                                           </table></td>
+                                            </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+
+										    <tr>
+                                              <td height="30" colspan="2" align="center"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+<!--%
+Gcms.GetChannel = 13
+For Each Item In GCMS.Top(5)
+GCMS.ContentID = Item.ContentID
+%-->
+										 <tr>
+                                            <td width="2%" height="28" align="center" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--></a></td>
+  <td width="17%" valign="middle"><!--%
+'内容对象:PublishDate
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%--></td>
+										 </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+                                        </table></td>
+                                            </tr>
+
+                                          </table></td>
+                                    </tr>
+									 <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="50%" class="pp"><a href="/news/channel/sc_list.shtml"><img src="/images/szhd.jpg" width="67" height="17" border="0" /></a></td>
+                                        <td width="45%" align="right" class="pp"><a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/news/channel/sc_list.shtml"><font class="pp">市场活动</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+								<tr>
+                                        <td bgcolor="#FFFFFF"><table width="721" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<!--%
+Gcms.GetChannel = 30
+For Each Item In GCMS.Pic(1)
+GCMS.ContentID = Item.ContentID
+%-->
+										    <tr>
+                                              <td width="176" height="94" align="right"><table width="150" border="0" cellpadding="0" cellspacing="1">
+                                                <tr>
+                                                  <td><a href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="150" height="84" border="0" alt="" /></a></td>
+                                                </tr>
+                                              </table></td>
+                                              <td height="94" valign="top"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                              <tr>
+                                                <td height="26"><strong><!--%
+if len(GCMS.Content("Name"))>35 then Response.Output left(GCMS.Content("Name"),34) & "..." else Response.Output GCMS.Content("Name") end if
+%--></strong> </td>
+                                              </tr>
+                                              <tr>
+                                                <td class="news_p1"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+if len(GCMS.Content("PictureNotes"))>160 then Response.Output left(GCMS.Content("PictureNotes"),159) & "..." else Response.Output GCMS.Content("PictureNotes") end if
+%--></a></td>
+                                              </tr>
+                                           </table></td>
+                                            </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+
+										    <tr>
+                                              <td height="30" colspan="2" align="center"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+<!--%
+Gcms.GetChannel = 30
+For Each Item In GCMS.Top(5)
+GCMS.ContentID = Item.ContentID
+%-->
+										 <tr>
+                                            <td width="2%" height="28" align="center" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--></a></td>
+  <td width="17%" valign="middle"><!--%
+'内容对象:PublishDate
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%--></td>
+										 </tr>
+ <!--%
+next
+Gcms.GetChannelOver
+%-->
+                                        </table></td>
+                                            </tr>
+
+                                          </table></td>
+                                    </tr>
+    
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" bgcolor="#f4f4f4" class="right_1"></td>
+  </tr>
+</table><!--#include virtual="/public/include/bottom.shtml" -->
+
+</body>
+</html>

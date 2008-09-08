@@ -1,0 +1,95 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%" height="31">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><img src="/images/news1.jpg" width="267" height="37" /></td>
+            </tr>
+            <tr>
+              <td>
+
+			  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  
+                  <tr>
+                    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" class="search"><a href="/news/channel/p_news_list.shtml">
+产品新闻</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" class="search"><a href="/news/channel/news_list.shtml">
+企业新闻</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" class="search"><a href="/news/channel/sc_list.shtml">
+市场活动</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+                  
+                  
+                  
+                  
+              </table>
+					</td>
+                  </tr>        
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/news_submit.jpg" width="267" height="37" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%" height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:8px">
+                        <tr>
+                          <td width="65%" align="right"><label>
+                            <input type="text" name="textfield" />
+                          </label></td>
+                          <td width="35%" class="cx_5"><img src="/images/submit.gif" width="72" height="25" hspace="5" align="absmiddle" /></td>
+                          </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                    </tr>
+                    <tr>
+                      <td height="40"></td>
+                    </tr>
+                  </table></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table>
