@@ -1,0 +1,3 @@
+Update ContentUser_subhead Set ContentUser_subhead.Url=Content_Content.Url
+from  Content_Content,ContentUser_subhead 
+Where Content_Content.Content_ID=ContentUser_subhead.Content_ID

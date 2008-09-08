@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%-->---AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.news_p1 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #333333;
+	text-indent: 2em;
+}
+-->
+</style>
+
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#f4f4f4"><!--#include virtual="/public/include/news_left.shtml" --></td>
+    <td width="7" valign="top" bgcolor="#f4f4f4"><img src="/images/right_2.jpg" width="7" height="366" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/news_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="50%" class="pp"><a href='<!--% Response.Output GCMS.Channel("Url") %-->'><img src="/images/szhd.jpg" width="67" height="17" border="0"/></a></td>
+                                        <td width="45%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/news/channel/default.shtml"><font class="pp">新闻中心</font></a> / <a href='<!--% Response.Output GCMS.Channel("Url") %-->'><font class="pp"><!--%
+'内容对象:CName
+Response.Output GCMS.Channel("CName")
+%--></font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+
+                                      <tr>
+                                        <td width="100%" bgcolor="#FFFFFF"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+		 <tr>
+                                     <td width="100%" height="30" align="center" valign="middle" class="t_title"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--></td>
+										 </tr>
+										 	 <tr>
+                                     <td width="100%" height="30" align="center" valign="middle" class="t_title11"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("subhead")
+%--></td>
+										 </tr>
+										 	 <tr>
+										 	   <td height="30" align="center" valign="middle" class="small_1"><div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=<!--% Response.Output GCMS.Content("ContentID")%-->"></script></div></td>
+								 	      </tr>
+										 <tr>
+                                            
+                                            <td width="100%" valign="top" class="news_p1"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Content")
+%--></td>
+										 </tr>
+
+       <tr>
+                                            <td height="30" colspan="2" align="center"><!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+Response.Output "共" & GCMS.AllCount & "条记录 &nbsp;共" & GCMS.PgCount & "页&nbsp;当前第" & GCMS.PgThis & "页"
+%-->&nbsp;&nbsp;<!--%
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+    Response.Output "<option value="& GCMS.ThisChannelUrl(i) & " selected>&nbsp;" & i & "&nbsp;</option>"
+	Else
+	Response.Output "<option value="& GCMS.ThisChannelUrl(i) & ">&nbsp;" & i & "&nbsp;</option>"
+End if
+Next
+%-->&nbsp;&nbsp;<!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>下一页</A>" else Response.Output "下一页"
+%--></td>
+                                        </tr>                                 </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="right_1"></td>
+  </tr>
+</table><!--#include virtual="/public/include/bottom.shtml" -->
+
+</body>
+</html>

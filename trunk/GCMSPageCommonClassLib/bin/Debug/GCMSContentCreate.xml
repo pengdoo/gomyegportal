@@ -4,5 +4,26 @@
         <name>GCMSContentCreate</name>
     </assembly>
     <members>
+        <member name="M:GCMSContentCreate.GCMS.#ctor(System.Int32,System.Int32)">
+            <summary>
+            初始化脚本预置对象(内容页模板使用)
+            </summary>
+            <param name="Content_ID"></param>
+            <param name="TypeTree_ID"></param>
+        </member>
+        <member name="P:GCMSContentCreate.GCMS.UserWhere">
+            <summary>
+            定义用户的自定义筛选
+            </summary>
+        </member>
+        <!-- 对于成员“M:GCMSContentCreate.TemplateSystem.Execute(System.Int32,System.Int32,System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:GCMSContentCreate.TemplateSystem.ExecuteList(System.Int32,System.String)">
+            <summary>
+            运行列表页模板,返回结果
+            </summary>
+            <param name="TypeTree_ID"></param>
+            <param name="Template_String"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
