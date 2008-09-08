@@ -127,7 +127,7 @@ namespace GCMSClassLib.Public_Cls
         /// <returns></returns>
         public static bool DoSql(string sSQL)
         {
-            Console.WriteLine("Sql-Do:", sSQL);
+            Debug.WriteLine("Sql-Do:", sSQL);
             int reval =SqlHelper.ExecuteSql(SqlHelper.LocalSqlServer,sSQL);
             if (reval == 1)
             {

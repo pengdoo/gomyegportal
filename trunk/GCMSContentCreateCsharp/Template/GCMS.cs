@@ -44,72 +44,19 @@ namespace GCMSContentCreate
             set
             {
                 m_contentid = value;
-                if (CurrentList != null && CurrentList.ContainsKey(m_contentid))
+                if (m_contentid != 0)
                 {
-                   
-                    CurrentItem = CurrentList[m_contentid];
-                    Console.WriteLine("CurrentItem:从List中读取" + m_contentid);
-                }
-                else
-                {
-                    Console.WriteLine("CurrentItem:从数据库中读取" + m_contentid);
-                    ContentCls ContentCls = new ContentCls();
-
-                    Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-                    _Type_TypeTree.Init(ChannelID);
-                    ContentCls.Init(m_contentid);
-
-                    CurrentItem = new Hashtable();
-
-                    if (_Type_TypeTree.TypeTree_Type == 2)
+                    if (CurrentList != null && CurrentList.ContainsKey(m_contentid))
                     {
-                        Content_FieldsName Content_FieldsName = new Content_FieldsName();
-                        Content_FieldsName.Init(_Type_TypeTree.TypeTree_TypeFields);
-                        SqlDataReader reader = Tools.DoSqlReader("Select * from Content_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + m_contentid);
-                        string[] cols = _Type_TypeTree.TypeTree_Show.Split(',');
-                        if (reader.Read())
-                        {
-                            foreach (string colname in cols)
-                            {
-                                CurrentItem.Add(colname, reader[colname].ToString());
-                            }
-                        }
-                        CurrentItem.Add("ContentID", reader["Content_ID"].ToString());
-                        CurrentItem.Add("ChannelID", reader["TypeTree_ID"].ToString());
-                        CurrentItem.Add("ContentPID", reader["Content_PID"].ToString());
-                        reader.Close();
+
+                        CurrentItem = CurrentList[m_contentid];
+                        Debug.WriteLine("CurrentItem:从当前列表中读取" + m_contentid);
                     }
                     else
                     {
-                        CurrentItem.Add("ContentID", ContentCls.ContentId);
-                        CurrentItem.Add("SubmitDate", ContentCls.SubmitDate);
-                        CurrentItem.Add("PublishDate", ContentCls.PublishDate);
-                        CurrentItem.Add("SubmitDate", ContentCls.SubmitDate);
-                        CurrentItem.Add("ChannelID", ContentCls.TypeTree_ID == 0 ? ChannelID : ContentCls.TypeTree_ID);
-                        CurrentItem.Add("Author", ContentCls.Author);
-                        CurrentItem.Add("ContentPID", ContentCls.Content_PID);
-                        CurrentItem.Add("Url", ContentCls.Url);
-                        CurrentItem.Add("KeyWord", ContentCls.KeyWord);
-                        CurrentItem.Add("Original", ContentCls.Original);
-                        CurrentItem.Add("ReCount", ContentCls.ReCount);
-                        CurrentItem.Add("Clicks", ContentCls.Clicks);
-                        CurrentItem.Add("ContentType", ContentCls.ContentType);
+                        Debug.WriteLine("CurrentItem:从数据库中读取" + m_contentid);
+                        LoadCurrentItem(ChannelID, m_contentid);
                     }
-                    CurrentItem.Add("Name", ContentCls.Name);
-                    CurrentItem.Add("DerivationLink", ContentCls.DerivationLink);
-                    CurrentItem.Add("Derivation", ContentCls.Derivation);
-                    CurrentItem.Add("PictureName", ContentCls.PictureName);//*名称不同
-                    CurrentItem.Add("PictureDName", ContentCls.PictureNameD);//*名称不同
-                    CurrentItem.Add("PictureNotes", ContentCls.PictureNotes);
-                    CurrentItem.Add("Content", xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString());
-                    //-------- 电子商务支持 ---------------------------------------------------------
-                    CurrentItem.Add("Spec", ContentCls.DerivationLink);
-                    CurrentItem.Add("Price", ContentCls.Derivation);
-                    CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
-                    CurrentItem.Add("ESpec", ContentCls.DerivationLink);
-                    CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
-                    CurrentItem.Add("ESpec", ContentCls.Original);
-
                 }
             }
         }
@@ -216,7 +163,7 @@ namespace GCMSContentCreate
         /// <param name="TypeTree_ID"></param>
         public GCMS(int Content_ID, int TypeTree_ID)
         {
-            Console.WriteLine("以内容页模式初始化GCMS对象");
+            Debug.WriteLine(string.Format("以内容页模式初始化GCMS对象,ContentID={0},TypeTree_ID={1}",Content_ID,TypeTree_ID));
             ContentID = Content_ID;
             _ContentID = Content_ID;
             ChannelID = TypeTree_ID;
@@ -224,17 +171,107 @@ namespace GCMSContentCreate
         }
         public GCMS()
         {
-            Console.WriteLine("以默认模式初始化GCMS对象");
+            Debug.WriteLine("以默认模式初始化GCMS对象");
         }
         //-----------------------------------------------------------
         //内容
         //-----------------------------------------------------------
         public object Content(string Item)
         {
-            object returnValue = CurrentItem.ContainsKey(Item) ? CurrentItem[Item] : string.Empty;
+            Debug.WriteLine("Conetnt函数调用,参数:" , Item);
+            bool hasValue = CurrentItem.ContainsKey(Item);
+            object returnValue = hasValue ? CurrentItem[Item] : string.Empty;
             return returnValue;
         }
 
+        #region 预读数据
+        private Childs LoadCurrentList(string sql)
+        {
+            Childs Contents = new Childs();
+            DataTable listdt = Tools.DoSqlTable(sql);
+            CurrentList = new Dictionary<int, Hashtable>();//初始化当前列表
+            foreach (DataRow dr in listdt.Rows)
+            {
+                Child chair = new Child();
+                chair.ContentID = int.Parse(dr["Content_ID"].ToString());
+                chair.Url = dr["Url"].ToString();
+
+                Hashtable currentitem = new Hashtable();
+
+                foreach (DataColumn dc in listdt.Columns)
+                {
+                    string colname = dc.ColumnName;
+                    Console.WriteLine("CurrentList:添加" + colname);
+                    currentitem.Add(colname, dr[colname].ToString());
+                }
+                currentitem.Add("ContentID", dr["Content_ID"].ToString());
+                currentitem.Add("ChannelID", dr["TypeTree_ID"].ToString());
+                currentitem.Add("ContentPID", dr["Content_PID"].ToString());
+
+                CurrentList.Add(chair.ContentID, currentitem);//更新当前列表
+                Contents.Contents.Add(chair, dr["Content_ID"].ToString(), null, null);
+                ChannelID = int.Parse(dr["TypeTree_ID"].ToString());
+            }
+            return Contents;
+        }
+        private Hashtable LoadCurrentItem(int TypeTree_ID, int Content_ID)
+        {
+            ContentCls ContentCls = new ContentCls();
+
+            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+            _Type_TypeTree.Init(TypeTree_ID);
+            ContentCls.Init(Content_ID);
+
+            CurrentItem = new Hashtable();//初始化当前对象
+
+            if (_Type_TypeTree.TypeTree_Type == 2)
+            {
+                Content_FieldsName Content_FieldsName = new Content_FieldsName();
+                Content_FieldsName.Init(_Type_TypeTree.TypeTree_TypeFields);
+                SqlDataReader reader = Tools.DoSqlReader("Select * from Content_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + Content_ID);
+                int colsCount = reader.FieldCount;
+                if (reader.Read())
+                {
+                    for (int i = 0; i < colsCount; i++)
+                    {
+                        CurrentItem.Add(reader.GetName(i), reader[i].ToString());
+                    }
+                }
+                CurrentItem.Add("ContentID", reader["Content_ID"].ToString());
+                CurrentItem.Add("ChannelID", reader["TypeTree_ID"].ToString());
+                CurrentItem.Add("ContentPID", reader["Content_PID"].ToString());
+                reader.Close();
+            }
+            else
+            {
+                CurrentItem.Add("ContentID", ContentCls.ContentId);
+                CurrentItem.Add("SubmitDate", ContentCls.SubmitDate);
+                CurrentItem.Add("PublishDate", ContentCls.PublishDate);
+                CurrentItem.Add("ChannelID", ContentCls.TypeTree_ID == 0 ? ChannelID : ContentCls.TypeTree_ID);
+                CurrentItem.Add("Author", ContentCls.Author);
+                CurrentItem.Add("ContentPID", ContentCls.Content_PID);
+                CurrentItem.Add("Url", ContentCls.Url);
+                CurrentItem.Add("KeyWord", ContentCls.KeyWord);
+                CurrentItem.Add("Original", ContentCls.Original);
+                CurrentItem.Add("ReCount", ContentCls.ReCount);
+                CurrentItem.Add("Clicks", ContentCls.Clicks);
+                CurrentItem.Add("ContentType", ContentCls.ContentType);
+            }
+            CurrentItem.Add("Name", ContentCls.Name);
+            CurrentItem.Add("DerivationLink", ContentCls.DerivationLink);
+            CurrentItem.Add("Derivation", ContentCls.Derivation);
+            CurrentItem.Add("PictureName", ContentCls.PictureName);//*名称不同
+            CurrentItem.Add("PictureDName", ContentCls.PictureNameD);//*名称不同
+            CurrentItem.Add("PictureNotes", ContentCls.PictureNotes);
+            CurrentItem.Add("Content", xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString());
+            //-------- 电子商务支持 ---------------------------------------------------------
+            CurrentItem.Add("Spec", ContentCls.DerivationLink);
+            CurrentItem.Add("Price", ContentCls.Derivation);
+            CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
+            CurrentItem.Add("ESpec", ContentCls.DerivationLink);
+            return CurrentItem;
+        }
+        #endregion 预读数据
 
         public int PContent(string Item, int intI)
         {
@@ -286,10 +323,13 @@ namespace GCMSContentCreate
 
         private string xmlSplit(string xmlStr)
         {
-            string returnValue;
-            XmlDataDocument xmlDoc = new XmlDataDocument();
-            xmlDoc.LoadXml(xmlStr);
-            returnValue = xmlDoc.DocumentElement.ChildNodes.Item(PageID).InnerText.ToString();
+            string returnValue = string.Empty;
+            if (!string.IsNullOrEmpty(xmlStr))
+            {
+                XmlDataDocument xmlDoc = new XmlDataDocument();
+                xmlDoc.LoadXml(xmlStr);
+                returnValue = xmlDoc.DocumentElement.ChildNodes.Item(PageID).InnerText.ToString();
+            }
             return returnValue;
         }
 
@@ -461,7 +501,7 @@ namespace GCMSContentCreate
         {
             Collection returnValue;
 
-            SqlDataReader myReader;
+            
             string sql;
             Childs Contents = new Childs();
             string strListLastID = string.Empty;
@@ -489,21 +529,8 @@ namespace GCMSContentCreate
 
             //sql = "SELECT Top " & ListTop & " Content_ID,Name,Url,OrderNum FROM Content_Content WHERE TypeTree_ID =" & ChannelID.ToString() & strListLastID & " and status = 4 or Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " & ChannelID.ToString() & ") order by AtTop desc ,OrderNum desc"
             sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum," + _userwherecolname + " FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 " + UserWhere + " order by " + Order;
-            myReader = Tools.DoSqlReader(sql);
-            while (myReader.Read())
-            {
-
-                Child chair = new Child();
-
-                chair.ContentID = myReader.GetInt32(0);
-                // chair.Name = myReader.GetString(1)
-                chair.Url = myReader.GetString(1);
-                Contents.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-                ListLastID = myReader.GetInt32(2).ToString();
-
-            }
-            myReader.Close();
-            returnValue = Contents.Contents;
+            
+            returnValue = LoadCurrentList(sql).Contents;
 
             return returnValue;
         }
@@ -600,16 +627,15 @@ namespace GCMSContentCreate
 
         public Collection Top(int intTop)
         {
-            Console.WriteLine("开始执行Top函数,参数为"+intTop);
+            Console.WriteLine("开始执行Top函数,参数为",intTop.ToString());
             Collection returnValue;
 
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
             _Type_TypeTree.Init(int.Parse(GetChannel));//ChannelID
 
             string GetChannelID = _Type_TypeTree.IDSonTypeTree(int.Parse(GetChannel));
-            SqlDataReader myReader;
-            string sql;
-            Childs Contents = new Childs();
+            
+            
             string Orderby = " AtTop desc , OrderNum desc";
             string isNews = " and Head_news = \'1\' ";
 
@@ -629,38 +655,14 @@ namespace GCMSContentCreate
             }
 
             //sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID,"+_userwherecolname+" FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
-            sql = "SELECT Top " + intTop.ToString() + "  * FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 " + UserWhere + " order by " + Orderby;
-            myReader = Tools.DoSqlReader(sql);
-
-            while (myReader.Read())
-            {
-                Child chair = new Child();
-                chair.ContentID =int.Parse( myReader["Content_ID"].ToString());
-                chair.Url = myReader["Url"].ToString();
-                
-
-                string[] cols = _Type_TypeTree.TypeTree_Show.Split(',');
-                Hashtable currentitem = new Hashtable();
-                foreach (string colname in cols)
-                {
-                    Console.WriteLine("CurrentList:添加"+colname);
-                    currentitem.Add(colname, myReader[colname].ToString());
-                }
-                currentitem.Add("ContentID", myReader["Content_ID"].ToString());
-                currentitem.Add("ChannelID", myReader["TypeTree_ID"].ToString());
-                currentitem.Add("ContentPID", myReader["Content_PID"].ToString());
-
-                CurrentList.Add(chair.ContentID,currentitem);
-                Contents.Contents.Add(chair, myReader["Content_ID"].ToString(), null, null);
-                ChannelID =int.Parse(myReader["TypeTree_ID"].ToString());
-               
-            }
-            myReader.Close();
-
-            returnValue = Contents.Contents;
+            //sql = "SELECT Top " + intTop.ToString() + "  * FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 " + UserWhere + " order by " + Orderby;
+            
+            string sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID = {2} {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
+            
+            returnValue = LoadCurrentList(sql).Contents;//载入列表
 
             return returnValue;
-            Console.WriteLine("Top函数执行完毕" );
+            Console.WriteLine("Top函数执行完毕");
         }
 
         public Collection Pic(int intTop)

@@ -66,7 +66,10 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
             TypeTreeIssuanceID = int.Parse(_Type_TypeTree.TypeTreeIssuance.ToString());
             sTypeTree_Show.Value = _Type_TypeTree.TypeTree_Show;
-            sTypeTree_ContentFields.Value = _Type_TypeTree.TypeTree_ContentFields.ToString();
+            sTypeTree_ContentFields.Value 
+                = _Type_TypeTree.TypeTree_ContentFields == 0 ? 
+                _Type_TypeTree.TypeTree_TypeFields.ToString() :
+                _Type_TypeTree.TypeTree_ContentFields.ToString();//#待测试的修改#
             string TypeTreeIssuanceName = _Type_TypeTree.strTypeTreeIssuance(TypeTreeIssuanceID).ToString();
 
             //				switch (_Type_TypeTree.TypeTree_Type)
@@ -556,7 +559,10 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         if (TypeTree_Type == 2)
         {
             _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
-            countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + sTypeTree_ID + "'" + sTextSearch;
+            
+                countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + sTypeTree_ID + "'" + sTextSearch;
+            
+           
         }
         //Change By Galen Mu 2008.7.29
         if (TypeTree_Type == 1)
