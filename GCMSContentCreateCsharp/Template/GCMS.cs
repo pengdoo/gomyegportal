@@ -178,6 +178,10 @@ namespace GCMSContentCreate
         //-----------------------------------------------------------
         public object Content(string Item)
         {
+            if (Item == "Url")//兼容历史模板的大小写辨识问题
+            {
+                if (CurrentItem.ContainsKey("URL")) return CurrentItem["URL"];
+            }
             Debug.WriteLine("Conetnt函数调用,参数:" , Item);
             bool hasValue = CurrentItem.ContainsKey(Item);
             object returnValue = hasValue ? CurrentItem[Item] : string.Empty;
@@ -185,31 +189,58 @@ namespace GCMSContentCreate
         }
 
         #region 预读数据
-        private Childs LoadCurrentList(string sql)
+        private Childs LoadCurrentList(string sql,string keyname)
         {
             Childs Contents = new Childs();
             DataTable listdt = Tools.DoSqlTable(sql);
             CurrentList = new Dictionary<int, Hashtable>();//初始化当前列表
             foreach (DataRow dr in listdt.Rows)
             {
-                Child chair = new Child();
-                chair.ContentID = int.Parse(dr["Content_ID"].ToString());
-                chair.Url = dr["Url"].ToString();
-
                 Hashtable currentitem = new Hashtable();
+                Child chair = new Child();
+                if (listdt.Columns.Contains("Content_ID"))
+                {
+                    chair.ContentID =int.Parse( dr["Content_ID"].ToString());
+                    currentitem.Add("ContentID", dr["Content_ID"].ToString());
+                }
+                if (listdt.Columns.Contains("Url"))
+                {
+                    chair.Url = dr["Url"].ToString();
+                }
+                if (listdt.Columns.Contains("Name"))
+                {
+                    chair.Name = dr["Name"].ToString();
+                }
+                if (listdt.Columns.Contains("TypeTree_ID"))
+                {
+                    chair.ChannelID = int.Parse(dr["TypeTree_ID"].ToString());
+                    currentitem.Add("ChannelID", dr["TypeTree_ID"].ToString());
+                }
+                if (listdt.Columns.Contains("Remark_ID"))
+                {
+                    chair.ReID = int.Parse(dr["Remark_ID"].ToString());
+                }
 
+                if (listdt.Columns.Contains("Content_PID"))
+                {
+                    currentitem.Add("ContentPID", dr["Content_PID"].ToString());
+                }
+          
                 foreach (DataColumn dc in listdt.Columns)
                 {
                     string colname = dc.ColumnName;
                     Console.WriteLine("CurrentList:添加" + colname);
-                    currentitem.Add(colname, dr[colname].ToString());
+                    if (!currentitem.ContainsKey(colname))
+                    {
+                        currentitem.Add(colname, dr[colname].ToString());
+                    }
                 }
-                currentitem.Add("ContentID", dr["Content_ID"].ToString());
-                currentitem.Add("ChannelID", dr["TypeTree_ID"].ToString());
-                currentitem.Add("ContentPID", dr["Content_PID"].ToString());
 
+
+                string sid = dr[keyname].ToString();
+               
                 CurrentList.Add(chair.ContentID, currentitem);//更新当前列表
-                Contents.Contents.Add(chair, dr["Content_ID"].ToString(), null, null);
+                Contents.Contents.Add(chair,sid , null, null);
                 ChannelID = int.Parse(dr["TypeTree_ID"].ToString());
             }
             return Contents;
@@ -477,23 +508,9 @@ namespace GCMSContentCreate
             string sql;
             Childs Contents = new Childs();
 
-            sql = "SELECT Top " + intTop.ToString() + " Remark_ID,Content_ID FROM Content_ContentRemark WHERE Content_ID in (" + _ContentID + ") and Status = 4 order by Remark_Date";
-            myReader = Tools.DoSqlReader(sql);
-
-            while (myReader.Read())
-            {
-
-                Child chair = new Child();
-                chair.ReID = myReader.GetInt32(0);
-
-                Contents.Contents.Add(chair as object, myReader.GetInt32(0).ToString(), null, null);
-                ContentID = myReader.GetInt32(1);
-            }
-            myReader.Close();
-
-
-            returnValue = Contents.Contents;
-
+            sql = "SELECT Top " + intTop.ToString() + " * FROM Content_ContentRemark WHERE Content_ID in (" + _ContentID + ") and Status = 4 order by Remark_Date";
+            returnValue = LoadCurrentList(sql, "Remark_ID").Contents;
+        
             return returnValue;
         }
 
@@ -502,7 +519,7 @@ namespace GCMSContentCreate
             Collection returnValue;
 
             
-            string sql;
+            
             Childs Contents = new Childs();
             string strListLastID = string.Empty;
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
@@ -528,14 +545,15 @@ namespace GCMSContentCreate
             }
 
             //sql = "SELECT Top " & ListTop & " Content_ID,Name,Url,OrderNum FROM Content_Content WHERE TypeTree_ID =" & ChannelID.ToString() & strListLastID & " and status = 4 or Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " & ChannelID.ToString() & ") order by AtTop desc ,OrderNum desc"
-            sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum," + _userwherecolname + " FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 " + UserWhere + " order by " + Order;
-            
-            returnValue = LoadCurrentList(sql).Contents;
+            //sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum," + _userwherecolname + " FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 " + UserWhere + " order by " + Order;
+            string sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);          
+            returnValue = LoadCurrentList(sql,"Content_ID").Contents;
 
             return returnValue;
         }
 
-        public Collection Relative(int intTop)
+
+        public Collection Relative(int intTop)//#未完成代码#
         {
             Collection returnValue;
 
@@ -592,7 +610,7 @@ namespace GCMSContentCreate
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
             ChannelID = int.Parse(GetChannel);
             _Type_TypeTree.Init(int.Parse(GetChannel));
-            SqlDataReader myReader;
+
             string sql = string.Empty;
             Childs Contents = new Childs();
 
@@ -606,21 +624,12 @@ namespace GCMSContentCreate
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = "SELECT Top " + intTop.ToString() + " Content_ID FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
+                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
             }
 
 
-            myReader = Tools.DoSqlReader(sql);
-            while (myReader.Read())
-            {
 
-                Child chair = new Child();
-                chair.ContentID = myReader.GetInt32(0);
-                Contents.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-            }
-            myReader.Close();
-
-            returnValue = Contents.Contents;
+            returnValue = LoadCurrentList(sql, "Content_ID").Contents;
 
             return returnValue;
         }
@@ -657,9 +666,9 @@ namespace GCMSContentCreate
             //sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID,"+_userwherecolname+" FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
             //sql = "SELECT Top " + intTop.ToString() + "  * FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 " + UserWhere + " order by " + Orderby;
             
-            string sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID = {2} {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
+            string sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
             
-            returnValue = LoadCurrentList(sql).Contents;//载入列表
+            returnValue = LoadCurrentList(sql,"Content_ID").Contents;//载入列表
 
             return returnValue;
             Console.WriteLine("Top函数执行完毕");
@@ -672,10 +681,7 @@ namespace GCMSContentCreate
             string GetChannelID;
             GCMSClassLib.Content.Type_TypeTree TypeTree = new GCMSClassLib.Content.Type_TypeTree();
             GetChannelID = TypeTree.IDSonTypeTree(int.Parse(GetChannel));
-            SqlDataReader myReader;
-            string sql;
-            Childs Contents = new Childs();
-
+         
             if (String.IsNullOrEmpty(Order))
             {
                 Order = "AtTop desc ,OrderNum desc";
@@ -683,24 +689,9 @@ namespace GCMSContentCreate
 
             //sql = "SELECT Top " & intTop.ToString() & " Content_ID,Name ,Url FROM Content_Content WHERE TypeTree_ID in (" & GetChannelID & ") and Picture_news = '1' and Status = 4 order by OrderNum desc"
             //sql = "SELECT Top " & intTop.ToString() & " Content_Content.Content_ID,Name ,Url ,Content_Content.TypeTree_ID FROM Content_Content,Content_Commend WHERE (Content_Content.TypeTree_ID in (" & GetChannelID & ") or Content_Commend.TypeTree_ID in (" & GetChannelID & ")) and Content_Content.Content_ID = Content_Commend.Content_ID and Picture_news = '1' and Status = 4 order by OrderNum desc"
-            sql = "SELECT Top " + intTop.ToString() + " Content_Content.Content_ID,Name ,Url ,Content_Content.TypeTree_ID FROM Content_Content WHERE (TypeTree_ID in (" + GetChannelID + ") or Content_Content.content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) and Picture_news = \'1\' and Status = 4 order by " + Order;
+            string sql = "SELECT Top " + intTop.ToString() + " * FROM Content_Content WHERE (TypeTree_ID in (" + GetChannelID + ") or Content_Content.content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) and Picture_news = \'1\' and Status = 4 order by " + Order;
 
-
-
-            myReader = Tools.DoSqlReader(sql);
-
-            while (myReader.Read())
-            {
-
-                Child chair = new Child();
-                chair.ContentID = myReader.GetInt32(0);
-                chair.Name = myReader.GetString(1);
-                chair.Url = myReader.GetString(2);
-                Contents.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-            }
-            myReader.Close();
-
-            returnValue = Contents.Contents;
+            returnValue = LoadCurrentList(sql, "Content_ID").Contents;
 
             return returnValue;
         }
@@ -711,21 +702,21 @@ namespace GCMSContentCreate
         {
             Collection returnValue;
 
-            SqlDataReader myReader;
+            //SqlDataReader myReader;
             string sql;
-            ChannelChilds Channels = new ChannelChilds();
+            //ChannelChilds Channels = new ChannelChilds();
 
-            sql = "SELECT TypeTree_ID FROM Content_Type_TypeTree WHERE TypeTree_ParentID = " + ChannelID + " and TypeTree_Issuance in(1,3,5) order by TypeTree_OrderNum";
-            myReader = Tools.DoSqlReader(sql);
+            sql = "SELECT  * FROM Content_Type_TypeTree WHERE TypeTree_ParentID = " + ChannelID + " and TypeTree_Issuance in(1,3,5) order by TypeTree_OrderNum";
+            //myReader = Tools.DoSqlReader(sql);
 
-            while (myReader.Read())
-            {
-                Child chair = new Child();
-                chair.ChannelID = myReader.GetInt32(0);
-                Channels.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-            }
-            myReader.Close();
-            returnValue = Channels.Contents;
+            //while (myReader.Read())
+            //{
+            //    Child chair = new Child();
+            //    chair.ChannelID = myReader.GetInt32(0);
+            //    Channels.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
+            //}
+            //myReader.Close();
+            returnValue = LoadCurrentList(sql, "TypeTree_ID").Contents;
             return returnValue;
         }
 
