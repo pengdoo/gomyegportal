@@ -254,18 +254,20 @@ namespace GCMSContentCreate
         private Hashtable LoadCurrentItem(int TypeTree_ID, int Content_ID)
         {
             ContentCls ContentCls = new ContentCls();
-
-            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-            _Type_TypeTree.Init(TypeTree_ID);
             ContentCls.Init(Content_ID);
+             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+             int typetreeid = TypeTree_ID == 0 ? ContentCls.TypeTree_ID : TypeTree_ID;
+
+             _Type_TypeTree.Init(typetreeid);
 
             CurrentItem = new Hashtable();//初始化当前对象
 
-            if (_Type_TypeTree.TypeTree_Type == 2)
+            if (_Type_TypeTree.TypeTree_Type == 2||_Type_TypeTree.TypeTree_Type == 0)//兼容AOC的产品
             {
                 Content_FieldsName Content_FieldsName = new Content_FieldsName();
-                Content_FieldsName.Init(_Type_TypeTree.TypeTree_TypeFields);
-                SqlDataReader reader = Tools.DoSqlReader("Select * from Content_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + Content_ID);
+                int contenfiled = _Type_TypeTree.TypeTree_TypeFields == 0 ? _Type_TypeTree.TypeTree_ContentFields : _Type_TypeTree.TypeTree_TypeFields;
+                Content_FieldsName.Init(contenfiled);
+                SqlDataReader reader = Tools.DoSqlReader("Select * from ContentUser_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + Content_ID);
                 int colsCount = reader.FieldCount;
                 if (reader.Read())
                 {
@@ -276,7 +278,10 @@ namespace GCMSContentCreate
                 }
                 CurrentItem.Add("ContentID", reader["Content_ID"].ToString());
                 CurrentItem.Add("ChannelID", reader["TypeTree_ID"].ToString());
-                CurrentItem.Add("ContentPID", reader["Content_PID"].ToString());
+                if (CurrentItem.ContainsKey("Content_PID"))//兼容AOC的产品
+                {
+                    CurrentItem.Add("ContentPID", reader["Content_PID"].ToString());
+                }
                 reader.Close();
             }
             else
@@ -661,10 +666,11 @@ namespace GCMSContentCreate
 
             string FieldsName = "Content_Content";
 
-            if (_Type_TypeTree.TypeTree_Type == 2)
+            if (_Type_TypeTree.TypeTree_Type == 2 || _Type_TypeTree.TypeTree_Type == 0)
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
+                int contentfiledid = _Type_TypeTree.TypeTree_ContentFields == 0 ? _Type_TypeTree.TypeTree_ContentFields : _Type_TypeTree.TypeTree_ContentFields ;
+                _Content_FieldsName.Init(contentfiledid);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
                 isNews = " ";
             }
