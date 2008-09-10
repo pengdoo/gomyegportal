@@ -1020,16 +1020,18 @@ namespace Gomye.CommonClassLib.Data
                 col = new DataColumn();
                 col.ColumnName = sdr.GetName(i);
                 col.DataType = sdr.GetFieldType(i);
-
-                dt.Columns.Add(col);
+                if (!dt.Columns.Contains(col.ColumnName))//Change By Galen Mu 2008-9-10
+                {
+                    dt.Columns.Add(col);
+                }
             }
 
             while (sdr.Read())
             {
                 row = dt.NewRow();
-                for (int i = 0; i < sdr.FieldCount; i++)
+                for (int i = 0; i < dt.Columns.Count; i++)
                 {
-                    row[i] = sdr[i];
+                    row[dt.Columns[i].ColumnName] = sdr[dt.Columns[i].ColumnName];
                 }
                 dt.Rows.Add(row);
             }
