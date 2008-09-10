@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="268" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="268" height="32" /></td>
+            </tr>
+            <tr>
+              <td><img src="/images/a_2.jpg" width="268" height="37" /></td>
+            </tr>
+            <tr>
+              <td> 
+			  <!--#include virtual="/public/include/left_info.shtml" --></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/a_10.jpg" width="268" height="38" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%"><!--#include virtual="/public/include/two_left.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><img src="/images/s1_1.jpg" width="720" height="193" /></td>
+                          </tr>
+                          <tr>
+                            <td><table width="720" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/content.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="40%" class="pp"><img src="/images/s1_3.jpg" width="87" height="16" /></td>
+                                        <td width="55%" align="right" class="pp">当前位置/<a href="/default.shtml"><font class="pp">AOC</font></a> / <a href="/product/channel/default.shtml"><font class="pp">产品展示</font></a> / <a href='<!--% Response.Output GCMS.Channel("Url") %-->'><font class="pp"><!--%
+'内容对象:CName
+Response.Output GCMS.Channel("CName")
+%--></a>/ <!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top" bgcolor="#FFFFFF" class="about_bg"><table width="720" border="0" cellpadding="0" cellspacing="0">
+                                      <tr>
+                                        <td width="720" height="414">
+ 
+                                          <table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px">
+                                            <tr>
+                                              <td width="33%"><table width="200" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="center"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="120" height="120" border="0" /></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="50" align="center" class="p5"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+if len(GCMS.Content("Name"))>10 then Response.Output left(GCMS.Content("Name"),9) & "..." else Response.Output GCMS.Content("Name") end if
+%--></a> </td>
+                                                  </tr>
+                                              </table></td>
+                                              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td width="54%" valign="top"><table width="230" border="0" align="right" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                          <td width="242" height="28" valign="top" class="p3">产品特性:</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="25" class="news_p2"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("cpts")
+%--></td>
+                                                        </tr>
+                                                   
+                                                
+                                                    </table></td>
+                                                    <td width="46%"><table width="230" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                          <td height="28" valign="top" class="p3"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%--></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td class="p4"><table width="200" border="0" align="right" cellpadding="0" cellspacing="0">
+                                                              <tr>
+                                                                <td width="32" height="22"><img src="/images/small_1.gif" width="11" height="7" /></td>
+                                                                <td width="168" height="22" class="small_1">相关新闻</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22" colspan="2" class="small_2">&nbsp;</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22"><img src="/images/small_1.gif" width="11" height="7" /></td>
+                                                                <td height="22" class="small_1">相关驱动程序下载</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22" colspan="2" class="small_2">&nbsp;</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22"><img src="/images/small_1.gif" width="11" height="7" /></td>
+                                                                <td height="22" class="small_1">常见问题解答/知识库</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22" colspan="2" class="small_2">&nbsp;</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22"><img src="/images/small_1.gif" width="11" height="7" /></td>
+                                                                <td height="22" class="small_1">服务政策/质保</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22" colspan="2" class="small_2">&nbsp;</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22"><img src="/images/small_1.gif" width="11" height="7" /></td>
+                                                                <td height="22" class="small_1">销售网点</td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="22" colspan="2" class="small_2">&nbsp;</td>
+                                                              </tr>
+                                                          </table></td>
+                                                        </tr>
+                                                    </table></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                          <td width="25%"><table width="80" height="86" border="0" cellpadding="0" cellspacing="0" class="border_1">
+                                                              <tr>
+                                                                <td align="center" bgcolor="#FFFFFF"><img src="/images/small1.jpg" width="60" height="61" /></td>
+                                                              </tr>
+                                                          </table></td>
+                                                          <td width="25%"><table width="80" height="86" border="0" cellpadding="0" cellspacing="0" class="border_1">
+                                                              <tr>
+                                                                <td align="center" bgcolor="#FFFFFF"><img src="/images/small2.jpg" width="42" height="61" /></td>
+                                                              </tr>
+                                                          </table></td>
+                                                          <td width="25%"><table width="80" height="86" border="0" cellpadding="0" cellspacing="0" class="border_1">
+                                                              <tr>
+                                                                <td align="center" bgcolor="#FFFFFF"><img src="/images/small3.jpg" width="23" height="61" /></td>
+                                                              </tr>
+                                                          </table></td>
+                                                          <td width="25%"><table width="80" height="86" border="0" cellpadding="0" cellspacing="0" class="border_1">
+                                                              <tr>
+                                                                <td align="center" bgcolor="#FFFFFF"><img src="/images/small4.jpg" width="59" height="61" /></td>
+                                                              </tr>
+                                                          </table></td>
+                                                        </tr>
+                                                    </table></td>
+                                                  </tr>
+                                              </table></td>
+                                            </tr>
+											<tr>
+                                              <td colspan="2"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#F5F5F5" style="margin-top:15px;">
+                                                <tr bgcolor="#FFFFFF">
+                                                  <td height="30" colspan="4"  class="p3">&nbsp;主要规格:</td>
+                                                </tr>
+                                                <tr>
+                                                  <td width="25%" height="26" bgcolor="#FFFFFF" class="t3">&nbsp;产品名称: </td>
+                                                  <td width="26%" bgcolor="#FFFFFF">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("proname")
+%--></td>
+                                                  <td width="19%" bgcolor="#FFFFFF" class="t3">&nbsp;物理解析度:</td>
+                                                  <td width="30%" bgcolor="#FFFFFF">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("wljxd")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;画面比例: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("hmbl")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;显示区域 (H×V):</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("xsqyhv")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;对比度: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("dbd")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;亮度:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("ld")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;显示颜色: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("xsys")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;视角 (H/V):</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("sjhv")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;响应时间: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("xysj")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;电视制式:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("dszs")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;TV 输入端口: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("tvsrdk")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;AV:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("av")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;S-Video: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("svideo")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;YPbPr&YCbCr:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("ypbprycbcr")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;HDMI: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("hdmi")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;PC VGA:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("pcvga")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;DVI: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("dvi")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;音箱功率:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("yxgl")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;电源输入: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("dyss")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;功耗:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("gh")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;工作温度范围: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("gzwdfw")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;储藏温度范围:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("ccwdfw")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;颜色: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("ys")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;外观尺寸（ mm ）:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("wgcc")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;外观尺寸（含底座 mm ）: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("wgcchdz")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;重量（净重）:</td>
+                                                  <td width="30%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("zljz")
+%--></td>
+                                                </tr>
+												<tr bgcolor="#FFFFFF">
+                                                  <td width="25%" height="26" class="t3">&nbsp;壁挂安装方式: </td>
+                                                  <td width="26%">&nbsp;<!--%
+'内容对象:Content
+Response.Output GCMS.Content("bgazfs")
+%--></td>
+                                                  <td width="19%" class="t3">&nbsp;</td>
+                                                  <td width="30%">&nbsp;</td>
+                                                </tr>
+												
+												
+                                              </table></td>
+                                            </tr>
+                                        </table>
+										 <div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=<!--% Response.Output GCMS.Content("ContentID")%-->"></script></div></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/b2.jpg" width="721" height="15" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td height="219" valign="bottom" bgcolor="#F5F5F5"><img src="../../images/XP_5.jpg" width="7" height="219" /></td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

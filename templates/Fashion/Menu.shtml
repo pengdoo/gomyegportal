@@ -1,0 +1,71 @@
+<table width="470" border="0" cellspacing="1" cellpadding="0" class="flyoutMenu">
+		  <tr>
+			<td width="118"><table border="0" cellpadding="1" cellspacing="0" width="118" >
+			  <tr>
+				<td class="flyoutHeading">服饰品牌</td>
+			  </tr>
+			</table></td>
+		<td  class="flyoutMenu">
+		<ul>
+<!--%
+For Each Channels In GCMS.GetChannels(298)
+GCMS.ChannelID = Channels.ChannelID
+%-->
+				<li><a href="<!--%Response.Output GCMS.Channel("Url")%-->"><!--%Response.Output GCMS.Channel("CName")%--></a></li>
+<!--%
+Next
+%-->
+		</ul>
+		</td>
+		</tr>
+</table>
+
+  <div class="mainDiv" style ="width: 482px; height:250px">
+	<div class="nav">
+	<div class="menu2"><strong>品类搭配</a></strong></div>
+		<div class="list">
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">毛衣</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">外套</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">针织衫靴子</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">连衣裙裤子</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">牛仔</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">围巾鞋子</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">饰品</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">袜子</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">内衣包包</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">T恤</a><br>
+		</div>
+	</div>
+
+	<div class="nav"> 
+		<div class="menu2"><strong>身材搭配</a></strong></div>
+		<div class="list">
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">脸型</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">颈肩背和手臂</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">胸部</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">腰部和腹部</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">臀部</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">腿部</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">高矮</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">胖瘦</a><br>
+	</div>
+	</div>
+
+	<div class="nav"> 
+		<div class="menu2"><strong>场合搭配</a></strong></div>
+		<div class="list">
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">面试</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">职业装</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">礼服晚装</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=96">约会装</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=88">派对装</a><br>
+		</div>
+	</div>
+	<div class="nav"> 
+	<div class="menu2"><strong>色彩搭配</a></strong></div>
+		<div class="list">
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=124">肤色</a>
+		<a href="/shop/Channel_Default/default_Hairdressing.asp?typetree_id=125">不同色彩的搭配</a><br>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="../../public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<script src="/Scripts/AC_RunActiveContent.js" type="text/javascript"></script>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="268" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="100%"><img src="/images/a_1.jpg" width="268" height="32" /></td>
+              </tr>
+              <tr>
+                <td><img src="/images/a_2.jpg" width="268" height="37" /></td>
+              </tr>
+              <tr>
+                <td><!--#include virtual="/public/include/left_info.shtml" --></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                    </tr>
+                    <tr>
+                      <td height="40"></td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="720"><!--#include virtual="/public/include/product_banner.shtml" --></td>
+              </tr>
+              <tr>
+                <td><table width="720" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="36" background="/images/content.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="4%" align="center">&nbsp;</td>
+                            <td width="29%" class="pp"><a href="/product/channel/default.shtml?3"><img src="/images/lcdtv.jpg" width="90" height="17" border="0" /></a></td>
+                            <td width="67%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/product/channel/default.shtml"><font class="pp">产品展示</font></a> / <a href="/product/channel/default.shtml?3"><font color="#FFFFFF">TV液晶电视</font></a> / <a href='<!--% Response.Output GCMS.Channel("Url") %-->'><font class="pp">
+                              <!--%
+'内容对象:CName
+Response.Output GCMS.Channel("CName")
+%-->
+                              </font></a> /
+                              <!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%-->
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td valign="top" bgcolor="#FFFFFF" class="about_bg"><table width="720" border="0" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td width="720" height="414" valign="top"><table width="694" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF" style="margin-top:11px;">
+                                <tr>
+                                  <td height="38" bgcolor="#F1F1F1" style="font-size:13px; font-weight:bold"><table width="684" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="74" align="left">&nbsp;<!--%
+Response.Output GCMS.Content("Name")
+%--></td>
+    <td width="610" align="left"><!--%
+Response.Output GCMS.Content("Content")
+%--></td>
+  </tr>
+</table></td>
+                                </tr>
+                                <tr>
+                                  <td class="border1"><script type="text/javascript">
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','682','height','251','src','/flash/lcdtv?myid=<!--%
+Response.Output GCMS.Content("ContentID")
+%-->','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','/flash/lcdtv?myid=<!--%
+Response.Output GCMS.Content("ContentID")
+%-->' ); //end AC code
+</script>
+                                    <noscript>
+                                    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="682" height="251">
+                                      <param name="movie" value="/flash/lcdtv.swf?myid=<!--%
+Response.Output GCMS.Content("ContentID")
+%-->
+                                      " />
+                                      <param name="quality" value="high" />
+                                      <embed src="/flash/lcdtv.swf?myid=<!--%
+Response.Output GCMS.Content("ContentID")
+%-->
+                                      " quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="682" height="251">
+                                      </embed>
+                                    </object>
+                                    </noscript></td>
+                                </tr>
+                                <tr>
+                                  <td height="38" bgcolor="#F1F1F1"><table width="684" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td width="84" align="right"><img src="/images/arrow2.jpg" width="9" height="9" hspace="5" /><a href="/news/channel/p_news_list.shtml">相关新闻</a></td>
+                                                <td width="151" align="right"><img src="/images/arrow2.jpg" width="9" height="9" hspace="5" /><a href="/service/channel/xzzx_list.shtml">相关驱动程序下载</a></td>
+                                                <td width="166" align="right"><img src="/images/arrow2.jpg" width="9" height="9" hspace="5" /><a href="/service/channel/cjwt_list.shtml">常见问题解答/知识库</a></td>
+                                                <td width="131" align="right"><img src="/images/arrow2.jpg" width="9" height="9" hspace="5" /><a href="/service/channel/123_167.shtml">服务政策/质保</a></td>
+                                                <td width="105" align="right"><img src="/images/arrow2.jpg" width="9" height="9" hspace="5" /><a href="/xswl/channel/content171.shtml">销售网点</a></td> 
+												<td>&nbsp;</td>
+                                              </tr>
+                                            </table></td>
+                                </tr>
+                              </table>
+                              
+                              <table width="694" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF">
+                                <tr>
+                                  <td height="22" bgcolor="#E5ECF2" class="t_1">&nbsp;&nbsp;&nbsp;&nbsp;产品特性</td>
+                                </tr>
+                                <tr>
+                                  <td height="52" class="pic1" style="padding-left:15px; padding-right:15px;"><!--%
+Response.Output GCMS.Content("cpts")
+%--></td>
+                                </tr>
+                                <tr>
+                                  <td><table width="100%" border="0" cellspacing="1" cellpadding="0">
+                                      <tr bgcolor="#E5ECF2">
+                                        <td height="22" colspan="2" class="t_1">&nbsp;&nbsp;&nbsp;&nbsp;主要规格</td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">型号</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("xh")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">注塑工艺</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("zsgy")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">显示屏</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("xsp")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#ffffff">
+                                        <td width="24%" height="20" style="padding-left:15px;">屏幕对角线尺寸</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("pmdjxcc")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">显示屏比例</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("xspbl")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">分辨率</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("fbl")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">广色域增靓技术</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("gsyzljs")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">数字信号处理系统</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("szxhclxt")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">视角处理系统</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("sjclxt")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">3D降噪</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("jz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">3D数码梳妆滤波器</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("smszlbq")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">色温调节</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("swtj")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">HD高清信号接收</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("hdgqxhjs")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">图像冻结</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("txdj")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">双画面</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("shm")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">背光自动调节</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("bgzdtj")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">SRS环绕声系统</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("srshrsxt")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">自动音量调节</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("zdyltj")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">BBE</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("bbe")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">HDMI</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("hdmi")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">VGA</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("vga")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">USB</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("usb")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">PVR</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("pvr")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">天线输入端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("txsrdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">S视频输入端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("sspsrdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">视频输入端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("spsrdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">YPbPr/YCbCr分量视频输入端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("flspsrdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">监视器输出</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("jsqsc")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">音频输入端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("ypsrdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#FFFFFF">
+                                        <td width="24%" height="20" style="padding-left:15px;">音频输出端子</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("ypscdz")
+%--></td>
+                                      </tr>
+                                      <tr bgcolor="#F2F6F9">
+                                        <td width="24%" height="20" style="padding-left:15px;">电源要求</td>
+                                        <td width="76%">&nbsp;
+                                          <!--%
+Response.Output GCMS.Content("dyyq")
+%--></td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table>
+							  <div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=<!--% Response.Output GCMS.Content("ContentID")%-->"></script></div>
+							  </td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td height="15"><img src="/images/b2.jpg" width="721" height="15" /></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="219" valign="bottom" bgcolor="#F5F5F5"><img src="../../images/XP_5.jpg" width="7" height="219" /></td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

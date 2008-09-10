@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="gb2312"?>
+<products>
+	<!--%
+'头条新闻
+Gcms.GetChannel = GCMS.ChannelID
+For Each Item In GCMS.Top(2000)
+GCMS.ContentID = Item.ContentID
+%-->
+
+	<product src="<!--% Response.Output GCMS.Content("PictureName") %-->" id="<!--%
+Response.Output GCMS.Content("ContentID")
+%-->" href="<!--%Response.Output GCMS.Content("Url")%-->">
+		<size><!--%
+Response.Output GCMS.Content("screensize")
+%--></size>
+		<resolution><!--%
+Response.Output GCMS.Content("Maxresolution")
+%--></resolution>
+		<name><!--%
+Response.Output GCMS.Content("productcode")
+%--></name>
+		<description><![CDATA[<!--%
+Response.Output GCMS.Content("PictureNotes")
+%-->]]></description>
+	</product>
+	<!--%
+next
+Gcms.GetChannelOver
+%-->
+</products>
