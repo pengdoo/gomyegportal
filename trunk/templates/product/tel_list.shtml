@@ -1,0 +1,46 @@
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+
+<table width="241" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px">
+              <tr>
+                <td width="990" align="center"><table width="100%" border="0"  align="center" cellspacing="0" cellpadding="0">
+    <!--%
+'ндубап╠М
+i=0
+j=0
+For each Item In GCMS.Channels
+GCMS.ContentID = Item.ContentID
+i=i+1
+j=j+1
+%-->  
+  <tr>
+
+    <td width="25%"  height="140" align="center"><table width="120" border="0" align="center" cellpadding="0" cellspacing="2" style="margin-top:15px">
+        <tr>
+          <td width="126" height="120" align="center" valign="middle"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="120" height="120" border="0" /></a></td>
+        </tr>
+        <tr>
+          <td height="30" align="center" class="en"><a href='<!--%Response.Output GCMS.Content("Url")%-->'><!--%
+if len(GCMS.Content("Name"))>10 then Response.Output left(GCMS.Content("Name"),9) & "..." else Response.Output GCMS.Content("Name") end if
+%--></a></td>
+        </tr>
+      </table></td>
+
+  </tr>
+    <!--%
+if j=3 then
+%-->  
+
+  <tr>
+    <!--%
+j=0
+%-->
+    <!--%
+i=0
+end if
+Next
+%-->
+  </tr>
+</table></td>
+  </tr>
+              
+            </table>

@@ -1,0 +1,40 @@
+<table width="179" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+<!--%
+'Í¼Æ¬ÐÂÎÅ
+Gcms.GetChannel = 8
+For Each Item In GCMS.pic(2)
+GCMS.ContentID = Item.ContentID
+%-->    
+	
+	
+	<td>
+
+<table width="84" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center"><table width="100%" border="0" cellpadding="0" cellspacing="2" bgcolor="#FFFFFF" class="border1">
+  <tr>
+    <td bgcolor="#FFFFFF"><a href='<!--%Response.Output GCMS.Content("Url")%-->'>
+	<img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="80" height="80" border="0" /></a></td>
+  </tr>
+</table>
+</td>
+  </tr>
+  <tr>
+    <td height="26" align="center" class="en"><a href='<!--%Response.Output GCMS.Content("Url")%-->'>
+      <!--%
+if len(GCMS.Content("Name"))>10 then Response.Output left(GCMS.Content("Name"),9) & "..." else Response.Output GCMS.Content("Name") end if
+%-->
+      </a></td>
+  </tr>
+</table>
+
+</td>
+
+<!--%
+next
+%-->
+
+
+  </tr>
+</table>

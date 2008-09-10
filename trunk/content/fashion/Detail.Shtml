@@ -1,0 +1,244 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title><!--% Response.Output GCMS.Content("Name") &" - 古美时尚" %--></title>
+<meta name="description" content="<!--% Response.Output GCMS.Content("Name") %-->
+<meta name="keywords" content="<!--% Response.Output GCMS.Content("Name") %-->">
+<LINK href="/public/Public_css/Channel.css" rel=stylesheet>
+<LINK href="/public/Public_css/default.css" rel=stylesheet type=text/css>
+</head><body leftmargin="2" topmargin="0">
+<!--#include virtual="/Public/Public_Include/Public_Top.html"-->
+<table width="996" border="0" cellspacing="0" cellpadding="0"style="margin-top: 3px;margin-left: 3px;">
+<tr> 
+<td>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr> 
+<td width="12"><img src="/Public/Images_Public/home_middle_top_left_01.gif" width="12" height="33"></td>
+<td align="center" background="/Public/Images_Public/home_middle_line_01.gif">
+<table width="98%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
+	<tr> 
+	<td style="font-size:12px; color:#ffffff;"><A HREF="/">古美时尚</A></td>
+	</tr>
+</table>
+	</td>
+	<td width="12"><img src="/Public/Images_Public/home_middle_top_right_01.gif" width="12" height="33"></td>
+	</tr>
+</table>
+
+
+</td>
+</tr>
+<tr> 
+<td><table width="996" border="0" cellspacing="0" cellpadding="0">
+<tr> 
+<td width="5" background="/Public/Images_Public/home_middle_left_01.gif"></td>
+<td width="956" bgcolor="#FFFFFF"><table width="984" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="788" valign="top" style="BORDER-RIGHT: #ededed 1px solid;"> 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td height="96" align="center"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="772" height="80">
+<param name="movie" value="/Public/Images_Main/detail_banner.swf">
+<param name="quality" value="high">
+<embed src="/Public/Images_Main/detail_banner.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="772" height="80"></embed></object></td>
+</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr> 
+<td valign="top"> <table width="100%" border="0" cellpadding="15">
+<tr> 
+<td><p align="center">
+<h1><font color="#05006C" class="f24" id="zoom"><strong>
+<!--%
+'文档字段:Title
+Response.Output GCMS.Content("Name")
+%-->
+</strong></font></h1>
+<p>供稿人： 
+<!--%
+'文档字段:Content
+Response.Output GCMS.Content("Author")
+%-->
+<br>
+点击数： 
+<!--%
+response.Output "<script language='javascript' src='/Content/Content_Plus/Content_Count.asp?Content_ID="&GCMS.Content("ContentID")&"'></script>"
+%-->
+<p><font class="f14"> 
+<!--%
+'文档字段:Content
+Response.Output GCMS.Content("Content")
+%-->
+</font> 
+<p align="center"><font class="f14"> 
+<!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+Response.Output "&nbsp;共" & GCMS.PgCount & "页&nbsp;当前第" & GCMS.PgThis & "页"
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & "><b>" & i & "</b></a>&nbsp;"
+Else
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & ">" & i & "</a>&nbsp;"
+End if
+Next
+%-->
+
+
+<!--%
+'内容页分页
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'><IMG src=/Public/Images/Icon_PagesLast.gif border=0></A>"
+%-->
+&nbsp;&nbsp;&nbsp; 
+<!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'><IMG src=/Public/Images/Icon_PagesNext.gif border=0></A>"
+%-->
+</font> 
+<p><br>
+</table>
+<br> <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr> 
+<td>
+<!--#include virtual = "/public/public_include/detail_HotPic.shtml"-->
+</td>
+</tr>
+</table>
+<br> <br> 
+                        <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+                          <tr> 
+                            <td height="22" colspan="2"> <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr> 
+                                  <td><img src="../../Public/images_detail/XIANG.jpg" width="79" height="18"></td>
+                                </tr>
+                              </table>
+                              <br> </td>
+                          </tr>
+                          <tr> 
+                            <td width="50%"> 
+                              <table width="100%" border="0" cellpadding="0" cellspacing="10" bgcolor="#F5F5F5">
+                                <tr> 
+                                  <td bgcolor="#FFFFFF"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="F5F5F5" bgcolor="#FFFFFF">
+									<tr> 
+<!--%
+i=0
+For Each Item In GCMS.Relative(12)
+GCMS.ContentID = Item.ContentID
+i=i+1
+%-->
+
+                                        <td width="2%" height="22"><img src="../../Public/images_detail/DIAN.gif" width="20" height="19"></td>
+                                        <td width="46%"><a href='<!--%Response.Output GCMS.Content("Url")%-->' target="_blank"> 
+                                          <font color="#333333"> &nbsp; 
+                                          <!--%Response.Output GCMS.Content("Name")%-->
+                                          </font> </a></td>
+
+                                      <!--%
+if i=2 then
+Response.Output "</tr><tr>"
+i=0
+end if
+
+next
+Gcms.GetChannelOver
+%-->
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table>                            </td>
+                          </tr>
+                        </table>
+                      </td>
+</tr>
+</table>
+</td>
+<td width="196" align="center" valign="top"><br>
+<!--#include virtual = "/public/public_include/detail_left_Channel.shtml"-->
+<br>
+<!--#include virtual = "/public/public_include/detail_left_Website.shtml"-->
+<br>
+<!--#include virtual = "/public/public_include/detail_left_bbs.shtml"-->
+<br>
+<!--#include virtual = "/public/public_include/detail_Google.shtml"-->
+</td>
+</tr>
+</table>
+
+<br>
+<table width="100%" height="1" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td bgcolor="#CCCCCC"></td>
+  </tr>
+</table>
+<br>
+
+<table width="984" border="0" cellspacing="0" cellpadding="0" align="center" >
+  <tr>
+    <td width="581" align="center" valign="top">
+<table width="90%" border="0" cellspacing="0" cellpadding="0" align="center" >
+  <tr>
+    <td height="30"><img src="/Public/images_detail/PING_01.jpg"></td>
+    <td align="right"><a target="_blank" href="/Content/Content_Plus/Remark_More.asp?Content_ID=<!--%response.Output GCMS.Content("ContentID")%-->"><img src="/images/ping_more.gif" width="41" height="9" border="0"></a></td>
+  </tr>
+</table>
+<!--%
+response.Output "<script language='javascript' src='/Content/Content_Plus/Remark_Content.asp?Content_ID="&GCMS.Content("ContentID")&"'></script>"
+%-->	</td>
+    <td width="403" align="center" valign="top">
+<script  language="javascript">  
+ function  CheckReg()  
+ {  
+   if (form1.Remark.value=="")
+  {
+    alert("您没有填写内容!");
+    form1.Remark.focus();
+    return (false);
+  }
+ }
+</script> 
+	<table width="350" border="0" cellspacing="0" cellpadding="0">
+                    <form name="form1" method="post" action="/Content/Content_Plus/Remark_submit.asp" onSubmit="return CheckReg();">
+                      <tr> 
+                        <td ><img src="../../Public/images_detail/PING.jpg" width="79" height="21"> 
+                          爱国 守法 自律 真实 文明</td>
+                      </tr>
+                      <tr>
+                        <td >网友昵称： 
+                          <input name="Remark_Name" type="text" style="border-left:#D9E2E7 1px solid; border-RIGHT:#D9E2E7 1px solid; border-TOP:#D9E2E7 1px solid; border-BOTTOM:#D9E2E7 1px solid;" size="20" maxlength="10">
+                          &nbsp; <font color="#999999">不填则显示匿名 </font></td>
+                      </tr>
+                      <tr> 
+                        <td ><textarea name="Remark" style="border-left:#D9E2E7 1px solid; border-RIGHT:#D9E2E7 1px solid; border-TOP:#D9E2E7 1px solid; border-BOTTOM:#D9E2E7 1px solid; width:300 PX; HEIGHT:100 PX"></textarea> 
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr> 
+                              <td>
+<input name="Url" type="hidden" value="<!--%response.Output GCMS.Content("Url")%-->"> <input name="Content_ID" type="hidden" value="<!--%response.Output GCMS.Content("ContentID")%-->"> </td>
+                              <td width="11%"><input name="submit" type="image" src="../../Public/images_detail/ENGER.gif" size="10"></td>
+                              <td width="12%">&nbsp;</td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                    </form>
+                  </table></td>
+<td width="196" valign="top"><img src="/images/intro_bottom_bmp_002.jpg" width="190" height="160"></td>
+  </tr>
+</table>
+
+</td>
+<td width="6" background="/Public/Images_Public/home_middle_right_01.gif"></td>
+</tr>
+</table></td>
+</tr>
+<tr> 
+<td><table width="100%" border="0" cellspacing="0" cellpadding="0"height="9">
+<tr> 
+<td width="1%" height="9"><img src="/Public/Images_Public/home_middle_bottom_left_01.gif" width="10" height="9"></td>
+<td width="98%" height="9" background="/Public/Images_Public/home_middle_line_02.gif"></td>
+<td width="1%" height="9"><img src="/Public/Images_Public/home_middle_bottom_right_01.gif" width="10" height="9"></td>
+</tr>
+</table></td>
+</tr>
+</table>
+<!--#include virtual="/Public/Public_Include/Public_Bottom.html"-->
+</body>
+</html>

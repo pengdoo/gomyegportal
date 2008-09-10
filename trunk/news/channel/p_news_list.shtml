@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.news_p1 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #333333;
+	text-indent: 2em;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#f4f4f4"><!--#include virtual="/public/include/news_left.shtml" --></td>
+    <td width="7" valign="top" bgcolor="#f4f4f4"><img src="/images/right_2.jpg" width="7" height="366" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="100%" valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/news_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="50%" class="pp"><a href='/news/channel/p_news_list.shtml'><img src="/images/cpxw.jpg" width="65" height="19" border="0"/></a></td>
+                                        <td width="45%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/news/channel/default.shtml"><font class="pp">新闻中心</font></a> / <a href='/news/channel/p_news_list.shtml'><font class="pp">产品新闻</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="100%" bgcolor="#FFFFFF"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="100%" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center"><table width="678" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+										 <tr>
+                                            <td width="152" height="94" align="center"><table width="150" border="0" align="center" cellpadding="0" cellspacing="2" >
+  <tr>
+    <td align="center"><a href='/news/channel/product_news4437.shtml'><img src="/upload/news/693142175.jpg" width="150" height="84" border="0" alt="" /></a></td>
+  </tr>
+</table></td>
+                                            <td valign="top"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                              <tr>
+                                                <td height="26" align="left"><strong>笑脸相迎每一天 AOC“Toriba 乐宝”731S惊艳上市</strong> </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" class="news_p1"><a href='/news/channel/product_news4437.shtml'>显示器一线品牌AOC，一直在市场上有着不错的表现。前不久上市的“Rivio魔戒”系列显示器，凭借着典雅时尚的造型和创新性的功能赢得了消费者的青睐，可谓是叫好又叫卖。</a></td>
+                                              </tr>
+                                           </table></td>
+                                      </tr>
+                                  </table></td>
+  </tr>
+  <tr>
+    <td align="center"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px; margin-bottom:10px;">
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news5834.shtml'>远离灰尘伤害 AOC 2219Vg宽屏液晶网吧最适用</a></td>
+  <td width="17%" valign="middle">2008-9-1</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news5832.shtml'>Apple之外的选择 AOC Zifas锌睿闪耀市场</a></td>
+  <td width="17%" valign="middle">2008-9-1</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news5509.shtml'>罗密欧II代登场  AOC首款16:9显示器F19惊艳上市</a></td>
+  <td width="17%" valign="middle">2008-8-22</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news5508.shtml'>100%超广色域AOC 619Fh高清液晶惹关注 </a></td>
+  <td width="17%" valign="middle">2008-8-20</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news4714.shtml'>至尊魔戒浪漫选择 不开机也能看电影  </a></td>
+  <td width="17%" valign="middle">2008-7-16</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news4638.shtml'>商务办公新贵 AOC 2080Vw引爆暑期市场</a></td>
+  <td width="17%" valign="middle">2008-7-8</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news4637.shtml'>8000:1高对比度　AOC 980Vwx媲美22寸液晶</a></td>
+  <td width="17%" valign="middle">2008-7-8</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news4437.shtml'>笑脸相迎每一天 AOC“Toriba 乐宝”731S惊艳上市</a></td>
+  <td width="17%" valign="middle">2008-7-8</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news4436.shtml'>商务用机巅峰之作　AOC全新80系列隆重登场</a></td>
+  <td width="17%" valign="middle">2008-7-2</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news3756.shtml'>AOC 930Fwz智慧之戒：最具诱惑力的19寸宽屏液晶</a></td>
+  <td width="17%" valign="middle">2008-5-26</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news3755.shtml'>AOC 2230Fh：精灵之戒 视觉盛宴下的娱乐精灵</a></td>
+  <td width="17%" valign="middle">2008-5-26</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news3754.shtml'>AOC 2230F：力量之戒 气宇轩昂</a></td>
+  <td width="17%" valign="middle">2008-5-26</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news3753.shtml'>2230Fm至尊魔戒：AOC推出目前主流市场最强悍液晶</a></td>
+  <td width="17%" valign="middle">2008-5-14</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news2014.shtml'>AOC Rivio魔戒:领航显示器多媒体时代</a></td>
+  <td width="17%" valign="middle">2008-4-23</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news2013.shtml'>AOC Toriba乐宝液晶与你共度美好时光</a></td>
+  <td width="17%" valign="middle">2008-4-23</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news2012.shtml'>AOC Zifas锌睿：Apple之外的选择</a></td>
+  <td width="17%" valign="middle">2008-4-23</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news2011.shtml'>AOC蓝宝系列液晶绿色环保 技高一筹</a></td>
+  <td width="17%" valign="middle">2008-4-23</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news2008.shtml'>基本技术全部标配 AOC试改写竞争标准</a></td>
+  <td width="17%" valign="middle">2008-4-23</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news1353.shtml'>10000:1的诱惑 AOC 2217V展现完美视界</a></td>
+  <td width="17%" valign="middle">2008-3-14</td>
+										 </tr>
+										 <tr>
+                                            <td width="2%" height="28" align="right" valign="middle">·</td>
+                                            <td width="81%" align="left" valign="middle"><a href='/news/channel/product_news588.shtml'>AOC 717Vwx：享我精彩视界</a></td>
+  <td width="17%" valign="middle">2008-2-25</td>
+										 </tr>
+                                        </table></td>
+  </tr>
+  <tr>
+                                            <td height="30" colspan="2" align="center">上一页&nbsp;&nbsp;共58条记录 &nbsp;共3页&nbsp;当前第1页&nbsp;<a href=/news/channel/p_news_list.shtml><font color=ff0000>1</font></a>&nbsp;<a href=/news/channel/p_news_list_1.shtml>2</a>&nbsp;&nbsp;<a href=/news/channel/p_news_list_2.shtml>3</a>&nbsp;&nbsp;&nbsp;<A HREF='/news/channel/p_news_list_1.shtml'>下一页</A></td>
+                                  </tr>
+</table>
+</td>
+                                      </tr>
+                                  </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="right_1"></td>
+  </tr>
+</table><!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

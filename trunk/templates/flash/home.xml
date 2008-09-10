@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+ <document>
+<!--%
+'头条新闻
+Gcms.GetChannel = 63
+For Each Item In GCMS.Top(4)
+GCMS.ContentID = Item.ContentID
+%-->
+	<item>
+		<image><!--% Response.Output GCMS.Content("PictureName") %--></image>
+		<video><!--%
+'内容对象:Content
+Response.Output GCMS.Content("DerivationLink")
+%-->
+</video>
+	</item>
+	<!--%
+next
+Gcms.GetChannelOver
+%-->
+</document>
+

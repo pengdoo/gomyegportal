@@ -1,0 +1,22 @@
+<!--%
+For Each Channels In GCMS.GetChannels(2)
+GCMS.ChannelID = Channels.ChannelID
+%--> 
+			  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  
+                  <tr>
+                    <td height="31" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" class="search"><a href="<!--% Response.Output GCMS.Channel("Url") %-->">
+<!--% Response.Output GCMS.Channel("CName") %-->
+</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>        
+              </table>
+<!--%
+next
+%-->
