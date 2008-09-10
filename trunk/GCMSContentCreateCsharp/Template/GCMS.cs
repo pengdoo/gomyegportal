@@ -268,8 +268,15 @@ namespace GCMSContentCreate
             {
                 Content_FieldsName Content_FieldsName = new Content_FieldsName();
                 int contenfiled = _Type_TypeTree.TypeTree_TypeFields == 0 ? _Type_TypeTree.TypeTree_ContentFields : _Type_TypeTree.TypeTree_TypeFields;
-                Content_FieldsName.Init(contenfiled);
-                SqlDataReader reader = Tools.DoSqlReader("Select * from ContentUser_" + Content_FieldsName.FieldsBase_Name + " Where content_Id=" + Content_ID);
+                String fieldsname = "Content_Content";
+                if (contenfiled != 0)
+                {
+                    Content_FieldsName.Init(contenfiled);
+                    fieldsname ="ContentUser_"+ Content_FieldsName.FieldsBase_Name;
+                }
+
+
+                SqlDataReader reader = Tools.DoSqlReader("Select * from " + fieldsname + " Where content_Id=" + Content_ID);
                 int colsCount = reader.FieldCount;
                 if (reader.Read())
                 {
@@ -302,18 +309,18 @@ namespace GCMSContentCreate
                 CurrentItem.Add("Clicks", ContentCls.Clicks);
                 CurrentItem.Add("ContentType", ContentCls.ContentType);
             }
-            CurrentItem.Add("Name", ContentCls.Name);
-            CurrentItem.Add("DerivationLink", ContentCls.DerivationLink);
-            CurrentItem.Add("Derivation", ContentCls.Derivation);
-            CurrentItem.Add("PictureName", ContentCls.PictureName);//*名称不同
-            CurrentItem.Add("PictureDName", ContentCls.PictureNameD);//*名称不同
-            CurrentItem.Add("PictureNotes", ContentCls.PictureNotes);
-            CurrentItem.Add("Content", xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString());
+            if (!CurrentItem.ContainsKey("Name")) CurrentItem.Add("Name", ContentCls.Name);
+            if (!CurrentItem.ContainsKey("DerivationLink")) CurrentItem.Add("DerivationLink", ContentCls.DerivationLink);
+            if (!CurrentItem.ContainsKey("Derivation")) CurrentItem.Add("Derivation", ContentCls.Derivation);
+            if (!CurrentItem.ContainsKey("PictureName")) CurrentItem.Add("PictureName", ContentCls.PictureName);//*名称不同
+            if (!CurrentItem.ContainsKey("PictureDName")) CurrentItem.Add("PictureDName", ContentCls.PictureNameD);//*名称不同
+            if (!CurrentItem.ContainsKey("PictureNotes")) CurrentItem.Add("PictureNotes", ContentCls.PictureNotes);
+            if (!CurrentItem.ContainsKey("Content")) CurrentItem.Add("Content", xmlSplit(Tools.DBToWeb(ContentCls.Description)).ToString());
             //-------- 电子商务支持 ---------------------------------------------------------
-            CurrentItem.Add("Spec", ContentCls.DerivationLink);
-            CurrentItem.Add("Price", ContentCls.Derivation);
-            CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
-            CurrentItem.Add("ESpec", ContentCls.DerivationLink);
+            if (!CurrentItem.ContainsKey("Spec")) CurrentItem.Add("Spec", ContentCls.DerivationLink);
+            if (!CurrentItem.ContainsKey("Price")) CurrentItem.Add("Price", ContentCls.Derivation);
+            if (!CurrentItem.ContainsKey("MarketPrice")) CurrentItem.Add("MarketPrice", ContentCls.KeyWord);
+            if (!CurrentItem.ContainsKey("ESpec")) CurrentItem.Add("ESpec", ContentCls.DerivationLink);
             return CurrentItem;
         }
         #endregion 预读数据
@@ -753,24 +760,20 @@ namespace GCMSContentCreate
 
         public Collection GetChannels(string ChannelID) //子栏目
         {
-            Collection returnValue;
+            ChannelChilds Channels = new ChannelChilds();
 
-            //SqlDataReader myReader;
-            string sql;
-            //ChannelChilds Channels = new ChannelChilds();
+            string sql = "SELECT  * FROM Content_Type_TypeTree WHERE TypeTree_ParentID = " + ChannelID + " and TypeTree_Issuance in(1,3,5) order by TypeTree_OrderNum";
+            SqlDataReader myReader = Tools.DoSqlReader(sql);
 
-            sql = "SELECT  * FROM Content_Type_TypeTree WHERE TypeTree_ParentID = " + ChannelID + " and TypeTree_Issuance in(1,3,5) order by TypeTree_OrderNum";
-            //myReader = Tools.DoSqlReader(sql);
-
-            //while (myReader.Read())
-            //{
-            //    Child chair = new Child();
-            //    chair.ChannelID = myReader.GetInt32(0);
-            //    Channels.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
-            //}
-            //myReader.Close();
-            returnValue = LoadCurrentList(sql, "TypeTree_ID").Contents;
-            return returnValue;
+            while (myReader.Read())
+            {
+                Child chair = new Child();
+                chair.ChannelID = myReader.GetInt32(0);
+                Channels.Contents.Add(chair, myReader.GetInt32(0).ToString(), null, null);
+            }
+            myReader.Close();
+            //returnValue = LoadCurrentList(sql, "TypeTree_ID").Contents;
+            return Channels.Contents;
         }
 
 
