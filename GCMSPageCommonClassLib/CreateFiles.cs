@@ -69,7 +69,7 @@ namespace GCMS.PageCommonClassLib
 			}
 
 			Url = _Content.Url;
-			if (Url == "" && Url == null)
+			if (string.IsNullOrEmpty(Url))
 			{
 				Url = _TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString()); //»ñµÃURL
 				Tools.DoSql ("update "+FieldsName+" set Url = '"+Url+"' where Content_ID = "+Content_ID);
