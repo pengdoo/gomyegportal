@@ -559,9 +559,12 @@ namespace GCMSContentCreate
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);          
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);
             }
-
+            else
+            {
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);          
+            }
             if (!String.IsNullOrEmpty(ListLastID))
             {
                 strListLastID = " and OrderNum < " + ListLastID;
@@ -629,7 +632,7 @@ namespace GCMSContentCreate
         {
             Collection returnValue;
 
-            string FieldsName;
+            string FieldsName="Content_Content";
             Type_TypeTree _Type_TypeTree = new Type_TypeTree();
             ChannelID = int.Parse(GetChannel);
             _Type_TypeTree.Init(int.Parse(GetChannel));
@@ -656,7 +659,11 @@ namespace GCMSContentCreate
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.Content_PID={2}  and Content_Content.Status=4 {3} order by {4}", intTop, FieldsName, ContentID, UserWhere, Order);          
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.Content_PID={2}  and Content_Content.Status=4 {3} order by {4}", intTop, FieldsName, ContentID, UserWhere, Order);
+            }
+            else
+            {
+                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
             }
 
 
@@ -696,14 +703,18 @@ namespace GCMSContentCreate
                 isNews = " ";
                  sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
             }
-            else if(_Type_TypeTree.TypeTree_Type == 0&& _Type_TypeTree.TypeTree_ContentFields != 0 )
+            else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
             {
                 int contentfiledid = _Type_TypeTree.TypeTree_ContentFields;
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(contentfiledid);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
                 isNews = " ";
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2}) {3} and Content_Content.Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2}) {3} and Content_Content.Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);
+            }
+            else
+            {
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);
             }
             //sql = "SELECT Top " + intTop.ToString() + "  " + FieldsName + ".Content_ID ,Url ," + FieldsName + ".TypeTree_ID,"+_userwherecolname+" FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 "+ UserWhere+ " order by " + Orderby;
             //sql = "SELECT Top " + intTop.ToString() + "  * FROM " + FieldsName + " WHERE (TypeTree_ID in (" + GetChannelID + ") or " + FieldsName + ".content_ID in (select distinct Content_ID from Content_Commend where TypeTree_ID in (" + GetChannelID + "))) " + isNews + " and Status = 4 " + UserWhere + " order by " + Orderby;
