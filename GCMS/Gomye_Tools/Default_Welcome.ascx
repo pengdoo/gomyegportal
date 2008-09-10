@@ -48,7 +48,7 @@
 							<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
 								<tr>
 									<td borderColor="#666666" align="center"><span style="COLOR: #336699"><B>G</B>omye <B>C</B>ontent
-											<B>M</B>anagement <B>S</B>ystem 2008 V1.01C&nbsp;|&nbsp;</span>
+											<B>M</B>anagement <B>S</B>ystem 2008 V1.01H&nbsp;|&nbsp;</span>
 										<span style="FONT: menu">
 											<span id="Clock"></span>
 										</span>
