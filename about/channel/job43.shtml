@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="267" height="32" /></td>
+            </tr>
+        </table></td>
+      </tr>
+	        <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/about_left.jpg" width="267" height="36" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/about44.shtml">企业介绍</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr> 
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/hjjl_list.shtml">获奖纪录</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="7%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="93%" align="left" class="search"><a href="/about/channel/job43.shtml">企业招聘</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>       
+              </table></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/about_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/about_wz.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="34%" class="pp"><img src="/images/job.jpg" width="69" height="19" /></td>
+                                        <td width="61%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/about/channel/about44.shtml"><font class="pp">关于我们</font></a> / 企业招聘 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="720" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="721" height="530" align="center" valign="top" class="about_bg">
+										<table width="94%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                                          <tr>
+                                            <td height="30" align="center" class="small_1" style="padding-left:10px; padding-right:10px;"><div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=43"></script></div></td>
+                                          </tr>
+										  <tr>
+                                            <td class="news_p1" style="padding-left:10px; padding-right:10px;"><FONT face=Verdana><FONT size=2>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<STRONG><FONT size=3>诚招总代理经销商和指定代理经销商</FONT></STRONG></P>
+<DIV align=left>冠捷集团由于业务发展的需要，现面向全国诚招<FONT face="Times New Roman">AOC</FONT>品牌液晶电视以下地区总代理经销商和指定代理经销商。</DIV>
+<DIV align=left>一、代理区域：内蒙、山西、江西、甘肃、山东、江苏</DIV>
+<DIV align=left>二、应征条件：</DIV>
+<DIV align=left><FONT face="Times New Roman">1</FONT>、具备一般纳税人资格；</DIV>
+<DIV align=left><FONT face="Times New Roman">2</FONT>、良好的信誉和信用记录；</DIV>
+<DIV align=left><FONT face="Times New Roman">3</FONT>、拥有一个省或一个地级城市的彩电分销网络；</DIV>
+<DIV align=left><FONT face="Times New Roman">4</FONT>、雄厚的资金实力和成熟的家电市场运作经验；</DIV>
+<DIV align=left>应征公司请传真下列资料：</DIV>
+<DIV align=left>（<FONT face="Times New Roman">1</FONT>）营业执照复印件（加盖公司红章）；</DIV>
+<DIV align=left>（<FONT face="Times New Roman">2</FONT>）法人证明或法人身份证（加盖公司红章）；</DIV>
+<DIV align=left>（<FONT face="Times New Roman">3</FONT>）一般纳税人资格证（加盖公司红章）</DIV>
+<DIV align=left>三、联系方式：</DIV>
+<DIV align=left><FONT face="Times New Roman">AOC消费</FONT>电子事业部：崔小姐、杨先生</DIV>
+<DIV align=left>电话：<FONT face="Times New Roman">010-64326699</FONT>转<FONT face="Times New Roman">8936</FONT>、<FONT face="Times New Roman">8935</FONT></DIV>
+<DIV align=left>传真：<FONT face="Times New Roman">010-64320511</FONT></DIV>
+<DIV align=left><FONT face="Times New Roman">EMAIL</FONT>：<FONT face="Times New Roman">yali.cui@aoc.com</FONT></DIV></FONT></FONT></td>
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="#F4F4F4">&nbsp;</td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="gb2312"?>
+<SalesNetwork>
+	<Dealer province="浙江">
+		<name><![CDATA[长春市飞视电器有限公司]]></name>
+		<address><![CDATA[]]></address>
+		<telephone><![CDATA[0431-86785148]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[长春正阳家电有限公司]]></name>
+		<address><![CDATA[]]></address>
+		<telephone><![CDATA[13086873579]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[温州金信经贸有限公司]]></name>
+		<address><![CDATA[温州市黄龙家电市场A区41号]]></address>
+		<telephone><![CDATA[0577-88715661]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[临安五交化采供有限公司]]></name>
+		<address><![CDATA[临安市钱王街392号]]></address>
+		<telephone><![CDATA[0571-63717400]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[慈溪苏美家电连锁超市]]></name>
+		<address><![CDATA[慈溪市浒山街道海关北路329号]]></address>
+		<telephone><![CDATA[0574-63885555]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[东阳现代家电]]></name>
+		<address><![CDATA[东阳市南街9号时代广场]]></address>
+		<telephone><![CDATA[0579-6635488]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[海盐宜家电器]]></name>
+		<address><![CDATA[海盐秦山东路145号]]></address>
+		<telephone><![CDATA[0573-86021913]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="湖北">
+		<name><![CDATA[武汉泉兴隆电器有限公司]]></name>
+		<address><![CDATA[武汉多福工贸1802室]]></address>
+		<telephone><![CDATA[15871807288]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="河南">
+		<name><![CDATA[郑州市管城区天宇家电商场]]></name>
+		<address><![CDATA[郑州市家电市场一期79号]]></address>
+		<telephone><![CDATA[0371-66521118]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="河南">
+		<name><![CDATA[米河镇康佳专卖]]></name>
+		<address><![CDATA[巩义市米河镇新兴路]]></address>
+		<telephone><![CDATA[0371-66482369]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[昌乐三联家电城]]></name>
+		<address><![CDATA[山东昌乐县城利民路205号]]></address>
+		<telephone><![CDATA[0536-6270696]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[山东四方嘉会电器有限公司]]></name>
+		<address><![CDATA[济南红楼南路50号嘉会中心]]></address>
+		<telephone><![CDATA[0531-82311516]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[山东星视网电子科技有限公司]]></name>
+		<address><![CDATA[菏泽市曹州路1966号]]></address>
+		<telephone><![CDATA[0530-5616161]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[山东星视网电子科技有限公司]]></name>
+		<address><![CDATA[菏泽市曹州路1966号]]></address>
+		<telephone><![CDATA[0530-5616161]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="河北">
+		<name><![CDATA[锐意达]]></name>
+		<address><![CDATA[石家庄市太和大厦2402室]]></address>
+		<telephone><![CDATA[0311-86958188-812]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[沈阳长青蓝海家电]]></name>
+		<address><![CDATA[沈阳市东陵区文化东路103号]]></address>
+		<telephone><![CDATA[024-24227034]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="吉林">
+		<name><![CDATA[东北电器城]]></name>
+		<address><![CDATA[长春市亚太大街和长通路交汇处]]></address>
+		<telephone><![CDATA[0431-86798466]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="黑龙江">
+		<name><![CDATA[黑龙江正阳家电销售有限公司]]></name>
+		<address><![CDATA[哈尔滨市南岗区西大直街506号]]></address>
+		<telephone><![CDATA[0451-86341111]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[AOC 沈阳办事处]]></name>
+		<address><![CDATA[沈阳市和平区三好街90-2号艾特国际公寓]]></address>
+		<telephone><![CDATA[吴秀明 13331188896 024-839935]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+	</SalesNetwork>

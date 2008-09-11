@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="267" height="32" /></td>
+            </tr>
+        </table></td>
+      </tr>
+	        <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/about_left.jpg" width="267" height="36" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/about44.shtml">企业介绍</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr> 
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/hjjl_list.shtml">获奖纪录</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="7%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="93%" align="left" class="search"><a href="/about/channel/job43.shtml">企业招聘</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>       
+              </table></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/about_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/about_wz.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="34%" class="pp"><img src="/images/hjjl.jpg" width="69" height="19" /></td>
+                                        <td width="61%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/about/channel/about44.shtml"><font class="pp">关于我们</font></a> / 获奖纪录 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="720" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="721" height="394" align="center" valign="top"  class="about_bg">
+										<table width="94%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px; margin-bottom:10px;">
+                                          <tr>
+                                            <td height="30" align="center" class="small_1"><div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=4069"></script></div></td>
+                                          </tr>
+										  <tr>
+                                            <td><IMG src="/upload/1098.jpg"></td>
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="#F4F4F4">&nbsp;</td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

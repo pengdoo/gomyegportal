@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="268" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="268" height="32" /></td>
+            </tr>
+        </table>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/a_2_t.jpg" width="268" height="37" /></td>
+            </tr>
+            <tr>
+              <td><!--#include virtual="/public/include/service.shtml" --></td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/fwzc_banner.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="720" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="62%" class="pp"><img src="/images/xzkx.jpg" width="69" height="19" /></td>
+                                        <td width="33%" class="pp">当前位置&nbsp;/&nbsp;<a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/service/channel/fwzc.shtml"><font class="pp">服务支持</font></a> / 下载中心</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td height="460" valign="top" class="about_bg"><table width="678" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                                          <tr>
+										                                               <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/2079012127.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>i-Menu安装软件</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/615151781.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/2079012127.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>2217Pwc驱动程序</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/364399213.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                            <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/1131589729.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>2116S驱动程序</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/764841058.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/1679443065.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>2016Swc驱动程序</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/278370047.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                            <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/1581674344.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>1619Sw驱动程序</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/1022350637.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+                                              <tr>
+                                                <td width="24%"><img src="/upload/1981484046.jpg" width="88" border="0" height="86" alt="" /></td>
+                                                <td width="76%" valign="top"><table width="88%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="30" align="left"><b>917Vw驱动程序</b> </td>
+                                                  </tr>
+												  <tr>
+                                                    <td height="20" align="left"> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="35" align="right" class="xz"><a href='/upload/1946990438.zip'><font class="xz">下载</font></a></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                          </tr>
+										  <tr>
+                                            <td height="40" colspan="2" align="center"><A HREF='/service/channel/xzzx_list.shtml'>上一页</A>&nbsp;&nbsp;共21条记录 &nbsp;共4页&nbsp;当前第2页&nbsp;<a href=/service/channel/xzzx_list.shtml>1</a>&nbsp;&nbsp;<a href=/service/channel/xzzx_list_1.shtml><font color=ff0000>2</font></a>&nbsp;<a href=/service/channel/xzzx_list_2.shtml>3</a>&nbsp;&nbsp;<a href=/service/channel/xzzx_list_3.shtml>4</a>&nbsp;&nbsp;&nbsp;<A HREF='/service/channel/xzzx_list_2.shtml'>下一页</A></td>
+                                     </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="#F4F4F4">&nbsp;</td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

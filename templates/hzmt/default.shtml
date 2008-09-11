@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="267" height="32" /></td>
+            </tr>
+          
+        </table></td>
+      </tr>
+	        <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/about_left.jpg" width="267" height="36" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/about40.shtml">企业介绍</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr> 
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/hjjl_list.shtml">获奖纪录</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="7%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="93%" align="left" class="search"><a href="/about/channel/job43.shtml">企业招聘</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>       
+              </table></td>
+                  </tr>
+                
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/about_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/about_wz.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="34%" class="pp"><img src="/images/hzmt.jpg" width="69" height="19" /></td>
+                                        <td width="61%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / 合作媒体 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="721" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="721" height="530" align="center" valign="top">
+										<table width="678" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                                          <tr>
+										                  <!--%
+'头条新闻
+ix=0
+i=0
+For each Item In GCMS.Channels
+GCMS.ContentID = Item.ContentID
+ix=ix+1
+i=i+1
+%-->
+                                            <td width="226" height="80" align="center" class="news_p1"><a href='<!--%Response.Output GCMS.Content("DerivationLink")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" border="0" alt="" width="136"  height="61"" /></a></td>
+ <!--%
+if i=3 then
+Response.Output "</tr><tr>"
+i=0
+end if
+%-->
+<!--%
+next
+%-->
+                                           
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="#F4F4F4">&nbsp;</td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>
