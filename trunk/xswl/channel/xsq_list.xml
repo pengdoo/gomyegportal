@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="gb2312"?>
+<SalesNetwork>
+	<Dealer province="广东">
+		<name><![CDATA[深圳市硕捷实业有限公司]]></name>
+		<address><![CDATA[深圳市福田区深南中路2070号电子科技大厦C座24F]]></address>
+		<telephone><![CDATA[0755－83640196]]></telephone>
+		<fax><![CDATA[518031]]></fax>
+	</Dealer>
+		<Dealer province="江西">
+		<name><![CDATA[江西拓金高科技发展有限公司]]></name>
+		<address><![CDATA[南昌八一大道135号科技大市场2楼]]></address>
+		<telephone><![CDATA[0791-6204115]]></telephone>
+		<fax><![CDATA[330000]]></fax>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[大连华城伟业电脑有限公司]]></name>
+		<address><![CDATA[大连市沙河口区高尔基路249号 三楼 华城电脑]]></address>
+		<telephone><![CDATA[0411-84522031]]></telephone>
+		<fax><![CDATA[116011]]></fax>
+	</Dealer>
+		<Dealer province="云南">
+		<name><![CDATA[昆明兴捷联科技有限公司]]></name>
+		<address><![CDATA[云南省昆明市圆通东路美丽家园2幢2单元4A]]></address>
+		<telephone><![CDATA[0871-5107278/5107980]]></telephone>
+		<fax><![CDATA[650000]]></fax>
+	</Dealer>
+		<Dealer province="贵州">
+		<name><![CDATA[贵州三超新技术产品开发有限责任公司]]></name>
+		<address><![CDATA[贵州省贵阳市公园南路7#东方明珠大厦4楼]]></address>
+		<telephone><![CDATA[0851-5812606]]></telephone>
+		<fax><![CDATA[550002]]></fax>
+	</Dealer>
+		<Dealer province="重庆">
+		<name><![CDATA[重庆商达电脑科技有限责任公司]]></name>
+		<address><![CDATA[重庆市高新区渝州路18号高创锦夜20楼17号]]></address>
+		<telephone><![CDATA[023-86133000]]></telephone>
+		<fax><![CDATA[400039]]></fax>
+	</Dealer>
+		<Dealer province="四川">
+		<name><![CDATA[成都广海科技有限公司]]></name>
+		<address><![CDATA[成都市磨子桥华能大厦2F]]></address>
+		<telephone><![CDATA[028-85432099]]></telephone>
+		<fax><![CDATA[610041]]></fax>
+	</Dealer>
+		<Dealer province="青海">
+		<name><![CDATA[西宁市贝杰电子有限公司]]></name>
+		<address><![CDATA[西宁市胜利路电子城西厅负一层]]></address>
+		<telephone><![CDATA[0971-6121990]]></telephone>
+		<fax><![CDATA[810000]]></fax>
+	</Dealer>
+		<Dealer province="甘肃">
+		<name><![CDATA[甘肃万盛电子科技有限公司]]></name>
+		<address><![CDATA[兰州市渭源路41号]]></address>
+		<telephone><![CDATA[0931-8267267]]></telephone>
+		<fax><![CDATA[730000]]></fax>
+	</Dealer>
+		<Dealer province="宁夏">
+		<name><![CDATA[银川亚讯在线网络科贸有限公司]]></name>
+		<address><![CDATA[银川市解放东街43号鼓楼电脑市场三楼B-18号]]></address>
+		<telephone><![CDATA[0951-6039518]]></telephone>
+		<fax><![CDATA[750001]]></fax>
+	</Dealer>
+		<Dealer province="陕西">
+		<name><![CDATA[陕西瑞力科技实业有限责任公司]]></name>
+		<address><![CDATA[西安市雁塔路中段甲子16号科贸A座]]></address>
+		<telephone><![CDATA[029-85516157,85598500]]></telephone>
+		<fax><![CDATA[710054]]></fax>
+	</Dealer>
+		<Dealer province="新疆">
+		<name><![CDATA[乌鲁木齐市东玮电脑有限公司]]></name>
+		<address><![CDATA[乌市中山路141号百花村电脑城５楼５０９室]]></address>
+		<telephone><![CDATA[0991-2839667 2826708]]></telephone>
+		<fax><![CDATA[830000]]></fax>
+	</Dealer>
+		<Dealer province="湖北">
+		<name><![CDATA[武汉金华兴电脑系统集成有限公司]]></name>
+		<address><![CDATA[武汉市珞瑜路131号武汉电脑大世界16楼]]></address>
+		<telephone><![CDATA[027-87160064]]></telephone>
+		<fax><![CDATA[430079]]></fax>
+	</Dealer>
+		<Dealer province="湖南">
+		<name><![CDATA[湖南昂达电子有限公司]]></name>
+		<address><![CDATA[长沙市解放东路167号合峰电脑城四楼416室]]></address>
+		<telephone><![CDATA[0731-2808226]]></telephone>
+		<fax><![CDATA[410001]]></fax>
+	</Dealer>
+		<Dealer province="海南">
+		<name><![CDATA[海南麦克西蒙商用计算机网络有限公司]]></name>
+		<address><![CDATA[海口市海秀大道10号DC商业城二层2128号柜台]]></address>
+		<telephone><![CDATA[0898-66501286]]></telephone>
+		<fax><![CDATA[570206]]></fax>
+	</Dealer>
+		<Dealer province="广西">
+		<name><![CDATA[广西南宁艾欧计算机有限公司]]></name>
+		<address><![CDATA[南宁市星湖路14号电子科技广场北楼529-530]]></address>
+		<telephone><![CDATA[0771-5329023]]></telephone>
+		<fax><![CDATA[530022]]></fax>
+	</Dealer>
+		<Dealer province="广东">
+		<name><![CDATA[广州东方四海科技有限公司]]></name>
+		<address><![CDATA[广州市天河区天河南二路19-21号宏发大厦543室]]></address>
+		<telephone><![CDATA[020-87583700/9131]]></telephone>
+		<fax><![CDATA[510620]]></fax>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[浙江龙捷科技有限公司]]></name>
+		<address><![CDATA[杭州市黄姑山路29号旗舰创业大厦502A ]]></address>
+		<telephone><![CDATA[0571-56838133/4/5/6/7/8/9]]></telephone>
+		<fax><![CDATA[310012]]></fax>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[南京赛亚]]></name>
+		<address><![CDATA[南京市珠江路435号华海大厦1009室]]></address>
+		<telephone><![CDATA[025-86982711]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="安徽">
+		<name><![CDATA[安徽青蓝]]></name>
+		<address><![CDATA[合肥市金寨路155号黄金广场1栋307室]]></address>
+		<telephone><![CDATA[0551-3666754]]></telephone>
+		<fax><![CDATA[230022]]></fax>
+	</Dealer>
+		<Dealer province="安徽">
+		<name><![CDATA[合肥国腾]]></name>
+		<address><![CDATA[合肥市金寨路155号黄金广场4栋1303室]]></address>
+		<telephone><![CDATA[0551-3661620]]></telephone>
+		<fax><![CDATA[230022]]></fax>
+	</Dealer>
+		<Dealer province="上海">
+		<name><![CDATA[上海华清企业发展有限公司]]></name>
+		<address><![CDATA[上海市昌平路708号一楼]]></address>
+		<telephone><![CDATA[021-62551758]]></telephone>
+		<fax><![CDATA[20040]]></fax>
+	</Dealer>
+		<Dealer province="河南">
+		<name><![CDATA[世平伟业国际贸易（上海）有限公司]]></name>
+		<address><![CDATA[上海市莘庄工业区金都路3688号]]></address>
+		<telephone><![CDATA[021-54263188]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="河南">
+		<name><![CDATA[郑州新华瑞电子技术有限公司]]></name>
+		<address><![CDATA[郑州市文化路科技市场欧洲花园世纪座418室]]></address>
+		<telephone><![CDATA[0371-63965658]]></telephone>
+		<fax><![CDATA[450002]]></fax>
+	</Dealer>
+		<Dealer province="山西">
+		<name><![CDATA[世平伟业国际贸易（上海）有限公司]]></name>
+		<address><![CDATA[山西省太原市南内环街金茂大厦A座十九D]]></address>
+		<telephone><![CDATA[0351-8710931]]></telephone>
+		<fax><![CDATA[030012]]></fax>
+	</Dealer>
+		<Dealer province="河北">
+		<name><![CDATA[明朗国际贸易（上海）有限公司]]></name>
+		<address><![CDATA[上海市天山西路1068号联强科技园D栋9楼]]></address>
+		<telephone><![CDATA[021-61209988]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[明朗国际贸易（上海）有限公司]]></name>
+		<address><![CDATA[上海市天山西路1068号联强科技园D栋8楼]]></address>
+		<telephone><![CDATA[021-61209988]]></telephone>
+		<fax><![CDATA[200335]]></fax>
+	</Dealer>
+		<Dealer province="天津">
+		<name><![CDATA[天津开发区松源高科技有限公司]]></name>
+		<address><![CDATA[天津市南开区三潭路160号]]></address>
+		<telephone><![CDATA[022-27420931]]></telephone>
+		<fax><![CDATA[300192]]></fax>
+	</Dealer>
+		<Dealer province="内蒙">
+		<name><![CDATA[赤峰琨龙电脑有限责任公司]]></name>
+		<address><![CDATA[赤峰红山区哈达街蒙中西侧]]></address>
+		<telephone><![CDATA[0476-5881362]]></telephone>
+		<fax><![CDATA[26000]]></fax>
+	</Dealer>
+		<Dealer province="内蒙">
+		<name><![CDATA[包头市金晨光电子科技有限责任公司]]></name>
+		<address><![CDATA[包头九星科技城二楼A2034-2038]]></address>
+		<telephone><![CDATA[0472-3318140]]></telephone>
+		<fax><![CDATA[14030]]></fax>
+	</Dealer>
+		<Dealer province="北京">
+		<name><![CDATA[北京艾德盟科技有限公司]]></name>
+		<address><![CDATA[北京海淀区海淀中街15号远中悦来A座2006室]]></address>
+		<telephone><![CDATA[010-58730031、010-58730032]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="江西">
+		<name><![CDATA[江西鑫硕杰科技有限公司]]></name>
+		<address><![CDATA[江西省南昌市八一大道357号财富广场A1701]]></address>
+		<telephone><![CDATA[0791-6293082]]></telephone>
+		<fax><![CDATA[330003]]></fax>
+	</Dealer>
+		<Dealer province="福建">
+		<name><![CDATA[厦门恒利来实业有限公司]]></name>
+		<address><![CDATA[厦门市湖滨南路电子城158#]]></address>
+		<telephone><![CDATA[0592-2233448]]></telephone>
+		<fax><![CDATA[361004]]></fax>
+	</Dealer>
+		<Dealer province="福建">
+		<name><![CDATA[福州大地数码有限公司]]></name>
+		<address><![CDATA[福州市五一中路大利嘉12搂27-28]]></address>
+		<telephone><![CDATA[0591-88080835]]></telephone>
+		<fax><![CDATA[350000]]></fax>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[沈阳米兰时代电子有限公司]]></name>
+		<address><![CDATA[沈阳市和平区三好街90号2-133]]></address>
+		<telephone><![CDATA[024-62222888]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[大连高新园区恒新电脑网络有限公司]]></name>
+		<address><![CDATA[大连市沙河口区连山街123号B座204室]]></address>
+		<telephone><![CDATA[0411-84665111]]></telephone>
+		<fax><![CDATA[]]></fax>
+	</Dealer>
+		<Dealer province="黑龙江">
+		<name><![CDATA[哈尔滨海德电子有限公司]]></name>
+		<address><![CDATA[哈尔滨市南岗区一曼街2号新23栋]]></address>
+		<telephone><![CDATA[0451-82548322]]></telephone>
+		<fax><![CDATA[150030]]></fax>
+	</Dealer>
+		<Dealer province="吉林">
+		<name><![CDATA[吉林向日葵科技有限公司]]></name>
+		<address><![CDATA[长春市工农大路14号欧亚科技城8025室]]></address>
+		<telephone><![CDATA[0431-85669987]]></telephone>
+		<fax><![CDATA[130021]]></fax>
+	</Dealer>
+	</SalesNetwork>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="268" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="268" height="32" /></td>
+            </tr>
+              <tr>
+              <td><img src="/images/xswl.jpg" width="268" height="36" /></td>
+            </tr>
+            <tr>
+              <td>
+		  <!--#include virtual="/public/include/xswl_left.shtml" --></td>
+            </tr>
+        </table>
+     </td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+           
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/wl_banner.shtml" -->
+</td>
+                          </tr>
+                          <tr>
+                            <td><table width="720" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/Service_2.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="6%" align="center">&nbsp;</td>
+                                        <td width="53%" class="pp"><img src="/images/pbdswl.gif" width="134" height="18" /></td>
+                                        <td width="41%" class="pp">当前位置&nbsp;/&nbsp;<a href="/default.shtml"><font class="pp">首页</font></a> / 销售网络 / <!--%
+'内容对象:CName
+Response.Output GCMS.Channel("CName")
+%--></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="721" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="721" height="582" valign="top" bgcolor="#FFFFFF"><table width="93%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:15px">
+       
+          <tr>
+            <td align="center" class="news_p1"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="557" height="453">
+              <param name="movie" value="/flash/map.swf" />
+              <param name="quality" value="high" />
+              <embed src="/flash/map.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="557" height="453"></embed>
+            </object></td>
+          </tr>
+          <tr>
+            <td align="center" class="news_p1"><script language="javascript">
+//<![CDATA[
+	var xmlFile = '/xswl/channel/pb_list.xml';
+	var province = '北京';
+	var maxperpage = 3;
+//]]>
+</script>
+<script language="javascript" src="/public/load.js"></script>
+<div id="__Show_SalerNetwork">正在读取数据...</div>
+<TABLE width="90%">
+
+<TBODY>
+<TR>
+<TD align=middle><div id="__PageHolder"></div></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+
+<div id="__Style" style="display:none;">
+<TABLE cellSpacing=1 cellPadding=0 width=500 align=center bgColor=#999999 border=0>
+<TBODY>
+<TR bgColor=#e4e4e4>
+<TD height=25 colSpan=2 align="left">　 <IMG height=7 src="/upload/164.gif" width=4> <STRONG class=font2 style="LINE-HEIGHT: 25px">__$('province')家用电器经销商</STRONG></TD></TR>
+<TR bgColor=#ffffff>
+<TD width=86 bgColor=#f5f5f5>
+<DIV align=center><STRONG>经　销　商：</STRONG></DIV></TD>
+<TD width=414 align="left" style="PADDING-LEFT: 5px">__$('name')&nbsp;</TD></TR>
+<TR bgColor=#ffffff>
+<TD bgColor=#f5f5f5>
+<DIV align=center><STRONG>地 　 　址：</STRONG></DIV></TD>
+<TD align="left" style="PADDING-LEFT: 5px">__$('address')&nbsp;</TD></TR>
+<TR bgColor=#ffffff>
+<TD bgColor=#f5f5f5>
+<DIV align=center><STRONG>电 　 　话：</STRONG></DIV></TD>
+<TD align="left" style="PADDING-LEFT: 5px">__$('telephone')&nbsp;</TD></TR>
+<TR bgColor=#ffffff>
+<TD bgColor=#f5f5f5>
+<DIV align=center><STRONG>传　 　 真：</STRONG></DIV></TD>
+<TD align="left" style="PADDING-LEFT: 5px">__$('fax')&nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+<TBODY>
+<TR>
+<TD height=3></TD></TR></TBODY></TABLE>
+
+</div>
+<div style="display:none;">访问次数：
+							 	            <script language="javascript" src="/public/content_count.asp?content_id=<!--% Response.Output GCMS.Content("ContentID")%-->"></script></div></td>
+          </tr>
+          <tr>
+            <td class="news_p1">&nbsp;</td>
+          </tr>
+        </table>
+                                        </td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="F5F5F5"><img src="/images/XP_5.jpg" width="7" height="219" /></td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>

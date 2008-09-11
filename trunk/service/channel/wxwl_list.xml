@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="gb2312"?>
+<SalesNetwork>
+	<Dealer province="新疆">
+		<name><![CDATA[乌市中山路141号百花村电脑城５楼５０９室]]></name>
+		<lxr><![CDATA[]]></lxr>
+		<tel><![CDATA[0991-2839667 2826708 ]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="云南">
+		<name><![CDATA[昆明市五华区一二一大街153号]]></name>
+		<lxr><![CDATA[赵斌]]></lxr>
+		<tel><![CDATA[0871-5031778]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0871-5032589]]></fax>
+		<yb><![CDATA[650031]]></yb>
+	</Dealer>
+		<Dealer province="贵州">
+		<name><![CDATA[贵阳市中华南路20号新大陆数码广场五楼501冠捷贵阳客户]]></name>
+		<lxr><![CDATA[洪展华]]></lxr>
+		<tel><![CDATA[0851-5203804/5203704]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0851-5203604]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="四川">
+		<name><![CDATA[成都市一环路南二段磨子桥科华北路4号四维大楼一楼]]></name>
+		<lxr><![CDATA[王清美]]></lxr>
+		<tel><![CDATA[028-85252582 ]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[028-85245975]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="四川">
+		<name><![CDATA[重庆市九龙坡区渝州路33号西亚广场A座附21号~22号]]></name>
+		<lxr><![CDATA[李天灵]]></lxr>
+		<tel><![CDATA[023-68630039]]></tel>
+		<sj><![CDATA[13350307934]]></sj>
+		<fax><![CDATA[023-68695961]]></fax>
+		<yb><![CDATA[400039]]></yb>
+	</Dealer>
+		<Dealer province="海南">
+		<name><![CDATA[海口市南宝路3号南宝电脑城3楼303铺面]]></name>
+		<lxr><![CDATA[詹金林]]></lxr>
+		<tel><![CDATA[0898-66740286]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0898-66740286]]></fax>
+		<yb><![CDATA[570203]]></yb>
+	</Dealer>
+		<Dealer province="广西">
+		<name><![CDATA[广西省南宁市青秀区古城路431号空军南宁干休所8号楼1楼 ]]></name>
+		<lxr><![CDATA[阮建康]]></lxr>
+		<tel><![CDATA[0771-5712871]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0771-5892726]]></fax>
+		<yb><![CDATA[530000]]></yb>
+	</Dealer>
+		<Dealer province="广东">
+		<name><![CDATA[广州市天河区龙口西路138号95020部队13号7号仓]]></name>
+		<lxr><![CDATA[朗福海]]></lxr>
+		<tel><![CDATA[020-85516413]]></tel>
+		<sj><![CDATA[020-85519086]]></sj>
+		<fax><![CDATA[510630]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="湖南">
+		<name><![CDATA[长沙市芙蓉区朝阳路182号112室]]></name>
+		<lxr><![CDATA[瞿绍贵]]></lxr>
+		<tel><![CDATA[0731-4154411]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0731-4124020]]></fax>
+		<yb><![CDATA[410001]]></yb>
+	</Dealer>
+		<Dealer province="湖北">
+		<name><![CDATA[武汉市洪山区桂元路5号]]></name>
+		<lxr><![CDATA[江兴淼]]></lxr>
+		<tel><![CDATA[027-87640885]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[027-87162720]]></fax>
+		<yb><![CDATA[430070]]></yb>
+	</Dealer>
+		<Dealer province="甘肃">
+		<name><![CDATA[兰州市城关区科技街东口AOC冠捷显示器展销中心旁]]></name>
+		<lxr><![CDATA[李明泉]]></lxr>
+		<tel><![CDATA[0931-8262910]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0931-8262910]]></fax>
+		<yb><![CDATA[730000]]></yb>
+	</Dealer>
+		<Dealer province="江西">
+		<name><![CDATA[南昌市八一大道135号科技大市场一楼冠捷客服中心]]></name>
+		<lxr><![CDATA[戴海波]]></lxr>
+		<tel><![CDATA[0791-6295802]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0791-6295821]]></fax>
+		<yb><![CDATA[330046]]></yb>
+	</Dealer>
+		<Dealer province="河南">
+		<name><![CDATA[郑州市金水区东风路东段10号外运电子商厦汇科数码广场]]></name>
+		<lxr><![CDATA[刘国容]]></lxr>
+		<tel><![CDATA[0371-69136287]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0371-60916088]]></fax>
+		<yb><![CDATA[450008]]></yb>
+	</Dealer>
+		<Dealer province="山西">
+		<name><![CDATA[太原市小店区长治路79号长风商贸城小区10单元102室]]></name>
+		<lxr><![CDATA[孙鹏宇]]></lxr>
+		<tel><![CDATA[0351-7221073]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0351-7221073]]></fax>
+		<yb><![CDATA[030012]]></yb>
+	</Dealer>
+		<Dealer province="河北">
+		<name><![CDATA[石家庄市桥东区长征街75号付1号A座102室]]></name>
+		<lxr><![CDATA[陈仙华]]></lxr>
+		<tel><![CDATA[0311-86037470]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0311-86037470]]></fax>
+		<yb><![CDATA[050011]]></yb>
+	</Dealer>
+		<Dealer province="河北">
+		<name><![CDATA[保定市南大街长城电脑城二楼NC083]]></name>
+		<lxr><![CDATA[姜华]]></lxr>
+		<tel><![CDATA[]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="福建">
+		<name><![CDATA[福州市鼓楼区华林路209号金鸿达中心一座1A]]></name>
+		<lxr><![CDATA[黄本麒]]></lxr>
+		<tel><![CDATA[0591-87879714]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0591-87848132]]></fax>
+		<yb><![CDATA[350001]]></yb>
+	</Dealer>
+		<Dealer province="福建">
+		<name><![CDATA[泉州市鲤城区九一路龙宫B座105至106号]]></name>
+		<lxr><![CDATA[李枝建]]></lxr>
+		<tel><![CDATA[0595-22175655]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0595-22175655]]></fax>
+		<yb><![CDATA[362000]]></yb>
+	</Dealer>
+		<Dealer province="福建">
+		<name><![CDATA[厦门市厦禾路628号财智广场（美仁广场）429室]]></name>
+		<lxr><![CDATA[姚慕林]]></lxr>
+		<tel><![CDATA[0592-5851078]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0592-2108978]]></fax>
+		<yb><![CDATA[361004]]></yb>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[南京市玄武区后宰门街19号111-112室]]></name>
+		<lxr><![CDATA[颜友斌]]></lxr>
+		<tel><![CDATA[025-84820491]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[025-84824075]]></fax>
+		<yb><![CDATA[210018]]></yb>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[宁波市海曙区长安巷20号]]></name>
+		<lxr><![CDATA[胡汉民]]></lxr>
+		<tel><![CDATA[0574-87000025/87000085]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0574-87000150]]></fax>
+		<yb><![CDATA[310005]]></yb>
+	</Dealer>
+		<Dealer province="浙江">
+		<name><![CDATA[杭州市西湖区文苑路亚洲城花园黄龙阁商场102-105]]></name>
+		<lxr><![CDATA[魏裕秀]]></lxr>
+		<tel><![CDATA[0571-87997561]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0571-87994557]]></fax>
+		<yb><![CDATA[310012]]></yb>
+	</Dealer>
+		<Dealer province="上海">
+		<name><![CDATA[上海市普陀区西康路1441号]]></name>
+		<lxr><![CDATA[陈传成]]></lxr>
+		<tel><![CDATA[021-62995291]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[021-62664595]]></fax>
+		<yb><![CDATA[200060]]></yb>
+	</Dealer>
+		<Dealer province="安徽">
+		<name><![CDATA[合肥市金寨路155号黄金广场4栋2单元104室]]></name>
+		<lxr><![CDATA[宋雷鸣]]></lxr>
+		<tel><![CDATA[0551-3641421]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0551-3641421]]></fax>
+		<yb><![CDATA[230022]]></yb>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[无锡市南长区棚下街140号]]></name>
+		<lxr><![CDATA[田载发]]></lxr>
+		<tel><![CDATA[0510-82707591]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0510-82711478]]></fax>
+		<yb><![CDATA[214031]]></yb>
+	</Dealer>
+		<Dealer province="江苏">
+		<name><![CDATA[温州市锦绣路17中楼下东首2-4号]]></name>
+		<lxr><![CDATA[周赛荣]]></lxr>
+		<tel><![CDATA[0577-88850660]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[山东省淄博市张店西六路齐赛科技园4067室]]></name>
+		<lxr><![CDATA[李金波]]></lxr>
+		<tel><![CDATA[0533-2776956 ]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[潍坊市潍城区北宫小区4号楼1单元102室]]></name>
+		<lxr><![CDATA[姜红梅]]></lxr>
+		<tel><![CDATA[0536-8378869]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[济南市历下区山大路197号大舜科技市场南厅B区]]></name>
+		<lxr><![CDATA[罗旺友]]></lxr>
+		<tel><![CDATA[0531-86462097]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0531-86941232]]></fax>
+		<yb><![CDATA[250013]]></yb>
+	</Dealer>
+		<Dealer province="山东">
+		<name><![CDATA[青岛市市北区大港一路85-1号]]></name>
+		<lxr><![CDATA[瞿玉爱]]></lxr>
+		<tel><![CDATA[0532-83808454]]></tel>
+		<sj><![CDATA[13206378639]]></sj>
+		<fax><![CDATA[0532-83832597]]></fax>
+		<yb><![CDATA[266012]]></yb>
+	</Dealer>
+		<Dealer province="天津">
+		<name><![CDATA[天津市南开区鞍山西道风荷园6号楼2门101室]]></name>
+		<lxr><![CDATA[刘太福]]></lxr>
+		<tel><![CDATA[022-60266099]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[022-60264671]]></fax>
+		<yb><![CDATA[300192]]></yb>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[沈阳市和平区文体西路60栋9号]]></name>
+		<lxr><![CDATA[赵猛]]></lxr>
+		<tel><![CDATA[024-23893640]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[024-62124853]]></fax>
+		<yb><![CDATA[110003]]></yb>
+	</Dealer>
+		<Dealer province="辽宁">
+		<name><![CDATA[大连市沙河口区升平街54号1-1]]></name>
+		<lxr><![CDATA[王佳]]></lxr>
+		<tel><![CDATA[0411-84606020]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0411-84610035]]></fax>
+		<yb><![CDATA[116023]]></yb>
+	</Dealer>
+		<Dealer province="吉林">
+		<name><![CDATA[长春市朝阳区和光胡同28号冠捷长春维修站]]></name>
+		<lxr><![CDATA[吴海涛]]></lxr>
+		<tel><![CDATA[0431-5642482]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[0431-5650439]]></fax>
+		<yb><![CDATA[130021]]></yb>
+	</Dealer>
+		<Dealer province="黑龙江">
+		<name><![CDATA[黑龙江省大庆市会战大街2＃商服楼区21号]]></name>
+		<lxr><![CDATA[邹爱军]]></lxr>
+		<tel><![CDATA[0459-6328108/5817162]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="黑龙江">
+		<name><![CDATA[哈尔滨市南岗区一曼街2号新23栋一楼第三门]]></name>
+		<lxr><![CDATA[史延民]]></lxr>
+		<tel><![CDATA[0451-82536582]]></tel>
+		<sj><![CDATA[13936507118]]></sj>
+		<fax><![CDATA[0451-82834318]]></fax>
+		<yb><![CDATA[150001]]></yb>
+	</Dealer>
+		<Dealer province="北京">
+		<name><![CDATA[北京市海淀区中关村大街3号鼎好电子大厦B-2层A010]]></name>
+		<lxr><![CDATA[孟凡经]]></lxr>
+		<tel><![CDATA[010-82696095]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[010-82696387]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+		<Dealer province="北京">
+		<name><![CDATA[北京市海淀区东北旺乡唐家岭北学生公寓]]></name>
+		<lxr><![CDATA[徐朝斌]]></lxr>
+		<tel><![CDATA[010-82824682]]></tel>
+		<sj><![CDATA[]]></sj>
+		<fax><![CDATA[010-82824683]]></fax>
+		<yb><![CDATA[]]></yb>
+	</Dealer>
+	</SalesNetwork>

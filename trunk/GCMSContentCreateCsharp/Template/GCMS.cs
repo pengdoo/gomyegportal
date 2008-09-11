@@ -186,6 +186,13 @@ namespace GCMSContentCreate
             {
                 if (Item == custnames[i])//兼容历史模板的引用名和数据库实际字段名称不一致问题
                 {
+                    if (Item == "PictureName")
+                    {
+                        if (CurrentItem.ContainsKey("Picture_Name") && CurrentItem.ContainsKey("Picture_DName"))
+                        {
+ 
+                        }
+                    }
                     if (CurrentItem.ContainsKey(dbnames[i])) return CurrentItem[dbnames[i]];
                 }
             }

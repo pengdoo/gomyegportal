@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>AOC</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/public/css/sty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--#include virtual="/public/include/top.shtml" -->
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F5F5F5">
+  <tr>
+    <td width="9" height="705" rowspan="2" class="left"></td>
+    <td width="267" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="100%"><img src="/images/a_1.jpg" width="267" height="32" /></td>
+            </tr>
+        </table></td>
+      </tr>
+	        <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><img src="/images/about_left.jpg" width="267" height="36" /></td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/about44.shtml">企业介绍</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr> 
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="8%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="92%" align="left" class="search"><a href="/about/channel/hjjl_list.shtml">获奖纪录</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>
+				  <tr>
+                    <td height="30" background="/images/a_8.jpg"><table width="68%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="7%"><img src="/images/a_4.jpg" width="5" height="5" /></td>
+                          <td width="93%" align="left" class="search"><a href="/about/channel/job43.shtml">企业招聘</a></td>
+                        </tr>
+                    </table>
+					
+					</td>
+                  </tr>       
+              </table></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><!--#include virtual="/public/include/two_pic.shtml" --></td>
+                  </tr>
+                  <tr>
+                    <td height="40"></td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="7" valign="top"><img src="/images/XP_4.jpg" width="7" height="373" /></td>
+    <td width="720" rowspan="2" valign="top" bgcolor="#F5F5F5"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top"><table width="720" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="720"><!--#include virtual="/public/include/about_bannel.shtml" --></td>
+                          </tr>
+                          <tr>
+                            <td><table width="721" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="36" background="/images/about_wz.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="5%" align="center">&nbsp;</td>
+                                        <td width="34%" class="pp"><img src="/images/hjjl.jpg" width="69" height="19" /></td>
+                                        <td width="61%" align="right" class="pp">当前位置 / <a href="/default.shtml"><font class="pp">首页</font></a> / <a href="/about/channel/about44.shtml"><font class="pp">关于我们</font></a> / 获奖纪录 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="720" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                                      <tr>
+                                        <td width="720" height="394" align="center" valign="top" class="about_bg">
+										<table width="678" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+                                          <tr>
+										                                               <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4069.shtml'><img src="/upload/1773267704.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>416V液晶显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获＜数字时代＞最具超值奖</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2008-6-19</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4068.shtml'><img src="/upload/1002496426.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>AOC显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获＜数字时代＞优秀品牌奖</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2008-6-19</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                            <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4067.shtml'><img src="/upload/1361911641.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>416V液晶显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获IT168 24英寸显示器横向评测编辑推荐奖</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2008-6-19</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4066.shtml'><img src="/upload/1809815109.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>2217Pwc显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获＜新电脑＞评选第一名</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2008-2-1</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                            <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4065.shtml'><img src="/upload/1227241312.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>2217Pwc显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获０８年＜编辑推荐＞奖</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2008-2-4</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4064.shtml'><img src="/upload/406056151.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>AOC显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获07-08中国IT产品评选读者最喜爱品牌</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2007-5-29</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                            <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4063.shtml'><img src="/upload/27834245.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>913Fw液晶显示器</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获07-08中国年度IT产品评选最具价值产品</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2007-5-29</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											                                             <td width="339"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px">
+                                              <tr>
+                                                <td width="24%"><a href='/about/channel/hjjl4062.shtml'><img src="/upload/1361247313.jpg" width="80" border="0" height="106" alt="" /></a></td>
+                                                <td width="76%" valign="top"><table width="92%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td height="45" align="left"><b>周伟君</b> </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left"> 获2007＜电脑商报＞中国ＩＴ渠道精英</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="30" align="left">获奖时间:2007-5-30</td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+											 </tr><tr>                                          </tr>
+										  <tr>
+                                            <td height="40" colspan="2" align="center"><A HREF='/about/channel/hjjl_list_8.shtml'>上一页</A>&nbsp;&nbsp;共100条记录 &nbsp;共13页&nbsp;当前第10页&nbsp;<a href=/about/channel/hjjl_list.shtml>1</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_1.shtml>2</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_2.shtml>3</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_3.shtml>4</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_4.shtml>5</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_5.shtml>6</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_6.shtml>7</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_7.shtml>8</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_8.shtml>9</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_9.shtml><font color=ff0000>10</font></a>&nbsp;<a href=/about/channel/hjjl_list_10.shtml>11</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_11.shtml>12</a>&nbsp;&nbsp;<a href=/about/channel/hjjl_list_12.shtml>13</a>&nbsp;&nbsp;&nbsp;<A HREF='/about/channel/hjjl_list_10.shtml'>下一页</A></td>
+                                     </tr>
+                                        </table></td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td height="15"><img src="/images/Service_4.jpg" width="720" height="14" /></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="bottom" bgcolor="#F4F4F4">&nbsp;</td>
+  </tr>
+</table>
+<!--#include virtual="/public/include/bottom.shtml" -->
+</body>
+</html>
