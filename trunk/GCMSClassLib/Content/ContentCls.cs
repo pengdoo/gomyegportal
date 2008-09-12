@@ -422,7 +422,7 @@ namespace GCMSClassLib.Content
 
             if (rowsAffected > 0)
             {
-                this.ContentId = (int)parameters[0].Value;
+                this.ContentId = (int)parameters[24].Value;
                 return true;
             }
             else

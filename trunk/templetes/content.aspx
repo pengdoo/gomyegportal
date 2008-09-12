@@ -1,1 +1,1 @@
-<!--%Response.Output GCMS.Content("Content")%-->
+<!--%Response.Output GCMS.Content("Name")%-->
