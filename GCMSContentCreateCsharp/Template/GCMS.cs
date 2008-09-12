@@ -555,7 +555,7 @@ namespace GCMSContentCreate
 
             if (String.IsNullOrEmpty(Order))
             {
-                Order = "AtTop desc ,OrderNum desc";
+                Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
 
             string FieldsName = "Content_Content";
@@ -607,7 +607,7 @@ namespace GCMSContentCreate
 
             if (String.IsNullOrEmpty(Order))
             {
-                Order = "AtTop desc ,OrderNum desc";
+                Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
 
             sql = "SELECT Top " + intTop.ToString() + " Content_Contact.Other_ID FROM Content_Contact,Content_Content WHERE Content_Contact.Content_ID = " + ContentID + " and Content_Contact.Content_ID = Content_Content.Content_ID and Content_Content.Status = 4 order by Content_Content.OrderNum desc";
@@ -656,7 +656,7 @@ namespace GCMSContentCreate
 
             if (String.IsNullOrEmpty(Order))
             {
-                Order = "AtTop desc ,OrderNum desc";
+                Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
 
             if (_Type_TypeTree.TypeTree_Type == 2)
@@ -696,9 +696,9 @@ namespace GCMSContentCreate
             _Type_TypeTree.Init(int.Parse(GetChannel));//ChannelID
 
             string GetChannelID = _Type_TypeTree.IDSonTypeTree(int.Parse(GetChannel));
-            
-            
-            string Orderby = " AtTop desc , OrderNum desc";
+
+
+            string Orderby = " Content_Content.AtTop desc , Content_Content.OrderNum desc";
             string isNews = " and Head_news = \'1\' ";
 
             if (!String.IsNullOrEmpty(Order))
@@ -751,7 +751,7 @@ namespace GCMSContentCreate
          
             if (String.IsNullOrEmpty(Order))
             {
-                Order = "AtTop desc ,OrderNum desc";
+                Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
 
             //sql = "SELECT Top " & intTop.ToString() & " Content_ID,Name ,Url FROM Content_Content WHERE TypeTree_ID in (" & GetChannelID & ") and Picture_news = '1' and Status = 4 order by OrderNum desc"

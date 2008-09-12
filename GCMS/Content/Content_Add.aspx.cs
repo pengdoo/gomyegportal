@@ -619,7 +619,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             content.Clicks = 1;
             content.OrderNum =content.QueryMaxContentID();
             string TypeTree_URL = this.TypeTree_URL.Text;
-            int Content_ID = content.QueryMaxContentID();
+            int Content_ID = content.QueryMaxContentID()+1;
             Url = TypeTree_URL.Replace("{@UID}", Content_ID.ToString()); //获得URL
             content.Url = Url;
 
