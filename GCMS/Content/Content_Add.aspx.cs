@@ -32,8 +32,9 @@ using GCMSClassLib.Content;
 using GCMSClassLib.Public_Cls;
 using System.Data.SqlClient;
 using GCMSClassLib.SystemCls;
-using jmail;
+
 using GCMS.PageCommonClassLib;
+using System.Collections.Generic;
 //------------------------------------------------------------------------------
 
 public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
@@ -74,8 +75,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
     ContentCls content = new ContentCls();
     
-    
-    //int Content_ID;
     string TypeTree_ListTemplate = "";
     string TypeTreeListURL = "";
     int List_amount;
@@ -111,6 +110,13 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             Panel2.Visible = false;
             Panel1.Visible = true;
         }
+
+
+        if (typeTree.TypeTree_ContentFields != 0)
+        {
+            AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
+        }
+
     }
 
     public void ShowContentPanel() 
@@ -207,7 +213,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             }
             return tree_id;
         }
-        set { this.LabelTypeID.Text = value.ToString(); }
+        set {
+            this.LabelTypeID.Text = value.ToString();
+            Session["TypeTree_ID"] = value.ToString();
+        }
     }
     int Current_TypeTree_Type
     {
@@ -224,7 +233,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             return this.LabelFlag.Text;
         }
     }
-
     int Current_Content_ID
     {
         get
@@ -256,26 +264,18 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     }
     protected void Page_Load(object sender, System.EventArgs e)
     {
-        if (this.Page.Visible == false)
+        if (this.Page.Visible == false)//如果未通过权限验证，直接返回
         {
             OnSessionAtuhFaiedEvent();
             return;
         }
-        InitCurrentTypeTree();
+        InitCurrentTypeTree();//初始化当前栏目对象
         /// 根据用户角色选择显示
         SysLogon syslogon = new SysLogon();
         syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
         string Popedom_EName = syslogon.Popedom_EName;
         /// 载入功能按钮
         ShowTabButtonPanel(Popedom_EName);
-
-        /// 获取、保存TypeTree_ID
-        /// 
-        //TypeTree_ID = int.Parse(this.Request["TypeTree_ID"].ToString());
-        //Session["TypeTree_ID"] = TypeTree_ID.ToString();
-        //this.LabelTypeID.Text = TypeTree_ID.ToString();//Change By Galen 2008.9.13 改用属性获取
-
-       
         /// 载入内容Panel
         ShowContentPanel();
 
@@ -286,13 +286,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         else
         {
             ispost = 0;
-            //TypeTree_ID = int.Parse(this.LabelTypeID.Text);//Change By Galen 2008.9.13 
-        }
-
-       
-        if (typeTree.TypeTree_ContentFields != 0)
-        {
-            AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
         }
 
     }
@@ -488,6 +481,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     #region 发布
     private void SaveContent(string Status)
     {
+        //-----------------------权限验证-----------------------
         if (this.Page.Visible == false)
         {
             OnSessionAtuhFaiedEvent();
@@ -495,8 +489,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         }
         if (typeTree.TypeTree_Type != 2)
         {
-
-            if (this.TextBoxTitle.Text == "")
+            //--------------------------表单验证---------------------
+            if (string.IsNullOrEmpty(this.TextBoxTitle.Text.Trim()))
             {
                 this.LabNameMust.Text = "文章名称为必添项目！请添写！";
                 return;
@@ -518,12 +512,12 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
             contentList = contentList.Replace("http://" + Request.ServerVariables["HTTP_HOST"].ToString(), "");
 
-            //---[发布前准备]----------------------
+            //-----------------------发布前准备-----------------------
             content.HeadNews = this.Headnews.Checked ? "1" : "0";
             content.PictureNews = this.PictureNews.Checked ? "1" : "0";
            
-            if (this.CheckBoxWebtoThisPic.Checked == true)
-            { contentList = Tools.WebtoLocalPic(contentList, LTypeTree_PictureURL); }
+            if (this.CheckBoxWebtoThisPic.Checked)
+             contentList = Tools.WebtoLocalPic(contentList, LTypeTree_PictureURL); 
 
             content.Name = Tools.WebToDB(this.TextBoxTitle.Text);
             content.Description = Tools.WebToDB(contentList);
@@ -537,11 +531,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             content.PictureNameD = this.TextBoxPicD.Text;
             content.SubmitDate = System.DateTime.Parse(Request["TextBoxDate"].ToString() + " " + DateTime.Now.ToShortTimeString());
 
-            xmldoc = new XmlDocument();
-            xmlnode = xmldoc.CreateNode(XmlNodeType.XmlDeclaration, "", "");
-            xmldoc.AppendChild(xmlnode);
-            xmlelem = xmldoc.CreateElement("", "Employees", "");
-            xmldoc.AppendChild(xmlelem);
+            //xmldoc = new XmlDocument();
+            //xmlnode = xmldoc.CreateNode(XmlNodeType.XmlDeclaration, "", "");
+            //xmldoc.AppendChild(xmlnode);
+            //xmlelem = xmldoc.CreateElement("", "Employees", "");
+            //xmldoc.AppendChild(xmlelem);
 
         }
         //扩展字段入库
@@ -550,9 +544,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         string sql1 = "", sql2 = "", sqlcc = "", sql3 = "";
         if (typeTree.TypeTree_ContentFields != 0)
         {
-            SqlDataReader reader = null;
             string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
-            reader = Tools.DoSqlReader(sql);
+            SqlDataReader reader = Tools.DoSqlReader(sql);
 
             while (reader.Read())
             {
@@ -652,7 +645,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         }
         else
         {
-            content.TypeTree_ID = int.Parse(this.LabelTypeID.Text);
+            content.TypeTree_ID = Current_TypeTree_ID;//int.Parse(this.LabelTypeID.Text);
             content.Author = this.GetSession("Master_UserName", null);
             content.Clicks = 1;
             content.OrderNum =content.QueryMaxContentID();
@@ -667,7 +660,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 sql1 = sql1 + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
                 //Content_ID++;
-                sql2 = sql2 + Content_ID + "," + int.Parse(this.LabelTypeID.Text) + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
+                sql2 = sql2 + Content_ID + "," + Current_TypeTree_ID + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
                 sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
 
                 if (Tools.DoSql(sqlcc))
@@ -700,119 +693,18 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         }
 
         //扩展字段入库 over
-
+       
         this.LabelMsg.Text = str;
-
-        //Log
-        Log _Log = new Log();
-        string Log_Action = string.Empty;
-        switch (int.Parse(Status))
-        {
-            case 1:
-                Log_Action = "保存为草稿";
-                break;
-            case 2:
-                Log_Action = "提交待审批";
-                break;
-            case 3:
-                Log_Action = "审批待发布";
-                break;
-            case 4:
-                Log_Action = "审批已发布";
-                break;
-            case 5:
-                Log_Action = "过期已归档";
-                break;
-        }
-
-        _Log.Content_Id = UpdateContent_ID;
-        _Log.Log_Action = Log_Action;
-        _Log.Log_Txt = this.TextBoxLogText.Text;
-        _Log.Master_ID = int.Parse(Session["Master_ID"].ToString());
-        _Log.Master_Name = Session["Master_UserName"].ToString();
-        _Log.Create();
-
-        //Log over
-
+        //--------------------------记录Log--------------------------
+        this.SavePublishLog(UpdateContent_ID, Status, this.TextBoxLogText.Text);
+        
         if (typeTree.MailMsg.IndexOf(Status, 0) != -1)
         {
-
-            SystemCls _SystemCls = new SystemCls();
-            _SystemCls.Init();
-
-
-
-            MessageClass email = new MessageClass();
-            email.Logging = true;
-            email.Silent = true;
-            email.Charset = "GB2312";
-            email.MailServerUserName = _SystemCls.JMail_MailServerUserName;
-            email.MailServerPassWord = _SystemCls.JMail_MailServerPassWord;
-            email.From = _SystemCls.JMail_From;
-            email.FromName = "GCMS系统邮件";
-            email.ContentType = "text/html";
-            email.Subject = (string)this.Session["Master_UserName"] + "新发了一片文章 ：" + content.Name + "请您审核";
-            //email.AddAttachment("c:\\test.xml",true,"");
-
-            string MailBody = "";
-            MailBody = MailBody + "<p>栏目名称：" + typeTree.TypeTreeCName + "</p>";
-            MailBody = MailBody + "<p>作品名：" + content.Name + "</p>";
-            MailBody = MailBody + "<p>作者：" + (string)this.Session["Master_UserName"] + "</p>";
-            MailBody = MailBody + "<p>请您审核</p>";
-            MailBody = MailBody + "<p>（该邮件是GCMS系统发布，请勿回复） </p>";
-
-            email.Body = MailBody;
-
-            SqlDataReader readerMail = null;
-            string sqls = string.Format(SQL_MasterGetList, int.Parse(this.LabelTypeID.Text));
-
-            readerMail =Tools.DoSqlReader(sqls);
-            int iMail = 0;
-            while (readerMail.Read())
-            {
-                if (!string.IsNullOrEmpty( readerMail.GetString(0).ToString()))
-                {
-                    iMail = iMail++;
-                    if (iMail == 1)
-                    {
-                        email.AddRecipient(readerMail.GetString(0).ToString(), readerMail.GetString(1), null);
-                    }
-                    else
-                    {
-                        email.AddRecipientCC(readerMail.GetString(0).ToString(), readerMail.GetString(1), null);
-                    }
-                }
-
-            }
-
-            readerMail.Close();
-
-            email.Send(_SystemCls.JMail_Server, false);
-            //Response.Write (email.ErrorMessage) ;
-            email.Close();
-
+            this.SendSystemMail(typeTree.TypeTreeCName, content.Name); 
         }
 
-        //静发
-
-        try
-        {
-            CreateFiles _CreateFiles = new CreateFiles();
-            _CreateFiles.CreateContentFiles(int.Parse(this.LabelTypeID.Text), UpdateContent_ID);
-            _CreateFiles.CreateChannelFiles(int.Parse(this.LabelTypeID.Text));
-            _CreateFiles.CreateLinkPushFiles(int.Parse(this.LabelTypeID.Text));
-
-            Page.RegisterStartupScript("保存目录", "<script language=javascript>top.window.close();</script>");
-
-        }
-        catch (Exception ex)
-        {
-            PageHeader.Value = PageHeader.Value + "<font color=red>" + ex.Message + "</font>";
-        }
-
-        //Response.Redirect ("Content_List.aspx?TypeTree_ID="+TypeTree_ID);
-
-
+        //--------------------------签发相关文件--------------------------
+        this.PubishDetailItem(UpdateContent_ID);
     }
 
     protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
@@ -846,12 +738,77 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     }
     #endregion 发布
 
-    private string UrlString(string FilesUrl)
+    #region 发布大的相关过程
+    bool SendSystemMail(string channelName,string contentName)
     {
-        FilesUrl = FilesUrl.Replace("/", "//");
-        FilesUrl = Server.MapPath(FilesUrl);
-        return FilesUrl;
+        string subjcet = this.GetSession("Master_UserName", null) + "新发了一片文章 ：" + content.Name + "请您审核";
+        string MailBody = "";
+        MailBody = MailBody + "<p>栏目名称：" + channelName + "</p>";
+        MailBody = MailBody + "<p>作品名：" + contentName + "</p>";
+        MailBody = MailBody + "<p>作者：" + (string)this.Session["Master_UserName"] + "</p>";
+        MailBody = MailBody + "<p>请您审核</p>";
+        MailBody = MailBody + "<p>（该邮件是GCMS系统发布，请勿回复） </p>";
+        string sqls = string.Format(SQL_MasterGetList, int.Parse(this.LabelTypeID.Text));
+        SqlDataReader readerMail = Tools.DoSqlReader(sqls);
+        Dictionary<string, string> adresseslist = new Dictionary<string, string>();
+        while (readerMail.Read())
+        {
+            adresseslist.Add(readerMail.GetString(1).ToString(), readerMail.GetString(0).ToString());
+
+        }
+        readerMail.Close();
+        return Tools.SendEmail(subjcet, MailBody, adresseslist);
     }
 
-    
+    bool SavePublishLog(int contentid,string status,string logtxt)
+    {
+        Log log = new Log();
+        string Log_Action = string.Empty;
+        switch (int.Parse(status))
+        {
+            case 1:
+                Log_Action = "保存为草稿";
+                break;
+            case 2:
+                Log_Action = "提交待审批";
+                break;
+            case 3:
+                Log_Action = "审批待发布";
+                break;
+            case 4:
+                Log_Action = "审批已发布";
+                break;
+            case 5:
+                Log_Action = "过期已归档";
+                break;
+        }
+
+        log.Content_Id = contentid;
+        log.Log_Action = Log_Action;
+        log.Log_Txt = logtxt;
+        log.Master_ID =int.Parse( this.GetSession("Master_ID",null));
+        log.Master_Name =this.GetSession("Master_UserName",null);
+        return log.Create();
+    }
+    bool PubishDetailItem(int updateContent_ID)
+    {
+        try
+        {
+            CreateFiles createfiles = new CreateFiles();
+            createfiles.CreateContentFiles(Current_TypeTree_ID, updateContent_ID);
+            createfiles.CreateChannelFiles(Current_TypeTree_ID);
+            createfiles.CreateLinkPushFiles(Current_TypeTree_ID);
+
+            Page.RegisterStartupScript("保存目录", "<script language=javascript>top.window.close();</script>");
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            PageHeader.Value = PageHeader.Value + "<font color=red>" + ex.Message + "</font>";
+            return false;
+        }
+        //Response.Redirect ("Content_List.aspx?TypeTree_ID="+TypeTree_ID);
+    }
+    #endregion 发布大的相关过程
 }

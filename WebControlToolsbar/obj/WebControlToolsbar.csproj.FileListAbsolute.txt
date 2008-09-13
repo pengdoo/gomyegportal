@@ -1,0 +1,5 @@
+D:\Project\GPortalV1.01版\WebControlToolsbar\bin\Debug\WebControlToolsbar.dll
+D:\Project\GPortalV1.01版\WebControlToolsbar\bin\Debug\WebControlToolsbar.pdb
+D:\Project\GPortalV1.01版\WebControlToolsbar\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\GPortalV1.01版\WebControlToolsbar\obj\Debug\WebControlToolsbar.dll
+D:\Project\GPortalV1.01版\WebControlToolsbar\obj\Debug\WebControlToolsbar.pdb

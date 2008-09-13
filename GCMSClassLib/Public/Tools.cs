@@ -21,13 +21,14 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using GCMSClassLib.Content;
-using Gomye.CommonClassLib.Data;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Net;
-
+using jmail;
+using GCMSClassLib.Content;
+using Gomye.CommonClassLib.Data;
 namespace GCMSClassLib.Public_Cls
 {
     /// <summary>
@@ -192,27 +193,6 @@ namespace GCMSClassLib.Public_Cls
             }
             return TmpFile;
         }
-
-        #endregion 文件上传相关函数
-
-        #region 页面生成相关函数
-        
-        #endregion 页面生成相关函数
-        //DataTable 数据集 20080627
-        private static DataTable m_ContentList;
-        public static DataTable ContentList
-        {
-            get { return m_ContentList; }
-            set { m_ContentList = value; }
-        }
-
-        //DataTable 数据集 20080627 
-        public static DataTable ContentsAll(string Sql)
-        {
-            
-            return Tools.DoSqlTable(Sql);
-        }
-
         /// <summary>
         /// 将网站上的图片粘贴到本地
         /// </summary>
@@ -251,5 +231,65 @@ namespace GCMSClassLib.Public_Cls
             while (p1 > 0);
             return Contents;
         }
+        #endregion 文件上传相关函数
+
+        #region 页面生成相关函数
+        
+        #endregion 页面生成相关函数
+
+        public static bool SendEmail(string subject, string body,Dictionary<string,string> adresseslist )
+        {
+            SystemCls.SystemCls systemcls = new SystemCls.SystemCls();
+            systemcls.Init();
+            MessageClass email = new MessageClass();
+            email.Logging = true;
+            email.Silent = true;
+            email.Charset = "GB2312";
+            email.MailServerUserName = systemcls.JMail_MailServerUserName;
+            email.MailServerPassWord = systemcls.JMail_MailServerPassWord;
+            email.From = systemcls.JMail_From;
+            email.FromName = "GCMS系统邮件";
+            email.ContentType = "text/html";
+            email.Subject = subject;
+            //email.AddAttachment("c:\\test.xml",true,"");
+
+            email.Body = body;
+            int count=0;
+            foreach (KeyValuePair<string, string> adress in adresseslist)
+            {
+                if (!string.IsNullOrEmpty(adress.Value))//邮件不为空
+                {
+                    count++;
+                    if (count == 1)
+                        email.AddRecipient(adress.Value, adress.Key,null);
+                    else
+                        email.AddRecipient(adress.Value, adress.Key, null);
+                }
+            }
+            
+
+            email.Send(systemcls.JMail_Server, false);
+            bool haserror = string.IsNullOrEmpty(email.ErrorMessage);//#待测试的修改#
+            email.Close();
+            return haserror;
+        }
+
+
+        //DataTable 数据集 20080627
+        private static DataTable m_ContentList;
+        public static DataTable ContentList
+        {
+            get { return m_ContentList; }
+            set { m_ContentList = value; }
+        }
+
+        //DataTable 数据集 20080627 
+        public static DataTable ContentsAll(string Sql)
+        {
+            
+            return Tools.DoSqlTable(Sql);
+        }
+
+        
     }
 }

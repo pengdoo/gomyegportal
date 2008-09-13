@@ -14,3 +14,4 @@ D:\Project\GPortalV1.01版\GCMSPageCommonClassLib\obj\Debug\GCMSPageCommonClassL
 D:\Project\GPortalV1.01版\GCMSPageCommonClassLib\obj\Debug\GCMSPageCommonClassLib.csproj.GenerateResource.Cache
 D:\Project\GPortalV1.01版\GCMSPageCommonClassLib\obj\Debug\GCMSPageCommonClassLib.dll
 D:\Project\GPortalV1.01版\GCMSPageCommonClassLib\obj\Debug\GCMSPageCommonClassLib.pdb
+D:\Project\GPortalV1.01版\GCMSPageCommonClassLib\bin\Debug\Interop.jmail.dll

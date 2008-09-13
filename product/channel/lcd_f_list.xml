@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="gb2312"?>
 <products>
-		<product src="/upload/1812818060.jpg" id="6100" href="/product/channel/lcd_f_6100.shtml">
+		<product src="" id="6100" href="">
 		<size>18.5"宽屏</size>
 		<resolution>1366x768@60HZ</resolution>
 		<name>F19</name>
 		<description><![CDATA[对比度12000:1 (动态)<br>
 5ms快速响应时间<br>
-镜面钢琴漆外观 <br>]]></description>
+镜面钢琴漆外观<br>]]></description>
 	</product>
-		<product src="/upload/162276633.jpg" id="4617" href="/product/channel/lcd_f_4617.shtml">
-		<size>19"宽屏</size>
-		<resolution>1440x900@60Hz</resolution>
-		<name>913Fw+</name>
-		<description><![CDATA[对比度8000:1<br>
-5ms快速响应时间<br>
-镜面钢琴漆外观]]></description>
+		<product src="/upload/85130447.jpg" id="2289" href="/product/channel/lcd_f_2289.shtml">
+		<size>22"宽屏</size>
+		<resolution>1680x1050@75Hz</resolution>
+		<name>2230F</name>
+		<description><![CDATA[对比度20000:1<br>
+2ms快速响应时间<br>
+钢琴漆黑色抛光<br>]]></description>
 	</product>
 		<product src="/upload/1807531838.jpg" id="2593" href="/product/channel/lcd_f_2593.shtml">
 		<size>19"宽屏</size>
@@ -32,38 +32,6 @@
 2ms快速响应时间<br>
 WSXGA+高分辨率<br>]]></description>
 	</product>
-		<product src="/upload/85130447.jpg" id="2294" href="/product/channel/lcd_f_2294.shtml">
-		<size>22"宽屏</size>
-		<resolution>1680x1050@75Hz</resolution>
-		<name>2230Fm</name>
-		<description><![CDATA[DMP数字多媒体播放功能<br>
-2ms快速响应时间<br>
-对比度20000:1<br>]]></description>
-	</product>
-		<product src="/upload/85130447.jpg" id="2293" href="/product/channel/lcd_f_2293.shtml">
-		<size>22"宽屏</size>
-		<resolution>1680x1050@75Hz</resolution>
-		<name>2230Fh</name>
-		<description><![CDATA[对比度20000:1<br>
-2ms快速响应时间<br>
-配备HDMI输入接口<br>]]></description>
-	</product>
-		<product src="/upload/85130447.jpg" id="2289" href="/product/channel/lcd_f_2289.shtml">
-		<size>22"宽屏</size>
-		<resolution>1680x1050@75Hz</resolution>
-		<name>2230F</name>
-		<description><![CDATA[对比度20000:1<br>
-2ms快速响应时间<br>
-钢琴漆黑色抛光<br>]]></description>
-	</product>
-		<product src="/upload/1691951732.jpg" id="1606" href="/product/channel/lcd_f_1606.shtml">
-		<size>26"宽屏</size>
-		<resolution>1920x1200@60Hz</resolution>
-		<name>619Fh</name>
-		<description><![CDATA[对比度10000:1<br>
-3ms灰阶响应时间<br>
-100%宽色域]]></description>
-	</product>
 		<product src="/upload/162276633.jpg" id="184" href="/product/channel/lcd_f_184.shtml">
 		<size>19"宽屏</size>
 		<resolution>1440x900@60Hz</resolution>
@@ -80,6 +48,14 @@ WSXGA+高分辨率<br>]]></description>
 5ms快速响应时间<br>
 HDMI高清输入接口]]></description>
 	</product>
+		<product src="/upload/1572252217.jpg" id="60" href="/product/channel/lcd_f_60.shtml">
+		<size>17"</size>
+		<resolution>1280x1024@75Hz </resolution>
+		<name>177F2</name>
+		<description><![CDATA[对比度3000:1<br>
+2ms灰阶快速响应时间<br>
+活彩技术, 5种增彩模式<br>]]></description>
+	</product>
 		<product src="/upload/323180341.jpg" id="82" href="/product/channel/lcd_f_82.shtml">
 		<size>19"宽屏</size>
 		<resolution>1680×1050@60Hz</resolution>
@@ -88,12 +64,36 @@ HDMI高清输入接口]]></description>
 5ms快速响应时间<br>
 高分辨率1680x1050]]></description>
 	</product>
-		<product src="/upload/1572252217.jpg" id="60" href="/product/channel/lcd_f_60.shtml">
-		<size>17"</size>
-		<resolution>1280x1024@75Hz </resolution>
-		<name>177F2</name>
-		<description><![CDATA[对比度3000:1<br>
-2ms灰阶快速响应时间<br>
-活彩技术, 5种增彩模式<br>]]></description>
+		<product src="/upload/85130447.jpg" id="2293" href="/product/channel/lcd_f_2293.shtml">
+		<size>22"宽屏</size>
+		<resolution>1680x1050@75Hz</resolution>
+		<name>2230Fh</name>
+		<description><![CDATA[对比度20000:1<br>
+2ms快速响应时间<br>
+配备HDMI输入接口<br>]]></description>
+	</product>
+		<product src="/upload/162276633.jpg" id="4617" href="/product/channel/lcd_f_4617.shtml">
+		<size>19"宽屏</size>
+		<resolution>1440x900@60Hz</resolution>
+		<name>913Fw+</name>
+		<description><![CDATA[对比度8000:1<br>
+5ms快速响应时间<br>
+镜面钢琴漆外观]]></description>
+	</product>
+		<product src="/upload/85130447.jpg" id="2294" href="/product/channel/lcd_f_2294.shtml">
+		<size>22"宽屏</size>
+		<resolution>1680x1050@75Hz</resolution>
+		<name>2230Fm</name>
+		<description><![CDATA[DMP数字多媒体播放功能<br>
+2ms快速响应时间<br>
+对比度20000:1<br>]]></description>
+	</product>
+		<product src="/upload/1691951732.jpg" id="1606" href="/product/channel/lcd_f_1606.shtml">
+		<size>26"宽屏</size>
+		<resolution>1920x1200@60Hz</resolution>
+		<name>619Fh</name>
+		<description><![CDATA[对比度10000:1<br>
+3ms灰阶响应时间<br>
+100%宽色域]]></description>
 	</product>
 	</products>
