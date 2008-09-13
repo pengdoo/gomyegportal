@@ -13,6 +13,7 @@
 //   2008-8-26 添加注释
 //   2008-8-31  规范【自定义事件】【SQL引用】【字符处理】【页面参数获取】代码
 //              精简封装动态生成控件部分代码
+//   2008-9-13  封装全局变量逻辑，删除InitXml等两废弃函数
 //----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
@@ -71,9 +72,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     int UpdateContent_ID;
 
     ContentCls content = new ContentCls();
-    int TypeTree_ID;
     
-    int Content_ID;
+    
+    //int Content_ID;
     string TypeTree_ListTemplate = "";
     string TypeTreeListURL = "";
     int List_amount;
@@ -86,7 +87,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     XmlDocument xmldoc;
     XmlNode xmlnode;
     XmlElement xmlelem;
-    string flag = "";
+    //string flag = "";//Change By Galen 2008.9.13 
     int ispost = 0;
 
 
@@ -132,11 +133,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
     private void ShowEditData()
     {
-        if (this.Request["Content_ID"] == null) return;
+        if (Current_Content_ID==-1)return;//this.Request["Content_ID"] == null
 
-        int Content_ID = int.Parse(this.Request["Content_ID"]);
+        //int Content_ID = int.Parse(this.Request["Content_ID"]);
         ContentCls content = new ContentCls();
-        content.Init(Content_ID);
+        content.Init(Current_Content_ID);
 
         this.TextBoxTitle.Text = Tools.DBToWeb(content.Name);
         this.TextBoxLink.Text = content.DerivationLink;
@@ -157,26 +158,90 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         {
             setPageData(Tools.DBToWeb(content.Description));
         }
-        TypeTree_ID = int.Parse(content.TypeTree_ID.ToString());
-        LabelTypeID.Text = TypeTree_ID.ToString();
+        Current_TypeTree_ID = int.Parse(content.TypeTree_ID.ToString());
+        //LabelTypeID.Text = TypeTree_ID.ToString();
 
+    }
+
+    public void ShowPageHeader()
+    {
+        if (Current_Flag.Equals("edit"))//this.Request["flag"] != null && this.Request["flag"].Equals("edit")//Change By Galen 2008.9.13 
+        {
+            /*修改*/
+            //this.LabelFlag.Text = "edit";//Change By Galen 2008.9.13 
+            if (Current_TypeTree_Type == 0) { ShowEditData(); }//typeTree.TypeTree_Type
+            //Content_ID = int.Parse(Request["Content_ID"].ToString());//Change By Galen 2008.9.13 
+            this.LabelEditContentID.Text = Current_Content_ID.ToString(); //Content_ID.ToString();
+            PageHeader.Value = "修改内容";
+            ispost = 1;
+            DataList1.DataSource = Tools.DoSqlReader("select * from Content_Log where Content_ID=" + Current_Content_ID);
+            DataList1.DataBind();
+        }
+        else
+        {
+            this.LabelCurPage.Text = "1";
+            this.TextBoxDate.Text = DateTime.Now.ToShortDateString();
+            ArrayList contentList = new ArrayList();
+            Headnews.Checked = true;
+            PageHeader.Value = "添加内容";
+
+        }
     }
     #endregion 控制页面显示状态的函数
 
-    protected void Page_Load(object sender, System.EventArgs e)
+    #region 当页的全局变量
+    int Current_TypeTree_ID
     {
-        /// 根据用户角色选择显示
-        SysLogon syslogon = new SysLogon();
-        syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
-        string Popedom_EName = syslogon.Popedom_EName;
-        /// 载入功能按钮
-        ShowTabButtonPanel(Popedom_EName);
-        /// 获取、保存TypeTree_ID
-        TypeTree_ID = int.Parse(this.Request["TypeTree_ID"].ToString());
-        Session["TypeTree_ID"] = TypeTree_ID.ToString();
-        this.LabelTypeID.Text = TypeTree_ID.ToString();
+        get {
+            if (string.IsNullOrEmpty(this.LabelTypeID.Text))
+            {
+                this.LabelTypeID.Text = this.Request["TypeTree_ID"].ToString();
+            }
+            
+            int tree_id = int.Parse(this.LabelTypeID.Text);
+            if (tree_id != 0)
+            {
+                //InitCurrentTypeTree();
+            }
+            return tree_id;
+        }
+        set { this.LabelTypeID.Text = value.ToString(); }
+    }
+    int Current_TypeTree_Type
+    {
+        get { return typeTree.TypeTree_Type; }
+    }
+    string Current_Flag
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(this.LabelFlag.Text) && this.Request["flag"]!=null)
+            {
+                this.LabelFlag.Text = this.Request["flag"].ToString();
+            }
+            return this.LabelFlag.Text;
+        }
+    }
+
+    int Current_Content_ID
+    {
+        get
+        {
+            if (Request["Content_ID"] != null)
+            {
+                return int.Parse(Request["Content_ID"].ToString());
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+    #endregion 当页的全局变量
+    void InitCurrentTypeTree()
+    {
         /// 根据TypeTree_ID获取栏目
-        typeTree.Init(TypeTree_ID);//Change By Galen 2008.9.1 删除了7行过时变量
+        typeTree.Init(Current_TypeTree_ID);//Change By Galen 2008.9.1 删除了7行过时变量
         LTypeTree_PictureURL = typeTree.TypeTreePictureURL;
         /// 载入栏目模板，路径
         this.TypeTree_URL.Text = typeTree.TypeTreeURL;
@@ -186,40 +251,37 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         List_amount = typeTree.Listamount;
         TypeTree_TypeFields = typeTree.TypeTree_TypeFields;
         TypeTree_ContentFields = typeTree.TypeTree_ContentFields;
+    }
+    protected void Page_Load(object sender, System.EventArgs e)
+    {
+        /// 根据用户角色选择显示
+        SysLogon syslogon = new SysLogon();
+        syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
+        string Popedom_EName = syslogon.Popedom_EName;
+        /// 载入功能按钮
+        ShowTabButtonPanel(Popedom_EName);
+
+        /// 获取、保存TypeTree_ID
+        /// 
+        //TypeTree_ID = int.Parse(this.Request["TypeTree_ID"].ToString());
+        //Session["TypeTree_ID"] = TypeTree_ID.ToString();
+        //this.LabelTypeID.Text = TypeTree_ID.ToString();//Change By Galen 2008.9.13 改用属性获取
+
+       
         /// 载入内容Panel
         ShowContentPanel();
 
         if (!this.IsPostBack)
         {
-            if (this.Request["flag"] != null && this.Request["flag"].Equals("edit"))
-            {
-                /*修改*/
-                this.LabelFlag.Text = "edit";
-                if (typeTree.TypeTree_Type == 0) { ShowEditData(); }
-                Content_ID = int.Parse(Request["Content_ID"].ToString());
-                this.LabelEditContentID.Text = Content_ID.ToString();
-                PageHeader.Value = "修改内容";
-                ispost = 1;
-                DataList1.DataSource = Tools.DoSqlReader("select * from Content_Log where Content_ID=" + Content_ID);
-                DataList1.DataBind();
-            }
-            else
-            {
-                this.LabelCurPage.Text = "1";
-                this.TextBoxDate.Text = DateTime.Now.ToShortDateString();
-                ArrayList contentList = new ArrayList();
-                Headnews.Checked = true;
-                PageHeader.Value = "添加内容";
-
-            }
+            ShowPageHeader();
         }
         else
         {
             ispost = 0;
-            TypeTree_ID = int.Parse(this.LabelTypeID.Text);
+            //TypeTree_ID = int.Parse(this.LabelTypeID.Text);//Change By Galen 2008.9.13 
         }
 
-
+        InitCurrentTypeTree();
         if (typeTree.TypeTree_ContentFields != 0)
         {
             AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
@@ -235,9 +297,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         nBox.ID =controlId;
         nBox.CssClass = "inputtext250";
 
-        if (flag == "edit" && ispost == 1)
+        if (Current_Flag == "edit" && ispost == 1)
         {
-            nBox.Text = content.Contents(Content_ID, controlId, TypeTree_ID);
+            nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
 
         TableRow tr = new TableRow();
@@ -266,9 +328,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         nBox.ID = controlId;
         nBox.CssClass = "inputtext250";
 
-        if (flag == "edit" && ispost == 1)
+        if (Current_Flag == "edit" && ispost == 1)
         {
-            nBox.Text = content.Contents(Content_ID, controlId, TypeTree_ID);
+            nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
 
         
@@ -302,7 +364,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         SqlDataReader myReader = Tools.DoSqlReader(sql);
 
         string ToolsPut = string.Empty;
-        flag = this.Request["flag"];
+        //flag = this.Request["flag"];
 
         while (myReader.Read())
         {
@@ -341,9 +403,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     nTextBoxTEXTAREA.Width = 250;
                     nTextBoxTEXTAREA.Height = 50;
 
-                    if (flag == "edit" && ispost == 1)
+                    if (Current_Flag == "edit" && ispost == 1)
                     {
-                        nTextBoxTEXTAREA.Text = content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID);
+                        nTextBoxTEXTAREA.Text = content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID);
                     }
                     nTextBoxTEXTAREA.TextMode = TextBoxMode.MultiLine;
                     TableRow trTEXTAREA = new TableRow();
@@ -370,11 +432,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                         ListSELECT.Items.Add(ops[j].Trim());
                     }
 
-                    if (flag == "edit" && ispost == 1)
+                    if (Current_Flag == "edit" && ispost == 1)
                     {
-                        if (!string.IsNullOrEmpty(content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID).Trim()))
+                        if (!string.IsNullOrEmpty(content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID).Trim()))
                         {
-                            if (myReader.GetString(4).IndexOf(content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Content_ID, myReader.GetString(1), TypeTree_ID); };
+                            if (myReader.GetString(4).IndexOf(content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID); };
                         }
 
                     }
@@ -415,43 +477,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         this.EditorControl1.Value = Tools.DBToWeb(Server.HtmlEncode(xmlStr));
     }
 
-    public string InitXML(string GName)
-    {
-
-        string txtInitXML = "";
-        XmlDocument xmlDoc = new XmlDocument();
-        if (!string.IsNullOrEmpty(txtXML ))
-        {
-            xmlDoc.LoadXml(txtXML);
-            XmlNodeList nodeList = xmlDoc.SelectSingleNode("Employees").ChildNodes;
-            foreach (XmlNode xn in nodeList)//遍历所有子节点 
-            {
-                XmlElement xe = (XmlElement)xn;//将子节点类型转换为XmlElement类型 
-                if (xe.GetAttribute("GName") == GName)//如果genre属性值为“张三” 
-                {
-                    XmlNodeList nls = xe.ChildNodes;//继续获取xe子节点的所有子节点 
-                    foreach (XmlNode xn1 in nls)//遍历 
-                    {
-                        XmlElement xe2 = (XmlElement)xn1;//转换类型 
-                        if (xe2.Name == "Value")//如果找到 
-                        {
-                            txtInitXML = xe2.InnerText;
-                        }
-                    }
-
-                }
-            }
-        }
-        return txtInitXML;
-    }
-
-
-    public string InitContent(string GName)
-    {
-        string txtInitXML = "";
-        return txtInitXML;
-    }
-
     #region 发布
     private void SaveContent(string Status)
     {
@@ -485,7 +510,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             content.PictureNews = this.PictureNews.Checked ? "1" : "0";
            
             if (this.CheckBoxWebtoThisPic.Checked == true)
-            { contentList = WebtoLocalPic(contentList); }
+            { contentList = Tools.WebtoLocalPic(contentList, LTypeTree_PictureURL); }
 
             content.Name = Tools.WebToDB(this.TextBoxTitle.Text);
             content.Description = Tools.WebToDB(contentList);
@@ -619,7 +644,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             content.Clicks = 1;
             content.OrderNum =content.QueryMaxContentID();
             string TypeTree_URL = this.TypeTree_URL.Text;
-            int Content_ID = content.QueryMaxContentID()+1;
+            int Content_ID = content.QueryMaxContentID() + 1;
             Url = TypeTree_URL.Replace("{@UID}", Content_ID.ToString()); //获得URL
             content.Url = Url;
 
@@ -628,12 +653,15 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 sql1 = sql1 + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
-                Content_ID++;
+                //Content_ID++;
                 sql2 = sql2 + Content_ID + "," + int.Parse(this.LabelTypeID.Text) + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
                 sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
-                
-                Tools.DoSql(sqlcc);
-                Tools.UpdateMaxID("Content_ID");
+
+                if (Tools.DoSql(sqlcc))
+                {
+                    Tools.UpdateMaxID("Content_ID");
+                    content.ContentId = Content_ID;
+                }
             }
             else
             {
@@ -812,39 +840,5 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         return FilesUrl;
     }
 
-    //将网站上的图片粘贴到本地
-
-    private string WebtoLocalPic(string Contents)
-    {
-        string NewContents = Contents;
-        int p1 = NewContents.IndexOf("<IMG", 0);
-
-        if (p1 < 0) { return Contents; };
-        do
-        {
-            p1 = NewContents.IndexOf("src", p1);
-            int p2 = NewContents.IndexOf("\"", p1);
-            p2 = p2 + 1;
-            int p3 = NewContents.IndexOf("\"", p2);
-
-            string ContentSub = NewContents.Substring(p2, p3 - p2);
-            int httpint = ContentSub.IndexOf("ttp://");
-
-            if (httpint > 0)
-            {
-                string filename = ContentSub.Substring(ContentSub.LastIndexOf("/"));
-                string _file = Tools.UploadName(filename, LTypeTree_PictureURL);
-
-                WebClient wc = new WebClient();
-                wc.DownloadFile(ContentSub, Server.MapPath(_file).Replace("\\", "\\\\"));
-                Contents = Contents.Replace(ContentSub, _file);
-            }
-
-            NewContents = NewContents.Substring(p3);
-            p1 = NewContents.IndexOf("<IMG", 1);
-
-        }
-        while (p1 > 0);
-        return Contents;
-    }
+    
 }

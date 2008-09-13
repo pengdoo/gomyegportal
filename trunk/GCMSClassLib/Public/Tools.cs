@@ -16,6 +16,7 @@
 //           将UpdateSQL改名为DoSql
 //       3   2008-8-29 删除静态消息提示Msg()方法，改用GCMS.PageCommonClassLib.Gsystem.GetSysteStateMsg()
 //       4   2008-9-5 添加FileIn,FileOut函数，并修改其编码识别流程。添加默认编码
+//       5   2008-9-13 添加WebtoLocalPic函数
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -25,6 +26,7 @@ using Gomye.CommonClassLib.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Net;
 
 namespace GCMSClassLib.Public_Cls
 {
@@ -211,5 +213,43 @@ namespace GCMSClassLib.Public_Cls
             return Tools.DoSqlTable(Sql);
         }
 
+        /// <summary>
+        /// 将网站上的图片粘贴到本地
+        /// </summary>
+        /// <param name="Contents"></param>
+        /// <returns></returns>
+        public static string WebtoLocalPic(string Contents, string PictureURL)
+        {
+            string NewContents = Contents;
+            int p1 = NewContents.IndexOf("<IMG", 0);
+
+            if (p1 < 0) { return Contents; };
+            do
+            {
+                p1 = NewContents.IndexOf("src", p1);
+                int p2 = NewContents.IndexOf("\"", p1);
+                p2 = p2 + 1;
+                int p3 = NewContents.IndexOf("\"", p2);
+
+                string ContentSub = NewContents.Substring(p2, p3 - p2);
+                int httpint = ContentSub.IndexOf("ttp://");
+
+                if (httpint > 0)
+                {
+                    string filename = ContentSub.Substring(ContentSub.LastIndexOf("/"));
+                    string _file = Tools.UploadName(filename, PictureURL);
+
+                    WebClient wc = new WebClient();
+                    wc.DownloadFile(ContentSub, System.Web.HttpContext.Current.Server.MapPath(_file).Replace("\\", "\\\\"));
+                    Contents = Contents.Replace(ContentSub, _file);
+                }
+
+                NewContents = NewContents.Substring(p3);
+                p1 = NewContents.IndexOf("<IMG", 1);
+
+            }
+            while (p1 > 0);
+            return Contents;
+        }
     }
 }
