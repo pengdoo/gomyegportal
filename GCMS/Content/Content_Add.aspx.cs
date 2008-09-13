@@ -88,7 +88,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     XmlNode xmlnode;
     XmlElement xmlelem;
     //string flag = "";//Change By Galen 2008.9.13 
-    int ispost = 0;
+
 
 
     DataTable _DataTable = new DataTable();
@@ -176,12 +176,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         if (Current_Flag.Equals("edit"))//this.Request["flag"] != null && this.Request["flag"].Equals("edit")//Change By Galen 2008.9.13 
         {
             /*修改*/
-            //this.LabelFlag.Text = "edit";//Change By Galen 2008.9.13 
             if (Current_TypeTree_Type == 0) { ShowEditData(); }//typeTree.TypeTree_Type
-            //Content_ID = int.Parse(Request["Content_ID"].ToString());//Change By Galen 2008.9.13 
             this.LabelEditContentID.Text = Current_Content_ID.ToString(); //Content_ID.ToString();
             PageHeader.Value = "修改内容";
-            ispost = 1;
+            
             DataList1.DataSource = Tools.DoSqlReader("select * from Content_Log where Content_ID=" + Current_Content_ID);
             DataList1.DataBind();
         }
@@ -283,11 +281,6 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         {
             ShowPageHeader();
         }
-        else
-        {
-            ispost = 0;
-        }
-
     }
 
 
@@ -298,7 +291,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         nBox.ID =controlId;
         nBox.CssClass = "inputtext250";
 
-        if (Current_Flag == "edit" && ispost == 1)
+        if (Current_Flag == "edit" && !this.IsPostBack)
         {
             nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
@@ -329,7 +322,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         nBox.ID = controlId;
         nBox.CssClass = "inputtext250";
 
-        if (Current_Flag == "edit" && ispost == 1)
+        if (Current_Flag == "edit" && !this.IsPostBack)
         {
             nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
@@ -404,7 +397,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     nTextBoxTEXTAREA.Width = 250;
                     nTextBoxTEXTAREA.Height = 50;
 
-                    if (Current_Flag == "edit" && ispost == 1)
+                    if (Current_Flag == "edit" && !this.IsPostBack)
                     {
                         nTextBoxTEXTAREA.Text = content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID);
                     }
@@ -433,7 +426,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                         ListSELECT.Items.Add(ops[j].Trim());
                     }
 
-                    if (Current_Flag == "edit" && ispost == 1)
+                    if (Current_Flag == "edit" && !this.IsPostBack)
                     {
                         if (!string.IsNullOrEmpty(content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID).Trim()))
                         {
@@ -487,7 +480,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             OnSessionAtuhFaiedEvent();
             return;
         }
-        if (typeTree.TypeTree_Type != 2)
+        //--------------------------一般发布处理过程---------------------
+        if (!typeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
         {
             //--------------------------表单验证---------------------
             if (string.IsNullOrEmpty(this.TextBoxTitle.Text.Trim()))
@@ -495,7 +489,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                 this.LabNameMust.Text = "文章名称为必添项目！请添写！";
                 return;
             }
-            //--------------------------
+            //--------------------------载入输入数据到对象---------------------
 
             string contentList = Request.Form["content1"];
             string FormCount = Request.Form["FormCount"];
@@ -538,83 +532,35 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             //xmldoc.AppendChild(xmlelem);
 
         }
-        //扩展字段入库
 
         string TxtValue = "";
-        string sql1 = "", sql2 = "", sqlcc = "", sql3 = "";
-        if (typeTree.TypeTree_ContentFields != 0)
+        string sql_values = "", sql_colnames = "", sqlcc = "", sql_set = "";
+        //--------------------------含有扩展字段时的处理过程---------------------
+        if (typeTree.HasExtentFields) //typeTree.TypeTree_ContentFields != 0
         {
             string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
             SqlDataReader reader = Tools.DoSqlReader(sql);
-
             while (reader.Read())
             {
-                switch (reader.GetString(2))
+                string inputType = reader["Property_InputType"].ToString();
+                if (inputType == "TEXT"
+                    || inputType == "NUMBER"
+                    || inputType == "IMAGE"
+                    || inputType == "FILE"
+                    || inputType == "DATETIME"
+                    || inputType == "TREES"
+                    || inputType == "TEXTAREA")
                 {
-                    case "TEXT":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-
-                    case "NUMBER":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-
-                    case "IMAGE":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-                    case "FILE":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-                    case "DATETIME":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-                    case "TREES":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-                    case "TEXTAREA":
-                        if (((TextBox)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((TextBox)Page.FindControl(reader.GetString(1))).Text;
-                        }
-                        break;
-                    case "SELECT":
-                        if (((DropDownList)Page.FindControl(reader.GetString(1))) != null)
-                        {
-                            TxtValue = ((DropDownList)Page.FindControl(reader.GetString(1))).SelectedValue;
-
-                        }
-                        break;
-                    case "LABEL":
-
-                        break;
-                    default:
-                        //ToolsPut = "数据错误！";
-                        break;
+                    TxtValue = this.GetValueFromForm("TextBox", reader["Property_Name"].ToString());
                 }
-                sql1 = sql1 + "[" + reader.GetString(1) + "],";
-                sql2 = sql2 + "'" + TxtValue + "',";
-                sql3 = sql3 + reader.GetString(1) + " = '" + TxtValue + "',";
-
+                else if (inputType == "SELECT")
+                {
+                    TxtValue = this.GetValueFromForm("DropDownList", reader["Property_Name"].ToString());
+                }
+                sql_values = sql_values + "[" + reader["Property_Name"].ToString() + "],";
+                sql_colnames = sql_colnames + "'" + TxtValue + "',";
+                sql_set = sql_set + reader["Property_Name"].ToString() + " = '" + TxtValue + "',";
             }
-
             reader.Close();
 
         }
@@ -622,26 +568,26 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         if (this.LabelFlag.Text.Equals("edit"))
         {
-            int Content_ID = int.Parse(this.LabelEditContentID.Text);
-            content.lockedby = "";	//解锁
+            //int Content_ID = int.Parse(this.LabelEditContentID.Text);
+            content.lockedby = string.Empty;	//解锁
             string TypeTree_URL = this.TypeTree_URL.Text;
-            Url = TypeTree_URL.Replace("{@UID}", Content_ID.ToString()); //获得URL
+            Url = TypeTree_URL.Replace("{@UID}", this.Current_Content_ID .ToString()); //获得URL
             content.Url = Url;
 
-            if (typeTree.TypeTree_Type == 2)
+            if (typeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
-                sql3 = sql3 + "Status ='" + Status + "',Url = '" + Url + "'";
-                sqlcc =string.Format(SQL_ContentUserUpdate,_Content_FieldsName.FieldsBase_Name ,sql3,Content_ID);
+                sql_set = sql_set + "Status ='" + Status + "',Url = '" + Url + "'";
+                sqlcc = string.Format(SQL_ContentUserUpdate, _Content_FieldsName.FieldsBase_Name, sql_set, Current_Content_ID);
                 Tools.DoSql(sqlcc);
             }
             else
             {
-                content.Update(Content_ID);
+                content.Update(Current_Content_ID);
             }
 
-            UpdateContent_ID = Content_ID;
+            UpdateContent_ID = Current_Content_ID;
         }
         else
         {
@@ -658,10 +604,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
-                sql1 = sql1 + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
+                sql_values = sql_values + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
                 //Content_ID++;
-                sql2 = sql2 + Content_ID + "," + Current_TypeTree_ID + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
-                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
+                sql_colnames = sql_colnames + Content_ID + "," + Current_TypeTree_ID + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
+                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql_values, sql_colnames);
 
                 if (Tools.DoSql(sqlcc))
                 {
@@ -677,16 +623,16 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             UpdateContent_ID = content.ContentId;
 
         }
-        if (typeTree.TypeTree_Type != 2)
+        if (!typeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
         {
-            if (typeTree.TypeTree_ContentFields != 0)
+            if (typeTree.HasExtentFields)//typeTree.TypeTree_ContentFields != 0
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
-                sql1 = sql1 + "Content_ID";
-                sql2 = sql2 + UpdateContent_ID;
+                sql_values = sql_values + "Content_ID";
+                sql_colnames = sql_colnames + UpdateContent_ID;
 
-                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql1, sql2);
+                sqlcc = string.Format(SQL_ContentUserAdd, _Content_FieldsName.FieldsBase_Name, sql_values, sql_colnames);
                 Tools.DoSql(string.Format(SQL_ContentUserDelete, _Content_FieldsName.FieldsBase_Name,UpdateContent_ID));
                 Tools.DoSql(sqlcc);
             }
@@ -707,6 +653,27 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         this.PubishDetailItem(UpdateContent_ID);
     }
 
+    private string GetValueFromForm(string controlType,string conrolId)
+    {
+        string controlvalue = string.Empty;
+        switch (controlType)
+        {
+            case "TextBox":
+                if (((TextBox)Page.FindControl(conrolId) != null))
+                {
+                    controlvalue = ((TextBox)Page.FindControl(conrolId)).Text;
+                }
+                break;
+            case "DropDownList":
+                if (((DropDownList)Page.FindControl(conrolId)) != null)
+                {
+                    controlvalue = ((DropDownList)Page.FindControl(conrolId)).SelectedValue;
+
+                }
+                break;
+        }
+        return controlvalue;
+    }
     protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
     {
         SaveContent("1");
