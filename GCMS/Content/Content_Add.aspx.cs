@@ -53,6 +53,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     {
         GSystem.SystemState = EnumTypes.SystemStates.Overtime;
         this.Response.Write("<script language=javascript>parent.parent.parent.window.navigate('../Logon.aspx');</script>");
+        this.Page.Visible = false;
         return;
     }
     #endregion 自定义事件的注册和处理
@@ -193,7 +194,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     int Current_TypeTree_ID
     {
         get {
-            if (string.IsNullOrEmpty(this.LabelTypeID.Text))
+            if (string.IsNullOrEmpty(this.LabelTypeID.Text) || this.Request["TypeTree_ID"]!=null)
             {
                 this.LabelTypeID.Text = this.Request["TypeTree_ID"].ToString();
             }
@@ -254,6 +255,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     }
     protected void Page_Load(object sender, System.EventArgs e)
     {
+        if (this.Page.Visible == false)
+        {
+            OnSessionAtuhFaiedEvent();
+            return;
+        }
         /// 根据用户角色选择显示
         SysLogon syslogon = new SysLogon();
         syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
@@ -480,6 +486,11 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     #region 发布
     private void SaveContent(string Status)
     {
+        if (this.Page.Visible == false)
+        {
+            OnSessionAtuhFaiedEvent();
+            return;
+        }
         if (typeTree.TypeTree_Type != 2)
         {
 
