@@ -71,17 +71,6 @@ public partial class Content_Tools_UploadFiles : GCMS.PageCommonClassLib.PageBas
         else
         {
 
-            //				if ((fileExtension.Trim().ToUpper() != ".GIF") && (fileExtension.Trim().ToUpper() != ".JPG")) //判断上传文件是否为 .gif 或 .jpg 文件
-            //				{
-            //					//delTmpPic();
-            //					Response.Write ("<script>javascript:alert('对不起，你输入的文件不支持上传，请重新输入！')</script>");
-            //					return;
-            //				}
-            //				else
-            //				{ 
-
-            //****************************** 图片改名 + upload *************************************
-
             Random Rnd1 = new Random();
             double dbl = Rnd1.Next();
             dbl = Rnd1.Next();
