@@ -565,7 +565,7 @@ namespace GCMSContentCreate
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
                 _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);          
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order.Replace("Content_Content",FieldsName));          
             }
             else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
             {
@@ -699,7 +699,7 @@ namespace GCMSContentCreate
 
 
             string Orderby = " Content_Content.AtTop desc , Content_Content.OrderNum desc";
-            string isNews = " and Head_news = \'1\' ";
+            string isNews = " and Content_Content.Head_news = \'1\' ";
 
             if (!String.IsNullOrEmpty(Order))
             {
@@ -715,7 +715,8 @@ namespace GCMSContentCreate
                 _Content_FieldsName.Init(contentfiledid);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
                 isNews = " ";
-                 sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby.Replace("Content_Content",FieldsName));
+               // sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2}) {3} and Content_Content.Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
             }
             else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
             {

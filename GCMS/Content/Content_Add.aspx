@@ -133,7 +133,7 @@
 							
 								<TR>
 									<TD style="WIDTH: 100px; HEIGHT: 25px" align="right">名称标题：&nbsp;</TD>
-									<TD style="HEIGHT: 25px"><asp:textbox id="TextBoxTitle" runat="server" CssClass="inputtext250"></asp:textbox>&nbsp;
+									<TD align="left"><asp:textbox id="TextBoxTitle" runat="server" CssClass="inputtext250"></asp:textbox>&nbsp;
 										<asp:label id="LabNameMust" runat="server" Width="200px" ForeColor="#FF8000"></asp:label></TD>
 								</TR>
 								<TR>

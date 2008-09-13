@@ -1,0 +1,469 @@
+'########################################################################
+
+'Gomye Gcms 语句基本使用方法
+
+'########################################################################
+
+//////////////////////////////////////////////////////////////////////////
+// 常用字段名                                                           //
+// 名称：Name                                                           //
+// 日期：SubmitDate                                                     //
+// 文章出处：Derivation                                                 //
+// 出处链接：DerivationLink                                             //
+// 图片上传：PictureName                                                //
+// 图片说明：PictureNotes                                               //
+// 总时间：SubmitDate                                                   //
+// 内容：Content                                                        //
+// 分类图片：Images 必须在根目录下建一个Images_GCMSUpload文件夹         //
+// 关键字：KeyWord                                                      //
+// 原作者：Original                                                     //
+// 分栏目说明 ：Explain                                                 //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+'右侧内容部分输出
+
+<!--%Response.Output GCMS.Content("字段名")%-->
+
+'左侧导航部分输出
+
+<!--% Response.Output GCMS.Channel("字段名")%-->
+
+中文名称:CName
+英文名称:EName
+
+'外部引用文件
+
+<!--#include virtual="/文件路径/文件名"-->
+
+
+'统计代码的填加，显示在后台统计中的
+
+<script language="javascript" type="javascript" src="/asp/view_hits.asp?id=<!--% Response.Output GCMS.Content("ContentID") %-->&add=1"></script>
+
+'使用栏目分类图片，必须在根目录下建一个“Images_GCMSUpload”文件夹
+
+Images_GCMSUpload
+
+
+'########################################################################
+
+'Gomye Gcms 语句基础应用实例
+
+'########################################################################
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'栏目分类的列表背景色随着所在位置变，例：http://www.mscas.ac.cn
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#FFFFFF" class="meun_border4">
+  <tr>
+    <!--%
+i= GCMS.ChannelID
+For Each Channels In GCMS.GetChannels(70)
+GCMS.ChannelID = Channels.ChannelID
+%-->
+    <td width="98" height="25" align="center" bgcolor="<!--%
+if GCMS.ChannelID=i then Response.Output "#0077D3" else Response.Output "#EAEAEA" end if
+%-->"><a href='<!--% Response.Output GCMS.Channel("Url") %-->'><span class="<!--%
+if GCMS.ChannelID=i then Response.Output "fcolor" else Response.Output "fcolor_1" end if
+%-->">
+      <!--% Response.Output GCMS.Channel("CName") %-->
+      </span></a></td>
+    <!--%
+next
+GCMS.ChannelID=i
+%-->
+    <td bgcolor="#EAEAEA">&nbsp;</td>
+  </tr>
+</table>
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'文章列表
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<!--文章列表开始-->
+<!--%
+'文章列表
+For each Item In GCMS.Channels
+GCMS.ContentID = Item.ContentID
+%-->
+
+<a href='<!--%Response.Output GCMS.Content("Url")%-->'>
+<!--%
+'标题
+Response.Output GCMS.Content("Name")
+%-->
+</a>
+<!--%
+'时间
+Response.Output FormatDateTime(GCMS.Content("SubmitDate"),vbShortDate)
+%-->
+<!--% Next %-->
+<!--文章列表结束-->
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'头条新闻加NEW
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<!--%
+'头条新闻
+Gcms.GetChannel = 640
+ix=0
+For Each Item In GCMS.Top(4)
+GCMS.ContentID = Item.ContentID
+ix=ix+1
+%-->
+
+<tr>
+  <td height="20"><font color="456276">·</font><a href="<!--%Response.Output GCMS.Content("Url")%-->"><font color="646464">
+    <!--%Response.Output GCMS.Content("Name")%-->
+    </font></a>
+    <!--%
+if ix < 3 then
+Response.Output "<img src='images/default_new_new.gif' width='11' height='11'>"
+end if
+%-->
+  </td>
+</tr>
+<!--%
+next
+GCMS.GetChannelOver()
+%-->
+
+================================================================
+
+<!--%
+'头条新闻
+Gcms.GetChannel = 16
+For Each Item In GCMS.pic(1)
+GCMS.ContentID = Item.ContentID
+%-->
+
+<a target=_blank href='<!--%Response.Output GCMS.Content("Url")%-->'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="90" height="80" border="0" alt="
+<!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%-->
+<!--%
+if len(GCMS.Content("PictureNotes"))>66 then Response.Output left(GCMS.Content("PictureNotes"),65) & "..." else Response.Output GCMS.Content("PictureNotes") end if
+%-->
+<!--%
+next
+Gcms.GetChannelOver
+%-->
+
+
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'三列换行循环
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<table width="96%" border="0"  align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <!--%
+'文章列表
+i=0
+j=0
+For each Item In GCMS.Channels
+GCMS.ContentID = Item.ContentID
+i=i+1
+j=j+1
+%-->
+    <td  height="140"><table width="" border="0" cellpadding="0" cellspacing="0" align="center">
+        <tr>
+          <td width="126" height="96" align="center" valign="middle" class="border_4"><a href='<!--%Response.Output GCMS.Content("Url")%-->'  target='play'><img src="<!--% Response.Output GCMS.Content("PictureName") %-->" width="120" height="90" alt="" border="0" /></a></td>
+        </tr>
+        <tr>
+          <td height="30" align="center" bgcolor="#3F464B"><!--%
+'内容对象:Content
+Response.Output GCMS.Content("Name")
+%-->
+          </td>
+        </tr>
+      </table></td>
+    <!--%
+if j=2 then
+%-->
+  </tr>
+  <tr>
+    <!--%
+j=0
+%-->
+    <!--%
+i=0
+end if
+Next
+%-->
+  </tr>
+</table>
+
+========///////////////////////////////////////////////////////////////////////////////////
+
+英文列表分页
+
+========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="100" height="20" align="center">&nbsp;
+      <!--%
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'>Page Up</A>"
+%--></td>
+    <td align="center"><!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+Response.Output "&nbsp;<a href=" & GCMS.ThisChannelUrl(i) & "><font color=ff0000>" & i & "</font></a>"
+Else
+Response.Output "&nbsp;<a href=" & GCMS.ThisChannelUrl(i) & ">" & i & "</a>&nbsp;"
+End if
+Next
+%-->
+    </td>
+    <td width="100" align="center">&nbsp;
+      <!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>Page Down</A>"
+%--></td>
+  </tr>
+</table>
+
+========///////////////////////////////////////////////////////////////////////////////////
+
+'读取大分类列表
+
+========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<!--%
+For Each Channels In GCMS.GetChannels(1)'栏目ID
+GCMS.ChannelID = Channels.ChannelID
+%-->
+
+<a href="<!--% Response.Output GCMS.Channel("Url") %-->">
+<!--% Response.Output GCMS.Channel("CName") %-->
+</a>
+<!--%
+next
+%-->
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'列表分页
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<table>
+  <tr>
+    <td><!--%
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'>上一页</A>" else Response.Output "上一页"
+%-->
+    </td>
+    <td align="center"><!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+Response.Output "共" & GCMS.AllCount & "条记录 &nbsp;共" & GCMS.PgCount & "页&nbsp;当前第" & GCMS.PgThis & "页"
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+Response.Output "&nbsp;<a href=" & GCMS.ThisChannelUrl(i) & "><font color=ff0000>" & i & "</font></a>"
+Else
+Response.Output "&nbsp;<a href=" & GCMS.ThisChannelUrl(i) & ">" & i & "</a>&nbsp;"
+End if
+Next
+%-->
+    </td>
+    <td width="100" align="center">&nbsp;
+      <!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>下一页</A>" else Response.Output "下一页"
+%--></td>
+  </tr>
+</table>
+
+'========///////////////////////////////////////////////////////////////////////////////////
+
+'下拉菜单的分页
+
+'========\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</script>
+
+<table width="50%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="30" align="center" valign="middle" class="white02"><!--%
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'>上一页</A>" else Response.Output "上一页"
+%-->
+      <!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+Response.Output "共" & GCMS.AllCount & "条记录 &nbsp;共" & GCMS.PgCount & "页&nbsp;当前第" & GCMS.PgThis & "页"
+%--></td>
+    <td width="100" align="center"><form name="select" id="select" class="select">
+        <select name="select" onchange="MM_jumpMenu('parent',this,0)">
+          <!--%
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+    Response.Output "<option value="& GCMS.ThisChannelUrl(i) & " selected>&nbsp;" & i & "&nbsp;</option>"
+	Else
+	Response.Output "<option value="& GCMS.ThisChannelUrl(i) & ">&nbsp;" & i & "&nbsp;</option>"
+End if
+Next
+%-->
+        </select>
+      </form></td>
+    <td width="50" align="center"><!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>下一页</A>" else Response.Output "下一页"
+%-->
+    </td>
+  </tr>
+</table>
+
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+'内容页分页
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+<!--%
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'>上一页</A>" else Response.Output "上一页"
+%-->
+&nbsp;&nbsp;
+<!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+Response.Output "&nbsp;共" & GCMS.PgCount & "页&nbsp;当前第" & GCMS.PgThis & "页"
+For i =1 to GCMS.PgCount
+If i = GCMS.PgThis then
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & "><b>" & i & "</b></a>&nbsp;"
+Else
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & ">" & i & "</a>&nbsp;"
+End if
+Next
+%-->
+&nbsp;&nbsp;&nbsp;
+<!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>下一页</A>" else Response.Output "下一页"
+%-->
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+'内容页分页,定义显示分页条数，多出的将在>>后边显示
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+内容页分页：
+<!--%'
+'pagejump=10 /定义当前显示10条分页，多出10的将在>>后边显示
+%-->
+<!--%pagejump=10   '1 2 3 4 5 6 7 分开
+x=((GCMS.PgThis-1)\pagejump)*pagejump
+j=x+pagejump
+x=x+1
+if GCMS.PGUP <> "" then Response.Output "<A HREF='"&GCMS.PGUP&"'>上一页</A>" else Response.Output "上一页"
+%-->
+&nbsp;&nbsp;
+<!--%
+if x >= pagejump then Response.Output "<A HREF='"&GCMS.ThisPageUrl(x-1)&"'><<</A>"
+%-->
+&nbsp;&nbsp;
+<!--%
+'内容页分页
+'共 n 页  1 2 3 4 5 6
+if j>=GCMS.PgCount+1 then j=GCMS.PgCount 
+For i =x to j
+If i = GCMS.PgThis then
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & "><b>" & i & "</b></a>&nbsp;"
+Else
+Response.Output "&nbsp;<a href=" & GCMS.ThisPageUrl(i) & ">" & i & "</a>&nbsp;"
+End if
+Next
+%-->
+&nbsp;&nbsp;
+<!--%
+if GCMS.PgCount > j then Response.Output "<A HREF='"&GCMS.ThisPageUrl(j+1)&"'>>></A>"
+%-->
+&nbsp;&nbsp;
+<!--%
+if GCMS.PGDN <> "" then Response.Output "<A HREF='"&GCMS.PGDN&"'>下一页</A>" else Response.Output "下一页"
+%-->
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+'FLASH推主题
+
+'================\\\\\\\\\\\\\\\\==============================================
+
+<!-- 推主题开始 -->
+<script type="text/javascript">
+<!--	
+	var focus_width=205
+	var focus_height=170
+	var text_height=0
+	var swf_height = focus_height+text_height
+//输出图片
+	var pics='<!--%
+'头条新闻
+Gcms.GetChannel = 37
+i=5
+For Each Item In GCMS.Top(5)
+i=i-1
+GCMS.ContentID = Item.ContentID
+Response.Output GCMS.Content("pics")
+if i>0 then Response.Output "|"
+next
+Gcms.GetChannelOver
+%-->'
+//输出连接地址
+var links='<!--%
+'头条新闻
+Gcms.GetChannel = 37
+i=5
+For Each Item In GCMS.Top(5)
+i=i-1
+GCMS.ContentID = Item.ContentID
+Response.Output GCMS.Content("links")
+if i>0 then Response.Output "|"
+next
+Gcms.GetChannelOver
+%-->'
+//输出说明文字
+var texts='<!--%
+'头条新闻
+Gcms.GetChannel = 37
+i=5
+For Each Item In GCMS.Top(5)
+i=i-1
+GCMS.ContentID = Item.ContentID
+Response.Output GCMS.Content("texts")
+if i>0 then Response.Output "|"
+next
+Gcms.GetChannelOver
+%-->'
+
+	document.write('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="'+ focus_width +'" height="'+ swf_height +'">');
+	document.write('<param name="allowScriptAccess" value="sameDomain"><param name="movie" value="/flash/focus.swf"> <param name="quality" value="high"><param name="bgcolor" value="#CCCCCC">');
+	document.write('<param name="menu" value="false"><param name=wmode value="opaque">');
+	document.write('<param name="FlashVars" value="pics='+pics+'&links='+links+'&texts='+texts+'&borderwidth='+focus_width+'&borderheight='+focus_height+'&textheight='+text_height+'">');
+	document.write('<embed src="flash/focus.swf" wmode="opaque" FlashVars="pics='+pics+'&links='+links+'&texts='+texts+'&borderwidth='+focus_width+'&borderheight='+focus_height+'&textheight='+text_height+'" menu="false" bgcolor="#ffffff" quality="high" width="'+ focus_width +'" height="'+ swf_height +'" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />');		document.write('</object>');
+	
+	//-->
+</script>
+<!-- 推主题结束 -->
+
+-----========//////FLASH推主题\\\\\==============-----------
