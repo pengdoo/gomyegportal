@@ -30,6 +30,7 @@
 //       2   2008-7-11 删除CreateTypeTreeXml，UpSchema函数，删除TypeAddFields类
 //       3   2008-8-27 修改数据访问层方法写法
 //       4   2008-9-4 将RoleConnect,Create等操作RoleConnect表的方法移到RoleConnect.cs中。
+//       5   2009-9-13 添加HasExtentFields()函数,IsFullExtenFields()，用来判断节点类型
 //------------------------------------------------------------------------------
 using System;
 using System.Data;

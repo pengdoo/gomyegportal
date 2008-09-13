@@ -665,7 +665,7 @@ namespace GCMSContentCreate
                 _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
 
-                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
+                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order.Replace("Content_Content",FieldsName);
             }
             else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
             {

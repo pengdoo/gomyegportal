@@ -5,3 +5,4 @@ D:\Project\GPortalV1.01版\GCMSClassLib\bin\Debug\GomyeCommonClassLib.pdb
 D:\Project\GPortalV1.01版\GCMSClassLib\obj\Debug\ResolveAssemblyReference.cache
 D:\Project\GPortalV1.01版\GCMSClassLib\obj\Debug\GCMSClassLib.dll
 D:\Project\GPortalV1.01版\GCMSClassLib\obj\Debug\GCMSClassLib.pdb
+D:\Project\GPortalV1.01版\GCMSClassLib\bin\Debug\Interop.jmail.dll
