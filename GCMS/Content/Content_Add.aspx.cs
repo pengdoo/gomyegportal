@@ -202,6 +202,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             if (string.IsNullOrEmpty(this.LabelTypeID.Text) || this.Request["TypeTree_ID"]!=null)
             {
                 this.LabelTypeID.Text = this.Request["TypeTree_ID"].ToString();
+                Session["TypeTree_ID"] = this.Request["TypeTree_ID"].ToString();
             }
             
             int tree_id = int.Parse(this.LabelTypeID.Text);

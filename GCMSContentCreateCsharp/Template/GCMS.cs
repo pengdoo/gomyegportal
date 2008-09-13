@@ -216,6 +216,7 @@ namespace GCMSContentCreate
                 if (listdt.Columns.Contains("Content_ID"))
                 {
                     chair.ContentID =int.Parse( dr["Content_ID"].ToString());
+                   
                     currentitem.Add("ContentID", dr["Content_ID"].ToString());
                 }
                 if (listdt.Columns.Contains("Url") )
@@ -240,7 +241,11 @@ namespace GCMSContentCreate
                 {
                     currentitem.Add("ContentPID", dr["Content_PID"].ToString());
                 }
-          
+                if (listdt.Columns.Contains("OrderNum"))
+                {
+                    ListLastID = dr["OrderNum"].ToString();
+                }
+                
                 foreach (DataColumn dc in listdt.Columns)
                 {
                     string colname = dc.ColumnName;
@@ -257,6 +262,7 @@ namespace GCMSContentCreate
                 CurrentList.Add(chair.ContentID, currentitem);//更新当前列表
                 Contents.Contents.Add(chair,sid , null, null);
                 ChannelID = int.Parse(dr["TypeTree_ID"].ToString());
+                
             }
             return Contents;
         }
@@ -543,53 +549,43 @@ namespace GCMSContentCreate
         }
 
         public Collection Channels()
-        {
-            Collection returnValue;
-
-            
-            
+        { 
             Childs Contents = new Childs();
-            string strListLastID = string.Empty;
-            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-            _Type_TypeTree.Init(ChannelID);
-
+            Type_TypeTree typeTree = new Type_TypeTree();
+            typeTree.Init(ChannelID);
             if (String.IsNullOrEmpty(Order))
             {
                 Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
-
+            string strListLastID = string.Empty;
             string FieldsName = "Content_Content";
             string sql = string.Empty;
-            if (_Type_TypeTree.TypeTree_Type == 2)
+            if (!String.IsNullOrEmpty(ListLastID))
             {
-                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order.Replace("Content_Content",FieldsName));          
+                strListLastID = " and  Content_Content.OrderNum < " + ListLastID;
             }
-            else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
+
+            if (typeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2
             {
-                int contentfiledid = _Type_TypeTree.TypeTree_ContentFields;
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
+                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
                 FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) and Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", FieldsName), Order.Replace("Content_Content", FieldsName));          
+            }
+            else if (typeTree.IsCommonPublish && typeTree.HasExtentFields)//typeTree.TypeTree_Type == 0 && typeTree.TypeTree_ContentFields != 0
+            {
+                int contentfiledid = typeTree.TypeTree_ContentFields;
+                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
+                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
+                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID, Order);
             }
             else
             {
-                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} order by {4}", ListTop, FieldsName, ChannelID, UserWhere, Order);          
-            }
-            if (!String.IsNullOrEmpty(ListLastID))
-            {
-                strListLastID = " and OrderNum < " + ListLastID;
-            }
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", FieldsName), Order.Replace("Content_Content", FieldsName));          
+            }      
 
-            //sql = "SELECT Top " & ListTop & " Content_ID,Name,Url,OrderNum FROM Content_Content WHERE TypeTree_ID =" & ChannelID.ToString() & strListLastID & " and status = 4 or Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " & ChannelID.ToString() & ") order by AtTop desc ,OrderNum desc"
-            //sql = "SELECT Top " + ListTop + " Content_ID,Url,OrderNum," + _userwherecolname + " FROM " + FieldsName + " WHERE ( Content_ID in (select Content_ID from Content_Commend WHERE  TypeTree_ID = " + ChannelID.ToString() + ") or TypeTree_ID =" + ChannelID.ToString() + " ) " + strListLastID + " and status = 4 " + UserWhere + " order by " + Order;
-           
-            returnValue = LoadCurrentList(sql,"Content_ID").Contents;
-
-            return returnValue;
+            return LoadCurrentList(sql,"Content_ID").Contents;
         }
 
 

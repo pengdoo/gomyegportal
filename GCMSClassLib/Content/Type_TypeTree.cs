@@ -850,6 +850,11 @@ namespace GCMSClassLib.Content
         {
             get { return m_TypeTree_Type == 2; }
         }
+
+        public bool IsCommonPublish
+        {
+            get { return m_TypeTree_Type == 0; }
+        }
         #endregion ³£ÓÃÂß¼­ÅÐ¶Ï
     }
 
