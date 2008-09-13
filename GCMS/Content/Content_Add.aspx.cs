@@ -129,6 +129,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             PanelName.Visible = true;
             PanelContent.Visible = true;
         }
+      
 
     }
 
@@ -260,6 +261,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             OnSessionAtuhFaiedEvent();
             return;
         }
+        InitCurrentTypeTree();
         /// 根据用户角色选择显示
         SysLogon syslogon = new SysLogon();
         syslogon.RolesPopedom(int.Parse(this.GetSession("Roles", null)));//#缺少错误判断和错误处理#
@@ -287,7 +289,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             //TypeTree_ID = int.Parse(this.LabelTypeID.Text);//Change By Galen 2008.9.13 
         }
 
-        InitCurrentTypeTree();
+       
         if (typeTree.TypeTree_ContentFields != 0)
         {
             AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
