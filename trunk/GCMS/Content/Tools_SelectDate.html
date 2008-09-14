@@ -1,0 +1,43 @@
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<LINK href="../Admin_Public/Css/Admin.css" rel=stylesheet>
+<script language="javascript">
+function initcalendar(){
+//  if (window.dialogArguments!=null)
+//    Calendar.Value = window.dialogArguments[0];
+
+}
+function closewindow(){
+  window.returnValue = Calendar.Value;
+  window.close();
+}
+</script>
+<title>选择日期</title>
+</head>
+
+<body onload="initcalendar();" leftmargin="0" topmargin="0">
+<table class="table" style="width:100%;" align="center" width="95%">
+    <th style="font-weight:bold" nowrap align="left">选择日期</th>
+</table>
+  
+<table width="100%" border="0" cellspacing="0" cellpadding="1">
+  <tr>
+      
+    <td align="center"><object data="../Admin_Public/htc/calendar.htm" id=Calendar type="text/x-scriptlet" width="250" height="195" align="center" VIEWASTEXT>
+        
+      </object></td>
+    </tr>
+    <tr>
+      
+    <td align="right"> 
+      <input type="button" value=" 确 认 " onClick="closewindow();" class="button" style="width:80px;" name="button">
+        <input type="button" value=" 取 消 " onClick="window.close();" class="button" style="width:80px;" name="button2">
+    </td>
+    </tr>
+  </table>
+</body>
+</html>
