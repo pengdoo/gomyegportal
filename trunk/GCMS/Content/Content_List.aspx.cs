@@ -1,4 +1,19 @@
-﻿using System;
+﻿//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-8-25
+//
+// 功能描述: 发布内容列表
+//
+// 已修改问题:
+// 未修改问题:
+
+// 修改记录
+//   2008-8-26 添加注释
+//   2008-8-31  规范【自定义事件】【SQL引用】【字符处理】【页面参数获取】代码
+//              精简封装动态生成控件部分代码
+//   2008-9-13  封装全局变量逻辑，删除InitXml等两废弃函数
+//----------------------------------系统引用-------------------------------------
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -30,16 +45,40 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     {
         GSystem.SystemState = EnumTypes.SystemStates.Overtime;
         this.Response.Write("<script language=javascript>alert(\"超时操作！！！\");parent.parent.parent.window.navigate('../Logon.aspx');</script>");
+        this.Page.Visible = false;
         return;
     }
-    private string sTypeTree_ID;
-    private int TypeTreeIssuanceID;
+
+    #region 当页的全局变量
+    int m_typetree_id;
+    int Current_TypeTree_ID
+    {
+        get
+        {
+            m_typetree_id = int.Parse(this.GetQueryString("TypeTree_ID", null));
+            return m_typetree_id;
+        }
+        set
+        {
+            m_typetree_id = value;
+        }
+    }
+
+    Type_TypeTree Current_TypeTree;
+    void InitCurrentTypeTree()
+    {
+        Current_TypeTree = new Type_TypeTree();
+        Current_TypeTree.Init(m_typetree_id);
+    }
+    #endregion 当页的全局变量
+    //private string sTypeTree_ID;
+    //private int TypeTreeIssuanceID;
     string sTextSearch = "";
     string sSQL = "";
     Content_FieldsName _Content_FieldsName = new Content_FieldsName();
     Content_FieldsContent _Content_FieldsContent = new Content_FieldsContent();
     ContentCls _ContentCls = new ContentCls();
-    int TypeTree_Type;
+    //int TypeTree_Type;
 
     const int PageSize = 60;//定义每页显示记录
     int PageCount, RecCount, CurrentPage, Pages, JumpPage;
@@ -47,68 +86,38 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        sTypeTree_ID = Request.QueryString["TypeTree_ID"].ToString(); //必须知道在那个节点下
-        if (sTypeTree_ID == "0")
+        if (this.Page.Visible == false)//如果未通过权限验证，直接返回
+        {
+            OnSessionAtuhFaiedEvent();
+            return;
+        }
+        //sTypeTree_ID = Request.QueryString["TypeTree_ID"].ToString(); //必须知道在那个节点下
+        if (Current_TypeTree_ID==0)//sTypeTree_ID == "0"
         {
             this.Response.Redirect("Main_Content.aspx?RightID=0");
             return;
         }
-
-        Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        _Type_TypeTree.Init(int.Parse(sTypeTree_ID));
-        TypeTree_Type = _Type_TypeTree.TypeTree_Type;
+        InitCurrentTypeTree();
+        //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+        //_Type_TypeTree.Init(int.Parse(sTypeTree_ID));
+         //TypeTree_Type =this.Current_TypeTree.TypeTree_Type;
 
         if (!this.IsPostBack)
         {
             DateGridList.CurrentPageIndex = 0;
+            //TypeTreeIssuanceID =Current_TypeTree.TypeTreeIssuance.ToString();
+            sTypeTree_Show.Value = Current_TypeTree.TypeTree_Show;
+            sTypeTree_ContentFields.Value
+                = Current_TypeTree.TypeTree_ContentFields == 0 ?
+                Current_TypeTree.TypeTree_TypeFields.ToString() :
+                Current_TypeTree.TypeTree_ContentFields.ToString();//#待测试的修改#
 
-
-
-            TypeTreeIssuanceID = int.Parse(_Type_TypeTree.TypeTreeIssuance.ToString());
-            sTypeTree_Show.Value = _Type_TypeTree.TypeTree_Show;
-            sTypeTree_ContentFields.Value 
-                = _Type_TypeTree.TypeTree_ContentFields == 0 ? 
-                _Type_TypeTree.TypeTree_TypeFields.ToString() :
-                _Type_TypeTree.TypeTree_ContentFields.ToString();//#待测试的修改#
-            string TypeTreeIssuanceName = _Type_TypeTree.strTypeTreeIssuance(TypeTreeIssuanceID).ToString();
-
-            //				switch (_Type_TypeTree.TypeTree_Type)
-            //				{
-            //					case 1: //"发布(可编辑)";
-            //						Response.Redirect("Content_RecommendList.aspx?TypeTree_ID="+sTypeTree_ID);
-            //						return;
-            //						
-            //					case 2: //锁定(不可编辑)
-            //						Response.Redirect("Content_OnlyList.aspx?TypeTree_ID="+sTypeTree_ID);
-            //						return;
-            //						
-            //					case 3: //映射(只能映射其他栏目的文章)
-            //						//this.Ingear.Visible = true;
-            //						this.Panel3.Visible = true;
-            //						Type_List(sTypeTree_ID,TypeTreeIssuanceID);
-            //						break;
-            //					case 4: //映射(只能映射其他栏目的文章)
-            //						this.Mapped.Visible = true;
-            //						Type_List(sTypeTree_ID,TypeTreeIssuanceID);
-            //						break;
-            //					case 5: //产品();
-            //						Response.Redirect("Content_RecommendList.aspx?TypeTree_ID="+sTypeTree_ID);
-            //						break;
-            //					case 7: //"论坛(可编辑)";
-            //						this.Mapped.Visible = true;
-            //						Type_List(sTypeTree_ID,TypeTreeIssuanceID);
-            //						break;
-            //					case 0: //关闭(前台不可见)
-            //						break;
-            //				}
-
-            TypeTree_ID.Value = sTypeTree_ID;
-            this.PageHeader.Value = "当前目录 - " + _Type_TypeTree.TypeTreeCName.ToString() + "    状态 - " + TypeTreeIssuanceName;
-
-
+            string TypeTreeIssuanceName = Current_TypeTree.strTypeTreeIssuance(Current_TypeTree.TypeTreeIssuance);
+            TypeTree_ID.Value = Current_TypeTree_ID.ToString();
+            this.PageHeader.Value =string.Format( "当前目录 - {0}    状态 - {1}" , Current_TypeTree.TypeTreeCName,TypeTreeIssuanceName);
 
             Pages_Load();
-            Type_List(sTypeTree_ID, TypeTree_Type); //调用数据绑定函数Type_List()进行数据绑定运算
+            Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type); //调用数据绑定函数Type_List()进行数据绑定运算
 
         }
     }
@@ -134,7 +143,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
     }
 
-    public void Type_List(string TypeTree_ID, int TypeTree_Type)
+    public void Type_List(int TypeTree_ID, int TypeTree_Type)
     {
 
         //			LabelJava.Text = "<script language=\"JavaScript\" src=\"../admin_public/js/Content_ContentList.js\"></script>";
@@ -373,7 +382,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             //IDtxt= IDtxt + "<img id='status"+Content_ID+"' src='"+StatusImg+"' width=16 height=16 alt='"+lockText+"' lockedby='"+lockedby+"'>"+Content_ID;
             e.Item.Cells[0].Text = IDtxt;
 
-            if (TypeTree_Type != 2)
+            if (!Current_TypeTree.IsFullExtenFields)//TypeTree_Type != 2
             {
 
                 e.Item.Cells[1].Text = "<nobr><span class='title' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name")) + ">" + Tools.DBToWeb(Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name"))) + "</span></nobr>";
@@ -454,7 +463,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         string FieldsBase = "Content_Content";
         string Fields = "name";
         _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
-        if (TypeTree_Type == 2)
+        if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
             FieldsBase = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
             Fields = SelectDropDownList.SelectedValue;
@@ -465,7 +474,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         {
             sTextSearch = " and ( " + FieldsBase + "." + Fields + " like '%" + sTextSearch + "%') ";
         }
-        Type_List(sTypeTree_ID, TypeTree_Type);
+        Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);
     }
 
 
@@ -493,7 +502,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                 break;
         }
         ViewState["PageIndex"] = CurrentPage;//将运算后的CurrentPage变量再次保存至ViewState
-        Type_List(sTypeTree_ID, TypeTree_Type);//调用数据绑定函数TDataBind()
+        Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);//调用数据绑定函数TDataBind()
     }
 
     protected void gotoPage_TextChanged(object sender, System.EventArgs e)
@@ -510,7 +519,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             {
                 int InputPage = Int32.Parse(gotoPage.Text.ToString()) - 1;//转换用户输入值保存在int型InputPage变量中
                 ViewState["PageIndex"] = InputPage;//写入InputPage值到ViewState["PageIndex"]中
-                Type_List(sTypeTree_ID, TypeTree_Type);//调用数据绑定函数TDataBind()再次进行数据绑定运算
+                Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);//调用数据绑定函数TDataBind()再次进行数据绑定运算
             }
         }
         //捕获由用户输入不正确数据类型时造成的异常
@@ -551,23 +560,23 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     */
     public int Calc()
     {
-        if (TypeTree_Type == 0)
+        if (Current_TypeTree.IsCommonPublish)//TypeTree_Type == 0
         {
-            countSql = "Select count(*) as co from Content_Content where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + sTypeTree_ID + "'" + sTextSearch;
+            countSql = "Select count(*) as co from Content_Content where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
         }
 
-        if (TypeTree_Type == 2)
+        if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
             _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
-            
-                countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + sTypeTree_ID + "'" + sTextSearch;
+
+            countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
             
            
         }
         //Change By Galen Mu 2008.7.29
-        if (TypeTree_Type == 1)
+        if (Current_TypeTree.TypeTree_Type == 1)
         {
-            countSql = "Select count(*) as co from Content_Content,Content_Commend where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Commend.Content_ID = Content_Content.Content_ID and Content_Commend.TypeTree_ID = '" + sTypeTree_ID + "'" + sTextSearch;
+            countSql = "Select count(*) as co from Content_Content,Content_Commend where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Commend.Content_ID = Content_Content.Content_ID and Content_Commend.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
         }
         int RecordCount = 0;
         SqlDataReader myReader = Tools.DoSqlReader(countSql);
@@ -584,7 +593,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         //txtStatus = ListStatus.SelectedValue ;
         Tools.txtStatus = ListStatus.SelectedValue;
         Pages_Load();
-        Type_List(sTypeTree_ID, TypeTree_Type);
+        Type_List(Current_TypeTree_ID,Current_TypeTree.TypeTree_Type);
     }
     protected void PageHeader_Load(object sender, EventArgs e)
     {

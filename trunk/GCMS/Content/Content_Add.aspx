@@ -143,8 +143,8 @@
 								<TR>
 									<TD align="right"><asp:label id="LabTxt1" runat="server">文章出处：</asp:label>&nbsp;</TD>
 									<TD align="left"><asp:textbox id="TextBoxFrom" runat="server" CssClass="inputtext250"></asp:textbox>&nbsp;
-										<asp:label id="LabTxt2" runat="server">出处链接：</asp:label><FONT face="宋体">&nbsp;
-											<asp:textbox id="TextBoxLink" runat="server" CssClass="inputtext250"></asp:textbox></FONT></TD>
+										<asp:label id="LabTxt2" runat="server">出处链接：</asp:label>&nbsp;
+										<asp:textbox id="TextBoxLink" runat="server" CssClass="inputtext250"></asp:textbox></TD>
 								<TR>
 									<TD align="right">
 										<asp:label id="LabTxt4" runat="server">关 键 字：</asp:label>&nbsp;</TD>
@@ -174,9 +174,9 @@
 								</TR>
 								</asp:panel>
 								
-								<TR>
-									<TD align="right" colSpan="2"><asp:table id="Table2" runat="server" Width="100%" border="0" cellPadding="0" cellSpacing="0"></asp:table></TD>
-								</TR>
+						  <TR>
+									<TD colSpan="2"><asp:table id="Table2" runat="server" Width="100%" border="0" cellPadding="0" cellSpacing="0"></asp:table></TD>
+							  </TR>
 								<asp:panel id="PanelContent" runat="server" Visible="false">
 								<TR>
 									<TD style="HEIGHT: 360px" vAlign="top" align="right">信息内容：&nbsp;</TD>
