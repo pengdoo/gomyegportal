@@ -361,7 +361,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         string ToolsPut = string.Empty;
         //flag = this.Request["flag"];
 
-        while (myReader.Read())
+        while (myReader.Read()) 
         {
             switch (myReader.GetString(2))
             {
