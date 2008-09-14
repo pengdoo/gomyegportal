@@ -79,7 +79,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     Content_FieldsContent _Content_FieldsContent = new Content_FieldsContent();
     ContentCls _ContentCls = new ContentCls();
     //int TypeTree_Type;
-
+    int StatusColIndex = 4;//状态列所在的列数
     const int PageSize = 60;//定义每页显示记录
     int PageCount, RecCount, CurrentPage, Pages, JumpPage;
     public string countSql;
@@ -194,7 +194,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         string Swhere = "";
 
 
-        if (TypeTree_Type == 2)
+        if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
             _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
             if (_Content_FieldsName.FieldsBase_Name != "" && _Content_FieldsName.FieldsBase_Name != null)
@@ -210,16 +210,24 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             SelectDropDownList.Items.Clear();
             SelectDropDownList.Items.Add(new ListItem("ID", "Content_ID"));
 
-            ops = sTypeTree_Show.Value.Split(sSplit);
+            ops = (sTypeTree_Show.Value + ",status").Split(sSplit);
             for (int j = 0; j < ops.Length; j++)
             {
                 BoundColumn bc1 = new BoundColumn();
-                bc1.DataField = ops[j].ToString();
-                bc1.HeaderText = _Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j].ToString());
+                bc1.DataField = ops[j];
+                if (ops[j] != "status")
+                {
+                    bc1.HeaderText = _Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j].ToString());
+                }
+                else
+                {
+                    bc1.HeaderText = "状态";
+                    StatusColIndex = j+1;
+                }
                 bc1.ItemStyle.Width = Unit.Pixel(250);
                 DateGridList.Columns.Add(bc1);
 
-                SelectDropDownList.Items.Add(new ListItem(_Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j].ToString()), ops[j].ToString()));
+                SelectDropDownList.Items.Add(new ListItem(_Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j]), ops[j]));
             }
 
             string WhereSql = " Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + TypeTree_ID + "'" + sTextSearch;
@@ -231,7 +239,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
         }
 
-        if (TypeTree_Type == 0)
+        if (Current_TypeTree.IsCommonPublish)//TypeTree_Type == 0
         {
             BoundColumn bc1 = new BoundColumn();
             bc1.HeaderText = "名称";
@@ -382,6 +390,25 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             //IDtxt= IDtxt + "<img id='status"+Content_ID+"' src='"+StatusImg+"' width=16 height=16 alt='"+lockText+"' lockedby='"+lockedby+"'>"+Content_ID;
             e.Item.Cells[0].Text = IDtxt;
 
+            
+            switch (Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "status")))
+            {
+                case 1:
+                    e.Item.Cells[StatusColIndex].Text = "<font color=red>草 稿</font>";
+                    break;
+                case 2:
+                    e.Item.Cells[StatusColIndex].Text = "<font color=black>待审批</font>";
+                    break;
+                case 3:
+                    e.Item.Cells[StatusColIndex].Text = "<font color=green>待发布</font>";
+                    break;
+                case 4:
+                    e.Item.Cells[StatusColIndex].Text = "<font color=gray>已发布</font>";
+                    break;
+                case 5:
+                    e.Item.Cells[StatusColIndex].Text = "<font color=blue>已归档</font>";
+                    break;
+            }
             if (!Current_TypeTree.IsFullExtenFields)//TypeTree_Type != 2
             {
 
@@ -389,24 +416,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                 e.Item.Cells[2].Text = "<nobr><span class='Author' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + "</span></nobr>";
                 e.Item.Cells[3].Text = "<nobr><span class='submitdate' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + "</span></nobr>";
 
-                switch (Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "status")))
-                {
-                    case 1:
-                        e.Item.Cells[4].Text = "<font color=red>草 稿</font>";
-                        break;
-                    case 2:
-                        e.Item.Cells[4].Text = "<font color=black>待审批</font>";
-                        break;
-                    case 3:
-                        e.Item.Cells[4].Text = "<font color=green>待发布</font>";
-                        break;
-                    case 4:
-                        e.Item.Cells[4].Text = "<font color=gray>已发布</font>";
-                        break;
-                    case 5:
-                        e.Item.Cells[4].Text = "<font color=blue>已归档</font>";
-                        break;
-                }
+                
 
                 if (Convert.ToChar(DataBinder.Eval(e.Item.DataItem, "Head_news")).ToString() == "1")
                 {

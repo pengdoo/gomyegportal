@@ -31,6 +31,7 @@
 //       3   2008-8-27 修改数据访问层方法写法
 //       4   2008-9-4 将RoleConnect,Create等操作RoleConnect表的方法移到RoleConnect.cs中。
 //       5   2009-9-13 添加HasExtentFields,IsFullExtenFields两个属性，用来判断节点类型
+//       6   2009-9-15 添加 MainFieldTableName,ExtentFieldTableName 属性，标示当前栏目扩展表名称,主表名称
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -338,6 +339,7 @@ namespace GCMSClassLib.Content
 				"from Content_Type_TypeTree "+
 				"where TypeTree_ID = " + TypeTree_ID;
 			SqlDataReader reader = Tools.DoSqlReader(sql);
+            bool success = false;
 			if(reader.Read())
 			{
 				this.TypeTree_ID = int.Parse(reader["TypeTree_ID"].ToString());
@@ -363,13 +365,22 @@ namespace GCMSClassLib.Content
 				this.TypeTree_Show = reader["TypeTree_Show"].ToString();
 				this.TypeTree_XMLContent = reader["TypeTree_XMLContent"].ToString();
 				reader.Close();
-				return true;
+                success = true;
 			}
 			else
 			{
 				reader.Close();
-				return false;
+                success = false;
 			}
+            //-----------------------------------载入相关栏目扩展字段属性--------------------------------
+            if (HasExtentFields)
+            {
+                Content_FieldsName contentfieldsname = new Content_FieldsName();
+                contentfieldsname.Init(TypeTree_ContentFields == 0 ? TypeTree_TypeFields : TypeTree_ContentFields);
+                m_extentfieldstablename = "ContentUser_" + contentfieldsname.FieldsBase_Name;
+                
+            }
+            return success;
 
 		}
         private Type_TypeTree InitTypeTreeFromReader(SqlDataReader reader)
@@ -573,90 +584,6 @@ namespace GCMSClassLib.Content
             return res;
 		}
 
-
-        /// <summary>
-        /// 显示当前状态的字符串含义
-        /// </summary>
-        /// <param name="typeTreeIssuance"></param>
-        /// <returns>返回其对应的字符含义</returns>
-		public string strTypeTreeIssuance(int typeTreeIssuance)
-		{			
-			string strTypeTreeIssuance;
-
-            switch (typeTreeIssuance)//#此处有文本,多语言化时注意#
-			{
-				case 0:
-					strTypeTreeIssuance = "关闭( 前台不可见)";
-					break;
-
-				case 1:
-					strTypeTreeIssuance =  "发布 (可编辑)";
-					break;
-
-				case 2:
-					strTypeTreeIssuance =  "锁定 (不可编辑)";
-					break;
-
-				default:
-					strTypeTreeIssuance =  "发布 (可编辑)";
-					break;
-			}
-
-			return strTypeTreeIssuance;
-		}
-
-        /// <summary>
-        /// 显示当前状态的字符串含义
-        /// </summary>
-        /// <param name="typeTreeType">typeTreeIssuance</param>
-        /// <returns>返回其对应的字符含义</returns>
-		public string strTypeTreeType(int typeTreeType)
-		{			
-			string strTypeTreeType;
-
-            switch (typeTreeType)//#此处有文本,多语言化时注意#
-			{
-
-				case 0:
-					strTypeTreeType =  "文章 (常规文章发布)";
-					break;
-
-				case 1:
-					strTypeTreeType =  "映射 (只能映射其他栏目的文章)";
-					break;
-
-				case 2:
-					strTypeTreeType =  "扩展 (不使用基础字段)";
-					break;
-
-//				case 2:
-//					strTypeTreeType =  "图片 (GPhoto系统支持)";
-//					break;
-
-//				case 3:
-//					strTypeTreeType =  "网络硬盘 (下载栏目和频道)";
-//					break;
-//
-//				case 4:
-//					strTypeTreeType =  "商城 (GShop系统支持)";
-//					break;
-//
-//				case 5:
-//					strTypeTreeType =  "博客 (GBlog系统支持)";
-//					break;
-//
-//				case 6:
-//					strTypeTreeType =  "论坛 (GForums系统支持)";
-//					break;
-
-				default:
-					strTypeTreeType =   "文章 (常规文章发布)";
-					break;
-			}
-
-			return strTypeTreeType;
-		}
-
 		public string txtstrSonTypeTree = "";			
         /// <summary>
         /// 得到当前目录的子目录名称
@@ -840,7 +767,8 @@ namespace GCMSClassLib.Content
 		}
         #endregion 权限相关函数
 
-        #region 常用逻辑判断
+        #region 常用逻辑属性判断
+
         public bool HasExtentFields
         {
             get { return m_TTypeTree_TypeFields != 0 || m_TypeTree_ContentFields != 0; }
@@ -855,7 +783,113 @@ namespace GCMSClassLib.Content
         {
             get { return m_TypeTree_Type == 0; }
         }
-        #endregion 常用逻辑判断
+
+
+
+        /// <summary>
+        /// 显示当前状态的字符串含义
+        /// </summary>
+        /// <param name="typeTreeIssuance"></param>
+        /// <returns>返回其对应的字符含义</returns>
+        public string strTypeTreeIssuance(int typeTreeIssuance)
+        {
+            string strTypeTreeIssuance;
+
+            switch (typeTreeIssuance)//#此处有文本,多语言化时注意#
+            {
+                case 0:
+                    strTypeTreeIssuance = "关闭( 前台不可见)";
+                    break;
+
+                case 1:
+                    strTypeTreeIssuance = "发布 (可编辑)";
+                    break;
+
+                case 2:
+                    strTypeTreeIssuance = "锁定 (不可编辑)";
+                    break;
+
+                default:
+                    strTypeTreeIssuance = "发布 (可编辑)";
+                    break;
+            }
+
+            return strTypeTreeIssuance;
+        }
+
+        /// <summary>
+        /// 显示当前状态的字符串含义
+        /// </summary>
+        /// <param name="typeTreeType">typeTreeIssuance</param>
+        /// <returns>返回其对应的字符含义</returns>
+        public string strTypeTreeType(int typeTreeType)
+        {
+            string strTypeTreeType;
+
+            switch (typeTreeType)//#此处有文本,多语言化时注意#
+            {
+
+                case 0:
+                    strTypeTreeType = "文章 (常规文章发布)";
+                    break;
+
+                case 1:
+                    strTypeTreeType = "映射 (只能映射其他栏目的文章)";
+                    break;
+
+                case 2:
+                    strTypeTreeType = "扩展 (不使用基础字段)";
+                    break;
+
+                //				case 2:
+                //					strTypeTreeType =  "图片 (GPhoto系统支持)";
+                //					break;
+
+                //				case 3:
+                //					strTypeTreeType =  "网络硬盘 (下载栏目和频道)";
+                //					break;
+                //
+                //				case 4:
+                //					strTypeTreeType =  "商城 (GShop系统支持)";
+                //					break;
+                //
+                //				case 5:
+                //					strTypeTreeType =  "博客 (GBlog系统支持)";
+                //					break;
+                //
+                //				case 6:
+                //					strTypeTreeType =  "论坛 (GForums系统支持)";
+                //					break;
+
+                default:
+                    strTypeTreeType = "文章 (常规文章发布)";
+                    break;
+            }
+
+            return strTypeTreeType;
+        }
+
+        #endregion 常用逻辑属性判断
+
+        private string m_extentfieldstablename;
+        public string MainFieldTableName
+        {
+            get
+            {
+                string f = "Content_Content";
+                if (IsCommonPublish)
+                    f = "Content_Content";
+                else if (IsFullExtenFields&&!string.IsNullOrEmpty(m_extentfieldstablename))
+                    f = m_extentfieldstablename;
+
+                return f;
+
+            }
+        }
+        public string ExtentFieldTableName
+        {
+            get { return m_extentfieldstablename; }
+        }
     }
 
 }
