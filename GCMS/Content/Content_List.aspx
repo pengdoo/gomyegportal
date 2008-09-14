@@ -184,7 +184,7 @@
 				return;
 			};
 					var f = window.frames["postFrame"].document.postForm;
-						f.action="Content_ViewOrder.aspx?OrderType=lock&Content_ID="+curContent;
+						f.action="Content_ViewOrder.aspx?OrderType=lock&Content_ID="+curContent+"&TypeTree_ID="+Form1.TypeTree_ID.value;
 					f.submit();
 					statusEl.src="../Admin_Public/images/ic_lockuser.gif";
 				}catch(exception){}
@@ -202,7 +202,7 @@
 				return;
 			};
 					var f = window.frames["postFrame"].document.postForm;
-					f.action="Content_ViewOrder.aspx?OrderType=unlock&Content_ID="+curContent;
+					f.action="Content_ViewOrder.aspx?OrderType=unlock&Content_ID="+curContent+"&TypeTree_ID="+Form1.TypeTree_ID.value;
 					f.submit();
 					statusEl.src="../Admin_Public/images/Icon_File_New.gif";
 				}catch(exception){}

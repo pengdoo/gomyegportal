@@ -8,6 +8,7 @@
 // 未修改问题:
 // 修改记录
 //    1 2008-9-4 修改了两个Push的方法，改变引用到CreateFiles.PushList
+//    2 2008-9-14 封装了页面全局变量逻辑，删除了PushContent函数
 //------------------------------------------------------------------------------
 using System;
 using System.Data;
@@ -23,6 +24,7 @@ using GCMSClassLib.Content;
 using System.Data.SqlClient;
 using GCMSClassLib.Public_Cls;
 using GCMS.PageCommonClassLib;
+using System.Collections.Generic;
 
 public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBase
 {
@@ -42,101 +44,126 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
         this.Response.Write("<script language=javascript>alert(\"超时或非法操作！！！\");parent.windowclose();</script>");
         return;
     }
+
+    #region 当页的全局变量
+    int m_typetree_id;
+    int Current_TypeTree_ID
+    {
+        get
+        {
+            m_typetree_id = int.Parse(this.GetQueryString("TypeTree_ID", null));
+            return m_typetree_id;
+        }
+        set
+        {
+            m_typetree_id = value;
+        }
+    }
+    int m_content_id;
+    int Current_Content_ID
+    {
+        get
+        {
+            m_content_id = int.Parse(this.GetQueryString("Content_ID", null));
+            return m_content_id;
+        }
+        set
+        {
+            m_content_id = value;
+        }
+    }
+    string[] Current_ContetnList
+    {
+        get {
+            string str = string.Empty;
+            if (this.GetQueryString("Content_List", "Null") != "Null")
+            {
+                str = Request.QueryString["Content_List"].ToString();
+            }
+            return str.Split(',');
+        }
+    }
+    Type_TypeTree Current_TypeTree;
+    void InitCurrentTypeTree()
+    {
+        Current_TypeTree = new Type_TypeTree();
+        Current_TypeTree.Init(m_typetree_id);
+    }
+
+    #endregion 当页的全局变量
+
     string OrderType, Content_List, sql;
-    int Content_ID, TypeTree_ID;
+    //int Content_ID, TypeTree_ID;
     ContentCls content = new ContentCls();
-    string[] ops;
-    char sSplit;
+    //string[] ops;
+    //char sSplit;
     SqlDataReader myReader;
-    SqlDataReader reader = null;
+    //SqlDataReader reader = null;
     CreateFiles createFiles = new CreateFiles();
     int TypeTree_IDs;
-    string FieldsName = "Content_Content";
-    Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-    Content_FieldsName _Content_FieldsName = new Content_FieldsName();
+    //string FieldsName = "Content_Content";
+    //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+    //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
     protected void Page_Load(object sender, EventArgs e)
     {
-        OrderType = Request.QueryString["OrderType"].ToString(); //命令
-        if ((Request["Content_ID"] != "") && (Request["Content_ID"] != null))
-        {
-            Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-        }
-        TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-        Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        Content_FieldsName _Content_FieldsName = new Content_FieldsName();
+        OrderType =this.GetQueryString("OrderType",null); //Request.QueryString["OrderType"].ToString(); //命令
+        //if ((Request["Content_ID"] != "") && (Request["Content_ID"] != null))
+        //{
+        //    Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
+        //}
+        //TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
+        //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+        //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
 
-        if (TypeTree_ID != 0)
+        if (Current_TypeTree_ID==0)//TypeTree_ID != 0
         {
-            _Type_TypeTree.Init(TypeTree_ID);
-            if (_Type_TypeTree.TypeTree_ContentFields != 0)
-            {
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-            }
-        }
-        else
-        {
+        //    InitCurrentTypeTree();//_Type_TypeTree.Init(TypeTree_ID);
+        //    if (Current_TypeTree.HasExtentFields)//_Type_TypeTree.TypeTree_ContentFields != 0
+        //    {
+        //        _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
+        //        FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+        //    }
+        //}
+        //else
+        //{
             return;
         }
-
-        if (FieldsName == "")
-        { FieldsName = "Content_Content"; }
-
-
+        InitCurrentTypeTree();
+        //if (string.IsNullOrEmpty(FieldsName)) FieldsName = "Content_Content"; 
 
         switch (OrderType)
         {
             //锁定
             case "lock":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                Tools.DoSql("update Content_Content set lockedby = '" + Session["Master_UserName"] + "' where Content_ID = " + Content_ID);
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set lockedby = '" + Session["Master_UserName"] + "' where Content_ID = " + Current_Content_ID.ToString());
                 this.Response.Redirect("Tools_Postform.htm");
                 break;
 
             //解锁
             case "unlock":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                Tools.DoSql("update Content_Content set lockedby = '' where Content_ID = " + Content_ID);
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set lockedby = '' where Content_ID = " + Current_Content_ID.ToString());
                 this.Response.Redirect("Tools_Postform.htm");
                 break;
 
             //置顶
             case "AtTop":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                Tools.DoSql("update Content_Content set AtTop = '1' where Content_ID = " + Content_ID);
-                createFiles.PushList(TypeTree_ID);
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set AtTop = '1' where Content_ID = " + Current_Content_ID.ToString());
+                createFiles.PushList(Current_TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //取消置顶
             case "UnAtTop":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                Tools.DoSql("update Content_Content set AtTop = NULL where Content_ID = " + Content_ID);
-                createFiles.PushList(TypeTree_ID);
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set AtTop = NULL where Content_ID = " + Current_Content_ID.ToString());
+                createFiles.PushList(Current_TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
 
             //拖拽
-            case "MoveBefore":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-
+            case "MoveBefore":            
                 int tarid = int.Parse(Request.QueryString["tarid"].ToString());
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-
-                int OrderNum1 = content.OrderNumInit(Content_ID);
+                int OrderNum1 = content.OrderNumInit(Current_Content_ID);
                 int OrderNum2 = content.OrderNumInit(tarid);
 
                 int StartNum, EndNum;
@@ -159,103 +186,74 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     TempOrderNum = OrderNum1;
                 }
 
-                sql = "SELECT Content_ID,OrderNum FROM Content_Content WHERE TypeTree_ID =" + TypeTree_ID + " and (OrderNum between " + StartNum + " and " + EndNum + ") and Content_ID <> " + Content_ID + " order by OrderNum " + Order;
+                sql = "SELECT Content_ID,OrderNum FROM " + Current_TypeTree.MainFieldTableName + " WHERE TypeTree_ID =" + Current_TypeTree_ID.ToString() + " and (OrderNum between " + StartNum + " and " + EndNum + ") and Content_ID <> " + Current_Content_ID.ToString() + " order by OrderNum " + Order;
                 myReader = Tools.DoSqlReader(sql);
                 while (myReader.Read())
                 {
-                    //Change By Galen Mu  2008.8.25
-                    //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                    Tools.DoSql("update Content_Content set OrderNum = " + TempOrderNum + " where Content_ID = " + myReader.GetInt32(0).ToString());
+                    Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + TempOrderNum + " where Content_ID = " + myReader.GetInt32(0).ToString());
                     TempOrderNum = int.Parse(myReader.GetInt32(1).ToString());
                 }
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                Tools.DoSql("update Content_Content set OrderNum = " + OrderNum2 + " where Content_ID = " + Content_ID);
-                createFiles.PushList(TypeTree_ID);
-
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + OrderNum2 + " where Content_ID = " + Current_Content_ID.ToString());
+                createFiles.PushList(Current_TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //删除
             case "Delete":
-                Content_List = Request.QueryString["Content_List"].ToString();
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+                for (int j = 0; j < Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j].ToString() != "-1")
                     {
-                        //Change By Galen Mu  2008.8.25
-                        //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("Update "+FieldsName+" set Status = '-1' where Content_ID = " + ops[j].ToString());
-                        
+                        Tools.DoSql("Update " + Current_TypeTree.MainFieldTableName + " set Status = '-1' where Content_ID = " + Current_ContetnList[j]);
                     }
                 }
-                createFiles.PushList(TypeTree_ID);
+                createFiles.PushList(Current_TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //签发
             case "Approval":
-                Content_List = Request.QueryString["Content_List"].ToString();
+               
                 int Content_sID = 0;
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+                for (int j = 0; j < Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j]!= "-1")
                     {
-                        //Change By Galen Mu  2008.8.25
-                        //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("Update " + FieldsName + " set Status = '4' where Content_ID = " + ops[j].ToString());
-                        PushContent(TypeTree_ID, int.Parse(ops[j].ToString()));
-                        Content_sID = int.Parse(ops[j].ToString());
+                        Tools.DoSql("Update " + Current_TypeTree.MainFieldTableName + " set Status = '4' where Content_ID = " + Current_ContetnList[j]);
+                        createFiles.CreateContentFiles(Current_TypeTree_ID, int.Parse(Current_ContetnList[j]));
+                        Content_sID = int.Parse(Current_ContetnList[j]);
                     }
                 }
                 if (Content_sID != 0)
-                { createFiles.PushList(TypeTree_ID); };
+                { createFiles.PushList(Current_TypeTree_ID); };
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //上移
             case "MoveUp":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-                int OrderNum3 = content.OrderNumInit(Content_ID);
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-
-                sql = "select top 1 Content_ID,OrderNum from Content_Content where OrderNum > " + OrderNum3 + " and TypeTree_ID =" + TypeTree_ID + " order by OrderNum";
+                int OrderNum3 = content.OrderNumInit(Current_Content_ID);
+                sql = "select top 1 Content_ID,OrderNum from Content_Content where OrderNum > " + OrderNum3 + " and TypeTree_ID =" + Current_TypeTree_ID.ToString() + " order by OrderNum";
                 myReader = Tools.DoSqlReader(sql);
                 while (myReader.Read())
                 {
-                    //Change By Galen Mu  2008.8.25
-                    //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                    Tools.DoSql("update Content_Content set OrderNum = " + OrderNum3 + " where Content_ID = " + myReader.GetInt32(0).ToString());
-                    Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    createFiles.PushList(TypeTree_ID);
+                    Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + OrderNum3 + " where Content_ID = " + myReader.GetInt32(0).ToString());
+                    Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Current_Content_ID);
+                    createFiles.PushList(Current_TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //下移
-            case "MoveDown":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-                int OrderNum4 = content.OrderNumInit(Content_ID);
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-
-                sql = "select top 1 Content_ID,OrderNum from Content_Content where OrderNum < " + OrderNum4 + " and TypeTree_ID =" + TypeTree_ID + " order by OrderNum desc";
+            case "MoveDown":       
+                int OrderNum4 = content.OrderNumInit(Current_Content_ID);
+                sql = "select top 1 Content_ID,OrderNum from Content_Content where OrderNum < " + OrderNum4 + " and TypeTree_ID =" + Current_TypeTree_ID.ToString() + " order by OrderNum desc";
                 myReader = Tools.DoSqlReader(sql);
                 while (myReader.Read())
                 {
-                    //Change By Galen Mu  2008.8.25
-                    //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                    Tools.DoSql("update Content_Content set OrderNum = " + OrderNum4 + " where Content_ID = " + myReader.GetInt32(0).ToString());
-                    Tools.DoSql("update Content_Content set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Content_ID);
-                    createFiles.PushList(TypeTree_ID);
+                    Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + OrderNum4 + " where Content_ID = " + myReader.GetInt32(0).ToString());
+                    Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set OrderNum = " + myReader.GetInt32(1).ToString() + " where Content_ID = " + Current_Content_ID);
+                    createFiles.PushList(Current_TypeTree_ID);
                 }
                 myReader.Close();
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
@@ -263,46 +261,35 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
 
             //关联
             case "Relative":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
                 string retV = Request.QueryString["retV"].ToString();
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-
-                sSplit = ',';
-                ops = retV.Split(sSplit);
-                int Relative_ID = TypeTree_ID;
+                string[] ops = retV.Split(',');
+                int Relative_ID = Current_TypeTree_ID;
 
                 for (int j = 0; j < ops.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (ops[j] != "-1")
                     {
-                        //Change By Galen Mu  2008.8.25
-                        //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("insert into Content_Contact ( Content_ID,Other_ID,Relative_ID) values (" + Content_ID + "," + int.Parse(ops[j].ToString()) + "," + Relative_ID + ")");
+                        Tools.DoSql("insert into Content_Contact ( Content_ID,Other_ID,Relative_ID) values (" + Current_Content_ID.ToString() + "," + int.Parse(ops[j].ToString()) + "," + Relative_ID + ")");
                     }
                 }
                 //					PushSystem(Content_ID);
                 //					CreateFiles _CreateFiles = new CreateFiles();
                 //					_CreateFiles.CreateContentFiles(int.Parse(this.LabelTypeID.Text),Content_ID,UrlString(this.TypeTree_Template.Text),UrlString(content.Url));
-                this.Response.Redirect("Content_Relative.aspx?Content_ID=" + Content_ID + "&TypeTree_ID=" + TypeTree_ID);
+                this.Response.Redirect("Content_Relative.aspx?Content_ID=" + Current_Content_ID.ToString() + "&TypeTree_ID=" + Current_TypeTree_ID.ToString());
                 break;
 
             //子文章
-            case "Son":
-                Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
+            case "Son":     
                 string rets = Request.QueryString["retV"].ToString();
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-                FieldsName = "Content_Content";
-
-                _Type_TypeTree.Init(TypeTree_ID);
-                if (_Type_TypeTree.TypeTree_Type == 2)
-                {
-                    _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                    FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                }
-
-                Tools.DoSql("update " + FieldsName + " set Content_PID =" + Content_ID + " where Content_ID in (" + rets + ")");
-
-                this.Response.Redirect("Content_Relative.aspx?Content_ID=" + Content_ID + "&TypeTree_ID=" + TypeTree_ID);
+                //FieldsName = "Content_Content";
+                //_Type_TypeTree.Init(TypeTree_ID);
+                //if (Current_TypeTree.IsFullExtenFields)//_Type_TypeTree.TypeTree_Type == 2
+                //{
+                //    _Content_FieldsName.Init(Current_TypeTree.TypeTree_ContentFields);
+                //    FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+                //}
+                Tools.DoSql("update " + Current_TypeTree.MainFieldTableName + " set Content_PID =" + Current_Content_ID.ToString() + " where Content_ID in (" + rets + ")");
+                this.Response.Redirect("Content_Relative.aspx?Content_ID=" + Current_Content_ID.ToString() + "&TypeTree_ID=" + Current_TypeTree_ID.ToString());
                 break;
 
 
@@ -310,29 +297,27 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             case "Recommend":
 
                 string cid = Request["cid"];
-                if (cid == "") { Response.Write("错误操作！"); return; }
-                Content_List = Request.QueryString["Content_List"].ToString();
-                string[] ops1;
-                string[] cids;
+                if (string.IsNullOrEmpty(cid)) { Response.Write("错误操作！"); return; }
+                //Content_List = Request.QueryString["Content_List"].ToString();
+                //string[] ops1;
+                ////string[] cids;
 
-                char sSplit1 = ',';
+                //char sSplit1 = ',';
 
-                cids = cid.Split(sSplit1);
+                string[] cids = cid.Split(',');
                 for (int i = 0; i < cids.Length; i++)
                 {
-                    ops1 = Content_List.Split(sSplit1);
-                    for (int j = 0; j < ops1.Length; j++)
+                    //ops1 = Current_ContetnList.Split(',');
+                    for (int j = 0; j < Current_ContetnList.Length; j++)
                     {
-                        if (ops1[j].ToString() != "-1")
+                        if (Current_ContetnList[j] != "-1")
                         {
-                            if (!MemberUsersInRoles(ops1[j], cids[i]))
+                            if (!MemberUsersInRoles(Current_ContetnList[j], cids[i]))
                             {
-                                //Change By Galen Mu  2008.8.25
-                                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                                Tools.DoSql("insert into Content_Commend (Content_ID,TypeTree_ID) values (" + ops1[j] + "," + cids[i] + ")");
+                                Tools.DoSql("insert into Content_Commend (Content_ID,TypeTree_ID) values (" + Current_ContetnList[j] + "," + cids[i] + ")");
 
                             }
-                            createFiles.PushList(int.Parse(cids[i]));
+                            createFiles.PushList(int.Parse(cids[i]));//#此处含有可优化的内容, 重构时注意#
                         }
                     }
                 }
@@ -344,49 +329,34 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
 
             //粘贴
             case "Paste":
-                Content_List = Request.QueryString["Content_List"].ToString();
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+             
+                for (int j = 0; j <this.Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j].ToString() != "-1")
                     {
-                        TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-                        Content_ID = int.Parse(ops[j].ToString());
+                        int Content_ID = int.Parse(Current_ContetnList[j].ToString());
+                        if (Current_TypeTree.IsCommonPublish)//复制标准字段
+                        {
+                            content.Init(Content_ID);
+                            TypeTree_IDs = content.TypeTree_ID;
+                            content.OrderNum = content.QueryMaxContentID();
+                            content.Author = Session["Master_UserName"].ToString();
+                            content.Status = "3";
+                            content.TypeTree_ID = Current_TypeTree_ID;
+                            content.Create();
+                        }
+                        if (Current_TypeTree.HasExtentFields)//复制扩展字段
+                        {
+                            List<string> sqls = new List<string>();
+                            int newContentID = Tools.QueryMaxID("Content_ID") + 1;
+                            sqls.Add(string.Format("select *  into #tmpContent from {0} Where Content_ID={1}", Current_TypeTree.ExtentFieldTableName, Content_ID));
+                            sqls.Add(string.Format("update #tmpContent Set Content_ID={0},TypeTree_ID={1}",newContentID,Current_TypeTree_ID ));
+                            sqls.Add(string.Format("insert into {0} select * from #tmpContent Where Content_ID={1}", Current_TypeTree.ExtentFieldTableName, newContentID));
+                            sqls.Add("drop table #tmpContent");
+                            Tools.DoSqlTrans(sqls);
+                            Tools.UpdateMaxID("Content_ID");
+                        }
 
-                        content.Init(Content_ID);
-                        TypeTree_IDs = content.TypeTree_ID;
-                        content.OrderNum = content.QueryMaxContentID();
-                        content.Author = Session["Master_UserName"].ToString();
-                        content.Status = "3";
-                        content.TypeTree_ID = TypeTree_ID;
-                        content.Create();
-                        //int UpdateContent_ID = content.ContentId;
-
-
-                        //sql = "SELECT Property_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions,Property_Type FROM Content_Schema WHERE TypeTree_ID =" + content.TypeTree_ID + " order by Property_ID";
-                        //myReader = Tools.DoSqlReader(sql);
-                        //while (myReader.Read())
-                        //{
-
-                        //    if (TypeAdd.PropertyInit(Content_ID, myReader.GetInt32(0), myReader.GetString(5)))
-                        //    {
-                        //        string sql1 = "SELECT * FROM Content_Schema WHERE Property_Name ='" + myReader.GetString(1) + "' and TypeTree_ID =" + TypeTree_ID;
-                        //        reader = Tools.DoSqlReader(sql1);
-                        //        if (reader.Read())
-                        //        {
-                        //            TypeAdd.UpSchema(int.Parse(reader["Property_ID"].ToString()), content.ContentId, reader["Property_Type"].ToString());
-
-                        //        }
-                        //        reader.Close();
-                        //        _DataConn.Close();
-                        //        _DataConn.Dispose();
-                        //    }
-
-                        //}
-                        myReader.Close();
                     }
                 }
                 this.Response.Redirect("Tools_Postform.htm");
@@ -396,45 +366,36 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
             case "Preview":
                 if (this.Request["Content_ID"] == null) return;
                 
-                sql = "select top 1 Url from " + FieldsName + " where Content_ID = " + Request["Content_ID"];
-                string Url = "";
+                sql = "select top 1 Url from " + Current_TypeTree.MainFieldTableName + " where Content_ID = " + Request["Content_ID"];
+                string Url = string.Empty;
                 myReader = Tools.DoSqlReader(sql);
                 while (myReader.Read())
                 {
                     Url = myReader["Url"].ToString();
                 }
-                if (String.IsNullOrEmpty(Url))//为兼容AOC旧版数据库增加
-                {
-                    sql = "select top 1 Url from Content_Content where Content_ID = " + Request["Content_ID"];
-                    myReader = Tools.DoSqlReader(sql);
-                    while (myReader.Read())
-                    {
-                        Url = myReader["URL"].ToString();
-                    }
-                }
-               
-
+                //if (String.IsNullOrEmpty(Url))//为兼容AOC旧版数据库增加
+                //{
+                //    sql = "select top 1 Url from Content_Content where Content_ID = " + Request["Content_ID"];
+                //    myReader = Tools.DoSqlReader(sql);
+                //    while (myReader.Read())
+                //    {
+                //        Url = myReader["URL"].ToString();
+                //    }
+                //}
                 myReader.Close();
                 this.Response.Redirect(Url);
                 break;
 
             //栏目移动
             case "preMoveContent":
-                Content_List = Request.QueryString["Content_List"].ToString();
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+               
+                for (int j = 0; j < this.Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j] != "-1")
                     {
-                        TypeTree_ID = int.Parse(Request.QueryString["columnid"].ToString());
-                        Content_ID = int.Parse(ops[j].ToString());
-
-                        //Change By Galen Mu  2008.8.25
-                        //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("update Content_Content set TypeTree_ID = " + TypeTree_ID + " where Content_ID = " + Content_ID);
+                        int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
+                        int Content_ID = int.Parse(Current_ContetnList[j].ToString());
+                        Tools.DoSql("update "+Current_TypeTree.MainFieldTableName+" set TypeTree_ID = " + TypeTree_ID + " where Content_ID = " + Content_ID);
                     }
                 }
 
@@ -443,48 +404,36 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
 
             //栏目拷贝
             case "preCopyContent":
-
-                Content_List = Request.QueryString["Content_List"].ToString();
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+               
+                for (int j = 0; j < Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j] != "-1")
                     {
-                        TypeTree_ID = int.Parse(Request.QueryString["columnid"].ToString());
-                        Content_ID = int.Parse(ops[j].ToString());
+                        int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
+                        int Content_ID = int.Parse(Current_ContetnList[j]);
+               
+                        if (Current_TypeTree.IsCommonPublish)//复制标准字段
+                        {
+                            content.Init(Content_ID);
+                            TypeTree_IDs = content.TypeTree_ID;
+                            content.OrderNum = content.QueryMaxContentID();
+                            content.Author = Session["Master_UserName"].ToString();
+                            content.Status = "3";
+                            content.TypeTree_ID = Current_TypeTree_ID;
+                            content.Create();
+                        }
+                        if (Current_TypeTree.HasExtentFields)//复制扩展字段
+                        {
+                            List<string> sqls = new List<string>();
+                            int newContentID = Tools.QueryMaxID("Content_ID") + 1;
+                            sqls.Add(string.Format("select *  into #tmpContent from {0} Where Content_ID={1}", Current_TypeTree.ExtentFieldTableName, Content_ID));
+                            sqls.Add(string.Format("update #tmpContent Set Content_ID={0},TypeTree_ID={1}", newContentID, Current_TypeTree_ID));
+                            sqls.Add(string.Format("insert into {0} select * from #tmpContent Where Content_ID={1}", Current_TypeTree.ExtentFieldTableName, newContentID));
+                            sqls.Add("drop table #tmpContent");
+                            Tools.DoSqlTrans(sqls);
+                            Tools.UpdateMaxID("Content_ID");
+                        }
 
-                        content.Init(Content_ID);
-                        TypeTree_IDs = content.TypeTree_ID;
-                        content.OrderNum = content.QueryMaxContentID();
-                        content.Author = Session["Master_UserName"].ToString();
-                        content.Status = "3";
-                        content.TypeTree_ID = TypeTree_ID;
-                        content.Create();
-                        //;
-                        //sql = "SELECT Property_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions,Property_Type FROM Content_Schema WHERE TypeTree_ID =" + TypeTree_IDs + " order by Property_ID";
-                        //myReader = Tools.DoSqlReader(sql);
-                        //while (myReader.Read())
-                        //{
-
-                        //    if (TypeAdd.PropertyInit(Content_ID, myReader.GetInt32(0), myReader.GetString(5)))
-                        //    {
-                        //        string sql1 = "SELECT * FROM Content_Schema WHERE Property_Name ='" + myReader.GetString(1) + "' and TypeTree_ID =" + TypeTree_ID;
-                        //        reader = Tools.DoSqlReader(sql1);
-                        //        if (reader.Read())
-                        //        {
-                        //            TypeAdd.UpSchema(int.Parse(reader["Property_ID"].ToString()), content.ContentId, reader["Property_Type"].ToString());
-
-                        //        }
-                        //        reader.Close();
-                        //        _DataConn.Close();
-                        //        _DataConn.Dispose();
-                        //    }
-
-                        //}
-                        //myReader.Close();
 
                     }
                 }
@@ -496,41 +445,27 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
 
             //撤销映射
             case "UnRel":
-                Content_List = Request.QueryString["Content_List"].ToString();
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-
-                sSplit = ',';
-                ops = Content_List.Split(sSplit);
-
-                for (int j = 0; j < ops.Length; j++)
+      
+                for (int j = 0; j < this.Current_ContetnList.Length; j++)
                 {
-                    if (ops[j].ToString() != "-1")
+                    if (Current_ContetnList[j].ToString() != "-1")
                     {
-                        //Change By Galen Mu  2008.8.25
-                        //将content.DoSelect(..)  改为 Tools.DoSql(..) 
-                        Tools.DoSql("Delete Content_Commend where Content_ID = " + ops[j].ToString() + " and Typetree_ID = " + TypeTree_ID);
+                        Tools.DoSql("Delete Content_Commend where Content_ID = " + Current_ContetnList[j] + " and Typetree_ID = " + Current_TypeTree_ID.ToString());
                        
                     }
                 }
-                createFiles.PushList(TypeTree_ID);//Change By Galen Mu  2008.9.4 移出循环
+                createFiles.PushList(Current_TypeTree_ID);//Change By Galen Mu  2008.9.4 移出循环
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
 
             //生成映射列表
             case "ApprovalRel":
-                //Content_List = Request.QueryString["Content_List"].ToString();
-                TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-                createFiles.PushList(TypeTree_ID);
+                createFiles.PushList(Current_TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
         }
     }
-    private void PushContent(int TypeTree_ID, int Content_ID)
-    {
-        CreateFiles _CreateFiles = new CreateFiles();
-        _CreateFiles.CreateContentFiles(TypeTree_ID, Content_ID);
-
-    }
+   
     private bool MemberUsersInRoles(string Content_ID, string TypeTree_ID)
     {
         SqlDataReader reader = null;

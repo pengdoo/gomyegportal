@@ -161,7 +161,10 @@ namespace GCMSClassLib.Public_Cls
             return SqlHelper.ReaderToTable(SqlHelper.ExecuteReader(SqlHelper.LocalSqlServer, sSQL));
 
         }
-
+        public static void DoSqlTrans(List<string> Sqls)
+        {
+            SqlHelper.ExecuteSqlTran(SqlHelper.LocalSqlServer, Sqls);
+        }
        
         #endregion 数据库相关的函数
 
