@@ -26,7 +26,8 @@
 			function doMainCatalog(){
 					try{
 							var argu = "dialogWidth:32em; dialogHeight:28em;center:yes;status:no;help:no";
-							window.showModalDialog("WindowFrame.aspx?loadfile=Type_Add.aspx&OrderType=root","新建根目录",argu);
+							var cId = parseInt(CurrentNode);
+							window.showModalDialog("WindowFrame.aspx?loadfile=Type_Add.aspx&OrderType=son&TypeTree_ID="+cId,"新建子目录",argu);
 							parent.location.reload();
 					}catch(exception){}
 			}
@@ -107,7 +108,6 @@ function showMenu() {
      }
    else
      menu1.style.posTop = event.clientY+document.body.scrollTop;
-   
    menu1.className = "menushow";
    menu1.setCapture();
 }
