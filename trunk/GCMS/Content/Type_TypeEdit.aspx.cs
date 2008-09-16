@@ -1,4 +1,16 @@
-﻿using System;
+﻿//------------------------------------------------------------------------------
+// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
+// 创建描述: Galen Mu 创建于 2008-8-25
+//
+// 功能描述: 内容管理字段设置
+//
+// 已修改问题:
+// 未修改问题:
+// 修改记录
+//   2008-8-26 添加注释
+
+//----------------------------------系统引用-------------------------------------
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -12,20 +24,55 @@ using GCMSClassLib.Content;
 using GCMSClassLib.Public_Cls;
 using System.Data.SqlClient;
 using System.Collections.Specialized;
+using GCMS.PageCommonClassLib;
 
-public partial class Content_Type_TypeEdit : System.Web.UI.Page
+public partial class Content_Type_TypeEdit : GCMS.PageCommonClassLib.PageBase
 {
-    private int TypeTree_ID = 0;
+    //订阅页面的自定义事件
+    protected override void OnPreInit(EventArgs e)
+    {
+        this.SessionAtuhFaiedEvent += new SessionAuthHandler(OnSessionAtuhFaiedEvent);//注册验证错误处理
+        base.OnPreInit(e);
+    }
+
+    /// <summary>
+    /// 验证失败事件响应
+    /// </summary>
+    void OnSessionAtuhFaiedEvent()
+    {
+        GSystem.SystemState = EnumTypes.SystemStates.Overtime;
+        this.Response.Write("<script language=javascript>alert(\"超时操作！！！\");parent.parent.parent.window.navigate('../Logon.aspx');</script>");
+        this.Page.Visible = false;
+        return;
+    }
+
+    #region 当页的全局变量
+   
+    int Current_TypeTree_ID
+    {
+        get
+        {
+            txtTypeTree_ID.Value = this.GetQueryString("TypeTree_ID", "0");
+            return int.Parse(txtTypeTree_ID.Value);
+        }
+        set
+        {
+            txtTypeTree_ID.Value = value.ToString();
+        }
+    }
+    #endregion 当页的全局变量
+
+    //private int TypeTree_ID = 0;
     Type_TypeTree typeTree = new Type_TypeTree();
     ContentCls _ContentCls = new ContentCls();
     protected void Page_Load(object sender, EventArgs e)
     {
-        TypeTree_ID = int.Parse(this.Request.QueryString["TypeTree_ID"].ToString());
+        //TypeTree_ID = int.Parse(this.Request.QueryString["TypeTree_ID"].ToString());
         txtType.Value = this.Request.QueryString["Type"].ToString();
-        this.txtTypeTree_ID.Value = TypeTree_ID.ToString();
+        //this.txtTypeTree_ID.Value = TypeTree_ID.ToString();
         if (!this.IsPostBack)
         {
-            AddFieldsWriteTxt(TypeTree_ID);
+            AddFieldsWriteTxt(Current_TypeTree_ID);
         }
     }
 
@@ -146,9 +193,7 @@ public partial class Content_Type_TypeEdit : System.Web.UI.Page
     
         string sID = this.Request["SelectedID"];
 
-        string sSQL;
-
-        sSQL = "Update Content_Type_TypeTree set TypeTree_Show = '" + sID + "' where TypeTree_Id = " + TypeTree_ID;
+        string sSQL = string.Format("Update Content_Type_TypeTree set TypeTree_Show = '{0}' where TypeTree_Id = {1}", sID, Current_TypeTree_ID);
         Tools.DoSql(sSQL);
         Page.RegisterStartupScript("保存目录", "<script language=javascript>top.window.close();</script>");
     }
@@ -196,14 +241,17 @@ public partial class Content_Type_TypeEdit : System.Web.UI.Page
             {
                 //AddFields.Deletes(int.Parse(ops[j].ToString()));
                 string sql = "update Content_Type_typetree set " + sql1 + " where TypeTree_ID  = " + int.Parse(ops[j].ToString());
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql(sql);
             }
         }
     }
 
-
+    protected void toolsbar_delectexfd_ButtonClick(object sender, System.EventArgs e)
+    {
+        string sql = string.Format("update Content_Type_TypeTree set TypeTree_ContentFields=0,TypeTree_TypeFields=0,TypeTree_Show='' Where TypeTree_ID={0}", Current_TypeTree_ID);
+        Tools.DoSql(sql);
+        Page.RegisterStartupScript("保存目录", "<script language=javascript>top.window.close();</script>");
+    }
     public void ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
     {
 
