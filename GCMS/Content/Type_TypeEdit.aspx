@@ -50,6 +50,7 @@
 					<cc3:Toolsbar id="Toolsbar1" runat="server"  OnButtonClick="Toolsbar1_ButtonClick" AltText="保存显示方式" Text="保存显示方式" Width="99" imageNormal="../Admin_Public/Images/Icon_File_Save.gif"></cc3:Toolsbar>
 					<td class="coolButton" onClick="AddFields();" title="选择扩展字段" width="99" height="20">
 						<img src="../Admin_Public/Images/Icon_File_Save.gif"> 选择扩展字段</td>
+				    <cc3:Toolsbar id="toolsbar_delectexfd" OnButtonClick="toolsbar_delectexfd_ButtonClick" runat="server" AltText="取消扩展" Text="取消扩展" Width="99" imageNormal="../Admin_Public/Images/Icon_File_Save.gif"></cc3:Toolsbar>
 					<cc3:Toolsbar id="Toolsbar2" OnButtonClick="Toolsbar2_ButtonClick" runat="server" AltText="应用到子目录" Text="应用到子目录" Width="99" imageNormal="../Admin_Public/Images/Icon_File_Save.gif"></cc3:Toolsbar>
 					<cc3:Toolsbar id="Toolsbar3" OnButtonClick="Toolsbar3_ButtonClick" runat="server" AltText="应用到同级目录" Text="应用到同级目录" Width="105" imageNormal="../Admin_Public/Images/Icon_File_Save.gif"></cc3:Toolsbar>
 					<TD><FONT face="宋体"></FONT></TD>

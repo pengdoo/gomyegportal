@@ -5,3 +5,4 @@ bin\Debug\GomyeCommonClassLib.pdb
 obj\Debug\ResolveAssemblyReference.cache
 obj\Debug\GCMSClassLib.dll
 obj\Debug\GCMSClassLib.pdb
+bin\Debug\Interop.jmail.dll

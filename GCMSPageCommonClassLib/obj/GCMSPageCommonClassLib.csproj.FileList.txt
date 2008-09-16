@@ -14,3 +14,4 @@ obj\Debug\GCMSPageCommonClassLib.LanguagePack.en.resources
 obj\Debug\GCMSPageCommonClassLib.csproj.GenerateResource.Cache
 obj\Debug\GCMSPageCommonClassLib.dll
 obj\Debug\GCMSPageCommonClassLib.pdb
+bin\Debug\Interop.jmail.dll
