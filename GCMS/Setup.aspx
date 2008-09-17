@@ -5,12 +5,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>无标题页</title>
+    <script type="text/javascript" src="js/jquery/jquery-1.2.6.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.progressbar/jquery.progressbar.min.js"></script>
+
+
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-        正在开发中.....<asp:HiddenField runat="server" ID="key" />
-    </div>
+        安装进度<br />
+        <span class="progressBar" id="spaceused4">为开始</span>
+        <asp:HiddenField runat="server" ID="key" />
+        <asp:FileUpload ID="fileSql" runat="server" />
+        <asp:Button ID="btnGoInstal" runat="server" OnClick="btnGoInstal_Click" Text="开始安装"  /></div>
+       
+	
+
     </form>
 </body>
 </html>

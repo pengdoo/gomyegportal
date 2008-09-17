@@ -11,7 +11,8 @@ using System.Web.UI.HtmlControls;
 using GCMS.PageCommonClassLib;
 using GCMSClassLib.Content;
 using Microsoft.VisualBasic;
-
+using System.Text;
+using System.IO;
 public partial class Setup : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -19,16 +20,46 @@ public partial class Setup : System.Web.UI.Page
         string _HTTP = "GomyeGomye" + Request.ServerVariables["HTTP_HOST"].ToString() + ".net.net";
         string _HTTPs = FormsAuthentication.HashPasswordForStoringInConfigFile(_HTTP.ToString(), "MD5");
         key.Value = _HTTPs;
-        //CreateFiles _CreateFiles = new CreateFiles();
-        //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        //_CreateFiles.CreateLinkPushFiles(89);
-        //GCMSContentCreate.GCMS gcms = new GCMSContentCreate.GCMS();
-        //gcms.GetChannel = "124";
-        
-        //foreach (GCMSContentCreate.GCMS.Child item in gcms.Top(7))
-        //{
-        //    //gcms.ContentID = item[0];
-        //}
+
         
     }
+    
+    protected void btnGoInstal_Click(object sender, EventArgs e)
+    {
+        Stream stream = fileSql.FileContent;
+        StreamReader reader = new StreamReader(stream);
+        StringBuilder sb=new StringBuilder();
+        long totleCount = stream.Length;
+        int prsint;
+        while (!reader.EndOfStream)
+        {
+            string line=reader.ReadLine();
+            sb.AppendLine(line);
+
+           double pre = (double)stream.Position *100/ (double)totleCount;
+            prsint=(int)pre<=100?(int)pre:100;
+           SetProgress("spaceused4", 50);
+        }
+
+        
+    }
+
+    void CreateSql()
+    {
+ 
+    }
+
+    public void SetProgress(string barid,int num)
+    {
+        string scriptStr = string.Empty;
+        scriptStr+="<script>";
+        scriptStr+="$(document).ready(function() {";
+        scriptStr+="$(\"#" + barid + "\").progressBar({ barImage: 'js/jquery.progressbar/images/progressbg_yellow.gif'} );";
+        scriptStr+="$(\"#" + barid + "\").progressBar(" + num.ToString() + ");";
+        scriptStr+="});";
+        scriptStr+=" </script>";
+        this.RegisterClientScriptBlock("setProgress", scriptStr.ToString());
+
+    }
+
 }
