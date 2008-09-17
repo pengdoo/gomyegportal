@@ -671,6 +671,7 @@ function dolookText(){
 			top.WriteValue("curContentID","NaN");
 			}
 		function dragEnter(){
+		
 			event.returnValue = false;
 			}
 		function dragOver(){

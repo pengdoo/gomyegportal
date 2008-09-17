@@ -393,9 +393,9 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 {
                     if (Current_ContetnList[j] != "-1")
                     {
-                        int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
+                        //int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
                         int Content_ID = int.Parse(Current_ContetnList[j].ToString());
-                        Tools.DoSql("update "+Current_TypeTree.MainFieldTableName+" set TypeTree_ID = " + TypeTree_ID + " where Content_ID = " + Content_ID);
+                        Tools.DoSql("update "+Current_TypeTree.MainFieldTableName+" set TypeTree_ID = " + Current_TypeTree_ID + " where Content_ID = " + Content_ID);
                     }
                 }
 
@@ -409,7 +409,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                 {
                     if (Current_ContetnList[j] != "-1")
                     {
-                        int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
+                        //int TypeTree_ID = int.Parse(this.GetQueryString("columnid", null));
                         int Content_ID = int.Parse(Current_ContetnList[j]);
                
                         if (Current_TypeTree.IsCommonPublish)//复制标准字段
