@@ -196,8 +196,13 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
         if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
+            if (!Current_TypeTree.HasExtentFields)
+            {
+                this.Response.Redirect("Main_Content.aspx?RightID=0");
+                return;
+            }
             _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
-            if (_Content_FieldsName.FieldsBase_Name != "" && _Content_FieldsName.FieldsBase_Name != null)
+            if (!string.IsNullOrEmpty( _Content_FieldsName.FieldsBase_Name))
             {
                 Sfrom = " left outer join ContentUser_" + _Content_FieldsName.FieldsBase_Name;
                 Swhere = " on ContentUser_" + _Content_FieldsName.FieldsBase_Name + ".Content_ID = Content_Content.Content_ID ";
@@ -577,6 +582,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
         if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
+            if (!Current_TypeTree.HasExtentFields) return 0;
             _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
 
             countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
