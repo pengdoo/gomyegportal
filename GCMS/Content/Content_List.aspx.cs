@@ -209,13 +209,10 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             }
 
 
-            char sSplit = ',';
-            string[] ops;
-
             SelectDropDownList.Items.Clear();
             SelectDropDownList.Items.Add(new ListItem("ID", "Content_ID"));
 
-            ops = (sTypeTree_Show.Value + ",status").Split(sSplit);
+            string[] ops = (sTypeTree_Show.Value + ",status").Split(',');
             for (int j = 0; j < ops.Length; j++)
             {
                 BoundColumn bc1 = new BoundColumn();
@@ -304,7 +301,9 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
         DateGridList.CurrentPageIndex = 0;
         txtSql.Value = sSQL;
-        DateGridList.DataSource =Tools.DoSqlReader(sSQL);
+        SqlDataReader reader=Tools.DoSqlReader(sSQL);
+
+        DateGridList.DataSource = reader;
         DateGridList.DataBind();
 
         //显示Label控件LCurrentPaget和文本框控件gotoPage状态
@@ -395,26 +394,28 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             //IDtxt= IDtxt + "<img id='status"+Content_ID+"' src='"+StatusImg+"' width=16 height=16 alt='"+lockText+"' lockedby='"+lockedby+"'>"+Content_ID;
             e.Item.Cells[0].Text = IDtxt;
 
-            
-            switch (Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "status")))
+            if (Current_TypeTree.IsFullExtenFields||Current_TypeTree.IsCommonPublish)
             {
-                case 1:
-                    e.Item.Cells[StatusColIndex].Text = "<font color=red>草 稿</font>";
-                    break;
-                case 2:
-                    e.Item.Cells[StatusColIndex].Text = "<font color=black>待审批</font>";
-                    break;
-                case 3:
-                    e.Item.Cells[StatusColIndex].Text = "<font color=green>待发布</font>";
-                    break;
-                case 4:
-                    e.Item.Cells[StatusColIndex].Text = "<font color=gray>已发布</font>";
-                    break;
-                case 5:
-                    e.Item.Cells[StatusColIndex].Text = "<font color=blue>已归档</font>";
-                    break;
-            }
-            if (!Current_TypeTree.IsFullExtenFields)//TypeTree_Type != 2
+                switch (Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "status")))
+                {
+                    case 1:
+                        e.Item.Cells[StatusColIndex].Text = "<font color=red>草 稿</font>";
+                        break;
+                    case 2:
+                        e.Item.Cells[StatusColIndex].Text = "<font color=black>待审批</font>";
+                        break;
+                    case 3:
+                        e.Item.Cells[StatusColIndex].Text = "<font color=green>待发布</font>";
+                        break;
+                    case 4:
+                        e.Item.Cells[StatusColIndex].Text = "<font color=gray>已发布</font>";
+                        break;
+                    case 5:
+                        e.Item.Cells[StatusColIndex].Text = "<font color=blue>已归档</font>";
+                        break;
+                }
+            
+            if (Current_TypeTree.IsCommonPublish)//TypeTree_Type != 2
             {
 
                 e.Item.Cells[1].Text = "<nobr><span class='title' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name")) + ">" + Tools.DBToWeb(Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name"))) + "</span></nobr>";
@@ -442,6 +443,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                 }
 
             }
+        }
 
         }
     }
