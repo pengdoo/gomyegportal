@@ -509,14 +509,14 @@ function dolookText(){
 				
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:22em; dialogHeight:34em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_Recommend.aspx&Content_List=" + ids,"推荐文章",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_Recommend.aspx&Content_List=" + ids+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"推荐文章",argu);
  			}
  			}
 		}
 		function doCollection(){
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:32em; dialogHeight:34em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=collection/recommend.asp&contentid=" + curContent,"推荐文章到集合",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=collection/recommend.asp&contentid=" + curContent+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"推荐文章到集合",argu);
  			}
 		}
 
