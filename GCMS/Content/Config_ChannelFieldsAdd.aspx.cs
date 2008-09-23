@@ -20,7 +20,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-//----------------------------------系统引用-------------------------------------
+//----------------------------------项目引用-------------------------------------
 using GCMSClassLib.Content;
 using GCMSClassLib.Public_Cls;
 using GCMS.PageCommonClassLib;

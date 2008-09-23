@@ -11,6 +11,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using GCMSClassLib.Public_Cls;
+using System.IO;
 namespace GCMS.PageCommonClassLib
 {
     public class GSystem
@@ -32,6 +34,32 @@ namespace GCMS.PageCommonClassLib
                     break;
             }
             return msg;
+        }
+        /// <summary>
+        /// 载入系统的脚本模板
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="strParam"></param>
+        /// <returns></returns>
+        public static string LoadTemplate(string url,Dictionary<string,string> strParam)
+        {
+            StringBuilder txt = new StringBuilder();
+            string path = Tools.FilesUrl(url);
+            using (StreamReader sr = new StreamReader(path))
+            {
+                String line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    txt.AppendLine(line);
+                }
+                sr.Close();
+            }
+            //将形如$id$的参数，换成实际值
+            foreach (KeyValuePair<string, string> p in strParam)
+            {
+                txt = txt.Replace(string.Format("${0}$", p.Key), p.Value);
+            }
+            return txt.ToString();
         }
 
     }

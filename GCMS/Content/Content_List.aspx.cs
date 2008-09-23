@@ -12,21 +12,24 @@
 //   2008-8-31  规范【自定义事件】【SQL引用】【字符处理】【页面参数获取】代码
 //              精简封装动态生成控件部分代码
 //   2008-9-13  封装全局变量逻辑，删除InitXml等两废弃函数
+//   2008-9-23  优化代码，删除两个用于保存往返数据的页面控件
 //----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.IO;
+using System.Data.SqlClient;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+//----------------------------------项目引用-------------------------------------
 using GCMSClassLib.Public_Cls;
 using GCMSClassLib.Content;
-using System.IO;
-using System.Data.SqlClient;
 using GCMS.PageCommonClassLib;
 
 public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
@@ -53,15 +56,11 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     int m_typetree_id;
     int Current_TypeTree_ID
     {
-        get
-        {
+        get{
             m_typetree_id = int.Parse(this.GetQueryString("TypeTree_ID", null));
             return m_typetree_id;
         }
-        set
-        {
-            m_typetree_id = value;
-        }
+        set { m_typetree_id = value; }
     }
 
     Type_TypeTree Current_TypeTree;
@@ -71,15 +70,12 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         Current_TypeTree.Init(m_typetree_id);
     }
     #endregion 当页的全局变量
-    //private string sTypeTree_ID;
-    //private int TypeTreeIssuanceID;
     string sTextSearch = "";
     string sSQL = "";
     Content_FieldsName _Content_FieldsName = new Content_FieldsName();
     Content_FieldsContent _Content_FieldsContent = new Content_FieldsContent();
     ContentCls _ContentCls = new ContentCls();
-    //int TypeTree_Type;
-    int StatusColIndex = 4;//状态列所在的列数
+
     const int PageSize = 60;//定义每页显示记录
     int PageCount, RecCount, CurrentPage, Pages, JumpPage;
     public string countSql;
@@ -91,44 +87,34 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             OnSessionAtuhFaiedEvent();
             return;
         }
-        //sTypeTree_ID = Request.QueryString["TypeTree_ID"].ToString(); //必须知道在那个节点下
         if (Current_TypeTree_ID==0)//sTypeTree_ID == "0"
         {
             this.Response.Redirect("Main_Content.aspx?RightID=0");
             return;
         }
         InitCurrentTypeTree();
-        //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        //_Type_TypeTree.Init(int.Parse(sTypeTree_ID));
-         //TypeTree_Type =this.Current_TypeTree.TypeTree_Type;
 
         if (!this.IsPostBack)
         {
             DateGridList.CurrentPageIndex = 0;
-            //TypeTreeIssuanceID =Current_TypeTree.TypeTreeIssuance.ToString();
             sTypeTree_Show.Value = Current_TypeTree.TypeTree_Show;
-            sTypeTree_ContentFields.Value
-                = Current_TypeTree.TypeTree_ContentFields == 0 ?
-                Current_TypeTree.TypeTree_TypeFields.ToString() :
-                Current_TypeTree.TypeTree_ContentFields.ToString();//#待测试的修改#
-
+            
             string TypeTreeIssuanceName = Current_TypeTree.strTypeTreeIssuance(Current_TypeTree.TypeTreeIssuance);
             TypeTree_ID.Value = Current_TypeTree_ID.ToString();
             this.PageHeader.Value =string.Format( "当前目录 - {0}    状态 - {1}" , Current_TypeTree.TypeTreeCName,TypeTreeIssuanceName);
-
-            Pages_Load();
-            Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type); //调用数据绑定函数Type_List()进行数据绑定运算
+            loadPagingIndex();
+            loadDataList(Current_TypeTree); 
 
         }
     }
-    public void Pages_Load()
+    public void loadPagingIndex()
     {
 
-        RecCount = Calc();//通过Calc()函数获取总记录数
+        RecCount = GetCalc();//通过Calc()函数获取总记录数
         PageCount = RecCount / PageSize + OverPage();//计算总页数（加上OverPage()函数防止有余数造成显示数据不完整）
         ViewState["PageCounts"] = RecCount / PageSize -
 
-        ModPage();//保存总页参数到ViewState（减去ModPage()函数防止SQL语句执行时溢出查询范围，可以用存储过程分页算法来理解这句）
+        GetModPage();//保存总页参数到ViewState（减去ModPage()函数防止SQL语句执行时溢出查询范围，可以用存储过程分页算法来理解这句）
         ViewState["PageIndex"] = 0;//保存一个为0的页面索引值到ViewState
         ViewState["JumpPages"] = PageCount;//保存PageCount到ViewState，跳页时判断用户输入数是否超出页码范围
         //显示LPageCount、LRecordCount的状态
@@ -143,71 +129,25 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
     }
 
-    public void Type_List(int TypeTree_ID, int TypeTree_Type)
+    public void loadDataList(Type_TypeTree cTypeTree)
     {
-
-        //			LabelJava.Text = "<script language=\"JavaScript\" src=\"../admin_public/js/Content_ContentList.js\"></script>";
-        sMenuContent.Text = "";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"Lock\" doFunction=\"doLock();\">锁定文件</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"unLock\" doFunction=\"doUnLock();\">解锁文件</div>";
-        sMenuContent.Text = sMenuContent.Text + "<hr>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"newfile\" doFunction=\"newContent();\">新文件</div>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=newfile2 doFunction=\"newContent();\">新文件</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"openfile\" doFunction=\"doOpenFile();\">打开...</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"relative\" doFunction=\"doRelative();\">相关文章</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=SonContent doFunction=\"doSonContent();\">关联子文章</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<hr>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"approval\" doFunction=\"doApproval();\">签发</div>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=approval2 doFunction=\"doApproval();\">签发</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<hr>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"recommend\" doFunction=\"doRecommend();\">映射...</div>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=recommend2 doFunction=\"doRecommend();\">推荐</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"copyFile\" doFunction=\"doCopyFile();\">拷贝</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"pasteFile\" doFunction=\"doPasteFile();\">粘贴</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"preview\" doFunction=\"doPreview();\">预览</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"delfile\" doFunction=\"doDelFile();\">删除</div>";
-        sMenuContent.Text = sMenuContent.Text + "<hr>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"AtTop\" doFunction=\"doAtTop();\">置顶</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"UnAtTop\" doFunction=\"doUnAtTop();\">取消置顶</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"moveup\" doFunction=\"doMoveUp();\">上移一行</div>";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"movedown\" doFunction=\"doMoveDown();\">下移一行</div>";
-
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"lookAdd\" doFunction=\"dolookAdd();\">查看本文评论地址...</div>";
-        //sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"lookText\" doFunction=\"dolookText();\">查看本文访问记录...</div>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=moveup2 doFunction=\"doMoveUp();\">上移一行</DIV>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=movedown2 doFunction=\"doMoveDown();\">下移一行</DIV>";
-        sMenuContent.Text = sMenuContent.Text + "<hr id=\"menuNouse\">";
-        sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"reFresh\" doFunction=\"doReFresh();\">刷新</div>";
-        //			sMenuContent.Text = sMenuContent.Text + "<hr>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItem id=version doFunction=\"doVersion();\">版本</DIV>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=version2 doFunction=\"doVersion();\">版本</DIV>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItem id=chistory doFunction=\"doHistory();\">稿件处理历史</DIV>";
-        //			sMenuContent.Text = sMenuContent.Text + "<div class=menuItemDisable id=chistory2 doFunction=\"doHistory();\">稿件处理历史</DIV>";
-
-
-        //相当于vb中的chr(10)
 
         DateGridList.Attributes.Add("altRowColor", "oldlace");
         DateGridList.Attributes.Add("align", "center");
-
         string Sfrom = "";
         string Swhere = "";
-
-
-        if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
+        if (cTypeTree.IsFullExtenFields)
         {
-            if (!Current_TypeTree.HasExtentFields)
-            {
+            //载入右键菜单脚本
+            sMenuContent.Text = GSystem.LoadTemplate("~//SysScriptTep//Content_Content_List.MenuC.txt", new Dictionary<string, string>());
+            if (!cTypeTree.HasExtentFields)  {
                 this.Response.Redirect("Main_Content.aspx?RightID=0");
                 return;
             }
-            _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
-            if (!string.IsNullOrEmpty( _Content_FieldsName.FieldsBase_Name))
-            {
-                Sfrom = " left outer join ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                Swhere = " on ContentUser_" + _Content_FieldsName.FieldsBase_Name + ".Content_ID = Content_Content.Content_ID ";
+            else{
+                Sfrom = " left outer join " + cTypeTree.ExtentFieldTableName;
+                Swhere = " on " + cTypeTree.ExtentFieldTableName + ".Content_ID = Content_Content.Content_ID ";
             }
-
 
             SelectDropDownList.Items.Clear();
             SelectDropDownList.Items.Add(new ListItem("ID", "Content_ID"));
@@ -215,89 +155,63 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             string[] ops = (sTypeTree_Show.Value + ",status").Split(',');
             for (int j = 0; j < ops.Length; j++)
             {
-                BoundColumn bc1 = new BoundColumn();
-                bc1.DataField = ops[j];
-                if (ops[j] != "status")
-                {
-                    bc1.HeaderText = _Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j].ToString());
-                }
-                else
-                {
-                    bc1.HeaderText = "状态";
-                    StatusColIndex = j+1;
-                }
-                bc1.ItemStyle.Width = Unit.Pixel(250);
-                DateGridList.Columns.Add(bc1);
+                BoundColumn bc = new BoundColumn();
+                bc.DataField = ops[j];
+                string fname = _Content_FieldsContent.InitName(cTypeTree.ExtentFieldsId, ops[j].ToString());
+                bc.HeaderText = fname;
+                
+                bc.ItemStyle.Width = Unit.Pixel(250);
+                DateGridList.Columns.Add(bc);
 
-                SelectDropDownList.Items.Add(new ListItem(_Content_FieldsContent.InitName(int.Parse(sTypeTree_ContentFields.Value), ops[j]), ops[j]));
+                SelectDropDownList.Items.Add(new ListItem(fname, ops[j]));
             }
-
             string WhereSql = " Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + TypeTree_ID + "'" + sTextSearch;
             //					sSQL = "select Top " + top_count + " * , ISNULL(AtTop, 0) AS AtTop1  from ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" where Status in ("+Tools.txtStatus+") and TypeTree_ID = '"+TypeTree_ID+"'"+ sTextSearch +" order by Content_ID desc";
             //					sSQL = "select Top " + DateGridList.PageSize + " * , ISNULL(AtTop, 0) AS AtTop1  from (Select Top "+top_count+" * From  ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" order by Content_ID DESC) As t1  where Content_ID Not In(Select top "+Remove_count+" Content_ID From ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" order by Content_ID DESC) and Status in ("+Tools.txtStatus+") and TypeTree_ID = '"+TypeTree_ID+"'"+ sTextSearch +" order by Content_ID desc";
             sSQL = "Select Top " + PageSize + " * , ISNULL(AtTop, 0) AS AtTop1 from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where " + WhereSql + " order by OrderNum desc) and " + WhereSql + " order by OrderNum desc";
-
-
-
         }
 
-        if (Current_TypeTree.IsCommonPublish)//TypeTree_Type == 0
+        if (Current_TypeTree.IsCommonPublish)
         {
-            BoundColumn bc1 = new BoundColumn();
-            bc1.HeaderText = "名称";
-            bc1.ItemStyle.CssClass = "title";
-            DateGridList.Columns.Add(bc1);
-
-            BoundColumn bc2 = new BoundColumn();
-            bc2.HeaderText = "作者";
-            bc2.ItemStyle.CssClass = "author";
-            DateGridList.Columns.Add(bc2);
-
-            BoundColumn bc3 = new BoundColumn();
-            bc3.HeaderText = "发布时间";
-            bc3.ItemStyle.CssClass = "submitdate";
-            DateGridList.Columns.Add(bc3);
-
-            BoundColumn bc4 = new BoundColumn();
-            bc4.HeaderText = "状态";
-            bc4.ItemStyle.CssClass = "status";
-            DateGridList.Columns.Add(bc4);
-
-            BoundColumn bc5 = new BoundColumn();
-            bc5.HeaderText = "头条";
-            bc5.ItemStyle.CssClass = "putintopx";
-            DateGridList.Columns.Add(bc5);
-
-            BoundColumn bc6 = new BoundColumn();
-            bc6.HeaderText = "图文";
-            bc6.ItemStyle.CssClass = "isimagenews";
-            DateGridList.Columns.Add(bc6);
+            //载入右键菜单脚本
+            sMenuContent.Text = GSystem.LoadTemplate("~//SysScriptTep//Content_Content_List.MenuC.txt", new Dictionary<string, string>());
+            string[] names = new string[] { "名称", "作者", "发布时间", "状态", "头条", "图文" };
+            string[] cssnames = new string[] { "title", "author", "submitdate", "status", "putintopx", "isimagenews" };
+            for (int i = 0; i < names.Length; i++)
+            {
+                BoundColumn bc = new BoundColumn();
+                bc.HeaderText = names[i];
+                bc.ItemStyle.CssClass = cssnames[i];
+                DateGridList.Columns.Add(bc);
+            }
 
             SelectDropDownList.Items.Clear();
             SelectDropDownList.Items.Add(new ListItem("名称", "name"));
             SelectDropDownList.Items.Add(new ListItem("ID", "Content_ID"));
             SelectDropDownList.Items.Add(new ListItem("作者", "Author"));
-            // or "+FieldsBase+".Author like '%"+sTextSearch+"%' or "+FieldsBase+".Content_Id like '%"+sTextSearch+"%
-
 
             sSQL = "select Top " + PageSize + " * , ISNULL(Content_Content.AtTop, 0) AS AtTop1 from Content_Content " +
-                Sfrom + " " + Swhere + " where  Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from Content_Content where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + TypeTree_ID + "' order by Content_ID desc) and Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + TypeTree_ID + "'" +
+                Sfrom + " " + Swhere + " where  Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from Content_Content where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "' order by Content_ID desc) and Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" +
                 sTextSearch + " order by Content_Content.AtTop desc ,Content_Content.OrderNum desc";
         }
 
-
-
-        if (TypeTree_Type == 1)
+        if (Current_TypeTree.IsReCommandPublish)
         {
-            sSQL = "select Top " + DateGridList.PageSize + " Content_Content.*,ISNULL(AtTop, 0) AS AtTop from Content_Content,Content_Commend where Content_Commend.TypeTree_ID = '" + TypeTree_ID + "'" + sTextSearch + " and Content_Content.Status in (1,2,3,4,5) and Content_Commend.Content_ID = Content_Content.Content_ID order by Content_Content.OrderNum desc";
-            sMenuContent.Text = "";
-            sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"preview\" doFunction=\"doPreview();\">预览</div>";
-            sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"UnRel\" doFunction=\"doUnRel();\">撤销映射</div>";
-            sMenuContent.Text = sMenuContent.Text + "<hr id=\"menuNouse\">";
-            sMenuContent.Text = sMenuContent.Text + "<div class=\"menuItem\" id=\"reFresh\" doFunction=\"doReFresh();\">刷新</div>";
+            //载入右键菜单脚本
+            sMenuContent.Text = GSystem.LoadTemplate("~//SysScriptTep//Content_Content_List.MenuR.txt", new Dictionary<string, string>()); 
+            string[] names = new string[] { "名称", "作者", "发布时间", "状态"};
+            string[] cssnames = new string[] { "title", "author", "submitdate", "status" };
+            for (int i = 0; i < names.Length; i++)
+            {
+                BoundColumn bc = new BoundColumn();
+                bc.HeaderText = names[i];
+                bc.ItemStyle.CssClass = cssnames[i];
+                DateGridList.Columns.Add(bc);
+            }
+
+            sSQL = "select Top " + DateGridList.PageSize + " Content_Content.*,ISNULL(AtTop, 0) AS AtTop from Content_Content,Content_Commend where Content_Commend.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch + " and Content_Content.Status in (1,2,3,4,5) and Content_Commend.Content_ID = Content_Content.Content_ID order by Content_Content.OrderNum desc";
+            
         }
-
-
 
         DateGridList.CurrentPageIndex = 0;
         txtSql.Value = sSQL;
@@ -310,10 +224,9 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         LCurrentPage.Text = (CurrentPage + 1).ToString();
         gotoPage.Text = (CurrentPage + 1).ToString();
     }
+
     protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
     {
-
-
         DataTable dt =Tools.DoSqlTable(txtSql.Value);
         StringWriter sw = new StringWriter();
 
@@ -330,11 +243,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             {
                 Contents = Contents + "," + dr[ops[j].ToString()];
             }
-
-
             sw.WriteLine(Contents);
-
-
         }
         sw.Close();
         Response.AddHeader("Content-Disposition", "attachment; filename=Content.csv");
@@ -355,16 +264,12 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             int Content_ID = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "Content_ID"));
             string lockedby = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "lockedby"));
 
-            //				int AtTop = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem,"AtTop"));
-            //				e.Item.Attributes.Add("onmouseover","currentcolor=this.style.backgroundColor;this.style.backgroundColor='cccccc'");
-            //				e.Item.Attributes.Add("onmouseout","this.style.backgroundColor=currentcolor");
             e.Item.Attributes.Add("onmousedown", "selectContent('" + Content_ID + "');");
             e.Item.Attributes.Add("ondblclick", "openContent('" + Content_ID + "');");
             e.Item.Attributes.Add("ondragenter", "dragEnter();");
             e.Item.Attributes.Add("ondragleave", "dragLeave();");
             e.Item.Attributes.Add("ondragover", "dragOver();");
-            //				e.Item.Attributes.Add("onmouseover", "elementOnMouseOver('"+Content_ID+"');");
-            //				e.Item.Attributes.Add("onmouseout", "elementOnMouseOut('"+Content_ID+"');");
+
             e.Item.Attributes.Add("ondrop", "FinishDrag(" + Content_ID + ");");
             e.Item.ID = "item" + Content_ID;
 
@@ -394,7 +299,16 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             //IDtxt= IDtxt + "<img id='status"+Content_ID+"' src='"+StatusImg+"' width=16 height=16 alt='"+lockText+"' lockedby='"+lockedby+"'>"+Content_ID;
             e.Item.Cells[0].Text = IDtxt;
 
-            if (Current_TypeTree.IsFullExtenFields||Current_TypeTree.IsCommonPublish)
+
+            int StatusColIndex = -1;
+            for (int i = 0; i < DateGridList.Columns.Count; i++)
+            {
+                if (DateGridList.Columns[i].HeaderText == "状态") {
+                    StatusColIndex = i;
+                    break;
+                }
+            }
+            if (StatusColIndex != -1)
             {
                 switch (Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "status")))
                 {
@@ -414,7 +328,8 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                         e.Item.Cells[StatusColIndex].Text = "<font color=blue>已归档</font>";
                         break;
                 }
-            
+            }
+
             if (Current_TypeTree.IsCommonPublish)//TypeTree_Type != 2
             {
 
@@ -422,45 +337,20 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                 e.Item.Cells[2].Text = "<nobr><span class='Author' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + "</span></nobr>";
                 e.Item.Cells[3].Text = "<nobr><span class='submitdate' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + "</span></nobr>";
 
-                
 
-                if (Convert.ToChar(DataBinder.Eval(e.Item.DataItem, "Head_news")).ToString() == "1")
-                {
-                    e.Item.Cells[5].Text = "是";
-                }
-                else
-                {
-                    e.Item.Cells[5].Text = "否";
-                }
-
-                if (Convert.ToChar(DataBinder.Eval(e.Item.DataItem, "Picture_news")).ToString() == "1")
-                {
-                    e.Item.Cells[6].Text = "是";
-                }
-                else
-                {
-                    e.Item.Cells[6].Text = "否";
-                }
-
+                e.Item.Cells[5].Text = Convert.ToChar(DataBinder.Eval(e.Item.DataItem, "Head_news")).ToString() == "1" ? "是" : "否";
+                e.Item.Cells[6].Text = Convert.ToChar(DataBinder.Eval(e.Item.DataItem, "Picture_news")).ToString() == "1" ? "是" : "否";
             }
-        }
+            if (Current_TypeTree.IsReCommandPublish)//TypeTree_Type != 2
+            {
+                e.Item.Cells[1].Text = "<nobr><span class='title' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name")) + ">" + Tools.DBToWeb(Convert.ToString(DataBinder.Eval(e.Item.DataItem, "name"))) + "</span></nobr>";
+                e.Item.Cells[2].Text = "<nobr><span class='Author' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Author")) + "</span></nobr>";
+                e.Item.Cells[3].Text = "<nobr><span class='submitdate' title=" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + ">" + Convert.ToString(DataBinder.Eval(e.Item.DataItem, "submitdate")) + "</span></nobr>";
+            }
+
 
         }
     }
-
-    //取得记录总数;
-    private int SetVirtualItemCount()
-    {
-        //			SqlConnection VerConn=new SqlConnection(ConnectionString);
-        //			string sql_com="Select Count(*) From News";
-        //			SqlCommand VerCmd=new SqlCommand(sql_com,VerConn);
-        //			VerConn.Open();
-        //			int nItemsCount=(int)VerCmd.ExecuteScalar();
-        //			VerConn.Close();
-        int nItemsCount = 1000;
-        return nItemsCount;
-    }
-
 
     private int GetPageCount(int RecordCount)
     {
@@ -477,21 +367,21 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
     protected void ImageButton1_Click(object sender, System.Web.UI.ImageClickEventArgs e)
     {
-        string FieldsBase = "Content_Content";
+        //string FieldsBase = "Content_Content";
         string Fields = "name";
-        _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
+        
         if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
-            FieldsBase = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+            //FieldsBase = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
             Fields = SelectDropDownList.SelectedValue;
         }
 
         sTextSearch = TextSearch.Text;
         if (!String.IsNullOrEmpty(sTextSearch ))
         {
-            sTextSearch = " and ( " + FieldsBase + "." + Fields + " like '%" + sTextSearch + "%') ";
+            sTextSearch = " and ( " + Current_TypeTree.MainFieldTableName + "." + Fields + " like '%" + sTextSearch + "%') ";
         }
-        Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);
+        loadDataList(Current_TypeTree);
     }
 
 
@@ -519,7 +409,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
                 break;
         }
         ViewState["PageIndex"] = CurrentPage;//将运算后的CurrentPage变量再次保存至ViewState
-        Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);//调用数据绑定函数TDataBind()
+        loadDataList(Current_TypeTree);//调用数据绑定函数TDataBind()
     }
 
     protected void gotoPage_TextChanged(object sender, System.EventArgs e)
@@ -529,14 +419,12 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             JumpPage = (int)ViewState["JumpPages"];//从ViewState中读取可用页数值保存到JumpPage变量中
             //判断用户输入值是否超过可用页数范围值
             if (Int32.Parse(gotoPage.Text) > JumpPage || Int32.Parse(gotoPage.Text) <= 0)
-
-
                 Response.Write("<script>alert('页码范围越界！')</script>");
             else
             {
                 int InputPage = Int32.Parse(gotoPage.Text.ToString()) - 1;//转换用户输入值保存在int型InputPage变量中
                 ViewState["PageIndex"] = InputPage;//写入InputPage值到ViewState["PageIndex"]中
-                Type_List(Current_TypeTree_ID, Current_TypeTree.TypeTree_Type);//调用数据绑定函数TDataBind()再次进行数据绑定运算
+                loadDataList(Current_TypeTree);//调用数据绑定函数TDataBind()再次进行数据绑定运算
             }
         }
         //捕获由用户输入不正确数据类型时造成的异常
@@ -559,8 +447,11 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         return pages;
     }
 
-    //计算余页，防止SQL语句执行时溢出查询范围
-    public int ModPage()
+    /// <summary>
+    /// 计算余页，防止SQL语句执行时溢出查询范围
+    /// </summary>
+    /// <returns></returns>
+    public int GetModPage()
     {
         int pages = 0;
         if (RecCount % PageSize == 0 && RecCount != 0)
@@ -571,11 +462,12 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     }
 
 
-    /*
-    *计算总记录的静态函数
-    *在这里使用静态函数的理由是：如果引用的是静态数据或静态函数，连接器会优化生成代码，去掉动态重定位项（对海量数据表分页效果更明显）。
-    */
-    public int Calc()
+    /// <summary>
+    /// 计算总记录的静态函数
+    /// 在这里使用静态函数的理由是：如果引用的是静态数据或静态函数，连接器会优化生成代码，去掉动态重定位项（对海量数据表分页效果更明显）。
+    /// </summary>
+    /// <returns></returns>
+    public int GetCalc()
     {
         if (Current_TypeTree.IsCommonPublish)//TypeTree_Type == 0
         {
@@ -585,14 +477,13 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
         if (Current_TypeTree.IsFullExtenFields)//TypeTree_Type == 2
         {
             if (!Current_TypeTree.HasExtentFields) return 0;
-            _Content_FieldsName.Init(int.Parse(sTypeTree_ContentFields.Value));
 
-            countSql = "Select count(*) as co from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
+            countSql = "Select count(*) as co from  " + Current_TypeTree.ExtentFieldTableName + " where Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
             
            
         }
         //Change By Galen Mu 2008.7.29
-        if (Current_TypeTree.TypeTree_Type == 1)
+        if (Current_TypeTree.IsReCommandPublish)//Current_TypeTree.TypeTree_Type == 1
         {
             countSql = "Select count(*) as co from Content_Content,Content_Commend where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Commend.Content_ID = Content_Content.Content_ID and Content_Commend.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
         }
@@ -610,8 +501,8 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
     {
         //txtStatus = ListStatus.SelectedValue ;
         Tools.txtStatus = ListStatus.SelectedValue;
-        Pages_Load();
-        Type_List(Current_TypeTree_ID,Current_TypeTree.TypeTree_Type);
+        loadPagingIndex();
+        loadDataList(Current_TypeTree);
     }
     protected void PageHeader_Load(object sender, EventArgs e)
     {

@@ -776,8 +776,10 @@ function dolookText(){
 					<TD vAlign="top"><INPUT type="hidden" id="txtSql" runat="server"></TD>
 				</TR>
 			</TABLE>
-			<asp:panel id="Ingear" runat="server"></asp:panel><INPUT id="UserName" type="hidden" name="UserName" runat="server">
-			<INPUT id="TypeTree_ID" type="hidden" name="TypeTree_ID" runat="server"><INPUT id="sTypeTree_Show" type="hidden" name="sTypeTree_Show" runat="server"><INPUT id="sTypeTree_ContentFields" type="hidden" name="sTypeTree_ContentFields" runat="server">
+			<asp:panel id="Ingear" runat="server"></asp:panel>
+			<INPUT id="UserName" type="hidden" name="UserName" runat="server">
+			<INPUT id="TypeTree_ID" type="hidden" name="TypeTree_ID" runat="server">
+			<INPUT id="sTypeTree_Show" type="hidden" name="sTypeTree_Show" runat="server">
 			<div class="menu" id="menu1" onmouseover="toggleMenu()" onclick="clickMenu()" onmouseout="toggleMenu()"><asp:label id="sMenuContent" runat="server"></asp:label></div>
 			<iframe id="postFrame" style="WIDTH: 0%; HEIGHT: 0px" src="Tools_Postform.htm"></iframe></FORM>
 	</body>

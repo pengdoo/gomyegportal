@@ -84,12 +84,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     int TypeTree_TypeFields = 0;
     int TypeTree_ContentFields = 0;
     string txtXML = "";
-    XmlDocument xmldoc;
-    XmlNode xmlnode;
-    XmlElement xmlelem;
+
     //string flag = "";//Change By Galen 2008.9.13 
-
-
 
     DataTable _DataTable = new DataTable();
 
