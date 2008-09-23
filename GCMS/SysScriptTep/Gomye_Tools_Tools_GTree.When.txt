@@ -1,0 +1,25 @@
+	for (var i=0;i<this.childNodes.length;i++){
+               		this.childNodes[i].remove();
+               	}
+
+               	if (objXMLDom.xml==""){
+               		this.add(new WebFXTreeItem("读取数据错误","Y"));
+               	}
+               	else{
+               		var oFolders = objXMLDom.selectNodes("//folder");
+               		var hasSubfolder = false;
+               		
+               		for (var i=0;i<oFolders.length;i++){
+               			if (oFolders[i].getAttribute("hassubfolder")=="yes"){
+               				hasSubfolder=true;
+               			}else{
+               				hasSubfolder=false;
+               			}
+               			var aNode = this.add(new WebFXTreeItem(oFolders[i].getAttribute("name"),hasSubfolder?"N":"Y",oFolders[i].getAttribute("id")));
+               			if (hasSubfolder){
+               				aNode.add(new WebFXTreeItem("请梢候...","Y"));
+               			}
+               			//aNode.Path=oFolders[i].getAttribute("id")+''
+               		}
+               		this.Tag="Y";
+               	}
