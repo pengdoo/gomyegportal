@@ -1,0 +1,23 @@
+﻿<div class="menuItem" id="Lock" doFunction="doLock();">锁定文件</div>
+<div class="menuItem" id="unLock" doFunction="doUnLock();">解锁文件</div>
+<hr>
+<div class="menuItem" id="newfile" doFunction="newContent();">新文件</div>
+<div class="menuItem" id="openfile" doFunction="doOpenFile();">打开...</div>
+<div class="menuItem" id="relative" doFunction="doRelative();">相关文章</div>
+<div class=menuItemDisable id=SonContent doFunction="doSonContent();">关联子文章</DIV>
+<hr>
+<div class="menuItem" id="approval" doFunction="doApproval();">签发</div>
+<hr>
+<div class="menuItem" id="recommend" doFunction="doRecommend();">映射...</div>
+<div class="menuItem" id="copyFile" doFunction="doCopyFile();">拷贝</div>
+<div class="menuItem" id="pasteFile" doFunction="doPasteFile();">粘贴</div>
+<div class="menuItem" id="preview" doFunction="doPreview();">预览</div>
+<div class="menuItem" id="delfile" doFunction="doDelFile();">删除</div>
+<hr>
+<div class="menuItem" id="AtTop" doFunction="doAtTop();">置顶</DIV>
+<div class="menuItem" id="UnAtTop" doFunction="doUnAtTop();">取消置顶</DIV>
+<div class="menuItem" id="moveup" doFunction="doMoveUp();">上移一行</div>
+<div class="menuItem" id="movedown" doFunction="doMoveDown();">下移一行</div>
+<div class="menuItem" id="lookAdd" doFunction="dolookAdd();">查看本文评论地址...</div>
+<hr id="menuNouse">
+<div class="menuItem" id="reFresh" doFunction="doReFresh();">刷新</div>
