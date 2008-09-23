@@ -768,20 +768,34 @@ namespace GCMSClassLib.Content
         #endregion 权限相关函数
 
         #region 常用逻辑属性判断
-
+        /// <summary>
+        /// 当前节点是否有扩展字段
+        /// </summary>
         public bool HasExtentFields
         {
             get { return m_TTypeTree_TypeFields != 0 || m_TypeTree_ContentFields != 0; }
         }
-
+        /// <summary>
+        /// 当前节点是否为纯扩展栏目
+        /// </summary>
         public bool IsFullExtenFields
         {
             get { return m_TypeTree_Type == 2; }
         }
-
+        /// <summary>
+        /// 当前节点是否为普通发布栏目
+        /// 
+        /// </summary>
         public bool IsCommonPublish
         {
             get { return m_TypeTree_Type == 0; }
+        }
+        /// <summary>
+        /// 当前节点是否为映射栏目
+        /// </summary>
+        public bool IsReCommandPublish
+        {
+            get { return m_TypeTree_Type == 1; }
         }
 
 
@@ -889,6 +903,10 @@ namespace GCMSClassLib.Content
         public string ExtentFieldTableName
         {
             get { return m_extentfieldstablename; }
+        }
+        public int ExtentFieldsId
+        {
+            get { return   TypeTree_ContentFields == 0 ?  TypeTree_TypeFields : TypeTree_ContentFields;}
         }
     }
 
