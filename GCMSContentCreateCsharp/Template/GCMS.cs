@@ -186,10 +186,6 @@ namespace GCMSContentCreate
             {
                 if (Item == custnames[i])//兼容历史模板的引用名和数据库实际字段名称不一致问题
                 {
-                    if (Item == "Virtual_prices")
-                    {
-                      
-                    }
                     if (CurrentItem.ContainsKey(dbnames[i])) return CurrentItem[dbnames[i]];
                 }
             }
@@ -337,7 +333,7 @@ namespace GCMSContentCreate
         {
             string returnValue;
             ContentCls ContentCls = new ContentCls();
-            ContentCls.Init(ContentID);
+            ContentCls.Init(ContentID);//#仅支持普通字段
             string fileExtension;
             if (intI == 1)
             {
@@ -494,47 +490,33 @@ namespace GCMSContentCreate
         }
 
 
-        public object Location()
+        public string Location()
         {
-            object returnValue;
-
-            Childs Contents = new Childs();
-            string GetPChannelID;
+            //Childs Contents = new Childs();
+            string GetPChannelID=string.Empty;
             GCMSClassLib.Content.Type_TypeTree TypeTree = new GCMSClassLib.Content.Type_TypeTree();
             GetPChannelID = TypeTree.IDParentTypeTree(int.Parse(GetChannel));
+            //string[] lines;
+            //lines = GetPChannelID.Split(',');
 
-            string[] lines;
-            lines = GetPChannelID.Split(',');
-
-            long i;
-            for (i = 0; i <= (lines.Length - 1); i++)
-            {
-                Child chair = new Child();
-                chair.ContentID = int.Parse(lines[i]);
-                Contents.Contents.Add(chair, lines[i], null, null);
-            }
-            returnValue = GetPChannelID;
-            return returnValue;
+            //long i;
+            //for (i = 0; i <= (lines.Length - 1); i++)
+            //{
+            //    Child chair = new Child();
+            //    chair.ContentID = int.Parse(lines[i]);
+            //    Contents.Contents.Add(chair, lines[i], null, null);
+            //}
+            return GetPChannelID;
         }
 
         public Collection Remark(int intTop)
         {
-            Collection returnValue;
-
-
-            SqlDataReader myReader;
-            string sql;
-            Childs Contents = new Childs();
-
-            sql = "SELECT Top " + intTop.ToString() + " * FROM Content_ContentRemark WHERE Content_ID in (" + _ContentID + ") and Status = 4 order by Remark_Date";
-            returnValue = LoadCurrentList(sql, "Remark_ID").Contents;
-        
-            return returnValue;
+            string sql = string.Format("SELECT Top {0} * FROM Content_ContentRemark WHERE Content_ID in ({1}) and Status = 4 order by Remark_Date", intTop, _ContentID);
+            return LoadCurrentList(sql, "Remark_ID").Contents;
         }
 
         public Collection Channels()
         { 
-            Childs Contents = new Childs();
             Type_TypeTree typeTree = new Type_TypeTree();
             typeTree.Init(ChannelID);
             if (String.IsNullOrEmpty(Order))
@@ -551,24 +533,16 @@ namespace GCMSContentCreate
 
             if (typeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2
             {
-                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) and Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", FieldsName), Order.Replace("Content_Content", FieldsName));          
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) and Status=4 {3} {4} order by {5}", ListTop, typeTree.ExtentFieldTableName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", typeTree.ExtentFieldTableName), Order.Replace("Content_Content", typeTree.ExtentFieldTableName));          
             }
             else if (typeTree.IsCommonPublish && typeTree.HasExtentFields)//typeTree.TypeTree_Type == 0 && typeTree.TypeTree_ContentFields != 0
             {
-                int contentfiledid = typeTree.TypeTree_ContentFields;
-                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID, Order);
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} {4} order by {5}", ListTop, typeTree.MainFieldTableName, ChannelID, UserWhere, strListLastID, Order);
             }
             else
             {
-                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} {4} order by {5}", ListTop, FieldsName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", FieldsName), Order.Replace("Content_Content", FieldsName));          
+                sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2})  and Status=4 {3} {4} order by {5}", ListTop, typeTree.MainFieldTableName, ChannelID, UserWhere, strListLastID.Replace("Content_Content", typeTree.MainFieldTableName), Order.Replace("Content_Content", typeTree.MainFieldTableName));          
             }      
-
             return LoadCurrentList(sql,"Content_ID").Contents;
         }
 
@@ -626,10 +600,10 @@ namespace GCMSContentCreate
         {
             Collection returnValue;
 
-            string FieldsName="Content_Content";
-            Type_TypeTree _Type_TypeTree = new Type_TypeTree();
+            //string FieldsName="Content_Content";
+            Type_TypeTree typeTree = new Type_TypeTree();
             ChannelID = int.Parse(GetChannel);
-            _Type_TypeTree.Init(int.Parse(GetChannel));
+            typeTree.Init(int.Parse(GetChannel));
 
             string sql = string.Empty;
             Childs Contents = new Childs();
@@ -639,25 +613,19 @@ namespace GCMSContentCreate
                 Order = "Content_Content.AtTop desc ,Content_Content.OrderNum desc";
             }
 
-            if (_Type_TypeTree.TypeTree_Type == 2)
+            if (typeTree.IsFullExtenFields)
             {
-                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
 
-                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order.Replace("Content_Content",FieldsName);
+                sql = "SELECT Top " + intTop.ToString() + " * FROM " + typeTree.ExtentFieldTableName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order.Replace("Content_Content", typeTree.ExtentFieldTableName);
             }
-            else if (_Type_TypeTree.TypeTree_Type == 0 && _Type_TypeTree.TypeTree_ContentFields != 0)
+            else if (typeTree.IsCommonPublish && typeTree.HasExtentFields)
             {
-                int contentfiledid = _Type_TypeTree.TypeTree_ContentFields;
-                Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.Content_PID={2}  and Content_Content.Status=4 {3} order by {4}", intTop, FieldsName, ContentID, UserWhere, Order);
+               
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.Content_PID={2}  and Content_Content.Status=4 {3} order by {4}", intTop, typeTree.MainFieldTableName, ContentID, UserWhere, Order);
             }
             else
             {
-                sql = "SELECT Top " + intTop.ToString() + " * FROM " + FieldsName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
+                sql = "SELECT Top " + intTop.ToString() + " * FROM " + typeTree.MainFieldTableName + " WHERE Content_PID = " + ContentID + " and Status = 4 order by " + Order;
             }
 
 
@@ -681,25 +649,16 @@ namespace GCMSContentCreate
             {
                 Orderby = Order;
             }
-
-            //string FieldsName = "Content_Content";
             string sql = string.Empty;
             if (typeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2  
             {
-                //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                //int contentfiledid = typeTree.TypeTree_ContentFields == 0 ? typeTree.TypeTree_TypeFields : typeTree.TypeTree_ContentFields ;
-                //_Content_FieldsName.Init(contentfiledid);
-                //FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
                 isNews = " ";
                 sql = string.Format("SELECT Top {0} * From {1} Where TypeTree_ID in ({2}) {3} and Status= 4 {4} order by {5}", intTop, typeTree.ExtentFieldTableName, GetChannelID, isNews, UserWhere, Orderby.Replace("Content_Content", typeTree.ExtentFieldTableName));
                // sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2}) {3} and Content_Content.Status= 4 {4} order by {5}", intTop, FieldsName, GetChannelID, isNews, UserWhere, Orderby);          
             }
             else if (typeTree.IsCommonPublish&&typeTree.HasExtentFields)//typeTree.TypeTree_Type == 0 && typeTree.TypeTree_ContentFields != 0
             {
-                //int contentfiledid = typeTree.TypeTree_ContentFields;
-                //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                //_Content_FieldsName.Init(contentfiledid);
-                //FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+
                 isNews = " ";
                 sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2}) {3} and Content_Content.Status= 4 {4} order by {5}", intTop, typeTree.ExtentFieldTableName, GetChannelID, isNews, UserWhere, Orderby);
             }

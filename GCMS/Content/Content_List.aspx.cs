@@ -165,10 +165,10 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
                 SelectDropDownList.Items.Add(new ListItem(fname, ops[j]));
             }
-            string WhereSql = " Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + TypeTree_ID + "'" + sTextSearch;
+            string WhereSql = " Status in (" + Tools.txtStatus + ") and TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" + sTextSearch;
             //					sSQL = "select Top " + top_count + " * , ISNULL(AtTop, 0) AS AtTop1  from ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" where Status in ("+Tools.txtStatus+") and TypeTree_ID = '"+TypeTree_ID+"'"+ sTextSearch +" order by Content_ID desc";
             //					sSQL = "select Top " + DateGridList.PageSize + " * , ISNULL(AtTop, 0) AS AtTop1  from (Select Top "+top_count+" * From  ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" order by Content_ID DESC) As t1  where Content_ID Not In(Select top "+Remove_count+" Content_ID From ContentUser_"+ _Content_FieldsName.FieldsBase_Name +" order by Content_ID DESC) and Status in ("+Tools.txtStatus+") and TypeTree_ID = '"+TypeTree_ID+"'"+ sTextSearch +" order by Content_ID desc";
-            sSQL = "Select Top " + PageSize + " * , ISNULL(AtTop, 0) AS AtTop1 from  ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from ContentUser_" + _Content_FieldsName.FieldsBase_Name + " where " + WhereSql + " order by OrderNum desc) and " + WhereSql + " order by OrderNum desc";
+            sSQL = "Select Top " + PageSize + " * , ISNULL(AtTop, 0) AS AtTop1 from  " + cTypeTree.ExtentFieldTableName + " where Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from " + cTypeTree.ExtentFieldTableName + " where " + WhereSql + " order by OrderNum desc) and " + WhereSql + " order by OrderNum desc";
         }
 
         if (Current_TypeTree.IsCommonPublish)
