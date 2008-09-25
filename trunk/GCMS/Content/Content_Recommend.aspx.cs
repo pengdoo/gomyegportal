@@ -89,8 +89,6 @@ public partial class Content_Content_Recommend : GCMS.PageCommonClassLib.PageBas
 
     public void ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
     {
-
-
         if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
         {
             int TypeTree_ID = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "TypeTree_ID"));
@@ -98,8 +96,6 @@ public partial class Content_Content_Recommend : GCMS.PageCommonClassLib.PageBas
             e.Item.Cells[0].Text = OutText;
             e.Item.Cells[1].Text = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "TypeTree_ID"));
             e.Item.Cells[2].Text = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "TypeTree_CName"));
-
-
         }
     }
 

@@ -891,7 +891,7 @@ namespace GCMSClassLib.Content
             get
             {
                 string f = "Content_Content";
-                if (IsCommonPublish)
+                if (IsCommonPublish||IsReCommandPublish)
                     f = "Content_Content";
                 else if (IsFullExtenFields&&!string.IsNullOrEmpty(m_extentfieldstablename))
                     f = m_extentfieldstablename;

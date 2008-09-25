@@ -764,38 +764,19 @@ namespace GCMSClassLib.Content
 
         #region 扩展字段读取
         public string Contents(int Content_ID, string Words, int TypeTree_ID)//#此处含有可优化的内容, 重构时注意#
-		{
-
-			Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-			_Type_TypeTree.Init(TypeTree_ID);
-		    string Property="";
-			string sqls="select FieldsBase_Name from Content_FieldsName where FieldsName_ID = "+_Type_TypeTree.TypeTree_ContentFields;
-			
-			SqlDataReader readers = null;
-			readers=Tools.DoSqlReader(sqls);
-			if(readers.Read())
-			{
-
-			string sql="select "+ Words +" from ContentUser_"+readers["FieldsBase_Name"].ToString()+" where content_Id = "+Content_ID;
-			SqlDataReader reader = null;
-			reader=Tools.DoSqlReader(sql);
-
-			if(reader.Read())
-				{
-					Property=reader[Words].ToString();
-					reader.Close();
-				}
-			else
-				{
-					reader.Close();
-					Property = "";
-				}
-
-			}
-			readers.Close();
-			return Property;
-
-		}
+        {
+            Type_TypeTree typeTree = new Type_TypeTree();
+            typeTree.Init(TypeTree_ID);
+            string Property = string.Empty;
+            string sql = string.Format("select {0} from {1} where content_Id = {2}", Words, typeTree.MainFieldTableName, Content_ID);
+            SqlDataReader reader = Tools.DoSqlReader(sql);
+            if (reader.Read())
+            {
+                Property = reader[Words].ToString();
+            }
+            reader.Close();
+            return Property;
+        }
 
 
         //字段读取 20080627 测试最优化方式读取数据

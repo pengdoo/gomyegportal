@@ -51,7 +51,10 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
     {
         get
         {
-            m_typetree_id = int.Parse(this.GetQueryString("TypeTree_ID", null));
+            if (!string.IsNullOrEmpty(this.GetQueryString("TypeTree_ID", string.Empty)))
+            {
+                m_typetree_id = int.Parse(this.GetQueryString("TypeTree_ID", null));
+            }
             return m_typetree_id;
         }
         set
@@ -95,38 +98,18 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
     string OrderType, Content_List, sql;
     //int Content_ID, TypeTree_ID;
     ContentCls content = new ContentCls();
-    //string[] ops;
-    //char sSplit;
     SqlDataReader myReader;
-    //SqlDataReader reader = null;
+
     CreateFiles createFiles = new CreateFiles();
     int TypeTree_IDs;
-    //string FieldsName = "Content_Content";
-    //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-    //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
     protected void Page_Load(object sender, EventArgs e)
     {
         OrderType =this.GetQueryString("OrderType",null); //Request.QueryString["OrderType"].ToString(); //命令
-        //if ((Request["Content_ID"] != "") && (Request["Content_ID"] != null))
-        //{
-        //    Content_ID = int.Parse(Request.QueryString["Content_ID"].ToString());
-        //}
-        //TypeTree_ID = int.Parse(Request.QueryString["TypeTree_ID"].ToString());
-        //Type_TypeTree _Type_TypeTree = new Type_TypeTree();
-        //Content_FieldsName _Content_FieldsName = new Content_FieldsName();
+       
 
         if (Current_TypeTree_ID==0)//TypeTree_ID != 0
         {
-        //    InitCurrentTypeTree();//_Type_TypeTree.Init(TypeTree_ID);
-        //    if (Current_TypeTree.HasExtentFields)//_Type_TypeTree.TypeTree_ContentFields != 0
-        //    {
-        //        _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-        //        FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
-        //    }
-        //}
-        //else
-        //{
-            return;
+            //return;
         }
         InitCurrentTypeTree();
         //if (string.IsNullOrEmpty(FieldsName)) FieldsName = "Content_Content"; 
@@ -220,7 +203,7 @@ public partial class Content_Content_ViewOrder : GCMS.PageCommonClassLib.PageBas
                     if (Current_ContetnList[j]!= "-1")
                     {
                         Tools.DoSql("Update " + Current_TypeTree.MainFieldTableName + " set Status = '4' where Content_ID = " + Current_ContetnList[j]);
-                        createFiles.CreateContentFiles(Current_TypeTree_ID, int.Parse(Current_ContetnList[j]));
+                        createFiles.CreateContentFiles(Current_TypeTree_ID, int.Parse(Current_ContetnList[j]),true);
                         Content_sID = int.Parse(Current_ContetnList[j]);
                     }
                 }

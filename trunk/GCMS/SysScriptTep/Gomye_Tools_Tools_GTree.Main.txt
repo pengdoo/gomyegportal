@@ -1,4 +1,4 @@
-<!-- /*参数列表
+﻿<!-- /* 参数
 *   When Mode=4
 *   TreeItem
 *   OpenFolderItme

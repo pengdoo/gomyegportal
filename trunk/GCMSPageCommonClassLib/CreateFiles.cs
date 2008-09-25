@@ -8,6 +8,7 @@
 // 未修改问题:
 // 修改记录
 //     1 2008-9-4 将 FileIn，FileOut，ListFilesOut函数移到Tools.cs中。更新了其引用
+//     2 2008-9-25 修改CreateContentFiles方法，加入生成相关的级联文章
 //------------------------------------------------------------------------------
 using System;
 using System.Collections;
@@ -35,118 +36,122 @@ namespace GCMS.PageCommonClassLib
 		GCMSContentCreate.TemplateSystem ContentCreate = new GCMSContentCreate.TemplateSystem();
 		StringBuilder htmltext = new StringBuilder();
 		string ContentText = string.Empty;
-
-		public bool CreateContentFiles(int TypeTree_ID,int Content_ID)
+        /// <summary>
+        ///  生成最终页面 
+        /// </summary>
+        /// <param name="TypeTree_ID"></param>
+        /// <param name="Content_ID"></param>
+        /// <param name="ifIncluedFather"></param>
+        /// <returns></returns>
+		public bool CreateContentFiles(int TypeTree_ID,int Content_ID,bool ifIncluedFather)
 		{
 			// 最终页面 start
-			Type_TypeTree _TypeTree = new Type_TypeTree();
-			_TypeTree.Init(TypeTree_ID);
+			Type_TypeTree typeTree = new Type_TypeTree();
+			typeTree.Init(TypeTree_ID);
+            string TypeTree_Template = typeTree.TypeTreeTemplate;//获取模板路径
+            string Url = string.Empty;
+            string Pid = string.Empty;
+            
+            ContentCls content = new ContentCls();
+            if (typeTree.IsFullExtenFields)
+            {
+                string sql=string.Format("Select * from {0} Where Content_ID={1}",typeTree.ExtentFieldTableName,Content_ID);
+                SqlDataReader reader = Tools.DoSqlReader(sql);
+                if(reader.Read())
+                {
+                    Url = reader["Url"].ToString();
+                    Pid = reader["Content_PID"].ToString();
+                }
+                
+                if (string.IsNullOrEmpty(Url))
+                {
+                    Url = typeTree.TypeTreeURL.Replace("{@UID}", Content_ID.ToString()); //获得URL
+                    Tools.DoSql("update " + typeTree.ExtentFieldTableName + " set Url = '" + Url + "' where Content_ID = " + Content_ID);
+                }
+               
+            }
+            else if (typeTree.IsCommonPublish)
+            {
+                content.Init(Content_ID);
+                Url = content.Url;
+                if (string.IsNullOrEmpty(Url))
+                {
+                    Url = typeTree.TypeTreeURL.Replace("{@UID}", Content_ID.ToString()); //获得URL
+                    Tools.DoSql("update " + typeTree.MainFieldTableName + " set Url = '" + Url + "' where Content_ID = " + Content_ID);
+                }
+                int CountPages = 1;
+                if (!string.IsNullOrEmpty(TypeTree_Template))
+                {
+                    if (string.IsNullOrEmpty(FilesIn(TypeTree_Template, typeTree.TypeTree_Language).ToString()))
+                    {
+                        return false;
+                    }
+                    string _Url;
+                    string fileExtension = Url.Substring(Url.LastIndexOf("."));
+                    ContentCreate.GCMS.PgUp = "";
+                    ContentCreate.GCMS.PgDn = "";
+                    int txtCountPages = 1; // Request.Form["CountPages"])
 
-			ContentCls _Content = new ContentCls();
-			_Content.Init(Content_ID);
+                    XmlDataDocument xmlDoc = new XmlDataDocument();
+                    if (!string.IsNullOrEmpty(content.Description))
+                    {
+                        xmlDoc.LoadXml(Tools.DBToWeb(content.Description));
+                        txtCountPages = xmlDoc.DocumentElement.ChildNodes.Count;
+                        ContentCreate.GCMS.PgCount = txtCountPages.ToString(); //多少页
+                    }
+                    //分页生成
+                    do
+                    {
+                        ContentCreate.GCMS.PageID = CountPages - 1;
+                        ContentCreate.GCMS.PgThis = CountPages;
 
-			string TypeTree_Template =  _TypeTree.TypeTreeTemplate;//获取模板
+                        if (txtCountPages > 1 && CountPages == 1)
+                        {
+                            ContentCreate.GCMS.PgDn = content.Url.Substring(0, content.Url.LastIndexOf(".")) + "_" + (CountPages + 1) + fileExtension;
+                            ContentCreate.GCMS.PgUp = "";
+                        }
 
-			string FieldsName = "Content_Content";
-			string Url = string.Empty;
+                        if (txtCountPages > 1 && CountPages > 1)
+                        {
+                            ContentCreate.GCMS.PgDn = content.Url.Substring(0, content.Url.LastIndexOf(".")) + "_" + (CountPages + 1) + fileExtension;
+                            ContentCreate.GCMS.PgUp = content.Url.Substring(0, content.Url.LastIndexOf(".")) + "_" + (CountPages - 1) + fileExtension;
 
-			if(_TypeTree.TypeTree_Type == 2)
-			{
-				Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-				if (_TypeTree.TypeTree_ContentFields != 0)
-				{
-					_Content_FieldsName.Init(_TypeTree.TypeTree_ContentFields);
-					FieldsName = "ContentUser_"+_Content_FieldsName.FieldsBase_Name;
-				}
-				
-				Url = _Content.Contents(Content_ID,"Url",TypeTree_ID);
-				if (string.IsNullOrEmpty(Url))
-				{
-					Url = _TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString()); //获得URL
-					Tools.DoSql ("update "+FieldsName+" set Url = '"+Url+"' where Content_ID = "+Content_ID);
-				}
-				goto Found;
-			}
+                            if (CountPages == 2)
+                            { ContentCreate.GCMS.PgUp = content.Url; }
+                            if (CountPages == txtCountPages)
+                            { ContentCreate.GCMS.PgDn = ""; }
+                        }
+                        ContentText = ContentCreate.Execute(TypeTree_ID, Content_ID, FilesIn(TypeTree_Template, typeTree.TypeTree_Language).ToString());
 
-			Url = _Content.Url;
-			if (string.IsNullOrEmpty(Url))
-			{
-				Url = _TypeTree.TypeTreeURL.Replace("{@UID}",Content_ID.ToString()); //获得URL
-				Tools.DoSql ("update "+FieldsName+" set Url = '"+Url+"' where Content_ID = "+Content_ID);
-			}
+                        if (CountPages == 1)
+                            _Url = Url;
+                        else
+                            _Url = Url.Substring(0, Url.LastIndexOf(".")) + "_" + CountPages.ToString() + fileExtension;
 
+                        if (!String.IsNullOrEmpty(_Url))
+                        {
+                            FilesOut(_Url, ContentText, typeTree.TypeTree_Language);
 
-			int CountPages =1;
-			if (!string.IsNullOrEmpty(TypeTree_Template ))
-			{
-                if (FilesIn(TypeTree_Template, _TypeTree.TypeTree_Language).ToString() == "")
-				{
-					return false;
-				}
-				string _Url;
-				string fileExtension = Url.Substring(Url.LastIndexOf("."));
-				ContentCreate.GCMS.PgUp = "";
-				ContentCreate.GCMS.PgDn = "";
-				int txtCountPages = 1; // Request.Form["CountPages"])
-				
-				ContentCls content = new ContentCls();
-				content.Init(Content_ID);
-				
-				XmlDataDocument xmlDoc=new XmlDataDocument();
-				if (!string.IsNullOrEmpty(content.Description ))
-				{
-					xmlDoc.LoadXml(Tools.DBToWeb(content.Description));
-					txtCountPages = xmlDoc.DocumentElement.ChildNodes.Count;
-					ContentCreate.GCMS.PgCount = txtCountPages.ToString(); //多少页
-				}
+                        }
+                        CountPages = CountPages + 1;
+                    }
+                    while (CountPages <= txtCountPages);
+                    htmltext = null; //清空缓存
+                    ContentText = "";
+                }
+            }
 
-				do 
-				{
-					ContentCreate.GCMS.PageID = CountPages - 1;
-					ContentCreate.GCMS.PgThis = CountPages;
-	//				ContentCreate.GCMS.PgThisUrl	=  content.Url.Substring(0,content.Url.LastIndexOf("."))+"_"+(ContentCreate.GCMS.PgNow + 1)+fileExtension;
+            if (!string.IsNullOrEmpty(Pid) && ifIncluedFather)
+            {
+                ContentCls Pcontent = new ContentCls();
+                Pcontent.Init(int.Parse(Pid));
+                CreateContentFiles(Pcontent.TypeTree_ID, int.Parse(Pid), true);//及联生成相关的父文章,仅支持普通文文章的关联
+            }
+            CreateContentOnlyFiles(TypeTree_ID, Content_ID, TypeTree_Template, Url);
+            return true;
+           
 
-
-					if( txtCountPages >1 && CountPages == 1)
-					{
-						ContentCreate.GCMS.PgDn			= content.Url.Substring(0,content.Url.LastIndexOf("."))+"_"+(CountPages+1)+fileExtension;
-						ContentCreate.GCMS.PgUp = "";
-					}
-
-					if(txtCountPages > 1 && CountPages > 1)
-					{
-						ContentCreate.GCMS.PgDn			= content.Url.Substring(0,content.Url.LastIndexOf("."))+"_"+(CountPages+1)+fileExtension;
-						ContentCreate.GCMS.PgUp			= content.Url.Substring(0,content.Url.LastIndexOf("."))+"_"+(CountPages-1)+fileExtension;
-
-						if (CountPages == 2)
-						{ContentCreate.GCMS.PgUp = content.Url;}
-						if (CountPages == txtCountPages)
-						{ContentCreate.GCMS.PgDn = "";}
-					}
-					ContentText = ContentCreate.Execute (TypeTree_ID,Content_ID,FilesIn(TypeTree_Template,_TypeTree.TypeTree_Language).ToString());
-
-					if(CountPages == 1)
-					{
-						_Url = Url;
-					}
-					else
-					{
-						_Url = Url.Substring(0,Url.LastIndexOf("."))+"_"+CountPages.ToString()+fileExtension;
-					}
-
-					if(!String.IsNullOrEmpty(_Url ))
-					{
-						FilesOut(_Url,ContentText,_TypeTree.TypeTree_Language);
-
-					}
-					CountPages = CountPages + 1;
-				}
-				while( CountPages <= txtCountPages);
-				htmltext=null; //清空缓存
-				ContentText = "";
-			}
-			Found: CreateContentOnlyFiles(TypeTree_ID,Content_ID,TypeTree_Template,Url);
-			return true;
+			
 
 		}
 
@@ -451,25 +456,7 @@ namespace GCMS.PageCommonClassLib
             }
 
         }
-        //列表文件生成
-        public  bool ListFilesOut(string FilesUrl, string ContentText)
-        {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(Tools.FilesUrl(FilesUrl), false, System.Text.Encoding.GetEncoding("GB2312")))
-                {
-                    sw.WriteLine(ContentText);
-                    sw.Flush();
-                    sw.Close();
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-
-        }
+       
 
 	}
 

@@ -482,7 +482,7 @@ function dolookText(){
 				};
 				if (curContent!=null && curContent!=""){
 					var argu = "dialogWidth:42em; dialogHeight:34em;center:yes;status:no;help:no";
-					window.showModalDialog("WindowFrame.aspx?loadfile=Content_add.asp&Content_ID=" + curContent + "&relid=0&TypeTree_ID="+Form1.TypeTree_ID.value,"相关文章整理",argu);
+					window.showModalDialog("WindowFrame.aspx?loadfile=Content_add.aspx&Content_ID=" + curContent + "&relid=0&TypeTree_ID="+Form1.TypeTree_ID.value,"相关文章整理",argu);
 				}
 			}
 			else 

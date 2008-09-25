@@ -759,7 +759,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         try
         {
             CreateFiles createfiles = new CreateFiles();
-            createfiles.CreateContentFiles(Current_TypeTree_ID, updateContent_ID);
+            createfiles.CreateContentFiles(Current_TypeTree_ID, updateContent_ID,true);
             createfiles.CreateChannelFiles(Current_TypeTree_ID);
             createfiles.CreateLinkPushFiles(Current_TypeTree_ID);
 

@@ -137,7 +137,7 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                         foreach (DataRow dr in dt.Rows)
                         {
 
-                            _CreateFiles.CreateContentFiles(int.Parse(ops[j].ToString()), int.Parse(dr["Content_ID"].ToString()));
+                            _CreateFiles.CreateContentFiles(int.Parse(ops[j].ToString()), int.Parse(dr["Content_ID"].ToString()),false);
                             n = n + 1;
                             Response.Write("<script>this.parent.progress.style.width ='" + (n * 100 / Countmax) + "%' ;this.parent.progress.innerHTML='" + (n * 100 / Countmax) + "%';this.parent.pstr.innerHTML=' 当前栏目ID： " + dr["Content_ID"].ToString() + " <br/>当前文件： " + dr["Url"].ToString() + "';</script>");
                             Response.Flush();
