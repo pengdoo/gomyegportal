@@ -177,8 +177,6 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
                 myReader = Tools.DoSqlReader(sql);
                 while (myReader.Read())
                 {
-                    //Change By Galen Mu  2008.8.25
-                    //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + _Type_TypeTree.TypeTreeOrderNum + " where TypeTree_ID = " + myReader.GetInt32(0).ToString());
                     Tools.DoSql("update Content_Type_TypeTree set TypeTree_OrderNum = " + myReader.GetInt32(1).ToString() + " where TypeTree_ID = " + TypeTree_ID);
                     _CreateFiles.PushSingle(myReader.GetInt32(0));
@@ -189,8 +187,6 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
             //移动
             case "preMoveChannel":
                 TypeTree_ParentID = int.Parse(Request.QueryString["parent"].ToString());
-                //Change By Galen Mu  2008.8.25
-                //将content.DoSelect(..)  改为 Tools.DoSql(..) 
                 Tools.DoSql("update Content_Type_TypeTree set TypeTree_ParentID = " + TypeTree_ParentID + " where TypeTree_ID = " + TypeTree_ID);
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");
                 break;
