@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using GCMSClassLib.Public_Cls;
 using GCMSClassLib.Content;
 using GCMS.PageCommonClassLib;
+using System.Text;
 
 public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 {
@@ -190,7 +191,7 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             SelectDropDownList.Items.Add(new ListItem("ID", "Content_ID"));
             SelectDropDownList.Items.Add(new ListItem("作者", "Author"));
 
-            sSQL = "select Top " + PageSize + " * , ISNULL(Content_Content.AtTop, 0) AS AtTop1 from Content_Content " +
+            sSQL = "select Top " + PageSize + " Content_Content.* , ISNULL(Content_Content.AtTop, 0) AS AtTop1 from Content_Content " +
                 Sfrom + " " + Swhere + " where  Content_ID not in(select top " + PageSize * CurrentPage + " Content_ID from Content_Content where Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "' order by Content_ID desc) and Content_Content.Status in (" + Tools.txtStatus + ") and Content_Content.TypeTree_ID = '" + Current_TypeTree_ID.ToString() + "'" +
                 sTextSearch + " order by Content_Content.AtTop desc ,Content_Content.OrderNum desc";
         }
@@ -227,28 +228,66 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
 
     protected void Toolsbar1_ButtonClick(object sender, System.EventArgs e)
     {
-        DataTable dt =Tools.DoSqlTable(txtSql.Value);
+        string extentf = new Content_FieldsContent().GetFieldNameListForID(Current_TypeTree.ExtentFieldsId);
+        
+        
+        string sql = string.Empty;
+        if (Current_TypeTree.IsCommonPublish)
+        {
+            if (Current_TypeTree.HasExtentFields)
+            {
+                extentf = extentf.Replace(",", "," + Current_TypeTree.ExtentFieldTableName + ".");
+                sql = string.Format("Select Content_Content.Content_ID,Content_Content.Name,Content_Content.Author,Content_Content.Description{0} from Content_Content,{1} Where Content_Content.Content_ID={1}.Content_ID", extentf, Current_TypeTree.ExtentFieldTableName);
+            }
+            else 
+            {
+                sql = string.Format("Select Content_Content.Content_ID,Content_Content.Name,Content_Content.Author,Content_Content.Description{0} from Content_Content", extentf);
+            }
+        }
+        else if (Current_TypeTree.IsFullExtenFields)
+        {
+            if (Current_TypeTree.HasExtentFields)
+            {
+                
+                sql = string.Format("Select {0} from {1}", extentf.Trim(','), Current_TypeTree.ExtentFieldTableName);
+            }
+        }
+        DataTable dt = Tools.DoSqlTable(sql);
         StringWriter sw = new StringWriter();
+        string title = "自动编号,名称,作者,内容";
+        extentf = extentf.Replace( "," + Current_TypeTree.ExtentFieldTableName + ".",",");
+    
 
-        char sSplit = ',';
-        string[] ops;
-
-        sw.WriteLine("自动编号,名称,作者," + sTypeTree_Show.Value);
+        sw.WriteLine(title + extentf);
+        
         foreach (DataRow dr in dt.Rows)
         {
-            //sw.WriteLine(dr["Content_ID"]+"\t"+dr["Name"]+"\t"+dr["Author"]); 
-            string Contents = dr["Content_ID"] + "," + dr["Name"] + "," + dr["Author"];
-            ops = sTypeTree_Show.Value.Split(sSplit);
-            for (int j = 0; j < ops.Length; j++)
+            string Contents = string.Empty;
+            if (Current_TypeTree.IsCommonPublish)
             {
-                Contents = Contents + "," + dr[ops[j].ToString()];
+                 Contents = dr["Content_ID"] + "," + dr["Name"] + "," + dr["Author"] + "," + Tools.DBToWeb(dr["Description"].ToString());
             }
-            sw.WriteLine(Contents);
+            if (Current_TypeTree.HasExtentFields)
+            {
+                string[] ops = extentf.Trim(',').Split(',');
+                for (int j = 0; j < ops.Length; j++)
+                {
+                    Contents = Contents + "," + dr[ops[j].ToString()];
+                }
+            }
+            sw.WriteLine(Contents.Trim(','));
         }
         sw.Close();
-        Response.AddHeader("Content-Disposition", "attachment; filename=Content.csv");
+        Response.Clear();
+        Response.BufferOutput = true;
+
+        Response.Charset = "GB2312";
+        Response.AppendHeader("Content-Disposition", "attachment;filename=content.csv");
+
+        Response.ContentEncoding = Encoding.GetEncoding("GB2312");
         Response.ContentType = "application/ms-excel";
-        Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+
+        this.EnableViewState = false; 
         Response.Write(sw);
         Response.End();
     }

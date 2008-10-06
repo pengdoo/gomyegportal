@@ -17,6 +17,7 @@ using System.Collections;
 using System.Data.Common;
 using GCMSClassLib.Public_Cls;
 using Gomye.CommonClassLib.Data;
+using System.Collections.Generic;
 
 namespace GCMSClassLib.Content
 {
@@ -296,7 +297,31 @@ namespace GCMSClassLib.Content
             return res;
         }
 
+        public List<Content_FieldsContent> GetFieldsListForID(int FieldsName_ID)
+        {
+            List<Content_FieldsContent> list = new List<Content_FieldsContent>();
+            string sql = string.Format("SELECT * FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Property_Order", FieldsName_ID);
+            DataTable dt = Tools.DoSqlTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Content_FieldsContent cfc = new Content_FieldsContent();
+                cfc.GetModel(dr);
+                list.Add(cfc);
+            }
+            return list;
+        }
 
+        public string GetFieldNameListForID(int FieldsName_ID)
+        {
+            string sql = string.Format("SELECT Property_Name FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Property_Order", FieldsName_ID);
+            SqlDataReader reader = Tools.DoSqlReader(sql);
+            string strlist = string.Empty;
+            while (reader.Read())
+            {
+                strlist += "," + reader["Property_Name"].ToString();
+            }
+            return strlist;
+        }
         #endregion 数据操作部分
 
         private void GetModel(DataRow r)
@@ -309,7 +334,7 @@ namespace GCMSClassLib.Content
             this.Property_InputOptions = SqlHelper.GetString(r["Property_InputOptions"]);
             this.Property_Order = SqlHelper.GetInt(r["Property_Order"]);
         }
-      
+        
     }
 }
 

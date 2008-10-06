@@ -27,22 +27,32 @@ public partial class Content_Content_Default : GCMS.PageCommonClassLib.PageBase
     {
         GSystem.SystemState = EnumTypes.SystemStates.Overtime;
         this.Response.Write("<script language=javascript>parent.parent.parent.window.navigate('../Logon.aspx');</script>");
+        this.Page.Visible = false;
         return;
     }
    
     protected void Page_Load(object sender, EventArgs e)
     {
+        //-----------------------权限验证-----------------------
+        if (this.Page.Visible == false)
+        {
+            OnSessionAtuhFaiedEvent();
+            return;
+        }
         if (!this.IsPostBack)
         {
-            TypeTree.Url = "parent.frames[\"Main_List\"].location =\"Content_List.aspx?TypeTree_ID=";
-            if (int.Parse(Session["Roles"].ToString()) == 0)
-            { TypeTree.Sql = "select * from Content_Type_TypeTree where TypeTree_ParentID = -1 order by TypeTree_OrderNum"; }
+            MainTree.UrlTemplete="parent.frames[\"Main_List\"].location =\"Content_List.aspx?TypeTree_ID=";
+            MainTree.Mode = "2";
+            if (int.Parse(this.GetSession("Roles", null)) == 0)
+            {
+                MainTree.Action = "GetRoot";
+            }
             else
             {
-                TypeTree.Sql = "SELECT Content_Type_TypeTree.* FROM Content_Type_TypeTree , Content_RolesConnect WHERE Content_RolesConnect.Roles_ID = " + int.Parse(Session["Roles"].ToString()) + " and Content_RolesConnect.TypeTree_ID=Content_Type_TypeTree.TypeTree_ID and Content_Type_TypeTree.TypeTree_ParentID= -1 ORDER BY Content_Type_TypeTree.TypeTree_OrderNum";
+                MainTree.Action = "GetRootByRole";
             }
 
-            TypeTree.Mode = "2";
+
         }
     }
 }

@@ -47,7 +47,7 @@ public partial class Gomye_Tools_Tools_TreeMenu : System.Web.UI.UserControl
     {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<ul id=\"treemenu\" class=\"filetree\"><li>");
-        sb.AppendLine("<span class=\"folder\">站点根目录</span>");
+        sb.AppendLine("<span class=\"folder\" id=\"treemenu--1\" name=\"站点根目录\">站点根目录</span>");
         sb.AppendLine("<ul>");
 
         string sql = string.Empty;

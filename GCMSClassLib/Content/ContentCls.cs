@@ -778,6 +778,21 @@ namespace GCMSClassLib.Content
             return Property;
         }
 
+        public string ContentsExtend(int Content_ID, string Words, int TypeTree_ID)//#此处含有可优化的内容, 重构时注意#
+        {
+            Type_TypeTree typeTree = new Type_TypeTree();
+            typeTree.Init(TypeTree_ID);
+            string Property = string.Empty;
+            string sql = string.Format("select {0} from {1} where content_Id = {2}", Words, typeTree.ExtentFieldTableName, Content_ID);
+            SqlDataReader reader = Tools.DoSqlReader(sql);
+            if (reader.Read())
+            {
+                Property = reader[Words].ToString();
+            }
+            reader.Close();
+            return Property;
+        }
+
 
         //字段读取 20080627 测试最优化方式读取数据
 		public  DataTable ContentsAll (int Content_ID ,int TypeTree_ID)
