@@ -40,15 +40,22 @@ public partial class Content_Type_TypeMain : GCMS.PageCommonClassLib.PageBase
     {
         GSystem.SystemState = EnumTypes.SystemStates.Overtime;
         this.Response.Write("<script language=javascript>alert(\"超时或非法操作！！！\");location.href='../Logon.aspx';</script>");
+        this.Page.Visible = false;
         return;
     }
     protected void Page_Load(object sender, EventArgs e)
     {
+        //-----------------------权限验证-----------------------
+        if (this.Page.Visible == false)
+        {
+            OnSessionAtuhFaiedEvent();
+            return;
+        }
         if (!this.IsPostBack)
         {
             this.MainMenu.UrlTemplete = "parent.frames[\"Main_List\"].location =\"Type_TypeView.aspx?TypeTree_ID=";
             MainMenu.Mode = "1";
-            if (int.Parse(Session["Roles"].ToString()) == 0)
+            if (int.Parse(this.GetSession("Roles",null)) == 0)
             { 
                 MainMenu.Action = "GetRoot"; 
             }

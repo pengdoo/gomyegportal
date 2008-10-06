@@ -18,7 +18,7 @@
 	    $(document).ready(function(){
 		    $("#treemenu").treeview();//载入菜单
 		    
-		    $("span").contextMenu('mainContentMenu', {//载入完整菜单
+		    $("body").contextMenu('mainContentMenu', {//载入完整菜单
                 bindings: {
                   'new': function(t) {
                             var argu = "dialogWidth:32em; dialogHeight:28em;center:yes;status:no;help:no";
@@ -43,7 +43,8 @@
                   }
                 },
                 onShowMenu: function(e, menu) {//根据情况屏蔽部分菜单
-                if ($(e.target).attr('class') != 'folder') {
+
+                if ($(e.target).attr('class').substring(0,6) !='folder') {//判断是否是folder对象，droppable和dragable都会自动加入Class限定
                   $('#up, #down', menu).remove();
                 }
                 return menu;
@@ -67,10 +68,10 @@
 				{
 				    //#此处有IE和FF的兼容问题
 				    if (window.event.shiftKey==true){
-				        doMoveChannel(this,ui.draggable.clone());
+				        doMoveChannel(ui.draggable.clone(),this);
 				    }
 	                else {
-	                    doCopyChannel(this,ui.draggable.clone());
+	                    doCopyChannel(ui.draggable.clone(),this);
 	                }
 	                event.returnValue = false;
 

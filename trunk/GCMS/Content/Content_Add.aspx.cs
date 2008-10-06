@@ -60,7 +60,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     #endregion 自定义事件的注册和处理
 
     #region 当前页面注册的SQL字符串
-    const string SQL_FieldsContentGetList1="SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Property_Order";
+    //const string SQL_FieldsContentGetList1="SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Property_Order";
     const string SQL_FieldsContentGetList2= "SELECT Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions,Property_Order FROM Content_FieldsContent WHERE FieldsName_ID ={0} order by Fields_ID";
     const string SQL_ContentUserUpdate="update ContentUser_{0} set {1} where Content_ID = {2}" ;
     const string SQL_ContentUserAdd = "insert into ContentUser_{0} ({1}) values ({2})";
@@ -290,7 +290,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         if (Current_Flag == "edit" && !this.IsPostBack)
         {
-            nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
+            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
 
         TableRow tr = new TableRow();
@@ -321,7 +321,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         if (Current_Flag == "edit" && !this.IsPostBack)
         {
-            nBox.Text = content.Contents(Current_Content_ID, controlId, Current_TypeTree_ID);
+            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, Current_TypeTree_ID);
         }
 
         
@@ -351,52 +351,54 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
    
     protected void AddFieldsWriteTxt(int FieldsName_ID)
     {
-        string sql = string.Format(SQL_FieldsContentGetList1,FieldsName_ID);
-        SqlDataReader myReader = Tools.DoSqlReader(sql);
-
+        //string sql = string.Format(SQL_FieldsContentGetList1,FieldsName_ID);
+        //SqlDataReader myReader = Tools.DoSqlReader(sql);
+        List<Content_FieldsContent> list = new Content_FieldsContent().GetFieldsListForID(FieldsName_ID);
         string ToolsPut = string.Empty;
         //flag = this.Request["flag"];
-
-        while (myReader.Read()) 
+        //Fields_ID,Property_Name,Property_InputType,Property_Alias,Property_InputOptions
+        //while (myReader.Read()) 
+        //{
+        foreach(Content_FieldsContent cf in list)
         {
-            switch (myReader.GetString(2))
+            switch (cf.Property_InputType)
             {
                 case "TEXT":
-                    CreateTextNumberControl(myReader.GetString(1), myReader.GetString(3).ToString(),100,-1);              
+                    CreateTextNumberControl(cf.Property_Name, cf.Property_Alias,100,-1);              
                     break;
                 case "NUMBER":
-                    CreateTextNumberControl(myReader.GetString(1), myReader.GetString(3).ToString(), 100, -1);    
+                    CreateTextNumberControl(cf.Property_Name, cf.Property_Alias, 100, -1);    
                     break;
                 case "IMAGE":
-                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1) + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1) + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1) + ");' class='button'> ";
-                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut,-1,-1);
+                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + cf.Property_Name + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + cf.Property_Name + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + cf.Property_Name + ");' class='button'> ";
+                    CreateImgFileControl(cf.Property_Name, cf.Property_Alias, ToolsPut,-1,-1);
                     break;
                 case "FILE":
-                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + myReader.GetString(1) + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + myReader.GetString(1) + ");' class='button'> ";
-                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + myReader.GetString(1) + ");' class='button'> ";
-                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, - 1, -1);
+                    ToolsPut = "&nbsp;<input type='button' value='上传' onclick='selectImages(" + cf.Property_Name + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='下载' onclick='doDownload(" + cf.Property_Name + ");' class='button'> ";
+                    ToolsPut = ToolsPut + "<input type='button' value='预览' onclick='doPreview(" + cf.Property_Name + ");' class='button'> ";
+                    CreateImgFileControl(cf.Property_Name, cf.Property_Alias, ToolsPut, - 1, -1);
                     break;
                 case "DATETIME":
-                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/Icon_calendar.gif' onclick='selectdate(" + myReader.GetString(1) + ");'> ";
-                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, 260, -1);   
+                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/Icon_calendar.gif' onclick='selectdate(" + cf.Property_Name + ");'> ";
+                    CreateImgFileControl(cf.Property_Name, cf.Property_Alias, ToolsPut, 260, -1);   
                     break;
 
                 case "TREES":
-                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/RepeatedRegion.gif' onclick='selectTree(" + myReader.GetString(1) + "," + myReader.GetString(4).ToString() + ");'> ";
-                    CreateImgFileControl(myReader.GetString(1), myReader.GetString(3), ToolsPut, 260, -1);   
+                    ToolsPut = "&nbsp;<img src='../Admin_Public/Images/RepeatedRegion.gif' onclick='selectTree(" + cf.Property_Name + "," + cf.Property_InputOptions.ToString() + ");'> ";
+                    CreateImgFileControl(cf.Property_Name, cf.Property_Alias, ToolsPut, 260, -1);   
                     break;
                 case "TEXTAREA":
                     TextBox nTextBoxTEXTAREA = new TextBox();
-                    nTextBoxTEXTAREA.ID = myReader.GetString(1);
+                    nTextBoxTEXTAREA.ID = cf.Property_Name;
                     nTextBoxTEXTAREA.Width = 250;
                     nTextBoxTEXTAREA.Height = 50;
 
                     if (Current_Flag == "edit" && !this.IsPostBack)
                     {
-                        nTextBoxTEXTAREA.Text = content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID);
+                        nTextBoxTEXTAREA.Text = content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID);
                     }
                     nTextBoxTEXTAREA.TextMode = TextBoxMode.MultiLine;
                     TableRow trTEXTAREA = new TableRow();
@@ -404,7 +406,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     TableCell tc2TEXTAREA = new TableCell();
                     tc1TEXTAREA.Width = 100;
                     tc1TEXTAREA.HorizontalAlign = HorizontalAlign.Right;
-                    tc1TEXTAREA.Text = myReader.GetString(3).ToString() + "：&nbsp;<br/><input type='button' value='HTML' onclick='editHTML(" + myReader.GetString(1) + ");'>&nbsp;";
+                    tc1TEXTAREA.Text = cf.Property_Alias + "：&nbsp;<br/><input type='button' value='HTML' onclick='editHTML(" + cf.Property_Name + ");'>&nbsp;";
                     tc2TEXTAREA.Controls.Add(nTextBoxTEXTAREA);
                     trTEXTAREA.Cells.Add(tc1TEXTAREA);
                     trTEXTAREA.Cells.Add(tc2TEXTAREA);
@@ -413,8 +415,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
                 case "SELECT":
                     DropDownList ListSELECT = new DropDownList();
-                    ListSELECT.ID = myReader.GetString(1);
-                    string opss= myReader.GetString(4);
+                    ListSELECT.ID = cf.Property_Name;
+                    string opss= cf.Property_InputOptions;
                     opss = opss.Replace(Convert.ToChar(10), ',');
                     string[] ops = opss.Split(',');
 
@@ -425,9 +427,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
                     if (Current_Flag == "edit" && !this.IsPostBack)
                     {
-                        if (!string.IsNullOrEmpty(content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID).Trim()))
+                        if (!string.IsNullOrEmpty(content.Contents(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID).Trim()))
                         {
-                            if (myReader.GetString(4).IndexOf(content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Current_Content_ID, myReader.GetString(1), Current_TypeTree_ID); };
+                            if (cf.Property_InputOptions.IndexOf(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID); };
                         }
 
                     }
@@ -436,7 +438,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     TableCell tc2SELECT = new TableCell();
                     tc1SELECT.HorizontalAlign = HorizontalAlign.Right;
                     tc1SELECT.Width = 100;
-                    tc1SELECT.Text = myReader.GetString(3).ToString() + "：&nbsp;";
+                    tc1SELECT.Text = cf.Property_Alias + "：&nbsp;";
                     tc2SELECT.Controls.Add(ListSELECT);
                     trSELECT.Cells.Add(tc1SELECT);
                     trSELECT.Cells.Add(tc2SELECT);
@@ -448,8 +450,8 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     TableCell tc2trLABEL = new TableCell();
                     tc1trLABEL.Width = 100;
                     tc1trLABEL.HorizontalAlign = HorizontalAlign.Right;
-                    tc1trLABEL.Text = myReader.GetString(3).ToString() + "：&nbsp;";
-                    tc2trLABEL.Text = myReader.GetString(4).ToString();
+                    tc1trLABEL.Text = cf.Property_Alias + "：&nbsp;";
+                    tc2trLABEL.Text = cf.Property_InputOptions.ToString();
                     trLABEL.Cells.Add(tc1trLABEL);
                     trLABEL.Cells.Add(tc2trLABEL);
                     Table2.Rows.Add(trLABEL);
@@ -459,7 +461,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     break;
             }
         }
-        myReader.Close();
+        //myReader.Close();
     }
     #endregion 动态添加控件
 
@@ -535,11 +537,13 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         //--------------------------含有扩展字段时的处理过程---------------------
         if (typeTree.HasExtentFields) //typeTree.TypeTree_ContentFields != 0
         {
-            string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
-            SqlDataReader reader = Tools.DoSqlReader(sql);
-            while (reader.Read())
+            //string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
+            //SqlDataReader reader = Tools.DoSqlReader(sql);
+            //while (reader.Read())
+            List<Content_FieldsContent> list = new Content_FieldsContent().GetFieldsListForID(typeTree.TypeTree_ContentFields);
+            foreach(Content_FieldsContent cf in list)
             {
-                string inputType = reader["Property_InputType"].ToString();
+                string inputType = cf.Property_InputType;// reader["Property_InputType"].ToString();
                 if (inputType == "TEXT"
                     || inputType == "NUMBER"
                     || inputType == "IMAGE"
@@ -548,17 +552,17 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
                     || inputType == "TREES"
                     || inputType == "TEXTAREA")
                 {
-                    TxtValue = this.GetValueFromForm("TextBox", reader["Property_Name"].ToString());
+                    TxtValue = this.GetValueFromForm("TextBox", cf.Property_Name);//reader["Property_Name"].ToString());
                 }
                 else if (inputType == "SELECT")
                 {
-                    TxtValue = this.GetValueFromForm("DropDownList", reader["Property_Name"].ToString());
+                    TxtValue = this.GetValueFromForm("DropDownList", cf.Property_Name);//reader["Property_Name"].ToString());
                 }
-                sql_values = sql_values + "[" + reader["Property_Name"].ToString() + "],";
+                sql_values = sql_values + "[" +  cf.Property_Name + "],";
                 sql_colnames = sql_colnames + "'" + TxtValue + "',";
-                sql_set = sql_set + reader["Property_Name"].ToString() + " = '" + TxtValue + "',";
+                sql_set = sql_set +  cf.Property_Name+ " = '" + TxtValue + "',";
             }
-            reader.Close();
+            //reader.Close();
 
         }
         string str = "";
