@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Type_TypeMain.aspx.cs" Inherits="Content_Type_TypeMain" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Type_TypeMain.aspx.cs" Inherits="Content_Type_TypeMain" %>
 
 <%@ Register Src="../Gomye_Tools/Tools_TreeMenu.ascx" TagName="Tools_TreeMenu" TagPrefix="uc1" %>
 <%@ Register TagPrefix="WebAppControls" TagName="Tools_PageHeader" Src="../Gomye_Tools/Tools_PageHeader.ascx" %>
@@ -50,7 +50,8 @@
                 return menu;
                 }
             });
-        
+            
+       
 		//节点的拖拽事件
 		$('.folder').draggable(
 			{
