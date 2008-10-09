@@ -1,17 +1,3 @@
-﻿//------------------------------------------------------------------------------
-// 创建标识: Copyright (C) 2008 Gomye.com.cn 版权所有
-// 创建描述: Galen Mu 创建于 2008-8-25
-//
-// 功能描述: 内容管理字段设置
-//
-// 已修改问题:
-// 未修改问题:
-// 修改记录
-//   2008-8-26 添加注释
-//   2008-10-4 移除原来GXTree的控件引用，改用Tools_TreeMenu.ascx
-//             修改表层Js方法，全部替换成标准Jquery库。
-//             删除了两个过时Js方法
-//----------------------------------系统引用-------------------------------------
 using System;
 using System.Data;
 using System.Configuration;
@@ -22,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using GCMS.PageCommonClassLib;
+using GCMS.PageCommonClassLib; 
 
 public partial class Content_Type_TypeMain : GCMS.PageCommonClassLib.PageBase
 {
@@ -53,15 +39,15 @@ public partial class Content_Type_TypeMain : GCMS.PageCommonClassLib.PageBase
         }
         if (!this.IsPostBack)
         {
-            this.MainMenu.UrlTemplete = "parent.frames[\"Main_List\"].location =\"Type_TypeView.aspx?TypeTree_ID=";
-            MainMenu.Mode = "1";
+            TypeTree.Url = "parent.frames[\"Main_List\"].location =\"Type_TypeView.aspx?TypeTree_ID=";
+            TypeTree.Mode = "1";
             if (int.Parse(this.GetSession("Roles",null)) == 0)
-            { 
-                MainMenu.Action = "GetRoot"; 
+            {
+                TypeTree.Sql = "select * from Content_Type_TypeTree where TypeTree_ParentID = -1 order by TypeTree_OrderNum"; 
             }
             else
             {
-                MainMenu.Action = "GetRootByRole";
+                TypeTree.Sql = "SELECT Content_Type_TypeTree.* FROM Content_Type_TypeTree , Content_RolesConnect WHERE Content_RolesConnect.Roles_ID = " + int.Parse(Session["Roles"].ToString()) + " and Content_RolesConnect.TypeTree_ID=Content_Type_TypeTree.TypeTree_ID and Content_Type_TypeTree.TypeTree_ParentID= -1 ORDER BY Content_Type_TypeTree.TypeTree_OrderNum";
             }
 
         }
