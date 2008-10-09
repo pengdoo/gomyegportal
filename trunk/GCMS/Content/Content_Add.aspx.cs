@@ -172,7 +172,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         if (Current_Flag.Equals("edit"))//this.Request["flag"] != null && this.Request["flag"].Equals("edit")//Change By Galen 2008.9.13 
         {
             /*修改*/
-            if (Current_TypeTree_Type == 0) { ShowEditData(); }//typeTree.TypeTree_Type
+            if (typeTree.IsCommonPublish||typeTree.IsReCommandPublish) //Current_TypeTree_Type == 0
+            {
+                ShowEditData();
+            }//typeTree.TypeTree_Type
             this.LabelEditContentID.Text = Current_Content_ID.ToString(); //Content_ID.ToString();
             PageHeader.Value = "修改内容";
             
@@ -427,9 +430,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
                     if (Current_Flag == "edit" && !this.IsPostBack)
                     {
-                        if (!string.IsNullOrEmpty(content.Contents(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID).Trim()))
+                        if (!string.IsNullOrEmpty(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID).Trim()))
                         {
-                            if (cf.Property_InputOptions.IndexOf(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.Contents(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID); };
+                            if (cf.Property_InputOptions.IndexOf(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID); };
                         }
 
                     }
