@@ -244,69 +244,73 @@
 			//修改,以便支持多选,2002-7-10
 
 		if(selectedContent.length<=0){	//没有选中,只显示新文件和刷新
-   				openfile.style.display="none";
-   				delfile.style.display = "none";
-				preview.style.display = "none";
-				moveup.style.display="none";
-				movedown.style.display="none";
-				menuNouse.style.display="none";
-				approval.style.display="none";
-				relative.style.display="none";
+		        
+   				if(eval("document.all.openfile")) openfile.style.display="none";
+   				if(eval("document.all.delfile")) delfile.style.display = "none";
+				if(eval("document.all.preview")) preview.style.display = "none";
+				if(eval("document.all.moveup")) moveup.style.display="none";
+				if(eval("document.all.movedown")) movedown.style.display="none";
+				if(eval("document.all.menuNouse")) menuNouse.style.display="none";
+				if(eval("document.all.approval")) approval.style.display="none";
+				if(eval("document.all.relative")) relative.style.display="none";
 				//comment.style.display="none";
 				//recommend.style.display="none";
 				//collection.style.display="none";
 				//version.style.display="none";
 				//chistory.style.display="none";
-				Lock.style.display="none";
-				unLock.style.display="none";
+				if(eval("document.all.Lock")) Lock.style.display="none";
+				if(eval("document.all.unLock")) unLock.style.display="none";
+				if(eval("document.all.doApprovalRel")) doApprovalRel.style.display="none";
+				if(eval("document.all.doUnRel")) doUnRel.style.display="none";
 		}
 		else if(selectedContent.length==1){	//选中一个,所有显示
-   				openfile.style.display="block";
-   				delfile.style.display="block";
-				preview.style.display="block";
-				moveup.style.display="block";
-				movedown.style.display="block";
-				menuNouse.style.display="block";
-				approval.style.display="block";
-				relative.style.display="block";
+   				if(eval("document.all.openfile")) openfile.style.display="block";
+   				if(eval("document.all.delfile")) delfile.style.display="block";
+				if(eval("document.all.preview")) preview.style.display="block";
+				if(eval("document.all.moveup")) moveup.style.display="block";
+				if(eval("document.all.movedown")) movedown.style.display="block";
+				if(eval("document.all.menuNouse")) menuNouse.style.display="block";
+				if(eval("document.all.approval")) approval.style.display="block";
+				if(eval("document.all.relative")) relative.style.display="block";
 				//comment.style.display="block";
 				//recommend.style.display="block";
 				//collection.style.display="block";
 				//version.style.display="block";
 				//chistory.style.display="block";
-				Lock.style.display="block";
-				unLock.style.display="block";
+				if(eval("document.all.Lock"))  Lock.style.display="block";
+				if(eval("document.all.unLock")) unLock.style.display="block";
 		}
 		else{	//多选,显示新文件,审批,删除,刷新
-   				openfile.style.display="none";
-   				delfile.style.display="block";
-				preview.style.display="none";
-				moveup.style.display="none";
-				movedown.style.display="none";
-				menuNouse.style.display="block";
-				approval.style.display="block";
-				relative.style.display="none";
+		
+   				if(eval("document.all.openfile")) openfile.style.display="none";
+   				if(eval("document.all.delfile")) delfile.style.display="block";
+				if(eval("document.all.preview")) preview.style.display="none";
+				if(eval("document.all.movedown")) moveup.style.display="none";
+				if(eval("document.all.movedown"))movedown.style.display="none";
+				//getElementById("menuNouse").style.display="block";
+				if(eval("document.all.approval")) approval.style.display="block";
+				if(eval("document.all.relative")) relative.style.display="none";
 				//comment.style.display="none";
 				//recommend.style.display="none";
 				//collection.style.display="none";
 				//version.style.display="none";
 				//chistory.style.display="none";
-				Lock.style.display="none";
-				unLock.style.display="none";
+				if(eval("document.all.Lock")) Lock.style.display="none";
+				if(eval("document.all.unLock")) unLock.style.display="none";
 		}
 			
 				if (curContent==""){
-					copyFile.className = "menuItemDisable";
+					if(eval("document.all.copyFile")) copyFile.className = "menuItemDisable";
 					}
 				else{
-					copyFile.className = "menuItem";
+					if(eval("document.all.copyFile")) copyFile.className = "menuItem";
 					}
 
 				if (top.ReadValue("ClipBoard_Data")==null || top.ReadValue("ClipBoard_Data")==""){
-					pasteFile.className = "menuItemDisable";
+					if(eval("document.all.pasteFile")) pasteFile.className = "menuItemDisable";
 					}
 				else{
-					pasteFile.className = "menuItem";
+					if(eval("document.all.pasteFile")) pasteFile.className = "menuItem";
 					}
 
 		ContextElement=event.srcElement;
