@@ -15,6 +15,9 @@ using System.Text;
 using System.IO;
 using System.Threading;
 using System.Web.SessionState;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using GCMSClassLib.Public_Cls;
 public partial class Setup : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -95,5 +98,28 @@ public partial class Setup : System.Web.UI.Page
         this.RegisterClientScriptBlock("begSqlProgress", scriptStr);
 
     }
+    DataTable dtTree;
+    protected void btnClearTree_Click(object sender, EventArgs e)
+    {
+        string sql = "Select TypeTree_ID,TypeTree_ParentID from Content_Type_TypeTree Where TypeTree_ParentID=0";
+        DataTable dt = Tools.DoSqlTable(sql);
+         dtTree=Tools.DoSqlTable( "Select TypeTree_ID,TypeTree_ParentID from Content_Type_TypeTree ");
+        foreach (DataRow dr in dt.Rows)
+        {
+            delete(int.Parse(dr["TypeTree_ID"].ToString()));
+           
+        }
+        for (int i = 1; i < 10000; i++)
+        {
+            int s = Tools.DoSqlRowsAffected(" Delete from dbo.Content_Type_TypeTree Where TypeTree_ParentID  not in (Select TypeTree_ID from dbo.Content_Type_TypeTree )and TypeTree_ParentID!=-1");
+            if (s == 0) break;
+        }
 
+
+    }
+    private void delete(int tid)
+    {
+        Tools.DoSql("Delete from Content_Type_TypeTree Where TypeTree_ID=" + tid.ToString());
+        
+    }
 }

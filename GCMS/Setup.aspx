@@ -38,7 +38,8 @@
         <span class="progressBar" id="progress_sql">为开始</span>
         <asp:HiddenField runat="server" ID="key" />
         <asp:FileUpload ID="fileSql" runat="server" />
-        <asp:Button ID="btnGoInstal" runat="server" OnClick="btnGoInstal_Click" Text="开始安装"  /></div>
+        <asp:Button ID="btnGoInstal" runat="server" OnClick="btnGoInstal_Click" Text="开始安装"  /><br />
+        <asp:Button ID="btnClearTree" runat="server" OnClick="btnClearTree_Click" Text="删除多余数据"  /></div>
        
 	
 
