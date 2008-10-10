@@ -1,24 +1,12 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Content_Default.aspx.cs" Inherits="Content_Content_Default" %>
 
-<%@ Register Src="../Gomye_Tools/Tools_TreeMenu.ascx" TagName="Tools_TreeMenu" TagPrefix="uc1" %>
-
 <%@ Register TagPrefix="WebAppControls" TagName="TOOLS" Src="../Gomye_Tools/Tools_GTree.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
-		<LINK href="../admin_public/css/Admin.css" type="text/css" rel="STYLESHEET">
+			<LINK href="../admin_public/css/Admin.css" type="text/css" rel="STYLESHEET">
 		<script language="JavaScript" src="../admin_public/js/coolbuttons.js"></script>
-		<script type="text/javascript" src="../js/jquery/jquery-1.2.6.pack.js"></script>
-        <script type="text/javascript" src="../js/jquery.treeview/jquery.treeview.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.contextmenu/jquery.contextmenu.r2.packed.js"></script>
-        <link rel="stylesheet" href="../js/jquery.treeview/jquery.treeview.css" />
-        <script type="text/javascript">
-	    $(document).ready(function(){
-	         $("#treemenu").treeview();//载入菜单
-	   
-		});
-        </script>
-	    
+		<link type="text/css" rel="stylesheet" href="../admin_Public/Css/xtree.css">
 
 	</HEAD>
 	<body oncontextmenu="return false;" leftMargin="0" topMargin="0" scroll="no">
@@ -54,7 +42,7 @@
 				<tr>
 					<td vAlign="top" height="100%">
 						<div style="BORDER-RIGHT: navy 0px solid; PADDING-RIGHT: 0px; BORDER-TOP: navy 0px solid; OVERFLOW-Y: scroll; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: navy 0px solid; WIDTH: 100%; PADDING-TOP: 0px; BORDER-BOTTOM: navy 0px solid; HEIGHT: 100%">
-                            <uc1:Tools_TreeMenu ID="MainTree" runat="server" />
+							<WEBAPPCONTROLS:TOOLS id="TypeTree" runat="server"></WEBAPPCONTROLS:TOOLS>
 						</div>
 					</td>
 				</tr>

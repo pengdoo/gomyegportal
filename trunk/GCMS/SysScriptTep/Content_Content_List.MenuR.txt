@@ -1,5 +1,5 @@
-﻿<div class=\"menuItem\" id=\"preview\" doFunction=\"doPreview();\">预览</div>
-<div class=\"menuItem\" id=\"UnRel\" doFunction=\"doUnRel();\">撤销映射</div>
-<div class=\"menuItem\" id=\"reFresh\" doFunction=\"doReFresh();\">刷新</div>
-<hr id=\"menuNouse\">
-<div class=\"menuItem\" id=\"reFresh\" doFunction=\"doReFresh();\">刷新</div>
+﻿<div class="menuItem" id="preview" doFunction="doPreview();">预览</div>
+<div class="menuItem" id="UnRel" doFunction="doUnRel();">撤销映射</div>
+<div class="menuItem" id="doApprovalRel" doFunction="ApprovalRel();">生成映射列表</div>
+<hr id="menuNouse">
+<div class="menuItem" id="reFresh" doFunction="doReFresh();">刷新</div>

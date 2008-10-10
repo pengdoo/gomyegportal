@@ -1,4 +1,4 @@
-ï»¿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Content_List.aspx.cs" Inherits="Content_Content_List" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Content_List.aspx.cs" Inherits="Content_Content_List" %>
 <%@ Register TagPrefix="cc3" Namespace="WebControlToolsbar" Assembly="WebControlToolsbar" %>
 <%@ Register TagPrefix="WebAppControls" TagName="Tools_PageHeader" Src="../Gomye_Tools/Tools_PageHeader.ascx" %>
 <%@ Register TagPrefix="WebAppControls" TagName="Tools_Head" Src="../Gomye_Tools/Tools_Head.ascx" %>
@@ -12,16 +12,16 @@
 		var curContent="";
 		var curActiveElement;
 
-		//2002.7.10,å¢åŠ æ•°æ®ä»¥æ”¯æŒå¤šé€‰,ä¿å­˜æ‰€æœ‰é€‰æ‹©é¡¹çš„contentid
+		//2002.7.10,Ôö¼ÓÊı¾İÒÔÖ§³Ö¶àÑ¡,±£´æËùÓĞÑ¡ÔñÏîµÄcontentid
 		var selectedContent=new Array();
 
 		function selectContent(curcontent){
-			//å¦‚æœæŒ‰äº†ctrlé”®,åˆæ˜¯å³é”®,åˆ™ä¸æ”¹å˜å½“å‰é€‰ä¸­é¡¹
+			//Èç¹û°´ÁËctrl¼ü,ÓÖÊÇÓÒ¼ü,Ôò²»¸Ä±äµ±Ç°Ñ¡ÖĞÏî
 			if (window.event.ctrlKey==true && window.event.button==2){return;}
 			
-			//ctrlåŠ å·¦é”®å°†æ”¹å˜å½“å‰é¡¹çš„çŠ¶æ€
+			//ctrl¼Ó×ó¼ü½«¸Ä±äµ±Ç°ÏîµÄ×´Ì¬
 			var cuEl=eval("DateGridList_item"+curcontent);
-			var isOld=false;		//å½“å‰é¡¹æ˜¯å¦å·²ç»é€‰ä¸­
+			var isOld=false;		//µ±Ç°ÏîÊÇ·ñÒÑ¾­Ñ¡ÖĞ
 			if (window.event.ctrlKey==true && (window.event.button==1 || window.event.button==0)){
 				for(var i=0;i<selectedContent.length;i++){
 					if (selectedContent[i].id == "DateGridList_item" + curcontent){
@@ -45,7 +45,7 @@
 				}
 			}
 
-			//æ²¡æŒ‰ctrlé”®,å¦‚æœæ˜¯å·¦é”®,æ€»æ˜¯å…ˆæ¸…é™¤é€‰é¡¹,ç„¶åé€‰ä¸­å½“å‰é¡¹,å¦‚æœæ˜¯å³é”®,å†æ ¹æ®æ˜¯å¦å·²ç»é€‰ä¸­,å¦‚æœå·²ç»é€‰ä¸­,ä¸å˜,å¦åˆ™,æ¸…æ¥šé€‰é¡¹,ç„¶åé€‰ä¸­å½“å‰é¡¹
+			//Ã»°´ctrl¼ü,Èç¹ûÊÇ×ó¼ü,×ÜÊÇÏÈÇå³ıÑ¡Ïî,È»ºóÑ¡ÖĞµ±Ç°Ïî,Èç¹ûÊÇÓÒ¼ü,ÔÙ¸ù¾İÊÇ·ñÒÑ¾­Ñ¡ÖĞ,Èç¹ûÒÑ¾­Ñ¡ÖĞ,²»±ä,·ñÔò,Çå³şÑ¡Ïî,È»ºóÑ¡ÖĞµ±Ç°Ïî
 			else {
 				for(var i=0;i<selectedContent.length;i++){
 					if (selectedContent[i].id == "DateGridList_item" + curcontent){
@@ -72,7 +72,7 @@
 		function openContent(contentid){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 
@@ -136,7 +136,7 @@
 					ids = ids + "," + selectedContent[i].id.substr(17);
 				statusEl = eval("document.all.status" + selectedContent[i].id.substr(17));
 				if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-					alert("æ‚¨é€‰å®šçš„å†…å®¹ä¸­æœ‰å·²ç»è¢«" + statusEl.lockedby + "é”å®šçš„ï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+					alert("ÄúÑ¡¶¨µÄÄÚÈİÖĞÓĞÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨µÄ£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 					return;
 				};
 			}
@@ -160,7 +160,7 @@
   			var leftm  = Math.floor( (screen.width -400)/2)+30;
  			var topm   = Math.floor( (screen.height -200)/2)+30;
  			var argu = "toolbar=0,location=0,maximize=0,directories=0,status=0,menubar=0,scrollbars=0, resizable=0,left=" + leftm+ ",top=" + topm + ", width="+width+", height="+height;
-			window.open("presearch4.asp?columnid=","é«˜çº§æœç´¢",argu);
+			window.open("presearch4.asp?columnid=","¸ß¼¶ËÑË÷",argu);
 		}
 		function ExportContent(){
 			window.frames["download"].location="export.asp?columnid=";
@@ -172,7 +172,7 @@
   			var leftm  = Math.floor( (screen.width -500)/2)+30;
  			var topm   = Math.floor( (screen.height -400)/2)+30;
  			var argu = "toolbar=0,location=0,maximize=0,directories=0,status=0,menubar=0,scrollbars=1, resizable=0,left=" + leftm+ ",top=" + topm + ", width="+width+", height="+height;
-			window.open("history.asp?cid="+curContent,"ç¨¿ä»¶å¤„ç†å†å²",argu);
+			window.open("history.asp?cid="+curContent,"¸å¼ş´¦ÀíÀúÊ·",argu);
 		}
 
 		function doLock(){
@@ -180,7 +180,7 @@
 				try{
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 					var f = window.frames["postFrame"].document.postForm;
@@ -198,7 +198,7 @@
 			var statusEl = eval("document.all.status" + curContent);
 		//	if ((statusEl.lockedby!="") && (statusEl.lockedby!="")){
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 					var f = window.frames["postFrame"].document.postForm;
@@ -216,7 +216,7 @@
 				top.WriteValue("ClipBoard_Data",curContent);
 				}
 			else 
-			alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+			alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 		}
 
 		//Copy Over
@@ -241,10 +241,10 @@
 		var el;
 
 		function showMenu() {
-			//ä¿®æ”¹,ä»¥ä¾¿æ”¯æŒå¤šé€‰,2002-7-10
+			//ĞŞ¸Ä,ÒÔ±ãÖ§³Ö¶àÑ¡,2002-7-10
 
-		if(selectedContent.length<=0){	//æ²¡æœ‰é€‰ä¸­,åªæ˜¾ç¤ºæ–°æ–‡ä»¶å’Œåˆ·æ–°
-		        
+		if(selectedContent.length<=0){	//Ã»ÓĞÑ¡ÖĞ,Ö»ÏÔÊ¾ĞÂÎÄ¼şºÍË¢ĞÂ
+		       // alert('Ã»ÓĞÑ¡ÖĞ');
    				if(eval("document.all.openfile")) openfile.style.display="none";
    				if(eval("document.all.delfile")) delfile.style.display = "none";
 				if(eval("document.all.preview")) preview.style.display = "none";
@@ -263,7 +263,7 @@
 				if(eval("document.all.doApprovalRel")) doApprovalRel.style.display="none";
 				if(eval("document.all.doUnRel")) doUnRel.style.display="none";
 		}
-		else if(selectedContent.length==1){	//é€‰ä¸­ä¸€ä¸ª,æ‰€æœ‰æ˜¾ç¤º
+		else if(selectedContent.length==1){	//Ñ¡ÖĞÒ»¸ö,ËùÓĞÏÔÊ¾
    				if(eval("document.all.openfile")) openfile.style.display="block";
    				if(eval("document.all.delfile")) delfile.style.display="block";
 				if(eval("document.all.preview")) preview.style.display="block";
@@ -280,7 +280,7 @@
 				if(eval("document.all.Lock"))  Lock.style.display="block";
 				if(eval("document.all.unLock")) unLock.style.display="block";
 		}
-		else{	//å¤šé€‰,æ˜¾ç¤ºæ–°æ–‡ä»¶,å®¡æ‰¹,åˆ é™¤,åˆ·æ–°
+		else{	//¶àÑ¡,ÏÔÊ¾ĞÂÎÄ¼ş,ÉóÅú,É¾³ı,Ë¢ĞÂ
 		
    				if(eval("document.all.openfile")) openfile.style.display="none";
    				if(eval("document.all.delfile")) delfile.style.display="block";
@@ -364,29 +364,29 @@
  			openContent(curContent);
  			}
 			else 
-			alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+			alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 		}
 
 		function doDelFile(){
 			if (curContent!=null && curContent!=""){
 
-				question = confirm("ç¡®å®è¦è¿›è¡Œåˆ é™¤æ“ä½œå—?è¯¥æ“ä½œå°†æ— æ³•æ¢å¤ï¼ï¼ï¼") 
+				question = confirm("È·ÊµÒª½øĞĞÉ¾³ı²Ù×÷Âğ?¸Ã²Ù×÷½«ÎŞ·¨»Ö¸´£¡£¡£¡") 
 				if (question != "1")
 				{return false;}
 
 				var statusEl = eval("document.all.status" + curContent);
 				if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-					alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+					alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 					return;
 				};
-				//æ”¯æŒå¤šé€‰æäº¤,2002-7-10
+				//Ö§³Ö¶àÑ¡Ìá½»,2002-7-10
 				if (selectedContent.length>0){
 					var ids="-1";
 					for(var i=0;i<selectedContent.length;i++){
 						ids = ids + "," + selectedContent[i].id.substr(17);
 						statusEl = eval("document.all.status" + selectedContent[i].id.substr(17));
 						if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-							alert("æ‚¨é€‰å®šçš„å†…å®¹ä¸­æœ‰å·²ç»è¢«" + statusEl.lockedby + "é”å®šçš„ï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+							alert("ÄúÑ¡¶¨µÄÄÚÈİÖĞÓĞÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨µÄ£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 							return;
 						};
 					}
@@ -397,17 +397,17 @@
 				}
 			}
 			else 
-			alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+			alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 		}
 		function doMoveUp(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			if (curContent!=null && curContent!=""){
 				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=MoveUp&Content_ID=" + curContent,"æ’åˆ—æ–‡ç« ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=MoveUp&Content_ID=" + curContent,"ÅÅÁĞÎÄÕÂ",argu);
 				doReFresh();
  			}
 		}
@@ -415,12 +415,12 @@
 		function doAtTop(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			if (curContent!=null && curContent!=""){
 				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=AtTop&Content_ID=" + curContent,"è‡³é¡¶",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=AtTop&Content_ID=" + curContent,"ÖÁ¶¥",argu);
 				doReFresh();
  			}
 		}
@@ -428,12 +428,12 @@
 		function doUnAtTop(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			if (curContent!=null && curContent!=""){
 				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=UnAtTop&Content_ID=" + curContent,"å–æ¶ˆè‡³é¡¶",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=UnAtTop&Content_ID=" + curContent,"È¡ÏûÖÁ¶¥",argu);
 				doReFresh();
  			}
 		}
@@ -444,7 +444,7 @@ function dolookAdd(){
 		window.open("/asp/view_comment.asp?id=" + curContent);
  	}
 	else 
-	alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+	alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 }
 
 function dolookText(){
@@ -452,14 +452,14 @@ function dolookText(){
 		window.open("/asp/view_article_record.asp?id=" + curContent);
  	}
 	else 
-	alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+	alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 }
 
 
-// æ˜ å°„å‘å¸ƒ
+// Ó³Éä·¢²¼
 	function ApprovalRel(){
 				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=ApprovalRel","æ’åˆ—æ–‡ç« ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=PushLinks","Éú³É¸½´ø·¢²¼ÁĞ±í",argu);
 				doReFresh();
 		}
 		
@@ -467,12 +467,12 @@ function dolookText(){
 		function doMoveDown(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=MoveDown&Content_ID=" + curContent,"æ’åˆ—æ–‡ç« ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&TypeTree_ID="+Form1.TypeTree_ID.value+"&OrderType=MoveDown&Content_ID=" + curContent,"ÅÅÁĞÎÄÕÂ",argu);
 				doReFresh();
  			}
 		}
@@ -481,22 +481,22 @@ function dolookText(){
 			if (curContent!=null && curContent!=""){
 				var statusEl = eval("document.all.status" + curContent);
 				if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-					alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+					alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 					return;
 				};
 				if (curContent!=null && curContent!=""){
 					var argu = "dialogWidth:42em; dialogHeight:34em;center:yes;status:no;help:no";
-					window.showModalDialog("WindowFrame.aspx?loadfile=Content_add.aspx&Content_ID=" + curContent + "&relid=0&TypeTree_ID="+Form1.TypeTree_ID.value,"ç›¸å…³æ–‡ç« æ•´ç†",argu);
+					window.showModalDialog("WindowFrame.aspx?loadfile=Content_add.aspx&Content_ID=" + curContent + "&relid=0&TypeTree_ID="+Form1.TypeTree_ID.value,"Ïà¹ØÎÄÕÂÕûÀí",argu);
 				}
 			}
 			else 
-			alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+			alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 		}
 
 		function doRecommend(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			
@@ -506,44 +506,44 @@ function dolookText(){
 					ids = ids + "," + selectedContent[i].id.substr(17);
 					statusEl = eval("document.all.status" + selectedContent[i].id.substr(17));
 					if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-						alert("æ‚¨é€‰å®šçš„å†…å®¹ä¸­æœ‰å·²ç»è¢«" + statusEl.lockedby + "é”å®šçš„ï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+						alert("ÄúÑ¡¶¨µÄÄÚÈİÖĞÓĞÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨µÄ£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 						return;
 					};
 				}
 				
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:22em; dialogHeight:34em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_Recommend.aspx&Content_List=" + ids+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"æ¨èæ–‡ç« ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_Recommend.aspx&Content_List=" + ids+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"ÍÆ¼öÎÄÕÂ",argu);
  			}
  			}
 		}
 		function doCollection(){
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:32em; dialogHeight:34em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=collection/recommend.asp&contentid=" + curContent+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"æ¨èæ–‡ç« åˆ°é›†åˆ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=collection/recommend.asp&contentid=" + curContent+ "&TypeTree_ID="+Form1.TypeTree_ID.value,"ÍÆ¼öÎÄÕÂµ½¼¯ºÏ",argu);
  			}
 		}
 
 		function doApproval(){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
-			//æ”¯æŒå¤šé€‰æäº¤,2002-7-10
+			//Ö§³Ö¶àÑ¡Ìá½»,2002-7-10
 			if (selectedContent.length>0){
 				var ids="-1";
 				for(var i=0;i<selectedContent.length;i++){
 					ids = ids + "," + selectedContent[i].id.substr(17);
 					statusEl = eval("document.all.status" + selectedContent[i].id.substr(17));
 					if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-						alert("æ‚¨é€‰å®šçš„å†…å®¹ä¸­æœ‰å·²ç»è¢«" + statusEl.lockedby + "é”å®šçš„ï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+						alert("ÄúÑ¡¶¨µÄÄÚÈİÖĞÓĞÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨µÄ£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 						return;
 					};
 				}
 				
  				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&OrderType=Approval&TypeTree_ID="+Form1.TypeTree_ID.value+"&Content_List=" + ids,"ç¨¿ä»¶ç­¾å‘",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&OrderType=Approval&TypeTree_ID="+Form1.TypeTree_ID.value+"&Content_List=" + ids,"¸å¼şÇ©·¢",argu);
 				doReFresh();
  			}
 		}
@@ -556,7 +556,7 @@ function dolookText(){
  				var topm   = Math.floor((screen.height-200)/2)+30;
  				var argu = "toolbar=0,location=0,maximize=1,directories=0,status=0,menubar=0,scrollbars=0, resizable=1,left=" + leftm+ ",top=" + topm + ", width="+width+", height="+height;
 
-				window.open("WindowFrame.aspx?loadfile=version.asp&contentid=" + curContent,"ç‰ˆæœ¬",argu);
+				window.open("WindowFrame.aspx?loadfile=version.asp&contentid=" + curContent,"°æ±¾",argu);
  			}
 		}
 		function doComment(){
@@ -574,14 +574,14 @@ function dolookText(){
 				window.open("Content_ViewOrder.aspx?OrderType=Preview&Content_ID=" + curContent +"&TypeTree_ID="+Form1.TypeTree_ID.value);
 			}
 			else 
-			alert("è¯·å•å‡»é€‰ä¸­éœ€è¦æ“ä½œçš„æ–‡ä»¶,å†è¿›è¡Œè¯¥å‘½ä»¤");
+			alert("Çëµ¥»÷Ñ¡ÖĞĞèÒª²Ù×÷µÄÎÄ¼ş,ÔÙ½øĞĞ¸ÃÃüÁî");
 		}
 		function doReFresh(){
 			window.location.reload();
 		}
 
 		function unselect(){
-			//ä¸ºå¤šé€‰åšäº†æ”¹åŠ¨,2002-7-10
+			//Îª¶àÑ¡×öÁË¸Ä¶¯,2002-7-10
 			
 			if (window.event.srcElement.id!="scrollDiv"){return;}
 			if (window.event.ctrlKey==true){return;}
@@ -641,12 +641,12 @@ function dolookText(){
 			else if(event.keyCode==13){
 				openContent(curContent);
 			}
-			else if(event.keyCode==38){		//å‘ä¸Š		
+			else if(event.keyCode==38){		//ÏòÉÏ		
 				if (curActiveElement==null) return;
 				if (curActiveElement.previousSibling !=null)
 					selectContent(curActiveElement.previousSibling.id.substr(17));
 			}
-			else if(event.keyCode==40){		//å‘ä¸‹
+			else if(event.keyCode==40){		//ÏòÏÂ
 				if (curActiveElement==null) return;
 				if (curActiveElement.nextSibling !=null)
 					selectContent(curActiveElement.nextSibling.id.substr(17));
@@ -655,13 +655,13 @@ function dolookText(){
 		function doMoveBefore(tarID){
 			var statusEl = eval("document.all.status" + curContent);
 			if ((statusEl.lockedby!=Form1.UserName.value) && (statusEl.lockedby!="")){
-				alert("å†…å®¹å·²ç»è¢«" + statusEl.lockedby + "é”å®šï¼Œæ‚¨ä¸èƒ½æ‰§è¡Œæ“ä½œ!");
+				alert("ÄÚÈİÒÑ¾­±»" + statusEl.lockedby + "Ëø¶¨£¬Äú²»ÄÜÖ´ĞĞ²Ù×÷!");
 				return;
 			};
 			if (curContent!=null && curContent!=""){
  				var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-				//window.showModalDialog("WindowFrame.aspx?loadfile=premoveup.asp&contentid=" + curContent,"æ’åˆ—æ–‡ç« ",argu);
-				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&OrderType=MoveBefore&TypeTree_ID="+Form1.TypeTree_ID.value+"&Content_ID=" + curContent + "&tarid=" + tarID,"æ’åˆ—æ–‡ç« ",argu);
+				//window.showModalDialog("WindowFrame.aspx?loadfile=premoveup.asp&contentid=" + curContent,"ÅÅÁĞÎÄÕÂ",argu);
+				window.showModalDialog("WindowFrame.aspx?loadfile=Content_ViewOrder.aspx&OrderType=MoveBefore&TypeTree_ID="+Form1.TypeTree_ID.value+"&Content_ID=" + curContent + "&tarid=" + tarID,"ÅÅÁĞÎÄÕÂ",argu);
 				doReFresh();
  			}
 		}
@@ -685,7 +685,7 @@ function dolookText(){
 			event.returnValue = false;
 			}
 			</SCRIPT>
-		<!-- ä¸Šä¸‹æ–‡èœå•ç»“æŸ -->
+		<!-- ÉÏÏÂÎÄ²Ëµ¥½áÊø -->
 	</HEAD>
 	<body oncontextmenu="showMenu(); return false" onselectstart="return selectall();" leftMargin="0"
 		topMargin="0" scroll="no">
@@ -694,18 +694,18 @@ function dolookText(){
 			<TABLE class="coolBar" style="WIDTH: 100%" cellSpacing="1" cellPadding="0" border="0">
 				<TR>
 					<TD width="5"><SPAN class="handbtn"></SPAN></TD>
-					<TD class="coolButton" title="æ–°å»º" onclick="newContent();" width="50" height="20"><IMG src="../Admin_Public/Images/Icon_File_New2.gif">
-						æ–°å»º</TD>
-					<TD class="coolButton" title="æ‰“å¼€" onclick="doOpenFile();" width="50" height="20"><IMG src="../Admin_Public/Images/Icon_File_Open.gif">
-						æ‰“å¼€</TD>
+					<TD class="coolButton" title="ĞÂ½¨" onclick="newContent();" width="50" height="20"><IMG src="../Admin_Public/Images/Icon_File_New2.gif">
+						ĞÂ½¨</TD>
+					<TD class="coolButton" title="´ò¿ª" onclick="doOpenFile();" width="50" height="20"><IMG src="../Admin_Public/Images/Icon_File_Open.gif">
+						´ò¿ª</TD>
 					<TD width="5"><SPAN class="sepbtn1"></SPAN></TD>
-					<TD class="coolButton" title="é¢„è§ˆ" onclick="doPreview();" width="50" height="20"><IMG src="../Admin_Public/Images/PHPRequire.gif">
-						é¢„è§ˆ</TD>
-					<cc3:Toolsbar id="Toolsbar1" runat="server" AltText="å¯¼å‡º" Text="å¯¼å‡º" Width="60" OnButtonClick="Toolsbar1_ButtonClick" imageNormal="../Admin_Public/Images/Cfftp.gif"></cc3:Toolsbar>
-					<TD class="coolButton" onclick="doReFresh();" width="50" height="20"><IMG alt="åˆ·æ–°" src="../Admin_Public/Images/Icon_File_ReFresh.gif">
-						åˆ·æ–°</TD>
+					<TD class="coolButton" title="Ô¤ÀÀ" onclick="doPreview();" width="50" height="20"><IMG src="../Admin_Public/Images/PHPRequire.gif">
+						Ô¤ÀÀ</TD>
+					<cc3:Toolsbar id="Toolsbar1" runat="server" AltText="µ¼³ö" Text="µ¼³ö" Width="60" OnButtonClick="Toolsbar1_ButtonClick" imageNormal="../Admin_Public/Images/Cfftp.gif"></cc3:Toolsbar>
+					<TD class="coolButton" onclick="doReFresh();" width="50" height="20"><IMG alt="Ë¢ĞÂ" src="../Admin_Public/Images/Icon_File_ReFresh.gif">
+						Ë¢ĞÂ</TD>
 					<TD width="5"><SPAN class="sepbtn1"></SPAN></TD>
-					<TD width="63">å…³é”®å­—æŸ¥è¯¢</TD>
+					<TD width="63">¹Ø¼ü×Ö²éÑ¯</TD>
 					<TD width="67">
 						<asp:TextBox id="TextSearch" runat="server" CssClass="inputtext"></asp:TextBox></TD>
 					<TD width="67">
@@ -715,12 +715,12 @@ function dolookText(){
 						<asp:ImageButton id="ImageButton1" runat="server" OnClick="ImageButton1_Click" ImageUrl="../Admin_Public/Images/Small_an.gif"></asp:ImageButton></TD>
 					<TD width="67">
 						<asp:DropDownList id="ListStatus" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ListStatus_SelectedIndexChanged">
-							<asp:ListItem Value="1">è‰ ç¨¿</asp:ListItem>
-							<asp:ListItem Value="2">å¾…å®¡æ‰¹</asp:ListItem>
-							<asp:ListItem Value="3">å¾…å‘å¸ƒ</asp:ListItem>
-							<asp:ListItem Value="4">å·²å‘å¸ƒ</asp:ListItem>
-							<asp:ListItem Value="5" Selected="True">å·²å½’æ¡£</asp:ListItem>
-							<asp:ListItem Value="1,2,3,4,5">å…¨ éƒ¨</asp:ListItem>
+							<asp:ListItem Value="1">²İ ¸å</asp:ListItem>
+							<asp:ListItem Value="2">´ıÉóÅú</asp:ListItem>
+							<asp:ListItem Value="3">´ı·¢²¼</asp:ListItem>
+							<asp:ListItem Value="4">ÒÑ·¢²¼</asp:ListItem>
+							<asp:ListItem Value="5" Selected="True">ÒÑ¹éµµ</asp:ListItem>
+							<asp:ListItem Value="1,2,3,4,5">È« ²¿</asp:ListItem>
 						</asp:DropDownList></TD>
 					<TD></TD>
 				</TR>
@@ -730,16 +730,16 @@ function dolookText(){
 					<TD width="5"></TD>
 					<TD>
 						<div>
-							å½“å‰ç¬¬<asp:label id="LCurrentPage" Runat="server" ForeColor="#ff0000"></asp:label>é¡µ&nbsp;&nbsp; 
-							å…±<asp:label id="LPageCount" Runat="server" ForeColor="#ff0000"></asp:label>é¡µ/å…±
-							<asp:label id="LRecordCount" Runat="server" ForeColor="#ff0000"></asp:label>è®°å½•
-							<asp:linkbutton id="Fistpage" Runat="server" CommandName="0" OnCommand="Page_OnClick">é¦–é¡µ</asp:linkbutton>&nbsp;&nbsp;<asp:linkbutton id="Prevpage" Runat="server" CommandName="prev" OnCommand="Page_OnClick">
+							µ±Ç°µÚ<asp:label id="LCurrentPage" Runat="server" ForeColor="#ff0000"></asp:label>Ò³&nbsp;&nbsp; 
+							¹²<asp:label id="LPageCount" Runat="server" ForeColor="#ff0000"></asp:label>Ò³/¹²
+							<asp:label id="LRecordCount" Runat="server" ForeColor="#ff0000"></asp:label>¼ÇÂ¼
+							<asp:linkbutton id="Fistpage" Runat="server" CommandName="0" OnCommand="Page_OnClick">Ê×Ò³</asp:linkbutton>&nbsp;&nbsp;<asp:linkbutton id="Prevpage" Runat="server" CommandName="prev" OnCommand="Page_OnClick">
 
-					ä¸Šä¸€é¡µ</asp:linkbutton>&nbsp;&nbsp;&nbsp;&nbsp;<asp:linkbutton id="Nextpage" Runat="server" CommandName="next" OnCommand="Page_OnClick">ä¸‹ä¸€é¡µ</asp:linkbutton>
-							&nbsp;&nbsp;<asp:linkbutton id="Lastpage" Runat="server" CommandName="last" OnCommand="Page_OnClick">å°¾é¡µ</asp:linkbutton>
-							&nbsp;&nbsp;è·³
+					ÉÏÒ»Ò³</asp:linkbutton>&nbsp;&nbsp;&nbsp;&nbsp;<asp:linkbutton id="Nextpage" Runat="server" CommandName="next" OnCommand="Page_OnClick">ÏÂÒ»Ò³</asp:linkbutton>
+							&nbsp;&nbsp;<asp:linkbutton id="Lastpage" Runat="server" CommandName="last" OnCommand="Page_OnClick">Î²Ò³</asp:linkbutton>
+							&nbsp;&nbsp;Ìø
 							<asp:TextBox ID="gotoPage" Runat="server" CssClass="inputtext" Width="30px" MaxLength="5" AutoPostBack="True" OnTextChanged="gotoPage_TextChanged"></asp:TextBox>
-							é¡µ</div>
+							Ò³</div>
 					</TD>
 					<TD></TD>
 				</TR>
