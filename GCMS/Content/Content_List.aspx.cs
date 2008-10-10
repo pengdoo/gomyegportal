@@ -158,9 +158,10 @@ public partial class Content_Content_List : GCMS.PageCommonClassLib.PageBase
             {
                 BoundColumn bc = new BoundColumn();
                 bc.DataField = ops[j];
-                string fname = _Content_FieldsContent.InitName(cTypeTree.ExtentFieldsId, ops[j].ToString());
+
+                string fname =ops[j] == "status"?"状态": _Content_FieldsContent.InitName(cTypeTree.ExtentFieldsId, ops[j].ToString());
+
                 bc.HeaderText = fname;
-                
                 bc.ItemStyle.Width = Unit.Pixel(250);
                 DateGridList.Columns.Add(bc);
 

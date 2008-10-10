@@ -14,7 +14,7 @@
 			function AddRootType()
 			{	
 				var argu = "dialogWidth:32em; dialogHeight:28em;center:yes;status:no;help:no";
-				window.showModalDialog("WindowFrame.aspx?loadfile=Type_add.aspx&type=root","æ–°å»ºæ ¹ç›®å½•",argu);				
+				window.showModalDialog("WindowFrame.aspx?loadfile=Type_add.aspx&type=root","ĞÂ½¨¸ùÄ¿Â¼",argu);				
 				top.location.reload();		
 			}
 
@@ -27,7 +27,7 @@
 					try{
 							var argu = "dialogWidth:32em; dialogHeight:28em;center:yes;status:no;help:no";
 							var cId = parseInt(CurrentNode);
-							window.showModalDialog("WindowFrame.aspx?loadfile=Type_Add.aspx&OrderType=son&TypeTree_ID="+cId,"æ–°å»ºå­ç›®å½•",argu);
+							window.showModalDialog("WindowFrame.aspx?loadfile=Type_Add.aspx&OrderType=son&TypeTree_ID="+cId,"ĞÂ½¨×ÓÄ¿Â¼",argu);
 							parent.location.reload();
 					}catch(exception){}
 			}
@@ -38,7 +38,7 @@
 </HEAD>
 	<body topmargin="0" leftmargin="0" oncontextmenu="showMenu();return false;" scroll="no">
 		<form id="Form1" runat="server">
-		<WEBAPPCONTROLS:TOOLS_PAGEHEADER id="PageHeader" runat="server" Value="æ   ç›®" Mod="2"></WEBAPPCONTROLS:TOOLS_PAGEHEADER>
+		<WEBAPPCONTROLS:TOOLS_PAGEHEADER id="PageHeader" runat="server" Value="À¸  Ä¿" Mod="2"></WEBAPPCONTROLS:TOOLS_PAGEHEADER>
 			<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
 				<tr>
 					<td valign="top">
@@ -47,13 +47,13 @@
 							<tr>
 								<TD style="WIDTH: 5px"><SPAN class="handbtn"></SPAN></TD>
 								<%if (int.Parse(Session["Roles"].ToString()) == 0){%>
-								<td class="coolButton" title="æ–°å»º" style="WIDTH: 80px; HEIGHT: 20px" onclick="parent.frames['Main_List'].location = 'Type_Add.aspx?OrderType=root'"><IMG src="../Admin_Public/Images/Icon_File_FileCode.gif">
-									æ–°å»ºæ ¹ç›®å½•</td>
+								<td class="coolButton" title="ĞÂ½¨" style="WIDTH: 80px; HEIGHT: 20px" onclick="parent.frames['Main_List'].location = 'Type_Add.aspx?OrderType=root'"><IMG src="../Admin_Public/Images/Icon_File_FileCode.gif">
+									ĞÂ½¨¸ùÄ¿Â¼</td>
 								<TD style="WIDTH: 5px"><SPAN class="sepbtn1"></SPAN></TD>
 								<%}%>
-								<td class="coolButton" title="åˆ·æ–°" style="WIDTH: 54px; HEIGHT: 20px" onclick="doReFresh();"><IMG src="../Admin_Public/Images/Icon_File_ReFresh.gif">
-									åˆ· æ–°</td>
-								<td><FONT face="å®‹ä½“"></FONT></td>
+								<td class="coolButton" title="Ë¢ĞÂ" style="WIDTH: 54px; HEIGHT: 20px" onclick="doReFresh();"><IMG src="../Admin_Public/Images/Icon_File_ReFresh.gif">
+									Ë¢ ĞÂ</td>
+								<td><FONT face="ËÎÌå"></FONT></td>
 							</tr>
 						</table>
 					</td>
@@ -66,17 +66,17 @@
 					</td>
 				</tr>
 			</table>
-<!-- ä¸Šä¸‹æ–‡èœå• -->
+<!-- ÉÏÏÂÎÄ²Ëµ¥ -->
 <div id=menu1 onclick="clickMenu()" onmouseover="toggleMenu()" onmouseout="toggleMenu()" class="menu">
-<div class="menuItem" id="newRole" doFunction="doMainCatalog();">æ–°å»ºé¢‘é“</div>
-<!--<div class="menuItem" id="navigate" doFunction="doNavigate();">ç”Ÿæˆå¯¼èˆª</div>-->
+<div class="menuItem" id="newRole" doFunction="doMainCatalog();">ĞÂ½¨ÆµµÀ</div>
+<!--<div class="menuItem" id="navigate" doFunction="doNavigate();">Éú³Éµ¼º½</div>-->
 <hr id="nouse">
-<div class="menuItem" id="reFresh" doFunction="doReFresh();">åˆ·æ–°</div>
+<div class="menuItem" id="reFresh" doFunction="doReFresh();">Ë¢ĞÂ</div>
 <hr id="nouse2">
-<div class="menuItem" id="moveup" doFunction="doMoveUp();">ä¸Šç§»</div>
-<div class="menuItem" id="movedown" doFunction="doMoveDown();">ä¸‹ç§»</div>
+<div class="menuItem" id="moveup" doFunction="doMoveUp();">ÉÏÒÆ</div>
+<div class="menuItem" id="movedown" doFunction="doMoveDown();">ÏÂÒÆ</div>
 <!--<hr id="nouse3">
-<div class="menuItem" id="regenall" doFunction="doReGenAll();">é‡æ–°ç”Ÿæˆç½‘ç«™</div>-->
+<div class="menuItem" id="regenall" doFunction="doReGenAll();">ÖØĞÂÉú³ÉÍøÕ¾</div>-->
 </div>
 <script>
 
@@ -133,46 +133,46 @@ function doMoveUp(){
 //	var cId = parseInt(CurrentNode.substr(7));
 	var cId = parseInt(CurrentNode);
  	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=doMoveUp&TypeTree_ID=" + cId,"æ’åˆ—ç›®å½•",argu);
+	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=doMoveUp&TypeTree_ID=" + cId,"ÅÅÁĞÄ¿Â¼",argu);
 	window.location.reload();
 }
 function doMoveDown(){
 //	var cId = parseInt(CurrentNode.substr(7));
 	var cId = parseInt(CurrentNode);
  	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=doMoveDown&TypeTree_ID=" + cId,"æ’åˆ—ç›®å½•",argu);
+	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=doMoveDown&TypeTree_ID=" + cId,"ÅÅÁĞÄ¿Â¼",argu);
 	window.location.reload();
 }
 
 function doNavigate(){
  	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-	window.showModalDialog("WindowFrame.aspx?loadfile=generatenavigate.asp","ç”Ÿæˆå¯¼èˆª",argu);
+	window.showModalDialog("WindowFrame.aspx?loadfile=generatenavigate.asp","Éú³Éµ¼º½",argu);
 }
 
 
 function doReGenAll(){
 		try{
 	 	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-		window.showModalDialog("WindowFrame.aspx?loadfile=pregenerateall.asp","é‡æ–°ç”Ÿæˆç½‘ç«™",argu);
+		window.showModalDialog("WindowFrame.aspx?loadfile=pregenerateall.asp","ÖØĞÂÉú³ÉÍøÕ¾",argu);
 		}catch(exception){}
 }
 
 function doMoveChannel(columnid,parent){
-	question = confirm("æ‚¨ç¡®è®¤è¦ç§»åŠ¨æ ç›®ä¹ˆï¼"+columnid+" To "+parent) 
+	question = confirm("ÄúÈ·ÈÏÒªÒÆ¶¯À¸Ä¿Ã´£¡"+columnid+" To "+parent) 
 	if (question != "1")
 	{return false;}
 	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preMoveChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"ç§»åŠ¨é¢‘é“",argu);
+	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preMoveChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"ÒÆ¶¯ÆµµÀ",argu);
 	doReFresh();
 	}
 
 function doCopyChannel(columnid,parent){
-	question = confirm("æ‚¨ç¡®è®¤è¦æ‹·è´æ ç›®ä¹ˆï¼"+columnid+" To "+parent) 
+	question = confirm("ÄúÈ·ÈÏÒª¿½±´À¸Ä¿Ã´£¡"+columnid+" To "+parent) 
 	if (question != "1")
 	{return false;}
 	var argu = "dialogWidth:32em; dialogHeight:16em;center:yes;status:no;help:no";
-	//window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preCopyChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"å¤åˆ¶é¢‘é“ç»“æ„",argu);
-	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preCopyChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"å¤åˆ¶é¢‘é“ç»“æ„",argu);
+	//window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preCopyChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"¸´ÖÆÆµµÀ½á¹¹",argu);
+	window.showModalDialog("WindowFrame.aspx?loadfile=Type_Order.aspx&OrderType=preCopyChannel&TypeTree_ID=" + columnid + "&parent=" + parent,"¸´ÖÆÆµµÀ½á¹¹",argu);
 	doReFresh();
 	}
 
@@ -215,7 +215,7 @@ function dragLeave(){
 	event.returnValue = false;
 	}
 </script>
-<!-- ä¸Šä¸‹æ–‡èœå•ç»“æŸ -->
+<!-- ÉÏÏÂÎÄ²Ëµ¥½áÊø -->
 		</form>
 	</body>
 </html>
