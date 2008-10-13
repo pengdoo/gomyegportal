@@ -538,12 +538,12 @@ namespace GCMSContentCreate
             }
             else if (typeTree.IsCommonPublish && typeTree.HasExtentFields)//typeTree.TypeTree_Type == 0 && typeTree.TypeTree_ContentFields != 0
             {
-                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} {4} order by {5}", ListTop, typeTree.MainFieldTableName, ChannelID, UserWhere, strListLastID, Order);
+                sql = string.Format("SELECT Top {0} Content_Content.*,{1}.* From Content_Content RIGHT OUTER JOIN {1} ON Content_Content.Content_Id = {1}.Content_ID Where Content_Content.TypeTree_ID in ({2})  and Content_Content.Status=4 {3} {4} order by {5}", ListTop, typeTree.ExtentFieldTableName, ChannelID, UserWhere, strListLastID, Order);
             }
             else if (typeTree.IsReCommandPublish)
             {
 
-                sql = string.Format("SELECT Top {0} Content_Content.* From Content_Content inner join Content_Commend ON Content_Content.Content_ID = Content_Commend.Content_ID Where Content_Commend.TypeTree_ID in ({1})  and Content_Content.Status=4 {2} {3} order by {4}", ListTop, ChannelID, UserWhere, strListLastID, Order);
+                sql = string.Format("SELECT Top {0} Content_Content.* From Content_Content inner join Content_Commend ON Content_Content.Content_ID = Content_Commend.Content_ID Where Content_Commend.TypeTree_ID in ({1})  and Content_Content.Status=4 {2}  order by {3}", ListTop, ChannelID, UserWhere, Order);
             }
             else
             {

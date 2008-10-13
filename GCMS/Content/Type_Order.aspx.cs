@@ -122,8 +122,8 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
 
                             if (_Type_TypeTree.IsReCommandPublish)
                             {
-                                sql = "select Content_Content.Content_ID,Content_Content.Url from " + _Type_TypeTree.MainFieldTableName
-                                    + " where Content_Content.Content_ID in (Select Content_ID from Content_Commend where TypeTree_ID=" + ops[j].ToString() + ") and Content_Content.Status = 4   order by Content_Content.OrderNum desc";
+                                continue;//如果是映射栏目，直接跳过到下一轮
+                               // sql = "select Content_Content.Content_ID,Content_Content.Url from " + _Type_TypeTree.MainFieldTableName + " where Content_Content.Content_ID in (Select Content_ID from Content_Commend where TypeTree_ID=" + ops[j].ToString() + ") and Content_Content.Status = 4   order by Content_Content.OrderNum desc";
                             }
                             else
                             {
