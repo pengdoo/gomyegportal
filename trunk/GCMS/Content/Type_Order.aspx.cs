@@ -103,48 +103,47 @@ public partial class Content_Type_Order : GCMS.PageCommonClassLib.PageBase
 
             //整体发布
             case "AllPush":
+               
                 string[] ops = _Type_TypeTree.IDSonTypeTree(TypeTree_ID).Split( ',');
-
-                for (int j = 0; j < ops.Length; j++)
+                if (!_Type_TypeTree.IsReCommandPublish)
                 {
-                    if (ops[j].ToString() != "")
+                    for (int j = 0; j < ops.Length; j++)
                     {
-                        Content_ID = 0;
-                        int n = 0;
-                        int Countmax = 0;
-
-                        string FieldsName = "Content_Content";
-
-                      
-
-                        _Type_TypeTree.Init(int.Parse(ops[j]));
-
-                        if (_Type_TypeTree.TypeTree_Type == 2)
+                        if (ops[j].ToString() != "")
                         {
-                            Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                            if (_Type_TypeTree.TypeTree_ContentFields != 0)
+                            Content_ID = 0;
+                            int n = 0;
+                            int Countmax = 0;
+
+
+
+
+                            _Type_TypeTree.Init(int.Parse(ops[j]));
+
+                            if (_Type_TypeTree.IsReCommandPublish)
                             {
-                                _Content_FieldsName.Init(_Type_TypeTree.TypeTree_ContentFields);
-                                FieldsName = "ContentUser_" + _Content_FieldsName.FieldsBase_Name;
+                                sql = "select Content_Content.Content_ID,Content_Content.Url from " + _Type_TypeTree.MainFieldTableName
+                                    + " where Content_Content.Content_ID in (Select Content_ID from Content_Commend where TypeTree_ID=" + ops[j].ToString() + ") and Content_Content.Status = 4   order by Content_Content.OrderNum desc";
                             }
+                            else
+                            {
+                                sql = "select Content_ID,Url from " + _Type_TypeTree.MainFieldTableName + " where Status = 4 and TypeTree_ID =" + ops[j].ToString() + " order by OrderNum desc";
+                            }
+                            DataTable dt = Tools.DoSqlTable(sql);
+                            Countmax = dt.Rows.Count;
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                _CreateFiles.CreateContentFiles(int.Parse(ops[j].ToString()), int.Parse(dr["Content_ID"].ToString()), false);
+                                n = n + 1;
+                                Response.Write("<script>this.parent.progress.style.width ='" + (n * 100 / Countmax) + "%' ;this.parent.progress.innerHTML='" + (n * 100 / Countmax) + "%';this.parent.pstr.innerHTML=' 当前栏目ID： " + dr["Content_ID"].ToString() + " <br/>当前文件： " + dr["Url"].ToString() + "';</script>");
+                                Response.Flush();
+                            }
+                            if (Content_ID != 0) _CreateFiles.PushSingle(Content_ID);//似乎多余？#此处代码需要调试验证#
                         }
 
-
-                        sql = "select Content_ID,Url from " + FieldsName + " where Status = 4 and TypeTree_ID =" + ops[j].ToString() + " order by OrderNum desc";
-                        DataTable dt = Tools.DoSqlTable(sql);
-                        Countmax = dt.Rows.Count;
-
-                        foreach (DataRow dr in dt.Rows)
-                        {
-
-                            _CreateFiles.CreateContentFiles(int.Parse(ops[j].ToString()), int.Parse(dr["Content_ID"].ToString()),false);
-                            n = n + 1;
-                            Response.Write("<script>this.parent.progress.style.width ='" + (n * 100 / Countmax) + "%' ;this.parent.progress.innerHTML='" + (n * 100 / Countmax) + "%';this.parent.pstr.innerHTML=' 当前栏目ID： " + dr["Content_ID"].ToString() + " <br/>当前文件： " + dr["Url"].ToString() + "';</script>");
-                            Response.Flush();
-                        }
-                        if (Content_ID != 0) _CreateFiles.PushSingle(Content_ID);//似乎多余？#此处代码需要调试验证#
                     }
-
                 }
                 _CreateFiles.PushList(TypeTree_ID);//附带发布
                 this.Response.Write("<script language='javascript'>parent.windowclose();</script>");

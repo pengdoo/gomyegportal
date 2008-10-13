@@ -543,7 +543,7 @@ namespace GCMSContentCreate
             else if (typeTree.IsReCommandPublish)
             {
 
-                sql = string.Format("SELECT Top {0} Content_Content.* From Content_Content inner join Content_Commend ON Content_Content.TypeTree_ID = Content_Commend.TypeTree_ID Where Content_Commend.TypeTree_ID in ({1})  and Content_Content.Status=4 {2} {3} order by {4}", ListTop,  ChannelID, UserWhere, strListLastID, Order);
+                sql = string.Format("SELECT Top {0} Content_Content.* From Content_Content inner join Content_Commend ON Content_Content.Content_ID = Content_Commend.Content_ID Where Content_Commend.TypeTree_ID in ({1})  and Content_Content.Status=4 {2} {3} order by {4}", ListTop, ChannelID, UserWhere, strListLastID, Order);
             }
             else
             {
