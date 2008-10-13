@@ -95,7 +95,8 @@ namespace GCMSContentCreate
 				return returnValue;
 			}
             GCMS.ChannelID = TypeTree_ID;
-            GCMS._ChannelID = TypeTree_ID;
+            GCMS._ChannelID = TypeTree_ID; 
+           
             //------------------------需处理模板，生成执行脚本-----------------------
             Template_String = PreDeal(Template_String);
 			Template_String = "function Main(d)" + "\r\n" + Template_String;
