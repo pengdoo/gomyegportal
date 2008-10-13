@@ -108,13 +108,30 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         }
 
 
-        if (typeTree.TypeTree_ContentFields != 0)
+        if (RealTypeTree.ExtentFieldsId != 0)
         {
-            AddFieldsWriteTxt(typeTree.TypeTree_ContentFields);
+            AddFieldsWriteTxt(RealTypeTree.ExtentFieldsId);//typeTree.TypeTree_ContentFields
         }
 
     }
-
+    public  Type_TypeTree RealTypeTree
+    {
+        get
+        {
+            Type_TypeTree ty = new Type_TypeTree();
+            if (!typeTree.IsReCommandPublish)
+            {
+                ty = typeTree;
+            }
+            else
+            {
+                ContentCls content = new ContentCls();
+                content.Init(Current_Content_ID);
+                ty.Init(content.TypeTree_ID);
+            }
+            return ty;
+        }
+    }
     public void ShowContentPanel() 
     {
         if (typeTree.TypeTreeIssuance == 5)
@@ -250,15 +267,15 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
     {
         /// 根据TypeTree_ID获取栏目
         typeTree.Init(Current_TypeTree_ID);//Change By Galen 2008.9.1 删除了7行过时变量
-        LTypeTree_PictureURL = typeTree.TypeTreePictureURL;
+        LTypeTree_PictureURL = RealTypeTree.TypeTreePictureURL;
         /// 载入栏目模板，路径
-        this.TypeTree_URL.Text = typeTree.TypeTreeURL;
-        this.TypeTree_Template.Text = typeTree.TypeTreeTemplate;
-        TypeTree_ListTemplate = typeTree.TypeTreeListTemplate;
-        TypeTreeListURL = typeTree.TypeTreeListURL;
+        this.TypeTree_URL.Text = RealTypeTree.TypeTreeURL;
+        this.TypeTree_Template.Text = RealTypeTree.TypeTreeTemplate;
+        TypeTree_ListTemplate = RealTypeTree.TypeTreeListTemplate;
+        TypeTreeListURL = RealTypeTree.TypeTreeListURL;
         List_amount = typeTree.Listamount;
-        TypeTree_TypeFields = typeTree.TypeTree_TypeFields;
-        TypeTree_ContentFields = typeTree.TypeTree_ContentFields;
+        TypeTree_TypeFields = RealTypeTree.TypeTree_TypeFields;
+        TypeTree_ContentFields = RealTypeTree.TypeTree_ContentFields;
     }
     protected void Page_Load(object sender, System.EventArgs e)
     {
@@ -293,7 +310,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         if (Current_Flag == "edit" && !this.IsPostBack)
         {
-            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, Current_TypeTree_ID);
+            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, RealTypeTree.TypeTree_ID);
         }
 
         TableRow tr = new TableRow();
@@ -324,7 +341,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
         if (Current_Flag == "edit" && !this.IsPostBack)
         {
-            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, Current_TypeTree_ID);
+            nBox.Text = content.ContentsExtend(Current_Content_ID, controlId, RealTypeTree.TypeTree_ID);
         }
 
         
@@ -401,7 +418,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
                     if (Current_Flag == "edit" && !this.IsPostBack)
                     {
-                        nTextBoxTEXTAREA.Text = content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID);
+                        nTextBoxTEXTAREA.Text = content.ContentsExtend(Current_Content_ID, cf.Property_Name, RealTypeTree.TypeTree_ID);
                     }
                     nTextBoxTEXTAREA.TextMode = TextBoxMode.MultiLine;
                     TableRow trTEXTAREA = new TableRow();
@@ -430,9 +447,9 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
 
                     if (Current_Flag == "edit" && !this.IsPostBack)
                     {
-                        if (!string.IsNullOrEmpty(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID).Trim()))
+                        if (!string.IsNullOrEmpty(content.ContentsExtend(Current_Content_ID, cf.Property_Name, RealTypeTree.TypeTree_ID).Trim()))
                         {
-                            if (cf.Property_InputOptions.IndexOf(content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.ContentsExtend(Current_Content_ID, cf.Property_Name, Current_TypeTree_ID); };
+                            if (cf.Property_InputOptions.IndexOf(content.ContentsExtend(Current_Content_ID, cf.Property_Name, RealTypeTree.TypeTree_ID)) != -1) { ListSELECT.SelectedValue = content.ContentsExtend(Current_Content_ID, cf.Property_Name, RealTypeTree.TypeTree_ID); };
                         }
 
                     }
@@ -483,7 +500,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             return;
         }
         //--------------------------一般发布处理过程---------------------
-        if (!typeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
+        if (!RealTypeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
         {
             //--------------------------表单验证---------------------
             if (string.IsNullOrEmpty(this.TextBoxTitle.Text.Trim()))
@@ -538,12 +555,12 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         string TxtValue = "";
         string sql_values = "", sql_colnames = "", sqlcc = "", sql_set = "";
         //--------------------------含有扩展字段时的处理过程---------------------
-        if (typeTree.HasExtentFields) //typeTree.TypeTree_ContentFields != 0
+        if (RealTypeTree.HasExtentFields) //typeTree.TypeTree_ContentFields != 0
         {
             //string sql = string.Format(SQL_FieldsContentGetList2, typeTree.TypeTree_ContentFields);
             //SqlDataReader reader = Tools.DoSqlReader(sql);
             //while (reader.Read())
-            List<Content_FieldsContent> list = new Content_FieldsContent().GetFieldsListForID(typeTree.TypeTree_ContentFields);
+            List<Content_FieldsContent> list = new Content_FieldsContent().GetFieldsListForID(RealTypeTree.TypeTree_ContentFields);
             foreach(Content_FieldsContent cf in list)
             {
                 string inputType = cf.Property_InputType;// reader["Property_InputType"].ToString();
@@ -578,10 +595,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             Url = TypeTree_URL.Replace("{@UID}", this.Current_Content_ID .ToString()); //获得URL
             content.Url = Url;
 
-            if (typeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2
+            if (RealTypeTree.IsFullExtenFields)//typeTree.TypeTree_Type == 2
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
+                _Content_FieldsName.Init(RealTypeTree.ExtentFieldsId);
                 sql_set = sql_set + "Status ='" + Status + "',Url = '" + Url + "'";
                 sqlcc = string.Format(SQL_ContentUserUpdate, _Content_FieldsName.FieldsBase_Name, sql_set, Current_Content_ID);
                 Tools.DoSql(sqlcc);
@@ -604,10 +621,10 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             Url = TypeTree_URL.Replace("{@UID}", Content_ID.ToString()); //获得URL
             content.Url = Url;
 
-            if (typeTree.TypeTree_Type == 2)
+            if (RealTypeTree.IsFullExtenFields)//.TypeTree_Type == 2
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
+                _Content_FieldsName.Init(RealTypeTree.TypeTree_ContentFields);
                 sql_values = sql_values + "Content_ID,TypeTree_ID,Author,Clicks,OrderNum,SubmitDate,Url,Status";
                 //Content_ID++;
                 sql_colnames = sql_colnames + Content_ID + "," + Current_TypeTree_ID + ",'" +this.GetSession("Master_UserName",null)  + "','1'," + Content_ID + ",getdate(),'" + Url + "','" + Status + "'";
@@ -627,12 +644,12 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
             UpdateContent_ID = content.ContentId;
 
         }
-        if (!typeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
+        if (!RealTypeTree.IsFullExtenFields)//typeTree.TypeTree_Type != 2
         {
-            if (typeTree.HasExtentFields)//typeTree.TypeTree_ContentFields != 0
+            if (RealTypeTree.HasExtentFields)//typeTree.TypeTree_ContentFields != 0
             {
                 Content_FieldsName _Content_FieldsName = new Content_FieldsName();
-                _Content_FieldsName.Init(typeTree.TypeTree_ContentFields);
+                _Content_FieldsName.Init(RealTypeTree.ExtentFieldsId);//typeTree.TypeTree_ContentFields
                 sql_values = sql_values + "Content_ID";
                 sql_colnames = sql_colnames + UpdateContent_ID;
 
@@ -648,7 +665,7 @@ public partial class Content_Content_Add : GCMS.PageCommonClassLib.PageBase
         //--------------------------记录Log--------------------------
         this.SavePublishLog(UpdateContent_ID, Status, this.TextBoxLogText.Text);
         
-        if (typeTree.MailMsg.IndexOf(Status, 0) != -1)
+        if (this.RealTypeTree.MailMsg.IndexOf(Status, 0) != -1)
         {
             this.SendSystemMail(typeTree.TypeTreeCName, content.Name); 
         }
